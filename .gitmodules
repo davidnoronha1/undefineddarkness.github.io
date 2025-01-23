@@ -1,0 +1,6 @@
+[submodule "experiments/pixless"]
+	path = experiments/pixless
+	url = git@github.com:undefinedDarkness/pixless.git
+[submodule "experiments/bcd-table"]
+	path = experiments/bcd-table
+	url = git@github.com:undefinedDarkness/bcd-table.git
