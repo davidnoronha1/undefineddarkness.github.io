@@ -58,7 +58,7 @@ main () {
 					# TODO: Replace this with something better!
 					ending=""
 					# dbg "<<< before ending $line"
-					#dbg "Found transformer call: %s @ %d" "$line" "$_line_number"
+					dbg "Found transformer call ($transformer): %s @ %d" "$line" "$_line_number"
 					#dbg "Current state of FILE: %s" "$file"
 					get-line-number-of "$file" "$_line_number" "#END $transformer" ending
 					# dbg "<<< after ending $line"
