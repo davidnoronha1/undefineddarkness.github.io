@@ -62,6 +62,19 @@ want() {
 	esac
 }
 
+#TODO Multiple PDFs
+pdf () {
+	printf '
+	<script defer type="module">
+	import PDFObject from "https://cdn.jsdelivr.net/npm/pdfobject@2.3.0/+esm"
+	PDFObject.embed("%s");
+	</script>' "$3"
+}
+
+wip () {
+	printf '<mark>🚧 This article is a work in progress 🚧</mark>'
+}
+
 verbatim () {
     printf '%s' "$1"  
 }
