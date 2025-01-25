@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Serial Console</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/5.5.0/xterm.css" integrity="sha512-AbNrj/oSHJaILgcdnkYm+DQ08SqVbZ8jlkJbFyyS1WDcAaXAcAfxJnCH69el7oVgTwVwyA5u5T+RdFyUykrV3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        textarea {
+            width: 100%;
+            height: 100%;
+        }
+
+        .xterm {
+            padding: 0.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+        
+        <h1 class="block-center" style="gap: 0.5em;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path fill="coral" d="M5 8a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1m1.5 1.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0M8 10a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1m2.5-.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0M7 8a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1m2.5-.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0M11 8a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1M3.022 5a2 2 0 0 0-1.944 2.47l.725 3A2 2 0 0 0 3.747 12h8.519a2 2 0 0 0 1.944-1.53l.726-3A2 2 0 0 0 12.992 5zM2.05 7.235A1 1 0 0 1 3.022 6h9.97a1 1 0 0 1 .972 1.235l-.726 3a1 1 0 0 1-.972.765h-8.52a1 1 0 0 1-.971-.765z"/></svg>Web Serial Console</h1>
+        <div id="terminal"></div>
+        <br>
+        <div class="row">
+            <select id="baudRate">
+                <option value="9600">9600</option>
+                <option value="19200">19200</option>
+                <option value="38400">38400</option>
+                <option value="57600">57600</option>
+                <option value="115200">115200</option>
+            </select>
+            <button id="connect">Connect</button>
+            <button id="disconnect" disabled>Disconnect</button>
+        </div>
+    </article>
+    <script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/child@5.3.2" type="text/javascript" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/5.5.0/xterm.js" integrity="sha512-Gujw5GajF5is3nMoGv9X+tCMqePLL/60qvAv1LofUZTV9jK8ENbM9L+maGmOsNzuZaiuyc/fpph1KT9uR5w3CQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        let port;
+        let reader;
+        let inputDone;
+        let outputDone;
+        let outputStream;
+        const outputElement = document.getElementById("output");
+        const baudRateElement = document.getElementById("baudRate");
+        const connectButton = document.getElementById("connect");
+        const disconnectButton = document.getElementById("disconnect");
+
+        var term = new Terminal();
+        term.open(document.getElementById('terminal'));
+
+        async function connect() {
+            try {
+                port = await navigator.serial.requestPort();
+                const baudRate = parseInt(baudRateElement.value, 10);
+                await port.open({ baudRate });
+
+                const decoder = new TextDecoderStream();
+                inputDone = port.readable.pipeTo(decoder.writable);
+                reader = decoder.readable.getReader();
+
+                const encoder = new TextEncoderStream();
+                outputDone = encoder.readable.pipeTo(port.writable);
+                outputStream = encoder.writable;
+
+                readLoop();
+                connectButton.disabled = true;
+                disconnectButton.disabled = false;
+                baudRateElement.disabled = true;
+            } catch (error) {
+                console.error("There was an error opening the serial port:", error);
+            }
+        }
+
+        async function disconnect() {
+            if (reader) {
+                reader.cancel();
+                await inputDone.catch(() => { });
+                reader = null;
+                inputDone = null;
+            }
+
+            if (outputStream) {
+                await outputStream.getWriter().close();
+                await outputDone;
+                outputStream = null;
+                outputDone = null;
+            }
+
+            if (port) {
+                await port.close();
+                port = null;
+            }
+
+            connectButton.disabled = false;
+            disconnectButton.disabled = true;
+            baudRateElement.disabled = false;
+        }
+
+        async function readLoop() {
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) {
+                    break;
+                }
+                term.write(value);
+            }
+        }
+
+        connectButton.addEventListener("click", connect);
+        disconnectButton.addEventListener("click", disconnect);
+    </script>
+</body>
+
+</html>

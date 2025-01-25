@@ -44,6 +44,24 @@ center () {
 	printf "<p style=\"text-align:center\">\n%s\n</p>" "$1"
 }
 
+want() {
+	case "$3" in
+		"iframe_resizer")
+			printf '
+				<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.3.2"></script>
+				<script>
+  					iframeResize({
+    					license: "GPLv3",
+    					waitForLoad: true,
+  				});
+				</script>'
+			;;
+		*)
+			printf '<!-- want transformer recieved: "%s" which was not found -->' "$3"
+			;;
+	esac
+}
+
 verbatim () {
     printf '%s' "$1"  
 }

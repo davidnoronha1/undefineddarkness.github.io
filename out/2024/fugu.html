@@ -4,7 +4,24 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" href="/favicon.png" />
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
+	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
 	<meta name="author" content="nes" />
 	<title>2024, What can the web do? 🐡</title>
 	<meta property="og:title" content="2024, What can the web do? 🐡" />
@@ -16,7 +33,7 @@
 
 <body>
 	<nav class="toc">
-		<ul><li><a href='#file-system-access'>📂 File System Access</a></li><li><a href='#compression-streams'>Compression Streams</a></li><li><a href='#real-time-communication'>🗃️ Real Time Communication</a></li><li><a href='#pwa-share-url-scheme-custom-titlebar'>PWA: Share, URL Scheme, Custom titlebar</a></li><li class='toc-subheading'><a href='#share-target'>Share Target</a></li><li class='toc-subheading'><a href='#custom-titlebar'>Custom titlebar</a></li></ul>
+		<ul><li><a href='#file-system-access'>📂 File System Access</a></li><li><a href='#compression-streams'>Compression Streams</a></li><li><a href='#real-time-communication'>🗃️ Real Time Communication</a></li><li><a href='#talk-to-serial-devices'>🔌 Talk to Serial Devices</a></li><li><a href='#pwa-share-url-scheme-custom-titlebar'>PWA: Share, URL Scheme, Custom titlebar</a></li><li class='toc-subheading'><a href='#share-target'>Share Target</a></li><li class='toc-subheading'><a href='#custom-titlebar'>Custom titlebar</a></li></ul>
 	</nav>
 	<article>
 
@@ -56,7 +73,7 @@ These recently added streams allow you to read and write compressed data to stre
 <br/>
 In the meantime, people have been compressing <a href="https://purplesyringa.moe/blog/webp-the-webpage-compression-format/">their web pages by storing it inside a WebP image</a>, I wonder what result's one would get with AVIF though I don't imagine them to be <i>too</i> different <br/>
 <br/>
-<iframe class='nb' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.CompressionStream'></iframe><br/>
+<iframe class='nb onx' style='min-height: 400px' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.CompressionStream'></iframe><br/>
 <ul>
 <li><a href="https://github.com/whatwg/compression/issues/54">Issue for zstd</a><br/>
 </li>
@@ -75,13 +92,22 @@ Once the connection is established, data can be transferred in <a href="https://
 <br/>
 This is what powers stuff like <a href="https://webtorrent.io/">WebTorrent</a> & <a href="https://github.com/szimek/sharedrop">ShareDrop</a><br/>
 <br/>
-<iframe class='nb' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.RTCPeerConnection'></iframe><br/>
+<iframe class='nb onx' style='min-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.RTCPeerConnection'></iframe><br/>
 <ul>
 <li><a href="https://fireship.io/lessons/webrtc-firebase-video-chat/">Firebase course for WebRTC</a><br/>
 </li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API">MDN</a><br/>
 </li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebTransport">WebTransport</a><br/>
+</li>
 </ul><br/></p>
+<h2 id="talk-to-serial-devices">🔌 Talk to Serial Devices</h2>
+<p>
+The Web Serial API allows you to easily write a web app to communicate with your microcontroller over USB serial, This only works on Edge & Chrome for now though<br/>
+<br/>
+<iframe class='nb' src='/experiments/serial.html'></iframe><br/>
+<iframe class='nb onx' style='min-height: 400px' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.Serial'></iframe><br/>
+</p>
 <h2 id="pwa-share-url-scheme-custom-titlebar">PWA: Share, URL Scheme, Custom titlebar</h2>
 <p>
 This is just a few of the <i>many</i> PWA APIs that I find especially cool or useful<br/>
@@ -98,7 +124,7 @@ A few notes on usage, this API allows your app to recieve both files and textual
 <br/>
 This one is quite useful on mobile devices, kinda mid on desktop, but the real pity is it seems to be pretty inconsistent, I've used this with a personal PWA I've made to make file sharing friction-less (Goodbye, slow af notion uploads) and when I tried installing it on my Android phone through the Brave browser (My usual browser), It doesn't work :/, After some research I discovered the cause to be that as brave is a user installed application, It can't register <i>new</i> share targets of it's own, Chrome being a system installed app has the appropriate permissions to do so and works without a hitch, Even then behaviour was a little off, on my development Windows 10 machine, The share target worked just fine but on my friend's Windows 11 machine, It installed fine but the app was missing from the share menu, I'm not entirely sure why and I haven't had time to research since right now the PWA fulfills exactly what I wanted to do.<br/>
 <br/>
-<iframe class='nb' src='https://bcd-table.neswk.workers.dev/?style=true&key=html.manifest.share_target'></iframe><br/>
+<iframe class='nb onx' style='min-height: 400px' src='https://bcd-table.neswk.workers.dev/?style=true&key=html.manifest.share_target'></iframe><br/>
 <ul>
 <li><a href="https://developer.chrome.com/docs/capabilities/web-apis/web-share-target">Chrome Article</a><br/>
 </li>
@@ -111,8 +137,17 @@ Again seems to only be implemented by Chromium though :/<br/>
 <br/>
 <img src="/assets/images/image.png" alt="Custom titlebar example" title="Custom titlebar example" loading="lazy" /><br/>
 <br/>
-<iframe class='nb' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.WindowControlsOverlay'></iframe><br/>
+<iframe class='nb onx' style='min-height: 400px' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.WindowControlsOverlay'></iframe><br/>
 <a href="https://web.dev/articles/window-controls-overlay">Web.dev Article</a><br/>
+<br/>
+
+				<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.3.2"></script>
+				<script>
+  					iframeResize({
+    					license: "GPLv3",
+    					waitForLoad: true,
+  				});
+				</script>
 		<footer style="margin-bottom: 2em;">
 			<a class="special" href="/index.html">Return To Index</a>
 		</footer>
