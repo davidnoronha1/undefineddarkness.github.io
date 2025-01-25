@@ -4,3 +4,6 @@
 [submodule "experiments/bcd-table"]
 	path = experiments/bcd-table
 	url = git@github.com:undefinedDarkness/bcd-table.git
+[submodule "experiments/gh-project-display"]
+	path = experiments/gh-project-display
+	url = git@github.com:undefinedDarkness/gh-project-display.git
