@@ -48,6 +48,10 @@
     grid-template-columns: 19em 19em;
 }
 
+.onx {
+    overflow-x: none;
+}
+
 /* Fit as many items as possible */
 
 .quad-e,

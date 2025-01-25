@@ -120,13 +120,13 @@ td:not(:last-of-type) {
 
 button {
   display: inline-block;
-  padding: 1rem;
+  padding: 0.5em;
   background-color: coral;
   font-weight: bold;
   width: fit-content;
   font-family: inherit;
   border-radius: 8px;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 
 pre[data-language] {
