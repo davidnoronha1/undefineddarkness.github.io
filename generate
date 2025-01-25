@@ -232,7 +232,7 @@ case "$1" in
 	exit
 	;;
 "winfix")
-	find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix
+	find ./src -type f -not -path '*/.*'  -print0 | xargs -0 -n 1 -P 4 dos2unix
 	exit
 	;;
 "serve")

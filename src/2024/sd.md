@@ -18,3 +18,6 @@ Getting it running was a pretty simple task, You need to simply follow the instr
 - A negative embedding is the same but for things you don't want in your image
 
 You can find these on [CivitAI](https://civitai.com/models)
+
+#WIP
+#END WIP
