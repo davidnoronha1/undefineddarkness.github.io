@@ -171,6 +171,9 @@ a.special {
 
 figcaption {
     text-align: right;
+    font-size: 0.8em;
+    font-style: italic;
+    color: color-mix(in srgb, var(--black) 70%, var(--white) 30%);
 }
 
 blockquote {

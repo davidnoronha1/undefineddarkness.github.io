@@ -1,34 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Code Syntax Highlighter</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-swift.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
-  
-  <!-- Theme stylesheets -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" id="theme-tomorrow" disabled>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" id="theme-okaidia">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-solarizedlight.min.css" id="theme-solarizedlight" disabled>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-twilight.min.css" id="theme-twilight" disabled>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css" id="theme-coy" disabled>
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- All available Prism themes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+    id="theme-default" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css"
+    id="theme-coy" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-dark.min.css"
+    id="theme-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-funky.min.css"
+    id="theme-funky" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+    id="theme-okaidia" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-solarizedlight.min.css"
+    id="theme-solarizedlight" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    id="theme-tomorrow" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-twilight.min.css"
+    id="theme-twilight" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-a11y-dark.min.css"
+    id="theme-a11y-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-atom-dark.min.css"
+    id="theme-atom-dark" disabled>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-base16-ateliersulphurpool.light.min.css"
+    id="theme-base16-ateliersulphurpool-light" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-cb.min.css" id="theme-cb"
+    disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-coldark-cold.min.css"
+    id="theme-coldark-cold" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-coldark-dark.min.css"
+    id="theme-coldark-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-darcula.min.css"
+    id="theme-darcula" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-dracula.min.css"
+    id="theme-dracula" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-duotone-dark.min.css"
+    id="theme-duotone-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-duotone-earth.min.css"
+    id="theme-duotone-earth" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-duotone-forest.min.css"
+    id="theme-duotone-forest" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-duotone-light.min.css"
+    id="theme-duotone-light" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-duotone-sea.min.css"
+    id="theme-duotone-sea" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-duotone-space.min.css"
+    id="theme-duotone-space" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-ghcolors.min.css"
+    id="theme-ghcolors" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-gruvbox-dark.min.css"
+    id="theme-gruvbox-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-hopscotch.min.css"
+    id="theme-hopscotch" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-lucario.min.css"
+    id="theme-lucario" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-material-dark.min.css"
+    id="theme-material-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-material-light.min.css"
+    id="theme-material-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-material-oceanic.min.css"
+    id="theme-material-oceanic" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-night-owl.min.css"
+    id="theme-night-owl" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-nord.min.css"
+    id="theme-nord" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-one-dark.min.css"
+    id="theme-one-dark" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-one-light.min.css"
+    id="theme-one-light" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-pojoaque.min.css"
+    id="theme-pojoaque" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-shades-of-purple.min.css"
+    id="theme-shades-of-purple" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-synthwave84.min.css"
+    id="theme-synthwave84" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-vs.min.css" id="theme-vs"
+    disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-vsc-dark-plus.min.css"
+    id="theme-vsc-dark-plus" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-xonokai.min.css"
+    id="theme-xonokai" disabled>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-z-touch.min.css"
+    id="theme-z-touch" disabled>
+
   <style>
+    /* CSS remains the same as before */
     :root {
       --bg-dark: #1e1e1e;
       --bg-darker: #252526;
@@ -36,241 +102,281 @@
       --text-color: #d4d4d4;
     }
 
-    /* Light theme variables */
     [data-theme="light"] {
       --bg-dark: #ffffff;
       --bg-darker: #f5f5f5;
       --border-color: #e0e0e0;
       --text-color: #333333;
     }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      background: var(--bg-dark);
-      color: var(--text-color);
-      transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .container {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    
-    .input-section, .output-section {
-      background: var(--bg-darker);
-      padding: 1rem;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-    
-    h1, h3 {
-      color: var(--text-color);
-      margin-bottom: 2rem;
-    }
-    
-    textarea {
-      width: 100%;
-      min-height: 200px;
-      background: var(--bg-dark);
-      color: var(--text-color);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      padding: 1rem;
-      font-family: 'Consolas', 'Monaco', monospace;
-      resize: vertical;
-      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    }
-    
-    .controls {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      align-items: center;
-      margin: 1rem 0;
-    }
-    
-    select, button {
-      padding: 0.5rem 1rem;
-      background: var(--bg-dark);
-      color: var(--text-color);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    
-    select {
-      min-width: 150px;
-    }
-    
-    button:hover {
-      background: var(--bg-darker);
-    }
-    
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .copy-button {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      color: var(--text-color);
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    .copy-button:hover {
-      background: var(--bg-darker);
-    }
-    
-    .output-container {
-      position: relative;
-      margin-top: 1rem;
-    }
-    
-    pre {
-      margin: 0;
-      border-radius: 4px;
-      transition: background-color 0.3s !important;
-    }
-    
-    code {
-      font-family: 'Consolas', 'Monaco', monospace;
-    }
 
-    .theme-group {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+    .output-container pre code {
+            font-size: 16px; /* Default font size */
+        }
+
+        textarea {
+          width: 100%;
+          min-height: 300px;
+        }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Code Syntax Highlighter</h1>
-    
-    <div class="input-section">
-      <textarea id="codeInput" placeholder="Paste your code here..."></textarea>
-      <div class="controls">
-        <select id="languageSelect">
-          <option value="javascript">JavaScript</option>
-          <option value="typescript">TypeScript</option>
-          <option value="python">Python</option>
-          <option value="java">Java</option>
-          <option value="csharp">C#</option>
-          <option value="cpp">C++</option>
-          <option value="c">C</option>
-          <option value="go">Go</option>
-          <option value="rust">Rust</option>
-          <option value="ruby">Ruby</option>
-          <option value="swift">Swift</option>
-          <option value="kotlin">Kotlin</option>
-          <option value="sql">SQL</option>
-          <option value="css">CSS</option>
-          <option value="markup">HTML</option>
-        </select>
+  <article>
+    <div id="app">
+      <div class="container">
+        <h1>Code Syntax Highlighter</h1>
 
-        <div class="theme-group">
-          <label for="themeSelect">Theme:</label>
-          <select id="themeSelect" onchange="changeTheme()">
-            <option value="okaidia">Monokai (Dark)</option>
-            <option value="tomorrow">Tomorrow Night (Dark)</option>
-            <option value="twilight">Twilight (Dark)</option>
-            <option value="solarizedlight">Solarized (Light)</option>
-            <option value="coy">GitHub (Light)</option>
-          </select>
+        <div class="input-section">
+          <textarea v-model="codeInput" placeholder="Paste your code here..."></textarea>
+          <div class="controls row">
+            <select v-model="selectedLanguage">
+              <option v-for="lang in sortedLanguages" :key="lang.id" :value="lang.id">
+                {{ lang.name }}
+              </option>
+            </select>
+
+            <div class="font-family-group">
+              <label for="fontFamily">Font:</label>
+              <select id="fontFamily" v-model="selectedFont">
+                  <option value="monospace">Monospace (Default)</option>
+                  <option value="'Courier New', monospace">Courier New</option>
+                  <option value="'Lucida Console', monospace">Lucida Console</option>
+                  <option value="'Consolas', monospace">Consolas</option>
+                  <option value="'Roboto Mono', monospace">Roboto Mono</option>
+                  <option value="'Source Code Pro', monospace">Source Code Pro</option>
+                  <option value="'Fira Mono', monospace">Fira Mono</option>
+                  <option v-for="font in localFonts" :key="font" :value="font">
+                      {{ font }} (Local)
+                  </option>
+              </select>
+          </div>
+
+            <div class="theme-group">
+              <label for="themeSelect">Theme:</label>
+              <select v-model="selectedTheme">
+                <option v-for="(label, value) in themes" :key="value" :value="value">
+                  {{ label }}
+                </option>
+              </select>
+            </div>
+
+            <div class="checkbox-container">
+              <input type="checkbox" id="removeBlankLines" v-model="removeBlankLines">
+              <label for="removeBlankLines">Remove extra blank lines</label>
+            </div>
+
+            <div class="font-size-group">
+              <label for="fontSize">Font Size:</label>
+              <input type="number" id="fontSize" v-model="fontSize" min="10" max="30" step="1">
+            </div>
+
+            <button @click="highlightCode">Highlight Code</button>
+          </div>
         </div>
 
-        <div class="checkbox-container">
-          <input type="checkbox" id="removeBlankLines" checked>
-          <label for="removeBlankLines">Remove extra blank lines</label>
+        <div class="output-section">
+          <h3>Highlighted Code</h3>
+          <div class="output-container">
+            <button class="copy-button" @click="copyHighlightedCode" ref="copyButton">
+              Copy
+            </button>
+            <pre><code ref="highlightedCode"></code></pre>
+          </div>
         </div>
-        <button onclick="highlightCode()">Highlight Code</button>
       </div>
     </div>
-    
-    <div class="output-section">
-      <h3>Highlighted Code</h3>
-      <div class="output-container">
-        <button class="copy-button" onclick="copyHighlightedCode()">Copy</button>
-        <pre><code id="highlightedCode"></code></pre>
-      </div>
-    </div>
-  </div>
+  </article>
 
   <script>
-    function changeTheme() {
-      const theme = document.getElementById('themeSelect').value;
-      
-      // Disable all theme stylesheets
-      document.querySelectorAll('link[id^="theme-"]').forEach(stylesheet => {
-        stylesheet.disabled = true;
-      });
-      
-      // Enable selected theme
-      document.getElementById(`theme-${theme}`).disabled = false;
-      
-      // Update UI theme based on selected syntax theme
-      document.body.setAttribute('data-theme', 
-        ['solarizedlight', 'coy'].includes(theme) ? 'light' : 'dark'
-      );
-      
-      // Reapply syntax highlighting if code exists
-      if (document.getElementById('highlightedCode').textContent) {
-        highlightCode();
+    // Configure Prism autoloader path
+    Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+
+    new Vue({
+      el: '#app',
+      data: {
+        codeInput: '',
+        selectedLanguage: 'javascript',
+        selectedTheme: 'material-light',
+        removeBlankLines: true,
+        copyButtonText: 'Copy',
+        fontSize: 16,
+        languages: [
+          { id: 'markup', name: 'HTML/XML' },
+          { id: 'css', name: 'CSS' },
+          { id: 'javascript', name: 'JavaScript' },
+          { id: 'typescript', name: 'TypeScript' },
+          { id: 'jsx', name: 'JSX' },
+          { id: 'tsx', name: 'TSX' },
+          { id: 'python', name: 'Python' },
+          { id: 'java', name: 'Java' },
+          { id: 'php', name: 'PHP' },
+          { id: 'ruby', name: 'Ruby' },
+          { id: 'go', name: 'Go' },
+          { id: 'rust', name: 'Rust' },
+          { id: 'kotlin', name: 'Kotlin' },
+          { id: 'swift', name: 'Swift' },
+          { id: 'csharp', name: 'C#' },
+          { id: 'cpp', name: 'C++' },
+          { id: 'c', name: 'C' },
+          { id: 'sql', name: 'SQL' },
+          { id: 'bash', name: 'Bash' },
+          { id: 'powershell', name: 'PowerShell' },
+          { id: 'markdown', name: 'Markdown' },
+          { id: 'json', name: 'JSON' },
+          { id: 'yaml', name: 'YAML' },
+          { id: 'toml', name: 'TOML' },
+          { id: 'docker', name: 'Dockerfile' },
+          { id: 'graphql', name: 'GraphQL' },
+          { id: 'scala', name: 'Scala' },
+          { id: 'dart', name: 'Dart' },
+          { id: 'elixir', name: 'Elixir' },
+          { id: 'haskell', name: 'Haskell' },
+          { id: 'lua', name: 'Lua' },
+          { id: 'r', name: 'R' },
+          { id: 'matlab', name: 'MATLAB' },
+          { id: 'perl', name: 'Perl' },
+          { id: 'clojure', name: 'Clojure' },
+          { id: 'erlang', name: 'Erlang' },
+          { id: 'latex', name: 'LaTeX' },
+          { id: 'regex', name: 'RegExp' },
+          { id: 'vim', name: 'Vim script' },
+          { id: 'nginx', name: 'Nginx' }
+        ],
+        selectedFont: 'monospace', // Default font
+                localFonts: [], // Will store locally available fonts
+        themes: {
+          'default': 'Default (Light)',
+          'coy': 'Coy (Light)',
+          'dark': 'Dark',
+          'funky': 'Funky',
+          'okaidia': 'Okaidia',
+          'solarizedlight': 'Solarized Light',
+          'tomorrow': 'Tomorrow Night',
+          'twilight': 'Twilight',
+          'a11y-dark': 'A11y Dark',
+          'atom-dark': 'Atom Dark',
+          'base16-ateliersulphurpool-light': 'Atelier Sulphurpool Light',
+          'cb': 'CB',
+          'coldark-cold': 'Coldark Cold (Light)',
+          'coldark-dark': 'Coldark Dark',
+          'darcula': 'Darcula',
+          'dracula': 'Dracula',
+          'duotone-dark': 'Duotone Dark',
+          'duotone-earth': 'Duotone Earth',
+          'duotone-forest': 'Duotone Forest',
+          'duotone-light': 'Duotone Light',
+          'duotone-sea': 'Duotone Sea',
+          'duotone-space': 'Duotone Space',
+          'ghcolors': 'GitHub Colors',
+          'gruvbox-dark': 'Gruvbox Dark',
+          'hopscotch': 'Hopscotch',
+          'lucario': 'Lucario',
+          'material-dark': 'Material Dark',
+          'material-light': 'Material Light',
+          'material-oceanic': 'Material Oceanic',
+          'night-owl': 'Night Owl',
+          'nord': 'Nord',
+          'one-dark': 'One Dark',
+          'one-light': 'One Light',
+          'pojoaque': 'Pojoaque',
+          'shades-of-purple': 'Shades of Purple',
+          'synthwave84': 'Synthwave \'84',
+          'vs': 'Visual Studio',
+          'vsc-dark-plus': 'VS Code Dark+',
+          'xonokai': 'Xonokai',
+          'z-touch': 'Z-Touch'
+        }
+      },
+      computed: {
+        sortedLanguages() {
+          return [...this.languages].sort((a, b) => a.name.localeCompare(b.name));
+        }
+      },
+      mounted () {
+        if ('fonts' in navigator) {
+                  navigator.fonts.query().then(fonts => {
+                    fonts.forEach(font => {
+                        this.localFonts.push(font.family);
+                    });
+                     //Filter out common monospace fonts from local list to avoid duplicates.
+                    this.localFonts = this.localFonts.filter(font => !['Courier New','Lucida Console','Consolas','Roboto Mono','Source Code Pro','Fira Mono'].includes(font));
+
+                  });
+                }
+      },
+      watch: {
+        selectedTheme: {
+          immediate: true,
+          handler(newTheme) {
+            this.changeTheme(newTheme);
+          }
+        },
+        fontSize(newSize) {
+          this.$refs.highlightedCode.style.fontSize = `${newSize}px`;
+        },
+        selectedFont(newFont) {
+                    this.$refs.highlightedCode.style.fontFamily = newFont;
+                }
+      },
+      methods: {
+        changeTheme(theme) {
+          // Disable all theme stylesheets
+          document.querySelectorAll('link[id^="theme-"]').forEach(stylesheet => {
+            stylesheet.disabled = true;
+          });
+
+          // Enable selected theme
+          document.getElementById(`theme-${theme}`).disabled = false;
+
+          // Update UI theme based on selected syntax theme
+          document.body.setAttribute('data-theme',
+            ['solarizedlight', 'coy'].includes(theme) ? 'light' : 'dark'
+          );
+
+          // Reapply syntax highlighting if code exists
+          if (this.$refs.highlightedCode.textContent) {
+            this.highlightCode();
+          }
+        },
+
+        cleanCode(code) {
+          code = code.trim();
+
+          if (this.removeBlankLines) {
+            code = code.replace(/\n\n/g, '\n');
+          }
+
+          return code;
+        },
+
+        highlightCode() {
+          const cleanedCode = this.cleanCode(this.codeInput);
+          const highlightedCodeElement = this.$refs.highlightedCode;
+
+          highlightedCodeElement.className = `language-${this.selectedLanguage}`;
+          highlightedCodeElement.textContent = this.codeInput;
+
+          Prism.highlightElement(highlightedCodeElement);
+        },
+
+        copyHighlightedCode() {
+          const highlightedCode = this.$refs.highlightedCode;
+          const range = document.createRange();
+          range.selectNode(highlightedCode);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand('copy');
+          window.getSelection().removeAllRanges();
+
+          const copyButton = this.$refs.copyButton;
+          copyButton.textContent = 'Copied!';
+          setTimeout(() => {
+            copyButton.textContent = 'Copy';
+          }, 2000);
+        }
       }
-    }
-
-    function cleanCode(code, removeBlankLines) {
-      code = code.trim();
-      
-      if (removeBlankLines) {
-        code = code.replace(/\n\n/g, '\n');
-      }
-      
-      return code;
-    }
-
-    function highlightCode() {
-      const code = document.getElementById('codeInput').value;
-      const language = document.getElementById('languageSelect').value;
-      const removeBlankLines = document.getElementById('removeBlankLines').checked;
-      const highlightedCodeElement = document.getElementById('highlightedCode');
-      
-      const cleanedCode = cleanCode(code, removeBlankLines);
-      
-      highlightedCodeElement.className = `language-${language}`;
-      highlightedCodeElement.textContent = cleanedCode;
-      
-      Prism.highlightElement(highlightedCodeElement);
-    }
-
-    function copyHighlightedCode() {
-      const highlightedCode = document.getElementById('highlightedCode');
-      const range = document.createRange();
-      range.selectNode(highlightedCode);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
-      document.execCommand('copy');
-      window.getSelection().removeAllRanges();
-      
-      const copyButton = document.querySelector('.copy-button');
-      copyButton.textContent = 'Copied!';
-      setTimeout(() => {
-        copyButton.textContent = 'Copy';
-      }, 2000);
-    }
+    });
   </script>
 </body>
+
 </html>

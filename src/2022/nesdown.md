@@ -51,7 +51,9 @@ Because I could, I barely use these...
 
 ### Syntax Highlighting
 This is nothing new, but the neat part is that its done entirely in the markdown generation step.
-So no javascript library is required later, EDIT: Actually I lied, I've shifted to using highlight js because getting source-highlight working on windows is a PITA and I want my site to be able to be developed no matter what software I'm using at the time, I might look into a Python based solution later, will have to see.
+So no javascript library is required later, 
+EDIT: Actually I lied, I've shifted to using highlight js because getting source-highlight working on windows is a PITA and I want my site to be able to be developed no matter what software I'm using at the time, I might look into a Python based solution later, will have to see.
+EDIT: Initially I was doing syntax highlighting using `vim` but the HTML export from vim doesnt support treesitter and I eventually figured it's too much post processing pipeline to bother maintaining
 
 ```c
 #include <stdio.h>
