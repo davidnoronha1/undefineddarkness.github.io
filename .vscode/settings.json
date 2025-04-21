@@ -6,5 +6,9 @@
         "*.tcc": "cpp"
     },
     "files.eol": "\n",
-    "deno.enable": false
+    "deno.enable": false,
+    "idf.customExtraVars": {
+        "OPENOCD_SCRIPTS": "/home/nes/.espressif/tools/openocd-esp32/v0.10.0-esp32-20190708/openocd-esp32/share/openocd/scripts",
+        "IDF_TARGET": "esp32"
+    }
 }
