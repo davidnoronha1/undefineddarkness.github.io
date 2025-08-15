@@ -240,7 +240,7 @@ case "$1" in
 	exit
 	;;
 "live")
-	python3 ./.tooling/hs.py
+	./.tooling/hs.py
 	exit
 	;;
 esac

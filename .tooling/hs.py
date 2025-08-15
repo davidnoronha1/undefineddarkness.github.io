@@ -1,3 +1,10 @@
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [ "aiohttp", "watchfiles" ]
+# ///
+
 from aiohttp import web, WSMsgType
 from mimetypes import guess_type as guess_mime_type
 from pathlib import Path
