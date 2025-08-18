@@ -1,0 +1,159 @@
+/*-- Navbar --*/
+
+
+/*-- Showcase Row Module --*/
+.showcase {
+    overflow-x: hidden;
+}
+.showcase:hover {
+    overflow-x: auto;
+}
+.showcase::-webkit-scrollbar {
+    width: 0.8em;
+}
+.showcase::-webkit-scrollbar-track {
+    border: 1px solid;
+}
+.showcase::-webkit-scrollbar-thumb {
+    background: var(--black);
+}
+.showcase img {
+    border: 1px solid;
+}
+
+/*-- Tierlist Table Module --*/
+.tierlist tr:not(:last-child) {
+    border-bottom: 1px solid #aaa;
+}
+.tierlist td:first-child {
+	text-align: left;
+	color: black;
+    border-right: 1px solid var(--black);
+}
+.tierlist *,
+.tierlist {
+    border: none;
+}
+
+.tierlist tr:nth-child(1) td:first-child {
+    background: rgb(255, 127, 127);
+}
+.tierlist tr:nth-child(2) td:first-child {
+    background: rgb(255, 191, 127);
+}
+.tierlist tr:nth-child(3) td:first-child {
+    background: rgb(255, 223, 127);
+}
+.tierlist tr:nth-child(4) td:first-child {
+    background: rgb(255, 255, 127);
+}
+.tierlist tr:nth-child(5) td:first-child {
+    background: rgb(191, 255, 127);
+}
+
+.tierlist td{border-right:none !important;}
+
+td {
+	padding: 0.3em 1em;
+}
+
+tr {
+	border-bottom: 1px solid #aaaaaa;
+}
+
+td:not(:last-of-type) {
+	border-right: 1px solid #aaa;
+}
+/* carousel */
+.gallery-container {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  padding: 1em 0;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.thumbnails div {
+  width: 8px;
+  height: 8px;
+  cursor: pointer;
+  background: #aaa;
+  border-radius: 100%;
+}
+
+.thumbnails div.highlighted {
+  background-color: #777;
+}
+
+.slides {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1rem;
+  padding: 0 0.25rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.slides > div {
+  scroll-snap-align: start;
+}
+
+.slides img {
+	max-height: unset;
+  width: auto;
+  object-fit: contain;
+}
+
+.row {
+	gap: 1em;
+	display: flex;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  display: inline-block;
+  padding: 0.8em 0.9em;
+  outline: 0;
+  border: 0;
+  outline: 1px solid var(--white);
+  outline-offset: -6px;
+  box-shadow: none;
+  color: var(--white);
+  background: coral;
+  text-wrap: nowrap;
+  width: fit-content;
+  height: fit-content;
+  font-family: inherit;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+button:hover {
+  font-weight: bold;
+}
+
+pre[data-language] {
+  position: relative;
+}
+
+pre[data-language]::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.1em;
+  color: dimgrey;
+  font-weight: bolder;
+  content: attr(data-language);
+}
