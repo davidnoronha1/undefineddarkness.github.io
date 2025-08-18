@@ -19,6 +19,8 @@ __infile=''
 TAB=$'\t'
 __start=$(ms)
 
+dbg "-- POND --"
+
 get-functions transformers
 if [ -n "${pond_debug:-}" ]; then
 	dbg 'Available Transformers: \e[0m%s' "$transformers" >&2

@@ -12,6 +12,12 @@ from watchfiles import awatch
 import asyncio
 import subprocess
 import platform
+import argparse
+import sys
+import tty
+import termios
+import os
+import threading
 
 prefix="\033[1m\033[31mHS\033[0m  " 
 
@@ -131,7 +137,38 @@ async def watch():
                 except:
                     pass
 
+async def rebuild():
+    print(prefix + " Rebuilding all files")
+    process = await asyncio.create_subprocess_exec(bash_path, "./generate", stdout=subprocess.PIPE)
+    stdout, _ = await process.communicate()
+    print(stdout.decode('utf8').strip())
+    for socket in sockets:
+        try:
+            await socket[1].send_str("UPDATE")
+        except:
+            pass
+
+async def listen_for_keys():
+    loop = asyncio.get_event_loop()
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        while True:
+            char = await loop.run_in_executor(None, sys.stdin.read, 1)
+            if char in ['r', ' ']:
+                print("REBUILDING")
+                await rebuild()
+            elif char == 'q':
+                break
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
 async def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--ui', action='store_true', help='Enable UI mode with key listeners.')
+    args = parser.parse_args()
 
     # Initiate Web Server
     runner = web.AppRunner(app)
@@ -139,6 +176,11 @@ async def main():
     site = web.TCPSite(runner, "localhost", 5000)
     await site.start()
     print(prefix + "Server Started @ \u001b[31mhttp://127.0.0.1:5000\u001b[0m")
+
+    if args.ui:
+        print(prefix + "UI mode enabled. Press 'r' or space to rebuild, 'q' to quit.")
+        await rebuild()
+        asyncio.create_task(listen_for_keys())
 
     # Initialize File Watcher
     await watch()

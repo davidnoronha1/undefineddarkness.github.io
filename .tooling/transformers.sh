@@ -44,6 +44,68 @@ center () {
 	printf "<p style=\"text-align:center\">\n%s\n</p>" "$1"
 }
 
+header () {
+    content="$1"
+    shift 2   # drop "CONTENT" and "#HEADER"
+
+    title=()
+    current_key=""
+    current_val=()
+
+    # parse args
+    while [[ $# -gt 0 ]]; do
+        if [[ "$1" == *=* ]]; then
+            # store previous key=value if any
+            if [[ -n "$current_key" ]]; then
+                eval "attr_${current_key}=\"\${current_val[*]}\""
+            fi
+
+            # new key=value
+            current_key="${1%%=*}"
+            current_val=("${1#*=}")
+        else
+            if [[ -n "$current_key" ]]; then
+                current_val+=("$1")
+            else
+                title+=("$1")
+            fi
+        fi
+        shift
+    done
+
+    # store last key=value pair
+    if [[ -n "$current_key" ]]; then
+        eval "attr_${current_key}=\"\${current_val[*]}\""
+    fi
+
+    # print header
+    echo "<header>"
+    if [[ -n "${attr_image:-}" ]]; then
+        echo "  <img class='img-sml' src=\"${attr_image}\" />"
+    fi
+    echo "  <h1>${title[*]}</h1>"
+    echo "  <!-- post_description=\"${content%%'<br/>'}\" -->"
+    echo "</header>"
+}
+
+
+
+gnuplot () {
+	content="${1//'<br/>'/}"
+	dbg "Gnuplot content: '%s'" "$content"
+	gnuplot_command="
+	set terminal block octant ansirgb size 90,30
+
+	${content}
+
+	exit
+	"
+	printf '<div class="gnuplot-container">'
+	/usr/bin/env gnuplot -p <<<$gnuplot_command | ansi2html -n
+	printf '</div>'
+	# dbg "Got output: %s" "${output}"
+}
+
 want() {
 	case "$3" in
 		"iframe_resizer")
