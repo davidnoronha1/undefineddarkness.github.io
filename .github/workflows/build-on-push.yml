@@ -10,6 +10,17 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Specify the Node.js version to use
+
+      - name: Install Dependencies 📦
+        run: npm install # Adjust this command if you use a different package manager or have additional setup steps
+
+      - name: Install gnuplot
+        run: sudo apt install gnuplot
+
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
           bash ./generate
