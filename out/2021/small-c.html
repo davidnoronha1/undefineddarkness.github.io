@@ -23,8 +23,8 @@
 	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
 	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
 	<meta name="author" content="nes" />
-	<title>Optimizing for size</title>
-	<meta property="og:title" content="Optimizing for size" />
+	<title>C Compiler Binary Optimization</title>
+	<meta property="og:title" content="C Compiler Binary Optimization" />
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content="https://nes.is-a.dev/out/2021/small-c.html" />
 	<meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
@@ -33,7 +33,7 @@
 
 <body>
 	<nav class="toc">
-		<ul><li><a href='#compiler-flags'>Compiler Flags</a></li><li class='toc-subheading'><a href='#os'>-Os</a></li><li class='toc-subheading'><a href='#s'>-s</a></li><li class='toc-subheading'><a href='#flto'>-flto</a></li><li><a href='#executable-packing'>Executable Packing</a></li><li><a href='#conclusion'>Conclusion</a></li></ul>
+		<ul><li><a href='#compiler-flags'>Compiler Flags</a></li><li class='toc-subheading'><a href='#os'>-Os</a></li><li class='toc-subheading'><a href='#s'>-s</a></li><li class='toc-subheading'><a href='#flto'>-flto</a></li><li><a href='#executable-packing'>Executable Packing</a></li><li><a href='#compression-linker-update-19-08-2025'>Compression & Linker [UPDATE - 19-08-2025]</a></li><li><a href='#conclusion'>Conclusion</a></li></ul>
 	</nav>
 	<article>
 
@@ -42,8 +42,10 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
 		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
 		<header>
-<h1>Optimizing for size</h1>
+  <h1>C Compiler Binary Optimization</h1>
+  <!-- post_description="I attempt to see how small I can get a C program using OpenGL with only compiler flags" -->
 </header>
+<br/>
 I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.<br/>
 I might be using "non trivial" wrongly here but I mean a program that can actually do something.<br/>
 <br/>
@@ -145,6 +147,294 @@ But running through virus total shows only <a href="https://is.gd/MtqIMG">result
 <b>NOTE:</b> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.<br/>
 <br/>
 <figure><img src="/assets/images/size-chart.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure> <br/>
+<br/>
+</p>
+<h2 id="compression-linker-update-19-08-2025">Compression & Linker [UPDATE - 19-08-2025]</h2>
+<p>
+Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings<br/>
+<br/>
+I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br/>
+<br/>
+<div>
+                    <div class="gnuplot-container"><pre style="">                                                                                                                                                      
+     70000 <span style="color:var(--black-darker)">𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆</span>66.52kB                                                  
+           <span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷊𜵨𜷊</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.7z <span style="color:#ffb3ba">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.xz <span style="color:#ffdfba">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">  </span>basic-optimized-stripped-lto-linker.zst <span style="color:#ffffba">𜴡𜴮🮅𜴮🮅𜴍  
+     </span>60000 <span style="color:var(--black-darker)">▐𜴉𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.gz <span style="color:#baffc9">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">  </span>basic-optimized-stripped-lto-linker.bz2 <span style="color:#bae1ff">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                          </span>51.86kB  <span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">  </span>basic-optimized-stripped-lto-linker-upx <span style="color:#c9baff">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                           </span><span style="color:#a9dfbf">▗▄𜵡▄𜵡▖  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">      </span>basic-optimized-stripped-lto-linker <span style="color:#ffbaf3">𜴡𜴮🮅𜴮🮅𜴍  
+     </span>50000 <span style="color:var(--black-darker)">▐𜺣𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠</span>47.94kB<span style="color:var(--black-darker)">𜺠 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜺠 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">             </span>basic-optimized-stripped-lto <span style="color:#e8a5a5">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                    </span><span style="color:#f7dc6f">𜷇𜵭𜷇𜵭▆  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                 </span>basic-optimized-stripped <span style="color:#f5cba7">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                    </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                          </span>basic-optimized <span style="color:#f7dc6f">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                                    </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                       </span>source-code.tar.gz <span style="color:#a9dfbf">𜴡𜴮🮅𜴮🮅𜴍  
+           </span><span style="color:var(--black-darker)">▐                                                           </span>38.52kB  <span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                    </span>basic <span style="color:#a9cce3">𜴡𜴮🮅𜴮🮅𜴍  
+     </span>40000 <span style="color:var(--black-darker)">▐𜺨𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫</span><span style="color:#f5cba7">𜷇</span><span style="color:#e8c4a5">𜵯</span><span style="color:#f5cba7">𜷇</span><span style="color:#e8c4a5">𜵯</span><span style="color:#f5cba7">▆</span><span style="color:var(--black-darker)">𜺫 𜺫</span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜺫 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜺫 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐                                                            </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐                                            </span>31.56kB31.60kB  <span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐                                             </span><span style="color:#ffbaf3">𜵭𜷇𜵭𜷇▆  </span><span style="color:#e8a5a5">𜶖𜵭𜷇𜵭𜷇𜵈  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+     </span>30000 <span style="color:var(--black-darker)">▐𜴀𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█ </span><span style="color:var(--black-darker)">𜴃</span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈</span><span style="color:#dba4a4">𜵏 </span><span style="color:var(--black-darker)">𜴃</span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴃 𜴃</span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴃 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜴃 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐                                             </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐                                             </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐                                    </span>19.84kB  <span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+     </span>20000 <span style="color:var(--black-darker)">▐𜴉𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span>17.04kB17.58kB<span style="color:var(--black-darker)">𜴘 </span><span style="color:#c9baff">𜶖𜷇𜵭𜷇𜵭𜵈</span><span style="color:var(--black-darker)">𜴘 </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█ </span><span style="color:var(--black-darker)">𜴘</span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈</span><span style="color:#dba4a4">𜵦 </span><span style="color:var(--black-darker)">𜴘</span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴘 𜴘</span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴘 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜴘 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+          </span>14.43kB 14.74kB16.11kB  <span style="color:#baffc9">▗𜵡▄𜵡▄▖  </span><span style="color:#bae1ff">𜷇𜵭𜷇𜵭▆  </span><span style="color:#c9baff">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐</span><span style="color:#ffb3ba">▂▂▂▂𜺣  </span><span style="color:#ffdfba">𜵡▄𜵡▄▄  </span><span style="color:#ffffba">▐𜵨𜷊𜵨𜷊▌  </span><span style="color:#baffc9">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#bae1ff">𜷈𜵨𜷈𜵨█  </span><span style="color:#c9baff">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+           ▐</span><span style="color:#ffb3ba">𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffdfba">𜵨𜷈𜵨𜷈█  </span><span style="color:#ffffba">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#baffc9">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#bae1ff">𜷈𜵨𜷈𜵨█  </span><span style="color:#c9baff">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
+     </span>10000 <span style="color:var(--black-darker)">▐</span><span style="color:#e3acb1">𜷈</span><span style="color:#e7adb2">𜷠</span><span style="color:#e3acb1">𜷈</span><span style="color:#e7adb2">𜷠</span><span style="color:#ddabb0">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#e7ceb2">𜷠</span><span style="color:#e3ccb1">𜷈</span><span style="color:#e7ceb2">𜷠</span><span style="color:#e3ccb1">𜷈</span><span style="color:#e3ccb1;background-color:var(--black-darker)"></span><span style="color:#ffdfba;background-color:var(--black-darker)">🮅</span><span style="color:#ffdfba"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#ddddb0">𜷕</span><span style="color:#e7e7b2">𜷠</span><span style="color:#e3e3b1">𜷈</span><span style="color:#e7e7b2">𜷠</span><span style="color:#e3e3b1">𜷈</span><span style="color:#ddddb0">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#b0ddb9">𜷕</span><span style="color:#b2e7be">𜷠</span><span style="color:#b1e3bc">𜷈</span><span style="color:#b2e7be">𜷠</span><span style="color:#b1e3bc">𜷈</span><span style="color:#b0ddb9">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#b1cde3">𜷈</span><span style="color:#b2d0e7">𜷠</span><span style="color:#b1cde3">𜷈</span><span style="color:#b2d0e7">𜷠</span><span style="color:#b2d0e7;background-color:var(--black-darker)"></span><span style="color:#bae1ff;background-color:var(--black-darker)">🮅</span><span style="color:#bae1ff"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#b9b0dd">𜷕</span><span style="color:#bcb1e3">𜷈</span><span style="color:#beb2e7">𜷠</span><span style="color:#bcb1e3">𜷈</span><span style="color:#beb2e7">𜷠</span><span style="color:#b9b0dd">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#e7b2de">𜷠</span><span style="color:#e3b1da">𜷈</span><span style="color:#e7b2de">𜷠</span><span style="color:#e3b1da">𜷈</span><span style="color:#e3b1da;background-color:var(--black-darker)"></span><span style="color:#ffbaf3;background-color:var(--black-darker)">🮅</span><span style="color:#ffbaf3"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#cea3a3">𜷕</span><span style="color:#d5a3a3">𜷠</span><span style="color:#d2a3a3">𜷈</span><span style="color:#d5a3a3">𜷠</span><span style="color:#d2a3a3">𜷈</span><span style="color:#cea3a3">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#dcbda4">𜷈</span><span style="color:#e0bfa5">𜷠</span><span style="color:#dcbda4">𜷈</span><span style="color:#e0bfa5">𜷠</span><span style="color:#e0bfa5;background-color:var(--black-darker)"></span><span style="color:#f5cba7;background-color:var(--black-darker)">🮅</span><span style="color:#f5cba7"></span><span style="color:var(--black-darker)">▂▂▂</span><span style="color:#ddc981">𜷈</span><span style="color:#e1cc7e">𜷠</span><span style="color:#ddc981">𜷈</span><span style="color:#e1cc7e">𜷠</span><span style="color:#e1cc7e;background-color:var(--black-darker)"></span><span style="color:#f7dc6f;background-color:var(--black-darker)">🮅</span><span style="color:#f7dc6f"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#a5c8b3">𜷕</span><span style="color:#a6ccb5">𜷈</span><span style="color:#a6ceb6">𜷠</span><span style="color:#a6ccb5">𜷈</span><span style="color:#a6ceb6">𜷠</span><span style="color:#a5c8b3">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#a6c0d2">𜷠</span><span style="color:#a6becf">𜷈</span><span style="color:#a6c0d2">𜷠</span><span style="color:#a6becf">𜷈</span><span style="color:#a6becf;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">𜷕</span><span style="color:var(--black-darker)">                                                  
+             </span>7z     xz     zst     gz     bz2     upx   linker  -flto    -s     -Os   source  basic                                                   
+                                                                                                                                                      
+                                            Compression/Build Type                                                                                    
+</pre>
+    </div>
+                    <details class=minor-fold>
+                        <summary>Code</summary>
+                        <pre>
+                            <code>set boxwidth 0.6
+set style fill solid 0.7
+set key outside right
+set xtics nomirror
+set xtics ("7z" 0, "xz" 1, "zst" 2, "gz" 3, "bz2" 4, "upx" 5, "linker" 6, "-flto" 7, "-s" 8, "-Os" 9, "source" 10, "basic" 11)
+set xlabel "Compression/Build Type"
+set ylabel "File Size (bytes)"
+set grid ytics
+set style data boxes
+
+plot '-' using 1:2 with boxes lc rgb '&#35;FFB3BA' title "basic-optimized-stripped-lto-linker.7z", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;FFDFBA' title "basic-optimized-stripped-lto-linker.xz", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;FFFFBA' title "basic-optimized-stripped-lto-linker.zst", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;BAFFC9' title "basic-optimized-stripped-lto-linker.gz", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;BAE1FF' title "basic-optimized-stripped-lto-linker.bz2", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;C9BAFF' title "basic-optimized-stripped-lto-linker-upx", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;FFBAF3' title "basic-optimized-stripped-lto-linker", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;E8A5A5' title "basic-optimized-stripped-lto", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;F5CBA7' title "basic-optimized-stripped", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;F7DC6F' title "basic-optimized", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;A9DFBF' title "source-code.tar.gz", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '&#35;A9CCE3' title "basic", \
+    '-' using 1:2:3 with labels offset 0,1 notitle
+0 14778 "14.43kB"
+e
+0 14778 "14.43kB"
+e
+1 15100 "14.74kB"
+e
+1 15100 "14.74kB"
+e
+2 16497 "16.11kB"
+e
+2 16497 "16.11kB"
+e
+3 17448 "17.04kB"
+e
+3 17448 "17.04kB"
+e
+4 17998 "17.58kB"
+e
+4 17998 "17.58kB"
+e
+5 20320 "19.84kB"
+e
+5 20320 "19.84kB"
+e
+6 32312 "31.56kB"
+e
+6 32312 "31.56kB"
+e
+7 32360 "31.60kB"
+e
+7 32360 "31.60kB"
+e
+8 39448 "38.52kB"
+e
+8 39448 "38.52kB"
+e
+9 49088 "47.94kB"
+e
+9 49088 "47.94kB"
+e
+10 53107 "51.86kB"
+e
+10 53107 "51.86kB"
+e
+11 68120 "66.52kB"
+e
+11 68120 "66.52kB"
+e</code>
+                        </pre>
+                    </details>
+                </div>
+<br/>
+<table class="">
+<thead><tr>
+<th>size</th>
+<th>filename</th>
+</tr>
+</thead><tbody><tr>
+<td>14778</td>
+<td>basic-optimized-stripped-lto-linker.7z<br/></td>
+</tr>
+<tr>
+<td>15100</td>
+<td>basic-optimized-stripped-lto-linker.xz<br/></td>
+</tr>
+<tr>
+<td>16497</td>
+<td>basic-optimized-stripped-lto-linker.zst<br/></td>
+</tr>
+<tr>
+<td>17448</td>
+<td>basic-optimized-stripped-lto-linker.gz<br/></td>
+</tr>
+<tr>
+<td>17998</td>
+<td>basic-optimized-stripped-lto-linker.bz2<br/></td>
+</tr>
+<tr>
+<td>20320</td>
+<td>basic-optimized-stripped-lto-linker-upx<br/></td>
+</tr>
+<tr>
+<td>32312</td>
+<td>basic-optimized-stripped-lto-linker<br/></td>
+</tr>
+<tr>
+<td>32360</td>
+<td>basic-optimized-stripped-lto<br/></td>
+</tr>
+<tr>
+<td>39448</td>
+<td>basic-optimized-stripped<br/></td>
+</tr>
+<tr>
+<td>49088</td>
+<td>basic-optimized<br/></td>
+</tr>
+<tr>
+<td>53107</td>
+<td>source-code.tar.gz<br/></td>
+</tr>
+<tr>
+<td>68120</td>
+<td>basic<br/></td>
+</tr>
+</tbody></table>
+<br/>
+You can see all the commands that I used for each one here,<br/>
+
+<details>
+	<summary>
+		Makefile
+	</summary>
+	<p>
+		<pre>
+<code class="language-make">CC&equals;clang
+&#35; SOURCES&equals;./hw.c
+SOURCES&equals;./src.c ./tigr.c
+LIBS&equals;-lGLU -lGL -lX11
+BASIC_CC &equals; ${CC} ${SOURCES} ${LIBS} -march&equals;native -fuse-ld&equals;lld
+
+all: build-all
+
+basic:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	mkdir -p out
+	${BASIC_CC} -o out/basic
+	
+BASIC_OPTIMIZED_CC &equals; ${BASIC_CC}  -Oz -fno-ident -fno-asynchronous-unwind-tables 
+basic-optimized:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_CC} -o out/basic-optimized
+
+BASIC_OPTIMIZED_STRIPPED_CC &equals; ${BASIC_OPTIMIZED_CC} -s
+basic-optimized-stripped:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_STRIPPED_CC} -o out/basic-optimized-stripped
+
+BASIC_OPTIMIZED_STRIPPED_LTO_CC &equals; ${BASIC_OPTIMIZED_STRIPPED_CC} -flto
+basic-optimized-stripped-lto:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -o out/basic-optimized-stripped-lto
+
+BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC &equals; ${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -z noseparate-code -Wl,--gc-sections -Wl,--strip-all -Wl,--icf&equals;all -Wl,--lto-O3 -Wl,-O2
+basic-optimized-stripped-lto-linker:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC} -o out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-zstd: basic-optimized-stripped-lto-linker
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	zstd -22 --ultra -f out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker.zst
+
+basic-optimized-stripped-lto-linker-compressed-gz:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	rm -f out/basic-optimized-stripped-lto-linker.gz
+	gzip --best -f out/basic-optimized-stripped-lto-linker -c &gt; out/basic-optimized-stripped-lto-linker.gz
+
+basic-optimized-stripped-lto-linker-compressed-xz:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	rm -f out/basic-optimized-stripped-lto-linker.xz
+	xz -e -k -9 out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-bzip2:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	rm -f out/basic-optimized-stripped-lto-linker.bz2
+	bzip2 -k --best ./out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-7z:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	rm -f out/basic-optimized-stripped-lto-linker.7z
+&#35; 	7z a -mx&equals;9 -m0&equals;LZMA2 -mfb&equals;64 -md&equals;64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
+	7z a -mx&equals;9 out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-upx: basic-optimized-stripped-lto-linker
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	rm -f out/basic-optimized-stripped-lto-linker-upx
+	upx --ultra-brute --no-lzma out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker-upx
+
+source-code:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	mkdir -p out
+	cp makefile src.c tigr.c tigr.h out/
+	tar -czf out/source-code.tar.gz -C out makefile src.c tigr.c tigr.h
+	rm out/makefile out/src.c out/tigr.c out/tigr.h
+
+build-all: basic \
+			basic-optimized basic-optimized-stripped \
+			basic-optimized-stripped-lto \
+			basic-optimized-stripped-lto-linker \
+			basic-optimized-stripped-lto-linker-compressed-zstd \
+			basic-optimized-stripped-lto-linker-compressed-upx \
+			basic-optimized-stripped-lto-linker-compressed-gz \
+			basic-optimized-stripped-lto-linker-compressed-xz \
+			basic-optimized-stripped-lto-linker-compressed-bzip2 \
+			basic-optimized-stripped-lto-linker-compressed-7z \
+			source-code
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	du -b out/&#42;
+
+clean:
+	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	rm -rf out	</code>
+</pre>
+	</p>
+</details>
+<br/>
 </p>
 <h2 id="conclusion">Conclusion</h2>
 <p>
@@ -160,6 +450,47 @@ More on why:<br/>
 <li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a><br/>
 </li>
 <li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a><br/>
+
+<script defer>
+
+document.querySelectorAll('.tabs-container').forEach(tabContainer => {
+  const panels = tabContainer.querySelectorAll('[data-tab-name]');
+
+  // Create button bar
+  const buttonBar = document.createElement('div');
+  buttonBar.className = 'tabs-buttons';
+
+  panels.forEach((panel, i) => {
+    const name = panel.dataset.tabName;
+    const btn = document.createElement('button');
+    btn.textContent = name;
+
+    btn.addEventListener('click', () => {
+      // Hide all panels
+      panels.forEach(p => p.style.display = 'none');
+      // Remove highlights from buttons
+      buttonBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      // Show the selected one
+      panel.style.display = 'block';
+      btn.classList.add('active');
+    });
+
+    // First button active by default
+    if (i === 0) {
+      btn.classList.add('active');
+      panel.style.display = 'block';
+    } else {
+      panel.style.display = 'none';
+    }
+
+    buttonBar.appendChild(btn);
+  });
+
+  // Insert button bar before the content
+  tabContainer.prepend(buttonBar);
+});
+
+</script>
 		<footer style="margin-bottom: 2em;">
 			<a class="special" href="/index.html">Return To Index</a>
 		</footer>

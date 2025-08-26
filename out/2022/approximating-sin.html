@@ -38,19 +38,39 @@
 	<article>
 
 
-		<!-- KATEX LOADING -->
+		<!-- KATEX LOADING -->\
+		 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
-		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" onload="
-			renderMathInElement(document.body, {
-				output: 'mathml'
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+		<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			
+		renderMathInElement(document.body, {
+				macros: {
+			'\\unit': '\\hspace{0.5em}\\scriptstyle\\mathrm{#1}'
+
+				},
+				delimiters: [
+  {left: "$$", right: "$$", display: true},
+  {left: "$", right: "$", display: false},
+  {left: "\\(", right: "\\)", display: false},
+  {left: "\\[", right: "\\]", display: true}
+]
+,
+				output: 'html'
 			});
-		"></script>
+		
+		});
+		</script>
 		
 		<!-- HIGHLIGHTJS LOADING -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
 		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
 		<header>
-<h1>Approximating sin(x)</h1>
+  <img class='img-sml' src="/assets/images/icon-sin.png" />
+  <!-- post_image="/assets/images/icon-sin.png" -->
+  <h1>Approximating sin(x)</h1>
+  <!-- post_description="A look into various methods of approximating the sine function" -->
 </header>
 We all know calculating \(\sin(x)\) for anything other than simple multiples of \(\pi\) is a pain in the neck.<br/>
 Even for something like \(\sin(\pi/12)\),<br/>
@@ -65,10 +85,109 @@ Even for something like \(\sin(\pi/12)\),<br/>
 
 \]<br/>
 Fortunatley, many brilliant mathematicians have come with approximations for these functions, Some which we humans can use and some which we cant.<br/>
-  <br/>
-<div class="split">
-<figure><img src="/assets/images/taylor.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure>
-<figure><img src="/assets/images/taylor-error.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure>
+<br/>
+<div class="split-f">
+<div>
+                    <div class="gnuplot-container"><pre style="">                                                                                          
+    2 <span style="color:var(--black-darker)">𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴣𜴆𜴆</span><span style="color:#bdadd4">𜶌</span><span style="color:var(--black-darker)">𜴆𜴆𜴆𜴆</span><span style="color:#add4b5">𜵎</span><span style="color:var(--black-darker)">𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜶙𜴆𜴆𜴆𜴆𜴆𜴆𜴆</span><span style="color:#adc3d4">𜵎</span><span style="color:var(--black-darker)">𜴆𜴆𜴆𜴆𜴆𜴆𜴆</span><span style="color:#d4d4ad">𜵎</span><span style="color:var(--black-darker)">𜴆𜴆𜴆𜴔𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜵈   
+      ▐                      </span><span style="color:#d7baff">𜴡𜺣   </span><span style="color:#baffc9">▌           </span><span style="color:var(--black-darker)">𜺠      </span><span style="color:#bae1ff">𜵙𜺨       </span><span style="color:#ffffba">▌         </span>sin(x) <span style="color:#ffb3ba">𜴘𜴧𜴧𜴧𜴧𜴉 </span><span style="color:var(--black-darker)">▌   
+      ▐                       </span><span style="color:#d7baff">▌   </span><span style="color:#baffc9">𜶅           </span><span style="color:var(--black-darker)">𜺠      </span><span style="color:#bae1ff">▌        </span><span style="color:#ffffba">▌      </span>1st order <span style="color:#bae1ff">𜴘𜴧𜴧𜴧𜴧𜴉 </span><span style="color:var(--black-darker)">▌   
+  </span>1.5 <span style="color:var(--black-darker)">▐𜴉                      </span><span style="color:#d7baff">𜶅   </span><span style="color:#baffc9">▐           </span><span style="color:var(--black-darker)">𜺠     </span><span style="color:#bae1ff">▐        </span><span style="color:#ffffba">▗▘      </span>3rd order <span style="color:#baffc9">𜴘𜴧𜴧𜴧𜴧𜴉</span><span style="color:var(--black-darker)">𜴘▌   
+      ▐                       </span><span style="color:#d7baff">▐   </span><span style="color:#baffc9">▐           </span><span style="color:var(--black-darker)">𜺠    </span><span style="color:#bae1ff">▗▘        </span><span style="color:#ffffba">▐       </span>5th order <span style="color:#ffffba">𜴘𜴧𜴧𜴧𜴧𜴉 </span><span style="color:var(--black-darker)">▌   
+      ▐                       </span><span style="color:#d7baff">𜴡𜺣  </span><span style="color:#baffc9">▐           </span><span style="color:var(--black-darker)">𜺠    </span><span style="color:#bae1ff">𜵉         </span><span style="color:#ffffba">𜵉       </span>7th order <span style="color:#d7baff">𜴘𜴧𜴧𜴧𜴧𜴉 </span><span style="color:var(--black-darker)">▌   
+    </span>1 <span style="color:var(--black-darker)">▐𜺣                       </span><span style="color:#d7baff">▌  </span><span style="color:#baffc9">𜺫𜵈          </span><span style="color:var(--black-darker)">𜺠   </span><span style="color:#bae1ff">▐ </span><span style="color:#ffffba">▂        ▌                       </span><span style="color:var(--black-darker)">𜺠▌   
+      ▐                  </span><span style="color:#ffb3ba">𜺠𜴒🮂𜴄𜶓 </span><span style="color:#d7baff">▐   </span><span style="color:#baffc9">▌          </span><span style="color:var(--black-darker)">𜺠   </span><span style="color:#c4d4ff">▙</span><span style="color:#c9dfe5">𜴖▀𜵌</span><span style="color:#d7baff">𜶓</span><span style="color:#ffffba">𜺣    ▗▘             </span><span style="color:#ffb3ba">▗𜴆🮂𜴄𜶓      </span><span style="color:var(--black-darker)">▌   
+      ▐                 </span><span style="color:#ffb3ba">▗𜴁    ▚</span><span style="color:#d7baff">▝▖  </span><span style="color:#baffc9">𜶗          </span><span style="color:var(--black-darker)">𜺠  </span><span style="color:#c0d9ff">𜷅</span><span style="color:#d0cdf2">𜴏  </span><span style="color:#baffc9">▝▖</span><span style="color:#dfc9f2">𜶚</span><span style="color:#ffffba">▖   ▐             </span><span style="color:#ffb3ba">𜺠𜴍    ▚     </span><span style="color:var(--black-darker)">▌   
+      ▐                </span><span style="color:#ffb3ba">𜺠𜴍      ▚</span><span style="color:#d7baff">▌  </span><span style="color:#baffc9">▐          </span><span style="color:var(--black-darker)">𜺠 </span><span style="color:#bae1ff">𜺠</span><span style="color:#d1c2ff">𜵊    </span><span style="color:#baffc9">𜶗 </span><span style="color:#dfc9f2">𜶕</span><span style="color:#ffffba">𜶄 𜵑▘            </span><span style="color:#ffb3ba">𜺠𜴎      ▌    </span><span style="color:var(--black-darker)">▌   
+  </span>0.5 <span style="color:var(--black-darker)">▐</span><span style="color:#ffb3ba">𜶄               𜵛       ▝</span><span style="color:#e5b7ea">▟  </span><span style="color:#baffc9">▐          </span><span style="color:var(--black-darker)">𜺠 </span><span style="color:#d7baff">𜵛     </span><span style="color:#baffc9">▝▖</span><span style="color:#d7baff">▝</span><span style="color:#e5b7ea">𜵈</span><span style="color:#ffffba">🮂              </span><span style="color:#ffb3ba">𜵉       ▝▖  </span><span style="color:var(--black-darker)">𜴃▌   
+      ▐</span><span style="color:#ffb3ba">𜴡𜺣             𜶖𜺨        ▚</span><span style="color:#d7baff">▌  </span><span style="color:#baffc9">▌         </span><span style="color:var(--black-darker)">𜺠</span><span style="color:#d7baff">𜶖𜺨      </span><span style="color:#baffc9">▚ </span><span style="color:#dfb8f2">𜶚</span><span style="color:#ffb3ba">𜺣             𜶖𜺨        𜴠𜺣  </span><span style="color:var(--black-darker)">▌   
+      ▐ </span><span style="color:#ffb3ba">𜶅             𜵉          </span><span style="color:#eeb6da">𜶫</span><span style="color:#d7baff">𜺣 </span><span style="color:#baffc9">▌         </span><span style="color:#d7baff">▗▘       </span><span style="color:#baffc9">𜴡𜺣 </span><span style="color:#dfb8f2">𜷀            </span><span style="color:#ffb3ba">𜺠𜴎          𜶅  </span><span style="color:var(--black-darker)">▌   
+    </span>0 <span style="color:var(--black-darker)">▐𜴉</span><span style="color:#e3acb1">𜴡</span><span style="color:#ffb3ba">▖</span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘</span><span style="color:#ffb3ba">𜵙</span><span style="color:#d4a9ad">𜴙 </span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 𜴘</span><span style="color:#ffb3ba">𜺫</span><span style="color:#cdb5ef">𜵦 </span><span style="color:#baffc9">𜶗 </span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 </span><span style="color:#cdb5ef">𜷕 </span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 </span><span style="color:#b5efc1">𜵦 </span><span style="color:#dfb8f2">𜶘 </span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘</span><span style="color:#ffb3ba">▞</span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘</span><span style="color:#ffb3ba">𜴡</span><span style="color:#d4a9ad">𜵑</span><span style="color:var(--black-darker)">𜴘▌   
+      ▐  </span><span style="color:#ffb3ba">▚          ▗▘            </span><span style="color:#dfb8f2">𜶘 </span><span style="color:#baffc9">▝▖       </span><span style="color:#d7baff">𜺠</span><span style="color:#cab3ea">𜶅         </span><span style="color:#baffc9">▐ </span><span style="color:#d7baff">▝</span><span style="color:#f2b5d3">▙          </span><span style="color:#ffb3ba">▐             ▚ </span><span style="color:var(--black-darker)">▌   
+      ▐  </span><span style="color:#ffb3ba">▝▖         ▌             </span><span style="color:#ebb6df">▝</span><span style="color:#e1b8ef">𜶿 </span><span style="color:#baffc9">▚       </span><span style="color:#d7baff">𜵉</span><span style="color:var(--black-darker)">𜺠         </span><span style="color:#baffc9">▐  </span><span style="color:#dfb8f2">𜶘</span><span style="color:#ffb3ba">𜶄         ▌             ▝▖</span><span style="color:var(--black-darker)">▌   
+ </span>-0.5 <span style="color:var(--black-darker)">▐𜺣  </span><span style="color:#ffb3ba">𜴡𜺣       ▐               </span><span style="color:#d7baff">𜴡𜺣</span><span style="color:#baffc9">▝▖     </span><span style="color:#d7baff">▞ </span><span style="color:var(--black-darker)">𜺠         </span><span style="color:#baffc9">𜺫𜵈  </span><span style="color:#e8b7e4">𜵰</span><span style="color:#ffb3ba">𜺣       ▞               </span><span style="color:#eaaeb3">𜶗</span><span style="color:var(--black-darker)">▌   
+      ▐    </span><span style="color:#ffb3ba">𜶗      ▗▘             </span><span style="color:#ffffba">𜵋🮂𜴜</span><span style="color:#dfc9f2">𜷐 </span><span style="color:#baffc9">𜶅    </span><span style="color:#d7baff">▗</span><span style="color:#cdc7ff">𜴍 </span><span style="color:var(--black-darker)">𜺠          </span><span style="color:#baffc9">▌  </span><span style="color:#d7baff">▐</span><span style="color:#ffb3ba">▚      ▗▘                </span><span style="color:var(--black-darker)">▌   
+      ▐     </span><span style="color:#ffb3ba">𜶅    𜺠𜴎             </span><span style="color:#ffffba">▞   𜴠</span><span style="color:#dfc9f2">𜷐</span><span style="color:#baffc9">𜴡𜺣  </span><span style="color:#d7baff">𜺠</span><span style="color:#c9ceff">𜵯  </span><span style="color:var(--black-darker)">𜺠          </span><span style="color:#baffc9">𜶅  </span><span style="color:#d7baff">▝▖</span><span style="color:#ffb3ba">𜶅    𜺠𜴎                 </span><span style="color:var(--black-darker)">▌   
+      ▐     </span><span style="color:#ffb3ba">𜺫𜶓  𜵑𜴎              </span><span style="color:#ffffba">▌    ▝</span><span style="color:#dfc9f2">𜶡</span><span style="color:#baffc9">𜴄𜶻</span><span style="color:#c4eadc">𜷋</span><span style="color:#c9ceff">𜶪</span><span style="color:#bae1ff">𜺨  </span><span style="color:var(--black-darker)">𜺠          </span><span style="color:#baffc9">▐   </span><span style="color:#d7baff">▌</span><span style="color:#ffb3ba">𜺫𜶄  ▗▘                  </span><span style="color:var(--black-darker)">▌   
+   </span>-1 <span style="color:var(--black-darker)">▐𜺨      </span><span style="color:#ffb3ba">🮂🮂               </span><span style="color:#ffffba">▐       </span><span style="color:#d7baff">🮂</span><span style="color:#e5d3ea">𜴂</span><span style="color:#d7baff">𜺨</span><span style="color:#bae1ff">𜵉   </span><span style="color:var(--black-darker)">𜺠          </span><span style="color:#baffc9">𜴡𜺣  </span><span style="color:#d7baff">𜶗  </span><span style="color:#ffb3ba">🮂🮂𜺨                  </span><span style="color:var(--black-darker)">𜺫▌   
+      ▐                        </span><span style="color:#ffffba">▐         </span><span style="color:#bae1ff">𜶖𜺨   </span><span style="color:var(--black-darker)">𜺠           </span><span style="color:#baffc9">▌  </span><span style="color:#d7baff">▝▖                       </span><span style="color:var(--black-darker)">▌   
+      ▐                        </span><span style="color:#ffffba">▌        </span><span style="color:#bae1ff">𜺠𜴍    </span><span style="color:var(--black-darker)">𜺠           </span><span style="color:#baffc9">▌   </span><span style="color:#d7baff">▌                       </span><span style="color:var(--black-darker)">▌   
+ </span>-1.5 <span style="color:var(--black-darker)">▐𜴉                      </span><span style="color:#ffffba">𜺠𜴍        </span><span style="color:#bae1ff">𜵉     </span><span style="color:var(--black-darker)">𜺠           </span><span style="color:#baffc9">▌   </span><span style="color:#d7baff">▚                      </span><span style="color:var(--black-darker)">𜴘▌   
+      ▐                       </span><span style="color:#ffffba">▐        </span><span style="color:#bae1ff">▗▘     </span><span style="color:var(--black-darker)">𜺠           </span><span style="color:#baffc9">𜶗   </span><span style="color:#d7baff">▐                       </span><span style="color:var(--black-darker)">▌   
+      ▐                       </span><span style="color:#ffffba">𜵛        </span><span style="color:#bae1ff">▞      </span><span style="color:var(--black-darker)">𜺠           </span><span style="color:#baffc9">▐   </span><span style="color:#d7baff">𜴡𜺣                      </span><span style="color:var(--black-darker)">▌   
+   </span>-2 <span style="color:var(--black-darker)">▐▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜷋▂▂▂</span><span style="color:#ddddb0">𜷀</span><span style="color:var(--black-darker)">▂▂▂▂▂▂▂</span><span style="color:#b0c9dd">𜷕</span><span style="color:var(--black-darker)">▂▂▂▂▂▂▂𜷋▂▂▂▂▂▂▂▂▂▂▂</span><span style="color:#b0ddb9">𜷕</span><span style="color:var(--black-darker)">▂▂▂▂</span><span style="color:#c2b0dd">𜷀</span><span style="color:var(--black-darker)">▂▂𜶻▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▌   
+     </span>-10                 -5                   0                   5                  10   
+                                                                                          
+</pre>
+    </div>
+                    <details class=minor-fold>
+                        <summary>Code</summary>
+                        <pre>
+                            <code>
+set xrange &lsqb;-10:10&rsqb;
+set yrange &lsqb;-2:2&rsqb;
+
+set zeroaxis
+
+f(x)  &equals; sin(x)
+t1(x) &equals; x
+t3(x) &equals; x - x&#42;&#42;3/6
+t5(x) &equals; x - x&#42;&#42;3/6 + x&#42;&#42;5/120
+t7(x) &equals; x - x&#42;&#42;3/6 + x&#42;&#42;5/120 - x&#42;&#42;7/5040
+
+plot f(x)  lc rgb "&#35;FFB3BA" lw 2 title "sin(x)", \
+     t1(x) lc rgb "&#35;BAE1FF" lw 2 title "1st order", \
+     t3(x) lc rgb "&#35;BAFFC9" lw 2 title "3rd order", \
+     t5(x) lc rgb "&#35;FFFFBA" lw 2 title "5th order", \
+     t7(x) lc rgb "&#35;D7BAFF" lw 2 title "7th order"</code>
+                        </pre>
+                    </details>
+                </div>
+<div>
+                    <div class="gnuplot-container"><pre style="">                                                                                          
+  1500 <span style="color:var(--black-darker)">𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴔𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜵎𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴣𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜵈   
+       ▐                                       𜺣                 </span>sin(x) - f(x) <span style="color:#d7baff">𜴘𜴧𜴧𜴧𜴧𜴉 </span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                                     </span><span style="color:#d7baff">▗</span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                                     </span><span style="color:#d7baff">▞</span><span style="color:var(--black-darker)">▌   
+  </span>1000 <span style="color:var(--black-darker)">▐𜺣                                      𜺣                                    </span><span style="color:#d7baff">𜺠</span><span style="color:#cab3ea">𜶅</span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                                    </span><span style="color:#d7baff">𜵛 </span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                                   </span><span style="color:#d7baff">𜶖𜺨 </span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                                   </span><span style="color:#d7baff">𜵉  </span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                                 </span><span style="color:#d7baff">𜺠𜴒   </span><span style="color:var(--black-darker)">▌   
+   </span>500 <span style="color:var(--black-darker)">▐𜺨                                      𜺣                                </span><span style="color:#d7baff">𜺠𜴎   </span><span style="color:var(--black-darker)">𜺫▌   
+       ▐                                       𜺣                               </span><span style="color:#d7baff">𜺠𜴎     </span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                              </span><span style="color:#d7baff">𜵋𜴁      </span><span style="color:var(--black-darker)">▌   
+       ▐                                       𜺣                          </span><span style="color:#d7baff">▂𜵑𜴆🮂        </span><span style="color:var(--black-darker)">▌   
+     </span>0 <span style="color:var(--black-darker)">▐𜴉𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span><span style="color:#bdadd4">▗</span><span style="color:#d7baff">▂</span><span style="color:#c6b1e3">𜷋</span><span style="color:#d7baff">𜵑𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧</span><span style="color:#c6b1e3">𜵡</span><span style="color:#d7baff">𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧</span><span style="color:#c6b1e3">𜴣</span><span style="color:#d7baff">𜴆</span><span style="color:#c6b1e3">𜴣</span><span style="color:#d7baff">🮂</span><span style="color:#c6b1e3">𜴛 </span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘▌   
+       ▐        </span><span style="color:#d7baff">𜺠𜵑𜴐𜴆🮂𜺨                         </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐      </span><span style="color:#d7baff">𜺠𜴧▘                              </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐     </span><span style="color:#d7baff">▗𜴁                                </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐    </span><span style="color:#d7baff">▗▘                                 </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+  </span>-500 <span style="color:var(--black-darker)">▐𜺨  </span><span style="color:#d7baff">▗▘                                  </span><span style="color:var(--black-darker)">𜺣                                     𜺫▌   
+       ▐  </span><span style="color:#d7baff">▗▘                                   </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐  </span><span style="color:#d7baff">𜵉                                    </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐ </span><span style="color:#d7baff">▞                                     </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+ </span>-1000 <span style="color:var(--black-darker)">▐</span><span style="color:#bdadd4">𜵴</span><span style="color:#d7baff">𜴍                                     </span><span style="color:var(--black-darker)">𜺣                                     𜴃▌   
+       ▐</span><span style="color:#d7baff">𜵛                                      </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐</span><span style="color:#d7baff">𜴍                                      </span><span style="color:var(--black-darker)">𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+ </span>-1500 <span style="color:var(--black-darker)">▐▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜶻▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜶻▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜷋▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▌   
+      </span>-10                 -5                   0                  5                  10   
+                                                                                          
+</pre>
+    </div>
+                    <details class=minor-fold>
+                        <summary>Code</summary>
+                        <pre>
+                            <code>
+set zeroaxis
+
+f(x) &equals; x - x&#42;&#42;3/6 + x&#42;&#42;5/120 - x&#42;&#42;7/5040
+
+plot sin(x) - f(x) lc rgb "&#35;D7BAFF" lw 3 title "sin(x) - f(x)"</code>
+                        </pre>
+                    </details>
+                </div>
 </div>
 <h2 id="taylor-series">Taylor Series</h2>
 <p>
@@ -113,7 +232,52 @@ While taylor series are extremely useful and a variant is used to calculate sin(
 <br/>
 There is a wonderful video by 3blue1brown, visually demonstrating this: <a href="https://youtu.be/3d6DsjIBzJ4">https://youtu.be/3d6DsjIBzJ4</a><br/>
 <br/>
-<figure><img src="/assets/images/error-baskara.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
+<div>
+                    <div class="gnuplot-container"><pre style="">                                                                                          
+  1000 <span style="color:var(--black-darker)">𜶖𜴆</span><span style="color:#bdadd4">𜵎</span><span style="color:var(--black-darker)">𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴔𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜵎𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴣𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆</span><span style="color:#bdadd4">𜶙</span><span style="color:var(--black-darker)">𜴆𜵈   
+       ▐ </span><span style="color:#d7baff">▚                                     </span><span style="color:var(--black-darker)">𜺣                          </span>e(x) <span style="color:#d7baff">𜴘𜴧𜴧𜴧𜴧▞ </span><span style="color:var(--black-darker)">▌   
+       ▐ </span><span style="color:#d7baff">𜴡𜺣                                    </span><span style="color:var(--black-darker)">𜺣                                   </span><span style="color:#d7baff">𜺠𜴍 </span><span style="color:var(--black-darker)">▌   
+       ▐  </span><span style="color:#d7baff">▌                                    </span><span style="color:var(--black-darker)">𜺣                                   </span><span style="color:#d7baff">▐  </span><span style="color:var(--black-darker)">▌   
+       ▐  </span><span style="color:#d7baff">𜶗                                    </span><span style="color:var(--black-darker)">𜺣                                   </span><span style="color:#d7baff">▞  </span><span style="color:var(--black-darker)">▌   
+       ▐  </span><span style="color:#d7baff">𜴡𜺣                                   </span><span style="color:var(--black-darker)">𜺣                                  </span><span style="color:#d7baff">𜺠𜴍  </span><span style="color:var(--black-darker)">▌   
+   </span>500 <span style="color:var(--black-darker)">▐𜺣  </span><span style="color:#d7baff">𜶅                                   </span><span style="color:var(--black-darker)">𜺣                                  </span><span style="color:#d7baff">𜵛  </span><span style="color:var(--black-darker)">𜺠▌   
+       ▐   </span><span style="color:#d7baff">▝▖                                  </span><span style="color:var(--black-darker)">𜺣                                 </span><span style="color:#d7baff">▗▘   </span><span style="color:var(--black-darker)">▌   
+       ▐    </span><span style="color:#d7baff">▐                                  </span><span style="color:var(--black-darker)">𜺣                                 </span><span style="color:#d7baff">▌    </span><span style="color:var(--black-darker)">▌   
+       ▐     </span><span style="color:#d7baff">𜶅                                 </span><span style="color:var(--black-darker)">𜺣                                </span><span style="color:#d7baff">𜵛     </span><span style="color:var(--black-darker)">▌   
+       ▐     </span><span style="color:#d7baff">𜺫𜶄                                </span><span style="color:var(--black-darker)">𜺣                               </span><span style="color:#d7baff">𜵙𜺨     </span><span style="color:var(--black-darker)">▌   
+       ▐      </span><span style="color:#d7baff">𜺫𜴜𜺣                              </span><span style="color:var(--black-darker)">𜺣                              </span><span style="color:#d7baff">𜵋𜺨      </span><span style="color:var(--black-darker)">▌   
+       ▐        </span><span style="color:#d7baff">𜴄𜶀▂                            </span><span style="color:var(--black-darker)">𜺣                          </span><span style="color:#d7baff">𜺠▂𜴧𜴁        </span><span style="color:var(--black-darker)">▌   
+     </span>0 <span style="color:var(--black-darker)">▐𜴉𜴘 𜴘 𜴘 𜴘 𜴘 </span><span style="color:#c6b1e3">𜴛</span><span style="color:#d7baff">𜴆</span><span style="color:#c6b1e3">𜴣</span><span style="color:#d7baff">𜴆𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧</span><span style="color:#c6b1e3">𜵡</span><span style="color:#d7baff">𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴧𜴐</span><span style="color:#c6b1e3">𜴣</span><span style="color:#d7baff">𜴆</span><span style="color:#c6b1e3">𜴣</span><span style="color:#d7baff">𜺨</span><span style="color:var(--black-darker)">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+  </span>-500 <span style="color:var(--black-darker)">▐𜺨                                      𜺣                                     𜺫▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+       ▐                                       𜺣                                      ▌   
+ </span>-1000 <span style="color:var(--black-darker)">▐▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜶻▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜶻▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂𜷋▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▌   
+      </span>-10                 -5                   0                  5                  10   
+                                                                                          
+</pre>
+    </div>
+                    <details class=minor-fold>
+                        <summary>Code</summary>
+                        <pre>
+                            <code>set yrange &lsqb;-1000:1000&rsqb;
+set zeroaxis
+t9(x) &equals; x - x&#42;&#42;3/6 + x&#42;&#42;5/120 - x&#42;&#42;7/5040 + x&#42;&#42;9/362880
+e(x)  &equals; abs(sin(x) - t9(x))
+
+plot e(x) lc rgb "&#35;D7BAFF" lw 3 title "e(x)"</code>
+                        </pre>
+                    </details>
+                </div>
+<br/>
 </p>
 <h2 id="bhaskara-s-approximation">Bhaskara's Approximation</h2>
 <p>
@@ -164,7 +328,7 @@ Which it does, achieving some 10^4 times smaller error in comparison (for 7 term
 
 <details>
 	<summary>
-		<h4>Standard sin(x) - How does it work</h4>
+		Standard sin(x) - How does it work
 	</summary>
 	<p>
 		Looking at the implementation of sin in musl, We get:<br/>
@@ -250,6 +414,47 @@ Libmvec (4xD):
 <a href="https://www.youtube.com/watch?v=yV52TMdGkng">https://www.youtube.com/watch?v=yV52TMdGkng</a><br/>
 <a href="https://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/">https://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/</a><br/>
 <a href="http://users.ece.utexas.edu/~adnan/comm/fast-trigonometric-functions-using.pdf">http://users.ece.utexas.edu/~adnan/comm/fast-trigonometric-functions-using.pdf</a><br/>
+
+<script defer>
+
+document.querySelectorAll('.tabs-container').forEach(tabContainer => {
+  const panels = tabContainer.querySelectorAll('[data-tab-name]');
+
+  // Create button bar
+  const buttonBar = document.createElement('div');
+  buttonBar.className = 'tabs-buttons';
+
+  panels.forEach((panel, i) => {
+    const name = panel.dataset.tabName;
+    const btn = document.createElement('button');
+    btn.textContent = name;
+
+    btn.addEventListener('click', () => {
+      // Hide all panels
+      panels.forEach(p => p.style.display = 'none');
+      // Remove highlights from buttons
+      buttonBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      // Show the selected one
+      panel.style.display = 'block';
+      btn.classList.add('active');
+    });
+
+    // First button active by default
+    if (i === 0) {
+      btn.classList.add('active');
+      panel.style.display = 'block';
+    } else {
+      panel.style.display = 'none';
+    }
+
+    buttonBar.appendChild(btn);
+  });
+
+  // Insert button bar before the content
+  tabContainer.prepend(buttonBar);
+});
+
+</script>
 		<footer style="margin-bottom: 2em;">
 			<a class="special" href="/index.html">Return To Index</a>
 		</footer>

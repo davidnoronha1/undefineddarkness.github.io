@@ -1,7 +1,6 @@
-<header>
-![Rei on bike](/assets/images/dump/00004-2303370661.png)
-# Playing around with Stable Diffusion
-</header>
+#HEADER stable diffussion experiments image=/assets/images/icon-sd.png
+My experience with Stable Diffusion
+#END HEADER
 
 Recently I finally got my hands on a new laptop for college that has a an actual honest to goodness GPU in it!
 This allowed me to explore many things that I couldn't do before such as Vulkan, AVX2 SIMD and running AI models locally among others.

@@ -4,5 +4,7 @@ node_modules
 *.tsbuildinfo
 package-lock.jsonreseach/fsin
 ./research/fsin
+experiments/tinyc/out
 .tooling/__pycache__
 bun.lockb
+.vercel

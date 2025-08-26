@@ -13,9 +13,55 @@ dbg () {
 	if [ -n "${pond_debug:-}" ]; then
 		format=$1
 		shift
-		printf "\033[32mDBG\033[0m $format \n" "$@" >&2
+		printf "\033[32mDBG\033[0m${debug_prefix} $format \n" "$@" >&2
 	fi
 }
+
+export D_POND="\033[1;30;44m  POND  \033[0m"
+export D_INITIAL_TRANSFORMER="\033[1;30;44m  INITIAL  \033[0m"
+
+escape_code_block () {
+	local -n retptr=${1}
+	ptr=$retptr
+	ptr=${ptr//'#'/'&#35;'}
+	ptr=${ptr//'<'/'&lt;'}
+	ptr=${ptr//'>'/'&gt;'}
+	ptr=${ptr//'['/'&lsqb;'}
+	ptr=${ptr//']'/'&rsqb;'}
+	ptr=${ptr//'='/'&equals;'}
+	ptr=${ptr//'*'/'&#42;'}
+	retptr=$ptr
+}
+
+get_temp_dir_in_output_folder () {
+	mkdir -p ./out/.pond-tmp
+	tmpdir=$(mktemp -d ./out/.pond-tmp/XXXXXXXX)
+	echo "$tmpdir"
+}
+
+get_temp_file_in_output_folder () {
+	local suffix=${1:-}
+	[ -n "$suffix" ] && suffix=".$suffix"
+	mkdir -p ./out/.pond-tmp
+	tmpfile=$(mktemp ./out/.pond-tmp/XXXXXXXX$suffix)
+	echo "$tmpfile"
+}
+
+# escape_block () 
+
+# Reset
+export C_RESET="\033[0m"
+
+# Foreground colors (basic 8)
+export C_FG_BLACK="\033[30m"
+export C_FG_RED="\033[31m"
+export C_FG_GREEN="\033[32m"
+export C_FG_YELLOW="\033[33m"
+export C_FG_BLUE="\033[34m"
+export C_FG_MAGENTA="\033[35m"
+export C_FG_CYAN="\033[36m"
+export C_FG_WHITE="\033[37m"
+export C_FG_GRAY="\033[90m"
 
 clean_markup () {
     local -n ptr=${1}

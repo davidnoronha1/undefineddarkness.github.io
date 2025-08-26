@@ -1,4 +1,7 @@
-# Optimizing for size
+#HEADER C Compiler Binary Optimization
+I attempt to see how small I can get a C program using OpenGL with only compiler flags
+#END HEADER
+
 I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.
 I might be using "non trivial" wrongly here but I mean a program that can actually do something.
 
@@ -91,6 +94,209 @@ But running through virus total shows only [results](https://is.gd/MtqIMG) from 
 **NOTE:** In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.
 
 ![](/assets/images/size-chart.svg) 
+
+## Compression & Linker [UPDATE - 19-08-2025]
+Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (`7z`, `zstd`, `xz`, `bzip2`, `gz`) which together should give a good idea of how much it can be further compressed, all were used at their highest settings
+
+I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
+
+#GNUPLOT width=150
+set boxwidth 0.6
+set style fill solid 0.7
+set key outside right
+set xtics nomirror
+set xtics ("7z" 0, "xz" 1, "zst" 2, "gz" 3, "bz2" 4, "upx" 5, "linker" 6, "-flto" 7, "-s" 8, "-Os" 9, "source" 10, "basic" 11)
+set xlabel "Compression/Build Type"
+set ylabel "File Size (bytes)"
+set grid ytics
+set style data boxes
+
+plot '-' using 1:2 with boxes lc rgb '#FFB3BA' title "basic-optimized-stripped-lto-linker.7z", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#FFDFBA' title "basic-optimized-stripped-lto-linker.xz", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#FFFFBA' title "basic-optimized-stripped-lto-linker.zst", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#BAFFC9' title "basic-optimized-stripped-lto-linker.gz", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#BAE1FF' title "basic-optimized-stripped-lto-linker.bz2", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#C9BAFF' title "basic-optimized-stripped-lto-linker-upx", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#FFBAF3' title "basic-optimized-stripped-lto-linker", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#E8A5A5' title "basic-optimized-stripped-lto", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#F5CBA7' title "basic-optimized-stripped", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#F7DC6F' title "basic-optimized", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#A9DFBF' title "source-code.tar.gz", \
+    '-' using 1:2:3 with labels offset 0,1 notitle, \
+    '-' using 1:2 with boxes lc rgb '#A9CCE3' title "basic", \
+    '-' using 1:2:3 with labels offset 0,1 notitle
+0 14778 "14.43kB"
+e
+0 14778 "14.43kB"
+e
+1 15100 "14.74kB"
+e
+1 15100 "14.74kB"
+e
+2 16497 "16.11kB"
+e
+2 16497 "16.11kB"
+e
+3 17448 "17.04kB"
+e
+3 17448 "17.04kB"
+e
+4 17998 "17.58kB"
+e
+4 17998 "17.58kB"
+e
+5 20320 "19.84kB"
+e
+5 20320 "19.84kB"
+e
+6 32312 "31.56kB"
+e
+6 32312 "31.56kB"
+e
+7 32360 "31.60kB"
+e
+7 32360 "31.60kB"
+e
+8 39448 "38.52kB"
+e
+8 39448 "38.52kB"
+e
+9 49088 "47.94kB"
+e
+9 49088 "47.94kB"
+e
+10 53107 "51.86kB"
+e
+10 53107 "51.86kB"
+e
+11 68120 "66.52kB"
+e
+11 68120 "66.52kB"
+e
+#END GNUPLOT
+
+#TABLE size	filename
+14778	basic-optimized-stripped-lto-linker.7z
+15100	basic-optimized-stripped-lto-linker.xz
+16497	basic-optimized-stripped-lto-linker.zst
+17448	basic-optimized-stripped-lto-linker.gz
+17998	basic-optimized-stripped-lto-linker.bz2
+20320	basic-optimized-stripped-lto-linker-upx
+32312	basic-optimized-stripped-lto-linker
+32360	basic-optimized-stripped-lto
+39448	basic-optimized-stripped
+49088	basic-optimized
+53107	source-code.tar.gz
+68120	basic
+#END TABLE
+
+You can see all the commands that I used for each one here,
+#f Makefile
+```make
+CC=clang
+# SOURCES=./hw.c
+SOURCES=./src.c ./tigr.c
+LIBS=-lGLU -lGL -lX11
+BASIC_CC = ${CC} ${SOURCES} ${LIBS} -march=native -fuse-ld=lld
+
+all: build-all
+
+basic:
+	@echo "\033[1m$@:\033[0m"
+	mkdir -p out
+	${BASIC_CC} -o out/basic
+	
+BASIC_OPTIMIZED_CC = ${BASIC_CC}  -Oz -fno-ident -fno-asynchronous-unwind-tables 
+basic-optimized:
+	@echo "\033[1m$@:\033[0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_CC} -o out/basic-optimized
+
+BASIC_OPTIMIZED_STRIPPED_CC = ${BASIC_OPTIMIZED_CC} -s
+basic-optimized-stripped:
+	@echo "\033[1m$@:\033[0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_STRIPPED_CC} -o out/basic-optimized-stripped
+
+BASIC_OPTIMIZED_STRIPPED_LTO_CC = ${BASIC_OPTIMIZED_STRIPPED_CC} -flto
+basic-optimized-stripped-lto:
+	@echo "\033[1m$@:\033[0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -o out/basic-optimized-stripped-lto
+
+BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC = ${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -z noseparate-code -Wl,--gc-sections -Wl,--strip-all -Wl,--icf=all -Wl,--lto-O3 -Wl,-O2
+basic-optimized-stripped-lto-linker:
+	@echo "\033[1m$@:\033[0m"
+	mkdir -p out
+	${BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC} -o out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-zstd: basic-optimized-stripped-lto-linker
+	@echo "\033[1m$@:\033[0m"
+	zstd -22 --ultra -f out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker.zst
+
+basic-optimized-stripped-lto-linker-compressed-gz:
+	@echo "\033[1m$@:\033[0m"
+	rm -f out/basic-optimized-stripped-lto-linker.gz
+	gzip --best -f out/basic-optimized-stripped-lto-linker -c > out/basic-optimized-stripped-lto-linker.gz
+
+basic-optimized-stripped-lto-linker-compressed-xz:
+	@echo "\033[1m$@:\033[0m"
+	rm -f out/basic-optimized-stripped-lto-linker.xz
+	xz -e -k -9 out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-bzip2:
+	@echo "\033[1m$@:\033[0m"
+	rm -f out/basic-optimized-stripped-lto-linker.bz2
+	bzip2 -k --best ./out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-7z:
+	@echo "\033[1m$@:\033[0m"
+	rm -f out/basic-optimized-stripped-lto-linker.7z
+# 	7z a -mx=9 -m0=LZMA2 -mfb=64 -md=64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
+	7z a -mx=9 out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
+
+basic-optimized-stripped-lto-linker-compressed-upx: basic-optimized-stripped-lto-linker
+	@echo "\033[1m$@:\033[0m"
+	rm -f out/basic-optimized-stripped-lto-linker-upx
+	upx --ultra-brute --no-lzma out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker-upx
+
+source-code:
+	@echo "\033[1m$@:\033[0m"
+	mkdir -p out
+	cp makefile src.c tigr.c tigr.h out/
+	tar -czf out/source-code.tar.gz -C out makefile src.c tigr.c tigr.h
+	rm out/makefile out/src.c out/tigr.c out/tigr.h
+
+build-all: basic \
+			basic-optimized basic-optimized-stripped \
+			basic-optimized-stripped-lto \
+			basic-optimized-stripped-lto-linker \
+			basic-optimized-stripped-lto-linker-compressed-zstd \
+			basic-optimized-stripped-lto-linker-compressed-upx \
+			basic-optimized-stripped-lto-linker-compressed-gz \
+			basic-optimized-stripped-lto-linker-compressed-xz \
+			basic-optimized-stripped-lto-linker-compressed-bzip2 \
+			basic-optimized-stripped-lto-linker-compressed-7z \
+			source-code
+	@echo "\033[1m$@:\033[0m"
+	du -b out/*
+
+clean:
+	@echo "\033[1m$@:\033[0m"
+	rm -rf out
+```
+#END f
+
 ## Conclusion
 So in total we managed to decrease our binary by **68%** without changing a single line of code, Less than half of its original size
 I am very pleased with that..

@@ -23,18 +23,7 @@ __syntax_hl_highlight () {
 		--no-version-info | sed 's/*/\&ast;/g;'
 }
 
-escape_code_block () {
-	local -n retptr=${1}
-	ptr=$retptr
-	ptr=${ptr//'#'/'&#35;'}
-	ptr=${ptr//'<'/'&lt;'}
-	ptr=${ptr//'>'/'&gt;'}
-	ptr=${ptr//'['/'&lsqb;'}
-	ptr=${ptr//']'/'&rsqb;'}
-	ptr=${ptr//'='/'&equals;'}
-	ptr=${ptr//'*'/'&#42;'}
-	retptr=$ptr
-}
+
 
 # Check if highlight is installed, if so use it else use the other thing
 syntax_hl_backend="__syntax_hl_dummy"
@@ -253,14 +242,34 @@ initial_transformer () {
 	fi
 
 	if (( loaded_mathjax )); then
-		prefix_ptr+="
-		<!-- KATEX LOADING -->
-		<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js\"></script>
-		<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js\" onload=\"
-			renderMathInElement(document.body, {
-				output: 'mathml'
+		katex_1='[
+  {left: "$$", right: "$$", display: true},
+  {left: "$", right: "$", display: false},
+  {left: "\\(", right: "\\)", display: false},
+  {left: "\\[", right: "\\]", display: true}
+]
+'
+		katex_onload="
+		renderMathInElement(document.body, {
+				macros: {
+			'\\\\unit': '\\\\hspace{0.5em}\\\\scriptstyle\\\\mathrm{#1}'
+
+				},
+				delimiters: ${katex_1},
+				output: 'html'
 			});
-		\"></script>
+		"
+
+		prefix_ptr+="
+		<!-- KATEX LOADING -->\\
+		 <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css\" integrity=\"sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP\" crossorigin=\"anonymous\">
+		<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js\"></script>
+		<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js\"></script>
+		<script>
+		document.addEventListener(\"DOMContentLoaded\", function() {
+			${katex_onload}
+		});
+		</script>
 		"
 	fi
 

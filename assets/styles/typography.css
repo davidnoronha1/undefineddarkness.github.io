@@ -31,8 +31,7 @@ body,.normal-font {
 }
 
 i,figcaption,var,span.special {
-	font-variation-settings: 'slnt' -12;
-	font-style: normal;
+	font-style: italic;
 }
 
 kbd, pre, code {

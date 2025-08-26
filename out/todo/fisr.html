@@ -38,13 +38,30 @@
 	<article>
 
 
-		<!-- KATEX LOADING -->
+		<!-- KATEX LOADING -->\
+		 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
-		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js" onload="
-			renderMathInElement(document.body, {
-				output: 'mathml'
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+		<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			
+		renderMathInElement(document.body, {
+				macros: {
+			'\\unit': '\\hspace{0.5em}\\scriptstyle\\mathrm{#1}'
+
+				},
+				delimiters: [
+  {left: "$$", right: "$$", display: true},
+  {left: "$", right: "$", display: false},
+  {left: "\\(", right: "\\)", display: false},
+  {left: "\\[", right: "\\]", display: true}
+]
+,
+				output: 'html'
 			});
-		"></script>
+		
+		});
+		</script>
 		
 		<!-- HIGHLIGHTJS LOADING -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">

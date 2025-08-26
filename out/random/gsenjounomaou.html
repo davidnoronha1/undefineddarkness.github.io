@@ -42,7 +42,8 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
 		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
 		<header>
-<h1>G-Senjou No Maou (Devil on G String)</h1>
+  <h1>G-Senjou No Maou (Devil on G String)</h1>
+  <!-- post_description="A review of the visual novel" -->
 </header>
 <a href="https://vndb.org/v211">VNDB</a><br/>
 <br/>
@@ -137,38 +138,48 @@ The H scenes are present and can feel a little bit unecessary at times but 🤷<
 		<div class="slides">
 <div><img src="../../assets/images/dump/fd8478dd-1343-4fe9-9f8b-aea6def4d92d.png"></div><div><img src="../../assets/images/dump/13e00c90-17e8-4f2a-931b-612c2e11b2e3.png"></div><div><img src="../../assets/images/dump/63c2aeff-76b5-43fe-b705-f4912292379b.png"></div><div><img src="../../assets/images/dump/a7ab27ec-1aba-41e8-9b30-cee5da50ffe8.png"></div><div><img src="../../assets/images/dump/e0234249-4893-4378-bf1b-687b1766bc80.png"></div><div><img src="../../assets/images/dump/f29af82e-d091-4ef5-9ab6-c339359bd101.png"></div></div>
 	</div>
-	<script defer>const slideGallery = document.querySelector('.slides');
-const slides = slideGallery.querySelectorAll('div');
-const thumbnailContainer = document.querySelector('.thumbnails');
-const slideCount = slides.length;
-const slideWidth = slides[0].offsetWidth;
 
-const highlightThumbnail = () => {
-  thumbnailContainer
-    .querySelectorAll('div.highlighted')
-    .forEach(el => el.classList.remove('highlighted'));
-  const index = Math.floor(slideGallery.scrollLeft / slideWidth);
-  thumbnailContainer
-    .querySelector('div[data-id="' + index + '"]')
-    .classList.add('highlighted');
-};
+<script defer>
+		document.querySelectorAll('.slides').forEach(slideGallery => {
+  const slides = slideGallery.querySelectorAll('div');
+  const slideCount = slides.length;
+  const slideWidth = slides[0].offsetWidth;
 
-const scrollToElement = el => {
-  const index = parseInt(el.dataset.id, 10);
-  slideGallery.scrollTo(index * slideWidth, 0);
-};
+  // Find the matching thumbnails container (assume it’s the next sibling)
+  const thumbnailContainer = slideGallery.parentElement.querySelector('.thumbnails');
 
-thumbnailContainer.innerHTML += [...slides]
-  .map((slide, i) => '<div data-id="' + i  + '"></div>')
-  .join('');
+  const highlightThumbnail = () => {
+    thumbnailContainer
+      .querySelectorAll('div.highlighted')
+      .forEach(el => el.classList.remove('highlighted'));
+    const index = Math.floor(slideGallery.scrollLeft / slideWidth);
+    const thumb = thumbnailContainer.querySelector('div[data-id= + index + ]');
+    if (thumb) thumb.classList.add('highlighted');
+  };
 
-thumbnailContainer.querySelectorAll('div').forEach(el => {
-  el.addEventListener('click', () => scrollToElement(el));
+  const scrollToElement = el => {
+    const index = parseInt(el.dataset.id, 10);
+    slideGallery.scrollTo(index * slideWidth, 0);
+  };
+
+  // Build thumbnails
+  thumbnailContainer.innerHTML = [...slides]
+    .map((slide, i) => '<div data-id= + i + ></div>')
+    .join('');
+
+  // Hook up thumbnail clicks
+  thumbnailContainer.querySelectorAll('div').forEach(el => {
+    el.addEventListener('click', () => scrollToElement(el));
+  });
+
+  // Highlight on scroll
+  slideGallery.addEventListener('scroll', highlightThumbnail);
+
+  // Initialize
+  highlightThumbnail();
 });
 
-slideGallery.addEventListener('scroll', e => highlightThumbnail());
-
-highlightThumbnail();</script>
+		</script>
 		<footer style="margin-bottom: 2em;">
 			<a class="special" href="/index.html">Return To Index</a>
 		</footer>

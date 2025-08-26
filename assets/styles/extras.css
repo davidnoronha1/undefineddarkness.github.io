@@ -23,7 +23,7 @@
 
 /*-- Tierlist Table Module --*/
 .tierlist tr:not(:last-child) {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid var(--gray);
 }
 .tierlist td:first-child {
 	text-align: left;
@@ -53,17 +53,7 @@
 
 .tierlist td{border-right:none !important;}
 
-td {
-	padding: 0.3em 1em;
-}
 
-tr {
-	border-bottom: 1px solid #aaaaaa;
-}
-
-td:not(:last-of-type) {
-	border-right: 1px solid #aaa;
-}
 /* carousel */
 .gallery-container {
   display: flex;
@@ -83,7 +73,7 @@ td:not(:last-of-type) {
   width: 8px;
   height: 8px;
   cursor: pointer;
-  background: #aaa;
+  background: var(--gray);
   border-radius: 100%;
 }
 

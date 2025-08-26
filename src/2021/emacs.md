@@ -1,4 +1,6 @@
-# My experience with Emacs
+#HEADER Emacs
+My time with emacs and all the places you can take it to
+#END HEADER
 
 I suppose I should explain what I am comparing it with, The main editors
 I have used before this for any amount of time are, VS Code & Neovim,

@@ -20,11 +20,18 @@
     --black-lighter: #333;
     --nv-black: #181818;
     --nv-white: #fafafa;
+    --nv-black-darker: #111;
+    --gray: color-mix(in srgb, var(--black) 60%, var(--white) 40%);
 }
 
 pre {
-    background-color: var(--black);
+    background-color: var(--nv-black-darker);
     color: var(--white);
+}
+
+.hljs {
+    background-color: inherit !important;
+    background: inherit !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,11 +42,6 @@ pre {
         --black-darker: #fdfdfd;
         --white-darker: #333;
         --black-lighter: #f0f0f0;
-    }
-
-    pre {
-        background-color: var(--white);
-        color: var(--black);
     }
 }
 
@@ -64,7 +66,7 @@ body {
 
 body {
     tab-size: 4;
-    scrollbar-color: var(--white) var(--black);
+    scrollbar-color: var(--white-darker) var(--white-lighter) ;
     scrollbar-width: 0.5em;
     overflow-x: hidden;
     margin: 0;
@@ -78,7 +80,7 @@ body {
 kbd {
     display: inline-block;
     background: var(--black);
-    color: #aaa;
+    color: var(--gray);
     padding: 0 5px;
     border-radius: 5px;
 }
@@ -95,6 +97,7 @@ img {
 pre,
 code {
     line-height: initial;
+     scrollbar-color: var(--white-darker) var(--white-lighter);
 }
 
 img.inline {
@@ -113,6 +116,10 @@ pre {
     padding: 1em;
     white-space: normal;
     border-radius: 5px;
+}
+
+pre:has(code:not(.language-plaintext)) {
+    border: 1px solid;
 }
 
 .whitespace-pre {
@@ -164,7 +171,7 @@ iframe.nb {
 }
 
 a {
-    color: #aaa;
+    color: var(--gray);
     text-decoration: none;
     word-wrap: break-word;
     word-break: break-word;
@@ -269,12 +276,24 @@ article footer {
 table {
     border-collapse: collapse;
     table-layout: fixed;
-    border: 1px solid #aaa;
+    border: 10px double var(--gray);
 }
 
 table * {
     text-align: center;
     margin: 0;
+}
+
+td {
+	padding: 0.3em 1em;
+}
+
+tr {
+	border-bottom: 1px solid var(--gray);
+}
+
+td:not(:last-of-type), th:not(:last-of-type) {
+	border-right: 1px solid var(--gray);
 }
 
 /* Footnotes */
@@ -316,9 +335,6 @@ li .in-margin {
 }
 
 /* @media (prefers-color-scheme: light) { */
-.hljs {
-    background-color: var(--nv-black) !important;
-}
 
 
 nav.toc {
