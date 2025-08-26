@@ -219,6 +219,12 @@ generate_rss() {
 
 # generate_index
 
+if command -v bunx >/dev/null 2>&1; then
+	node_runner="bunx"
+else
+	node_runner="npx"
+fi
+
 perform_html_optimization () {
 	OUT_DIR="out"
 
@@ -227,7 +233,7 @@ find "$OUT_DIR" -type f -name "*.html" | while read -r file; do
     # echo "Minifying: $file"
 
     tmpfile=$(mktemp)
-    bunx html-minifier-terser \
+    ${node_runner} html-minifier-terser \
         --collapse-whitespace \
         --remove-comments \
         --remove-optional-tags \
@@ -244,7 +250,7 @@ done
 perform_css_optimization () {
 	# This function is not used in the current context, but can be used to optimize CSS files
 	# echo "Performing CSS optimization..."
-	bunx postcss ./assets/styles/styles.css --output ./assets/styles.css
+	${node_runner} postcss ./assets/styles/styles.css --output ./assets/styles.css
 }
 
 liveStartMessage="\n\033[43m\033[30m LIVE BUILD \e[0m"
