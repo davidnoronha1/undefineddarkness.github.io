@@ -1,4 +1,6 @@
-# A day of fixing neovim terminal behaviour
+#HEADER neovim w/ xterm
+A day of fixing issues with 
+#END HEADER
 
 One day while fine tweaking my colourscheme, I noticed that my neovim wasn't displaying any italics
 like I had specified in it. After double checking that everything was fine from my configuration side, I resolved it to be

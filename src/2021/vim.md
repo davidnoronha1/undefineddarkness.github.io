@@ -1,8 +1,7 @@
-<header>
-<img class="img-sml" alt="art by u/astrellon3" src="/assets/images/dump/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103.webp" />
-<!-- TODO: recreate myself -->
-<h1>Vi IMproved</h1>
-</header>
+#HEADER Vi IMproved	image=/assets/images/dump/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103.webp
+Cool vim stuff
+#END HEADER
+
 <i>This is just a bunch of neat stuff I find related to Vim, maybe plugins, scripts or just neat settings.</i>
 
 Speaking of which, I found this neat article on the history of vim:

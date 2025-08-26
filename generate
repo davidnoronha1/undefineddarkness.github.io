@@ -6,6 +6,8 @@
 shopt -s globstar
 shopt -s nullglob
 
+# set -euo pipefail
+
 # SSG Options
 template_pre_content=
 template_post_content=
@@ -124,7 +126,7 @@ generate_org_full() {
 count=0
 generate_index() {
 	cp ./src/index.html ./$output_dir/index.html 2>/dev/null
-	find $output_dir/ \
+	find "$output_dir"/ \
 		-maxdepth 1 \
 		-type d \
 		-not -path "$output_dir/" \
@@ -134,10 +136,23 @@ generate_index() {
 			file=${match%%:*}
 			title=${match#*:}
 
+			# clean the <h1> markup
 			clean_markup title
 
+			# extract post_description from HTML comment
+			desc=$(grep -Po '<!--\s*post_description=\K.*(?=-->)' "$file" | head -n1)
+			image=$(grep -Po '<!--\s*post_image=\K.*(?=-->)' "$file" | head -n1)
+
 			[ -z "${title/ /}" ] && continue
-			posts+="<li><a class='special' href='/$file'>$title</a></li>\n"
+
+			posts+="<li>"
+			if [ -n "$image" ]; then
+				posts+="<img class='img-pxl' src='${image//'"'/}' alt='Post Image' />"
+			fi
+			posts+="<div><a class='special' href='/$file'>$title</a>"
+			[ -n "$desc" ] && posts+="<p class='description'>${desc//'"'/}</p>"
+			posts+="</div></li>\n"
+
 			((count++))
 		done < <(grep -ProH '<h1.*?>.*</h1>' "${folder}")
 		folder=${folder#*/}
@@ -147,6 +162,7 @@ generate_index() {
 	printf "\r\e[33m\e[1mBUILT\e[0m %d files.\n" "$count"
 	cp ./$output_dir/index.html ./index.html
 }
+
 
 generate_rss() {
 	local rss_file="./rss.xml"
@@ -201,28 +217,57 @@ generate_rss() {
 	} >>$rss_file
 }
 
-generate_index
+# generate_index
+
+if command -v bunx >/dev/null 2>&1; then
+	node_runner="bunx"
+else
+	node_runner="npx"
+fi
+
+perform_html_optimization () {
+	OUT_DIR="out"
+
+# Loop through all .html files in OUT_DIR
+find "$OUT_DIR" -type f -name "*.html" | while read -r file; do
+    # echo "Minifying: $file"
+
+    tmpfile=$(mktemp)
+    ${node_runner} html-minifier-terser \
+        --collapse-whitespace \
+        --remove-comments \
+        --remove-optional-tags \
+        --remove-redundant-attributes \
+        --remove-script-type-attributes \
+        --remove-style-link-type-attributes \
+        --use-short-doctype \
+        --minify-css true \
+        --minify-js true \
+        "$file" -o "$tmpfile" 2>/dev/null && mv "$tmpfile" "$file"  # || printf "Failed to minify: $file\n"
+done
+}
+
+perform_css_optimization () {
+	# This function is not used in the current context, but can be used to optimize CSS files
+	# echo "Performing CSS optimization..."
+	${node_runner} postcss ./assets/styles/styles.css --output ./assets/styles.css
+}
 
 liveStartMessage="\n\033[43m\033[30m LIVE BUILD \e[0m"
 
-# Default: Build All Files
 
-intermediate=
-IFS="
-"
-while read -r line; do
-	if [[ "$line" == *"!CONTENT!" ]]; then
-		template_pre_content=$intermediate
-		intermediate=
-		continue
-	fi
-	intermediate+=$line$IFS
-done <./template.html
-template_post_content=$intermediate
 
-case "$1" in
+case "${1:-}" in
 "dbg")
-	quiet=true pond_debug=true bash ./.tooling/pond.sh "$2" 1>/dev/null
+	quiet=true pond_debug=true bash ./.tooling/pond.sh "$2" # 1>/dev/null
+	exit
+	;;
+"build-css")
+	perform_css_optimization
+	exit
+	;;
+"minify-out")
+	perform_html_optimization
 	exit
 	;;
 "rm")
@@ -240,12 +285,31 @@ case "$1" in
 	exit
 	;;
 "live")
-	python3 ./.tooling/hs.py
+	./.tooling/hs.py --ui
 	exit
 	;;
 esac
 
+# generate_index
+
+# Default: Build All Files
+
+intermediate=
+IFS="
+"
+while read -r line; do
+	if [[ "$line" == *"!CONTENT!" ]]; then
+		template_pre_content=$intermediate
+		intermediate=
+		continue
+	fi
+	intermediate+=$line$IFS
+done <./template.html
+template_post_content=$intermediate
+
+
 mkdir -p $output_dir
+rm -r -f $output_dir/.pond-tmp
 files_to_build="$*"
 if [ -z "${files_to_build/ /}" ]; then
 	files_to_build=$(echo ./src/**/*.html ./src/*.html ./src/*.md ./src/**/*.md ./src/**/*.org ./src/*.org)
@@ -266,5 +330,8 @@ done
 
 generate_index
 generate_rss
+perform_css_optimization
+# perform_html_optimization
+
 
 exit

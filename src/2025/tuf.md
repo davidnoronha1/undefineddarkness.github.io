@@ -1,5 +1,7 @@
-![](/assets/images/20250227_163825.jpg)
-# ASUS TUF A15 2023
+#HEADER ASUS TUF A15 2023
+A description of the bad time I've had with my new laptop
+#END HEADER
+
 A review of my new laptop but mostly a list of the issues I've had with it with a few graphs if I get the time hehe
 😅, The missing key in the above image is fully my fault so I'm not mentioning that
 

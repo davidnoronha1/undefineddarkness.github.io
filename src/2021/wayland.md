@@ -1,4 +1,7 @@
-<header>
+#HEADER Wayland
+My experience with wayland
+#END HEADER
+
 ```
                   ,____
                    |---.\
@@ -17,9 +20,7 @@
      /         \  |
     (_.-.__.__./  /
 ```
-Got a display server to kill
-<h1>My experience with wayland</h1>
-</header>
+*Got a display server to kill*
 This is intended to chronicle my adventures using Wayland
 The primary reason being terrible performance in X11 but that was later resolved. :)
 The journey continues tho 📔

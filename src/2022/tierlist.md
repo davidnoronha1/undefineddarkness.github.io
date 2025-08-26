@@ -1,4 +1,6 @@
-# My Language Tierlist
+#HEADER My Language Tierlist
+A tierlist of programming languages I have used
+#END HEADER
 
 #TABLE	.tierlist
 USEFUL	Rust	Typescript	C#	C++

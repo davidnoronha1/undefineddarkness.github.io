@@ -21,7 +21,7 @@ f () {
 	printf "
 <details>
 	<summary>
-		<h4>%s</h4>
+		%s
 	</summary>
 	<p>
 		%s
@@ -44,17 +44,161 @@ center () {
 	printf "<p style=\"text-align:center\">\n%s\n</p>" "$1"
 }
 
+header () {
+    content="$1"
+    # dbg "#2 = '$2'"
+    # dbg "#3 = '$3'"
+    shift 2   # drop "CONTENT" and "#HEADER"
+
+    title=()
+    current_key=""
+    current_val=()
+
+    # parse args
+    while [[ $# -gt 0 ]]; do
+        if [[ "$1" == *=* ]]; then
+            # store previous key=value if any
+            if [[ -n "$current_key" ]]; then
+                eval "attr_${current_key}=\"\${current_val[*]}\""
+            fi
+
+            # new key=value
+            current_key="${1%%=*}"
+            current_val=("${1#*=}")
+        else
+            if [[ -n "$current_key" ]]; then
+                current_val+=("$1")
+            else
+                title+=("$1")
+            fi
+        fi
+        shift
+    done
+
+    # store last key=value pair
+    if [[ -n "$current_key" ]]; then
+        eval "attr_${current_key}=\"\${current_val[*]}\""
+    fi
+
+    # print header
+    echo "<header>"
+    if [[ -n "${attr_image:-}" ]]; then
+		if [ -n "${attr_icon:-}" ]; then
+			echo "  <img src=\"${attr_image}\" />"
+			echo "  <!-- post_image=\"${attr_icon}\" -->"
+		else
+			 echo "  <img class='img-sml' src=\"${attr_image}\" />"
+			echo "  <!-- post_image=\"${attr_image}\" -->"
+		fi
+    fi
+    # dbg "Got title to be ${_title[*]}"
+    echo "  <h1>${title[*]}</h1>"
+    echo "  <!-- post_description=\"${content%%'<br/>'}\" -->"
+    echo "</header>"
+}
+
+
+gnuplot() {
+    # Strip <br/> from content
+    local content="${1//'<br/>'/}"
+    shift
+
+    # Defaults
+    local width=90
+    local height=30
+    local title=""
+    local legend=""
+    local svg="false"
+
+    # Parse key=value pairs
+    for arg in "$@"; do
+        case "$arg" in
+            width=*)  width="${arg#width=}" ;;
+            height=*) height="${arg#height=}" ;;
+            title=*)  title="${arg#title=}" ;;
+            legend=*) legend="${arg#legend=}" ;;
+            svg=*)    svg="${arg#svg=}" ;;
+        esac
+    done
+
+    dbg "Gnuplot content: ${C_FG_GRAY}'%s'${C_RESET}" "$content"
+
+    # Shared pastel palette + styles
+    local style_block="
+    set palette defined (\
+        0 '#FFB3BA',\
+        1 '#FFDFBA',\
+        2 '#FFFFBA',\
+        3 '#BAFFC9',\
+        4 '#BAE1FF',\
+        5 '#C9BAFF',\
+        6 '#FFBAF3'\
+    )
+
+    set style line 1 lc rgb '#FFB3BA' lw 2 pt 7 ps 1.2
+    set style line 2 lc rgb '#FFDFBA' lw 2 pt 7 ps 1.2
+    set style line 3 lc rgb '#FFFFBA' lw 2 pt 7 ps 1.2
+    set style line 4 lc rgb '#BAFFC9' lw 2 pt 7 ps 1.2
+    set style line 5 lc rgb '#BAE1FF' lw 2 pt 7 ps 1.2
+    set style line 6 lc rgb '#C9BAFF' lw 2 pt 7 ps 1.2
+    set style line 7 lc rgb '#FFBAF3' lw 2 pt 7 ps 1.2
+    set style line 8 lc rgb '#F0F0F0' lw 2 pt 7 ps 1.2
+
+    set linetype cycle 8
+    "
+
+    if [[ "$svg" == "true" ]]; then
+        gnuplot_command="
+        set terminal svg dynamic enhanced font 'Arial,10' background rgb \"#111\"
+		set border lc rgb \"white\"
+		set tics textcolor rgb \"white\"
+		set key tc rgb \"white\"
+		set xlabel tc rgb \"white\"
+		set ylabel tc rgb \"white\"
+		set title tc rgb \"white\"
+        set output '|cat'
+        ${title:+set title '${title}'}
+        ${legend:+set key ${legend}}
+        ${style_block}
+        ${content}
+        exit
+        "
+        # printf '<div class="gnuplot-container">'
+        /usr/bin/env gnuplot <<<"$gnuplot_command"
+        # printf '</div>'
+    else
+        gnuplot_command="
+        set terminal block octant ansirgb size ${width},${height}
+        ${title:+set title '${title}'}
+        ${legend:+set key ${legend}}
+        ${style_block}
+        ${content}
+        exit
+        "
+        export want_tab_script=1
+        code_=$content
+        escape_code_block code_
+        printf '<div>
+                    <div class="gnuplot-container">'
+        /usr/bin/env gnuplot -p <<<"$gnuplot_command" | ansi2html -n | \
+            sed -e 's/#a0a0a0/var(--black-darker)/g' \
+                -e 's/color:#bbb;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:break-word//g'
+        printf '    </div>
+                    <details class='minor-fold'>
+                        <summary>Code</summary>
+                        <pre>
+                            <code>%s</code>
+                        </pre>
+                    </details>
+                </div>' "$code_"
+    fi
+}
+
 want() {
 	case "$3" in
 		"iframe_resizer")
-			printf '
-				<script src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.3.2"></script>
-				<script>
-  					iframeResize({
-    					license: "GPLv3",
-    					waitForLoad: true,
-  				});
-				</script>'
+            export want_iframe_resizer=1
+			
 			;;
 		*)
 			printf '<!-- want transformer recieved: "%s" which was not found -->' "$3"
@@ -62,13 +206,25 @@ want() {
 	esac
 }
 
-#TODO Multiple PDFs
 pdf () {
-	printf '
-	<script defer type="module">
-	import PDFObject from "https://cdn.jsdelivr.net/npm/pdfobject@2.3.0/+esm"
-	PDFObject.embed("%s");
-	</script>' "$3"
+    export want_pdf_object=1
+    export pdfs_to_embed+=("$3")
+    # printf '<iframe class="pdfobject" title="Embedded PDF" src="%s" allow="fullscreen" style="border: none; position: absolute; inset: 0px; width: 100%; height: 100%;"></iframe>' "${3}"
+}
+
+pdfi () {
+    local pdf_path="$3"
+    export want_pdfi=1
+    local temp_folder="./out/.pond-gen/$(basename "$pdf_path" .pdf)"
+    if ! [ -d "${temp_folder}" ]; then
+        mkdir -p "${temp_folder}"
+        convert -density 300 ".$pdf_path" ${temp_folder}/page-%03d.avif
+    fi
+    printf '<div class="pdf-container" id="pdf-container">'
+    for f in ${temp_folder}/*.avif; do
+        [ -e "$f" ] && echo "<img class='pdf-page' src=\"${f##.}\" alt=\"$(basename "$f")\">"
+    done
+    printf '</div>'
 }
 
 wip () {
@@ -87,38 +243,7 @@ verbatim () {
 # https://css-tricks.com/css-only-carousel/
 # TODO: Allow multile carousels in one page
 carousel () {
-	script="const slideGallery = document.querySelector('.slides');
-const slides = slideGallery.querySelectorAll('div');
-const thumbnailContainer = document.querySelector('.thumbnails');
-const slideCount = slides.length;
-const slideWidth = slides[0].offsetWidth;
-
-const highlightThumbnail = () => {
-  thumbnailContainer
-    .querySelectorAll('div.highlighted')
-    .forEach(el => el.classList.remove('highlighted'));
-  const index = Math.floor(slideGallery.scrollLeft / slideWidth);
-  thumbnailContainer
-    .querySelector('div[data-id=\"' + index + '\"]')
-    .classList.add('highlighted');
-};
-
-const scrollToElement = el => {
-  const index = parseInt(el.dataset.id, 10);
-  slideGallery.scrollTo(index * slideWidth, 0);
-};
-
-thumbnailContainer.innerHTML += [...slides]
-  .map((slide, i) => '<div data-id=\"' + i  + '\"></div>')
-  .join('');
-
-thumbnailContainer.querySelectorAll('div').forEach(el => {
-  el.addEventListener('click', () => scrollToElement(el));
-});
-
-slideGallery.addEventListener('scroll', e => highlightThumbnail());
-
-highlightThumbnail();"
+    export want_carousel_script=1
 	content="$1"
 	printf '
 	<div class="gallery-container">
@@ -128,8 +253,7 @@ highlightThumbnail();"
 		printf '<div><img src="%s"></div>' "${line%'<br/>'}"
 	done <<< "$content"
 	printf '</div>
-	</div>
-	<script defer>%s</script>\n' "$script"
+	</div>'
 }
 
 columns () {

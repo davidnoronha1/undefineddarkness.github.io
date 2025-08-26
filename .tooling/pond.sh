@@ -19,9 +19,14 @@ __infile=''
 TAB=$'\t'
 __start=$(ms)
 
+# dbg "$D_POND"
+
 get-functions transformers
 if [ -n "${pond_debug:-}" ]; then
-	dbg 'Available Transformers: \e[0m%s' "$transformers" >&2
+	dbg "${D_POND} Available Transformers: "
+	for t in $transformers; do
+		dbg "\t- %s" "$t"
+	done
 fi
 
 
@@ -32,7 +37,7 @@ fi
 # dbg "$file"
 
 main () {
-
+	scratch_file=$(mktemp)
 	_line_number=0
 	while read -r line; do
 		_line_number=$(( _line_number + 1 ))
@@ -80,8 +85,14 @@ main () {
 					# dbg ">>> Passing this as main content: %s" "$(snip "$original_contents")"
 					# arguments="${line#'#BEGIN '$transformer}"
 					dbg ">>> Passing this as arguments: '%s'" "${line###'#BEGIN '"${transformer}"}"
-					new_contents=$($ntransformer  "$(snip "$original_contents")" ${line##'#BEGIN '"$transformer"} )
-					
+					# new_contents=$($ntransformer  "$(snip "$original_contents")" ${line##'#BEGIN '"$transformer"} )
+					debug_prefix="\t"
+					$ntransformer \
+						"$(snip "$original_contents")" \
+						${line##'#BEGIN '"$transformer"} > "$scratch_file" 2> /dev/stderr
+					debug_prefix=""
+					new_contents=$(<"$scratch_file")
+
 					# Entire Modified File Contents
 					new_file_contents=${file/"$original_contents"/"$new_contents"}
 					#fnr "$file" "$original_contents" "$new_contents"
@@ -109,12 +120,14 @@ fi
 
 oIFS="$IFS"
 if contains "$transformers" "initial_transformer"; then
-	dbg "Running initial transformer."
+	dbg "${D_POND} Running initial transformer."
 	timer start
 	file=""
 	prefix=""
+	debug_prefix="\t"
 	initial_transformer prefix file < "${__infile}" 2> /dev/stderr
-		
+	debug_prefix=""
+
 	# file=$(initial_transformer < "${__infile}" 2> /dev/stderr)
 	timer end
 fi

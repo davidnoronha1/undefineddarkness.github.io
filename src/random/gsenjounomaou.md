@@ -1,4 +1,6 @@
-# G-Senjou No Maou (Devil on G String)
+#HEADER G-Senjou No Maou (Devil on G String)
+A review of the visual novel
+#END HEADER
 [VNDB](https://vndb.org/v211)
 
 <div>

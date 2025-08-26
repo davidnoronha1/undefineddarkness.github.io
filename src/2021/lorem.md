@@ -1,6 +1,6 @@
-<header>
-# Lorem Ipsum: Test Page
-</header>
+#HEADER Lorem Ipsum
+Test page for all the various markup used on this site
+#END HEADER
 
 ==TEST FOR GITHUB ACTION==
 
