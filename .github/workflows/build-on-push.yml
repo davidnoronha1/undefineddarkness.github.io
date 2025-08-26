@@ -11,9 +11,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js ⚙️
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Specify the Node.js version to use
+          node-version: '22' # Specify the Node.js version to use
 
       - name: Install Dependencies 📦
         run: npm install # Adjust this command if you use a different package manager or have additional setup steps
