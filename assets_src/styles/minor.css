@@ -1,0 +1,181 @@
+/* Small helper classes */
+.txt-c {
+    text-align: center;
+}
+
+.block-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset {
+    font-weight: normal;
+}
+
+.katex {
+    white-space: pre;
+}
+
+.minor-fold summary {
+    font-size: 0.8em;
+    color: var(--gray);
+}
+
+.gnuplot-container pre {
+    background-color: var(--white-lighter);
+    color: var(--black-darker) !important;
+    padding: 0;
+    font-family: 'Body Font';
+    overflow-wrap: unset !important;
+    word-wrap: unset !important;
+  overflow-x: auto;         /* enable horizontal scroll if too wide */
+  max-width: 100vw;          /* don't extend beyond parent */
+}
+
+.gnuplot-container {
+    width: fit-content;
+    height: fit-content;
+    font-size: 0.8em;
+}
+
+.pdf-container img {
+    max-height: none;
+}
+
+.pdf-container {
+    touch-action: none; /* needed for pinch gestures */
+    transform-origin: 0 0; /* scale from top-left */
+}
+
+.gnuplot-container svg {
+    width: 100%;
+    height: 100%;
+}
+
+.pxl,
+.pxl-art {
+    image-rendering: crisp-edges;
+}
+
+/* Position something in the margin of content */
+.in-margin {
+    position: absolute;
+    left: 2em;
+    user-select: none;
+    display: inline-block;
+    font-family: var(--serif);
+}
+
+.demo .split-e>*,
+.demo .quad>*,
+.demo .split>* {
+    border: 2.5px solid coral;
+    text-align: center;
+}
+
+.split > * {
+    width: 100%;
+}
+
+/* Split section vertically */
+.split,
+.split-e {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+
+.split-f {
+    display: flex;
+}
+
+.split-f > * {
+    flex: 1;
+}
+
+.split-e {
+    grid-template-columns: 19em 19em;
+}
+
+.onx {
+    overflow-x: none;
+}
+
+/* Fit as many items as possible */
+
+.quad-e,
+.quad {
+    grid-template-columns: repeat(auto-fit, 19em);
+    grid-template-rows: 1fr 1fr;
+    display: grid;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+
+.quad-e {
+    grid-template-columns: repeat(auto-fit, 17em);
+}
+
+/* Arrange children horizontally */
+.horizontal:not(p)>p,
+.horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1em;
+    row-gap: 1em;
+}
+
+header .img-sml, .img-pxl {
+    image-rendering: pixelated;
+}
+
+.img-sml {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+/* Show scrollbars as required */
+.ovr-x {
+    overflow-x: auto;
+}
+
+/*
+.katex-html {
+    display: none;
+}
+*/
+
+.linklist a {
+    text-decoration: none;
+    border-right: 2px solid #888;
+    font-style: italic;
+    padding: 0 8px;
+}
+
+.linklist a:last-of-type {
+    border-right: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .quad {
+        grid-template-columns: unset;
+    }
+
+    .split-e {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .force-break {
+        grid-template-columns: 1fr !important;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .hide-m {
+        display: none;
+    }
+}
