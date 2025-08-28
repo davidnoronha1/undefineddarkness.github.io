@@ -27,7 +27,14 @@ $(OUTPUT_CSS): $(CSS_SOURCES)
 build-css: $(OUTPUT_CSS)
 
 ../out/.assets/ascii-3d-viewer.js: ./other/ascii-3d-viewer.ts
+# 	bun build ./other/ascii-3d-viewer.ts --outfile ../out/.assets/ascii-3d-viewer.tmp.js --no-bundle
+# 	bunx rollup -i ../out/.assets/ascii-3d-viewer.tmp.js -o ../out/.assets/ascii-3d-viewer.bundle.js -p @rollup/plugin-node-resolve --compact
+# 	bun build ../out/.assets/ascii-3d-viewer.bundle.js --outfile ../out/.assets/ascii-3d-viewer.js --minify
+# 	rm ../out/.assets/ascii-3d-viewer.tmp.js ../out/.assets/ascii-3d-viewer.bundle.js
+# Alternative single-step bundling (uncomment if preferred
 	bun build ./other/ascii-3d-viewer.ts --outfile ../out/.assets/ascii-3d-viewer.js --bundle --minify
+# 	bunx rollup -i ./other/ascii-3d-viewer.ts -o ../out/.assets/ascii-3d-viewer.js --file --format iife --compact --silent --plugin @rollup/plugin-typescript --plugin @rollup/plugin-node-resolve --plugin rollup-plugin-terser
+	
 
 build-other: ../out/.assets/ascii-3d-viewer.js
 
@@ -37,14 +44,15 @@ build-fonts:
 	bash ./fonts/.tooling/optimize_font.sh -o ../assets/fonts ./fonts/FairfaxHDEmoji.ttf
 
 build-images:
-	cd .. && ./generate
-	cd .. && uv run ./assets_src/images/.tooling/optimize_sourced.py
+# 	cd .. && ./generate
+# 	cd .. && uv run ./assets_src/images/.tooling/optimize_sourced.py
 
 build-links:
 	ln -sf ../../assets_src/models ../assets/models
 	ln -sf ../../assets_src/other ../assets/other
 	ln -sf ../../assets_src/documents ../assets/documents
 	ln -sf ../../assets_src/icons ../assets/icons
+	ln -sf ../../assets_src/images ../assets/images
 
 build-regen:
 # 	git diff --quiet HEAD -- ./other/ascii-3d-viewer.ts || make build-3d-viewer

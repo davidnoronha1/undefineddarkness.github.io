@@ -1,58 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
-	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>C Compiler Binary Optimization</title>
-	<meta property="og:title" content="C Compiler Binary Optimization" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/out/2021/small-c.html" />
-	<meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
-	<link rel="stylesheet" href="/assets/styles.css" />
-</head>
-
-<body>
-	<nav class="toc">
-		<ul><li><a href='#compiler-flags'>Compiler Flags</a></li><li class='toc-subheading'><a href='#os'>-Os</a></li><li class='toc-subheading'><a href='#s'>-s</a></li><li class='toc-subheading'><a href='#flto'>-flto</a></li><li><a href='#executable-packing'>Executable Packing</a></li><li><a href='#compression-linker-update-19-08-2025'>Compression & Linker [UPDATE - 19-08-2025]</a></li><li><a href='#conclusion'>Conclusion</a></li></ul>
-	</nav>
-	<article>
-
-
-		<!-- HIGHLIGHTJS LOADING -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
-		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
-		<header>
-  <h1>C Compiler Binary Optimization</h1>
-  <!-- post_description="I attempt to see how small I can get a C program using OpenGL with only compiler flags" -->
-</header>
-<br/>
-I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.<br/>
-I might be using "non trivial" wrongly here but I mean a program that can actually do something.<br/>
-<br/>
-Well, let us start with a non trivial program and go from there,<br/>
-For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a><br/>
-<br/>
-<pre>
+<!doctype html><html lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png"><link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico"><link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png"><meta name="msapplication-config" content="/assets/icons/browserconfig.xml"><meta name="author" content="nes"><title>C Compiler Binary Optimization</title><meta property="og:title" content="C Compiler Binary Optimization"><meta property="og:type" content="article"><meta property="og:url" content="https://nes.is-a.dev/out/2021/small-c.html"><meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg"><link rel="preload" href="/assets/fonts/FairfaxHDEmoji.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:Body Font;font-style:normal;font-weight:400;src:url(/assets/fonts/FairfaxHDEmoji.woff2) format("woff2")}@font-face{font-family:Heading Font;src:url(/assets/fonts/cozette.woff2) format("woff2")}:root{--article-size:1em;--human-style:"CASL" 0.8}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:Body Font,Heading Font,Symbols Nerd Font,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;font-variation-settings:"MONO" 0;font-weight:400}figcaption,i,span.special,var{font-style:italic}code,pre{font-family:Heading Font,Body Font,Courier New,Courier,monospace;font-size:calc(var(--article-size)*.9);font-variation-settings:"MONO" 1}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:Heading Font,Body Font,Gill Sans,Gill Sans MT,Calibri,Trebuchet MS,sans-serif;font-variation-settings:var(--human-style)}h1,h2,h3{font-variation-settings:var(--human-style),"wght" 600;font-weight:400}h1{font-size:calc(var(--article-size)*2.1);margin-bottom:.4em}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5)}button{background:coral;border:0;box-shadow:none;color:var(--white);cursor:pointer;display:inline-block;font-family:inherit;font-size:.8em;height:fit-content;outline:0;outline:1px solid var(--white);outline-offset:-6px;padding:.8em .9em;text-wrap:nowrap;width:fit-content}button:hover{font-weight:700}.minor-fold summary{color:var(--gray);font-size:.8em}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:Body Font;overflow-wrap:unset!important;padding:0;word-wrap:unset!important;max-width:100vw;overflow-x:auto}.gnuplot-container{font-size:.8em;height:fit-content;width:fit-content}.gnuplot-container svg{height:100%;width:100%}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--white)}.hljs{background-color:inherit!important;background:inherit!important}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--white-darker) var(--white-lighter)}pre{border-radius:5px;margin:0;overflow-x:auto;overflow-y:hidden;padding:1em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:23vw;width:100%}body>article:first-child{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:none;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:"▶";font-size:.8em;left:-1.2em;position:absolute;top:.15em;transition:all .3s ease}details[open] summary:before{transform:rotate(90deg)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}article footer,main footer{margin-left:0}table{border:10px double var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}nav.toc{float:right;font-size:.8em;margin:2em;max-width:20vw;position:fixed;right:0;text-overflow:ellipsis;top:0;z-index:999}nav.toc ul{list-style:none;margin:0;padding:0;white-space:nowrap}nav.toc ul .toc-subheading:before{border-left:2px solid gray;content:"";padding-left:.8em}nav.toc ul .toc-subheading:last-child:before{background-image:linear-gradient(180deg,gray 0,gray 50%,transparent 0,transparent 75%,transparent);background-repeat:no-repeat;background-size:2px 100%;border-left:none}nav.toc ul .toc-subheading{position:relative}nav.toc ul .toc-subheading:after{border-bottom:2px solid gray;content:"";height:.5em;left:0;position:absolute;width:.6em}nav.toc a{color:var(--black)}nav.toc ul .toc-subheading{margin-left:.6em}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}nav.toc{display:none}header img{float:revert}}</style><nav class="toc"><ul><li><a href="#compiler-flags">Compiler Flags</a><li class="toc-subheading"><a href="#os">-Os</a><li class="toc-subheading"><a href="#s">-s</a><li class="toc-subheading"><a href="#flto">-flto</a><li><a href="#executable-packing">Executable Packing</a><li><a href="#compression-linker-update-19-08-2025">Compression & Linker [UPDATE - 19-08-2025]</a><li><a href="#conclusion">Conclusion</a></ul></nav><article><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript><script defer="defer" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll()"></script><header><h1>C Compiler Binary Optimization</h1></header><br>I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.<br>I might be using "non trivial" wrongly here but I mean a program that can actually do something.<br><br>Well, let us start with a non trivial program and go from there,<br>For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a><br><br><pre>
 <code class="language-c">&#35;include &lt;stdlib.h&gt;
 &#35;include "tigr.h"
 &#35;include &lt;time.h&gt;
@@ -92,71 +38,7 @@ int main() {
   tigrFree(screen);
   return 0;
 }	</code>
-</pre>
-Nothing flashy, it just opens a window, draws some text and some rain.<br/>
-Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.<br/>
-<br/>
-For such a simple program, surely we can do better right?<br/>
-<br/>
-<h2 id="compiler-flags">Compiler Flags</h2>
-<p>
-<br/>
-</p>
-<h3 id="os">-Os</h3>
-<p>
-How about telling the compiler to optimize for size with the <code>-Os</code> flag?<br/>
-With it, The new binary is 68kb, a decrease of 10.52%, Not bad if I say so myself.<br/>
-However in my experience this doesnt always happen, quite often the decrease is so small, that it won't even be measured.<br/>
-<br/>
-You can find out what it does by starting from here, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options</a><br/>
-<br/>
-</p>
-<h3 id="s">-s</h3>
-<p>
-Despite adding <code>-Os</code>, the compiler still adds in a bunch of debug information that we don't really need, so if we ask we can <code>strip</code> it from the binary.<br/>
-<br/>
-Adding it via the compiler flag <code>-s</code>, We get a binary 26% smaller than the 76kb original, not bad.<br/>
-(Instead of the compiler flag, you can use <code>-s</code> on a compiled binary.)<br/>
-<br/>
-You can sort of see this with the <code>strings</code> utility, initially our binary contained 1363 strings, after stripping it contained 339.<br/>
-<br/>
-Following the saying, "Good artists create, Great artists steal", Consulting <a href="https://github.com/johnthagen/min-sized-rust">https://github.com/johnthagen/min-sized-rust</a> , We find one thing of interest, Link Time Optimization (LTO)..<br/>
-<br/>
-</p>
-<h3 id="flto">-flto</h3>
-<p>
-Basically this tells the linker to apply optimizations during linking time. It's more complicated than that but I don't understand it.<br/>
-<br/>
-So what does it do for us?<br/>
-Quite a bit, Using it we have shaved off 16kb to reach 40kb, so in total (with -Os and -s) a 47% decrease of our initial 76kb, not bad at all.<br/>
-<br/>
-<b>NOTE</b>: Enabling <code>-flto</code> sometimes caused me a segfault at program start with clang, but this didnt occur with GCC, so it seems like GCC has a more mature implementation.<br/>
-<br/>
-</p>
-<h2 id="executable-packing">Executable Packing</h2>
-<p>
-If you wanted to go even furthur you could try <a href="https://upx.github.io/">UPX</a>, Which actually compresses your biniary and this works since<br/>
-the decompression code + compressed data ends up smaller than the initial binary.<br/>
-<br/>
-Although some would consider this cheating, It is still a legtimate method and does work,<br/>
-Running it with the highest compression level (-9) on our 40kb binary yields a binary size of 24kb, A decrease of 60% which is undeniably really impressive.<br/>
-<br/>
-<b>NOTE:</b> Since upx is often used in malware, There are chances it might get flagged by an antivirus,<br/>
-But running through virus total shows only <a href="https://is.gd/MtqIMG">results</a> from Google & Ikarus(?)<br/>
-<br/>
-<b>NOTE:</b> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.<br/>
-<br/>
-<figure><img src="/assets/images/size-chart.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure> <br/>
-<br/>
-</p>
-<h2 id="compression-linker-update-19-08-2025">Compression & Linker [UPDATE - 19-08-2025]</h2>
-<p>
-Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings<br/>
-<br/>
-I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br/>
-<br/>
-<div>
-                    <div class="gnuplot-container"><pre style="">                                                                                                                                                      
+</pre>Nothing flashy, it just opens a window, draws some text and some rain.<br>Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.<br><br>For such a simple program, surely we can do better right?<br><br><h2 id="compiler-flags">Compiler Flags</h2><p><br><h3 id="os">-Os</h3><p>How about telling the compiler to optimize for size with the <code>-Os</code> flag?<br>With it, The new binary is 68kb, a decrease of 10.52%, Not bad if I say so myself.<br>However in my experience this doesnt always happen, quite often the decrease is so small, that it won't even be measured.<br><br>You can find out what it does by starting from here, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options</a><br><br><h3 id="s">-s</h3><p>Despite adding <code>-Os</code>, the compiler still adds in a bunch of debug information that we don't really need, so if we ask we can <code>strip</code> it from the binary.<br><br>Adding it via the compiler flag <code>-s</code>, We get a binary 26% smaller than the 76kb original, not bad.<br>(Instead of the compiler flag, you can use <code>-s</code> on a compiled binary.)<br><br>You can sort of see this with the <code>strings</code> utility, initially our binary contained 1363 strings, after stripping it contained 339.<br><br>Following the saying, "Good artists create, Great artists steal", Consulting <a href="https://github.com/johnthagen/min-sized-rust">https://github.com/johnthagen/min-sized-rust</a> , We find one thing of interest, Link Time Optimization (LTO)..<br><br><h3 id="flto">-flto</h3><p>Basically this tells the linker to apply optimizations during linking time. It's more complicated than that but I don't understand it.<br><br>So what does it do for us?<br>Quite a bit, Using it we have shaved off 16kb to reach 40kb, so in total (with -Os and -s) a 47% decrease of our initial 76kb, not bad at all.<br><br><b>NOTE</b>: Enabling <code>-flto</code> sometimes caused me a segfault at program start with clang, but this didnt occur with GCC, so it seems like GCC has a more mature implementation.<br><br><h2 id="executable-packing">Executable Packing</h2><p>If you wanted to go even furthur you could try <a href="https://upx.github.io/">UPX</a>, Which actually compresses your biniary and this works since<br>the decompression code + compressed data ends up smaller than the initial binary.<br><br>Although some would consider this cheating, It is still a legtimate method and does work,<br>Running it with the highest compression level (-9) on our 40kb binary yields a binary size of 24kb, A decrease of 60% which is undeniably really impressive.<br><br><b>NOTE:</b> Since upx is often used in malware, There are chances it might get flagged by an antivirus,<br>But running through virus total shows only <a href="https://is.gd/MtqIMG">results</a> from Google & Ikarus(?)<br><br><b>NOTE:</b> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.<br><br><figure><img src="/assets/images/size-chart.svg" alt="" title="" loading="lazy"><figcaption></figcaption></figure><br><br><p><h2 id="compression-linker-update-19-08-2025">Compression & Linker [UPDATE - 19-08-2025]</h2><p>Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings<br><br>I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br><br><div><div class="gnuplot-container"><pre style="">                                                                                                                                                      
      70000 <span style="color:var(--black-darker)">𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆</span>66.52kB                                                  
            <span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷊𜵨𜷊</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.7z <span style="color:#ffb3ba">𜴡𜴮🮅𜴮🮅𜴍  
            </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.xz <span style="color:#ffdfba">𜴡𜴮🮅𜴮🮅𜴍  
@@ -186,11 +68,7 @@ I have re-run the experiment and noticed that using <code>lld</code> and <code>c
              </span>7z     xz     zst     gz     bz2     upx   linker  -flto    -s     -Os   source  basic                                                   
                                                                                                                                                       
                                             Compression/Build Type                                                                                    
-</pre>
-    </div>
-                    <details class=minor-fold>
-                        <summary>Code</summary>
-                        <pre>
+</pre></div><details class="minor-fold"><summary>Code</summary><pre>
                             <code>set boxwidth 0.6
 set style fill solid 0.7
 set key outside right
@@ -273,73 +151,7 @@ e
 e
 11 68120 "66.52kB"
 e</code>
-                        </pre>
-                    </details>
-                </div>
-<br/>
-<table class="">
-<thead><tr>
-<th>size</th>
-<th>filename</th>
-</tr>
-</thead><tbody><tr>
-<td>14778</td>
-<td>basic-optimized-stripped-lto-linker.7z<br/></td>
-</tr>
-<tr>
-<td>15100</td>
-<td>basic-optimized-stripped-lto-linker.xz<br/></td>
-</tr>
-<tr>
-<td>16497</td>
-<td>basic-optimized-stripped-lto-linker.zst<br/></td>
-</tr>
-<tr>
-<td>17448</td>
-<td>basic-optimized-stripped-lto-linker.gz<br/></td>
-</tr>
-<tr>
-<td>17998</td>
-<td>basic-optimized-stripped-lto-linker.bz2<br/></td>
-</tr>
-<tr>
-<td>20320</td>
-<td>basic-optimized-stripped-lto-linker-upx<br/></td>
-</tr>
-<tr>
-<td>32312</td>
-<td>basic-optimized-stripped-lto-linker<br/></td>
-</tr>
-<tr>
-<td>32360</td>
-<td>basic-optimized-stripped-lto<br/></td>
-</tr>
-<tr>
-<td>39448</td>
-<td>basic-optimized-stripped<br/></td>
-</tr>
-<tr>
-<td>49088</td>
-<td>basic-optimized<br/></td>
-</tr>
-<tr>
-<td>53107</td>
-<td>source-code.tar.gz<br/></td>
-</tr>
-<tr>
-<td>68120</td>
-<td>basic<br/></td>
-</tr>
-</tbody></table>
-<br/>
-You can see all the commands that I used for each one here,<br/>
-
-<details>
-	<summary>
-		Makefile
-	</summary>
-	<p>
-		<pre>
+                        </pre></details></div><br><table class=""><thead><tr><th>size<th>filename<tbody><tr><td>14778<td>basic-optimized-stripped-lto-linker.7z<br><tr><td>15100<td>basic-optimized-stripped-lto-linker.xz<br><tr><td>16497<td>basic-optimized-stripped-lto-linker.zst<br><tr><td>17448<td>basic-optimized-stripped-lto-linker.gz<br><tr><td>17998<td>basic-optimized-stripped-lto-linker.bz2<br><tr><td>20320<td>basic-optimized-stripped-lto-linker-upx<br><tr><td>32312<td>basic-optimized-stripped-lto-linker<br><tr><td>32360<td>basic-optimized-stripped-lto<br><tr><td>39448<td>basic-optimized-stripped<br><tr><td>49088<td>basic-optimized<br><tr><td>53107<td>source-code.tar.gz<br><tr><td>68120<td>basic<br></table><br>You can see all the commands that I used for each one here,<br><details><summary>Makefile</summary><p><pre>
 <code class="language-make">CC&equals;clang
 &#35; SOURCES&equals;./hw.c
 SOURCES&equals;./src.c ./tigr.c
@@ -431,69 +243,4 @@ build-all: basic \
 clean:
 	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
 	rm -rf out	</code>
-</pre>
-	</p>
-</details>
-<br/>
-</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>
-So in total we managed to decrease our binary by <b>68%</b> without changing a single line of code, Less than half of its original size<br/>
-I am very pleased with that..<br/>
-<br/>
-Of course, even this isn't anything compared to marvellous feats of engineering like <a href="https://en.wikipedia.org/wiki/.kkrieger">.kkreiger</a>, A entire 3d fps game demo in a extremely impressive 95kb,<br/>
-When code is <i>actually written</i> to be small, and optimized to the limit towards that purpose.<br/>
-More on why:<br/>
-<ul>
-<li><a href="https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/">https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/</a><br/>
-</li>
-<li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a><br/>
-</li>
-<li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a><br/>
-
-<script defer>
-
-document.querySelectorAll('.tabs-container').forEach(tabContainer => {
-  const panels = tabContainer.querySelectorAll('[data-tab-name]');
-
-  // Create button bar
-  const buttonBar = document.createElement('div');
-  buttonBar.className = 'tabs-buttons';
-
-  panels.forEach((panel, i) => {
-    const name = panel.dataset.tabName;
-    const btn = document.createElement('button');
-    btn.textContent = name;
-
-    btn.addEventListener('click', () => {
-      // Hide all panels
-      panels.forEach(p => p.style.display = 'none');
-      // Remove highlights from buttons
-      buttonBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      // Show the selected one
-      panel.style.display = 'block';
-      btn.classList.add('active');
-    });
-
-    // First button active by default
-    if (i === 0) {
-      btn.classList.add('active');
-      panel.style.display = 'block';
-    } else {
-      panel.style.display = 'none';
-    }
-
-    buttonBar.appendChild(btn);
-  });
-
-  // Insert button bar before the content
-  tabContainer.prepend(buttonBar);
-});
-
-</script>
-		<footer style="margin-bottom: 2em;">
-			<a class="special" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
-</body>
-
+</pre></details><br><p><h2 id="conclusion">Conclusion</h2><p>So in total we managed to decrease our binary by <b>68%</b> without changing a single line of code, Less than half of its original size<br>I am very pleased with that..<br><br>Of course, even this isn't anything compared to marvellous feats of engineering like <a href="https://en.wikipedia.org/wiki/.kkrieger">.kkreiger</a>, A entire 3d fps game demo in a extremely impressive 95kb,<br>When code is <i>actually written</i> to be small, and optimized to the limit towards that purpose.<br>More on why:<br><ul><li><a href="https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/">https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/</a><br><li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a><br><li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a><br><script defer="defer">document.querySelectorAll(".tabs-container").forEach(e=>{const t=e.querySelectorAll("[data-tab-name]"),a=document.createElement("div");a.className="tabs-buttons",t.forEach((e,l)=>{const c=e.dataset.tabName,s=document.createElement("button");s.textContent=c,s.addEventListener("click",()=>{t.forEach(e=>e.style.display="none"),a.querySelectorAll("button").forEach(e=>e.classList.remove("active")),e.style.display="block",s.classList.add("active")}),0===l?(s.classList.add("active"),e.style.display="block"):e.style.display="none",a.appendChild(s)}),e.prepend(a)})</script><footer style="margin-bottom:2em"><a class="special" href="/index.html">Return To Index</a></footer></ul></article>

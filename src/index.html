@@ -24,6 +24,8 @@
   <meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
   <title>Full Index</title>
   <link rel="stylesheet" href="/assets/styles.css" />
+  <link rel="preload" href="/assets/models/simple-auv-v1.glb" as="fetch" crossorigin>
+  <link rel="preload" href="/assets/fonts/FairfaxHDEmoji.woff2" as="font" type="font/woff2" crossorigin>
   <style>
     body {
       padding: 0 16vw;
@@ -360,7 +362,7 @@
       <li><a href="/experiments/code-highlight-cp/index.html">Code Highlight Copy</a></li>
     </ul> -->
   </main>
-  <script src="/assets/ascii-3d-viewer.js" type="module"></script>
+  <script defer src="/assets/ascii-3d-viewer.js" type="module"></script>
 </body>
 
 </html>

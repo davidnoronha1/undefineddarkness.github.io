@@ -26,6 +26,10 @@ fin() {
 	[ -n "${report_individual_builds:-}" ] && printf '\e[32m\e[1mBuilt\e[0m %s\n' "$1"
 }
 
+print_verbose () {
+	[ -n "${generate_verbose:-}" ] && printf "$@"
+}
+
 clean_markup() {
 	local -n ptr=${1}
 	ptr=${ptr//'<span class="reset">'/}
@@ -87,7 +91,7 @@ build_md() {
 	fi
 	format_doc_heading "$out" "$1"
 	mkdir -p "$(dirname "$out")"
-	printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" >"$out"
+	printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" | bash ./assets_src/.tooling/optimize_page.sh >"$out"
 	fin "$1"
 }
 
@@ -102,7 +106,8 @@ build_html() {
 #=======================
 
 build() {
-	file=$1
+	local file=$1
+	local start_time=$(date +%s%3N)
 	case "${file##*.}" in
 	'org')
 		build_org "$file"
@@ -117,6 +122,9 @@ build() {
 		return
 		;;
 	esac
+	local end_time=$(date +%s%3N)
+	local elapsed=$((end_time - start_time))
+	print_verbose "\e[32mGENERATED\e[0m %s in %dms\n" "$file" "$elapsed"
 }
 
 generate_org_full() {
@@ -125,7 +133,7 @@ generate_org_full() {
 
 count=0
 generate_index() {
-	cp ./src/index.html ./$output_dir/index.html 2>/dev/null
+	cp ./src/index.html ./$output_dir/index.tmp.html 2>/dev/null
 	find "$output_dir"/ \
 		-maxdepth 1 \
 		-type d \
@@ -147,7 +155,7 @@ generate_index() {
 
 			posts+="<li>"
 			if [ -n "$image" ]; then
-				posts+="<img class='img-pxl' src='${image//'"'/}' alt='Post Image' />"
+				posts+="<img loading='lazy' class='img-pxl' src='${image//'"'/}' alt='Post Image' />"
 			fi
 			posts+="<div><a class='special' href='/$file'>$title</a>"
 			[ -n "$desc" ] && posts+="<p class='description'>${desc//'"'/}</p>"
@@ -156,11 +164,16 @@ generate_index() {
 			((count++))
 		done < <(grep -ProH '<h1.*?>.*</h1>' "${folder}")
 		folder=${folder#*/}
-		sed -i "s\`!POSTS-${folder^^}!\`$posts\`g" "./$output_dir/index.html"
+		sed -i "s\`!POSTS-${folder^^}!\`$posts\`g" "./$output_dir/index.tmp.html"
 	done
 
-	printf "\r\e[33m\e[1mBUILT\e[0m %d files.\n" "$count"
-	cp ./$output_dir/index.html ./index.html
+	bash ./assets_src/.tooling/optimize_page.sh -i "./$output_dir/index.tmp.html" -o "$output_dir/index.html"
+	rm "./$output_dir/index.tmp.html"
+
+
+	printf "\r\e[33m\e[1mBUILT\e[0m %d files in %dms.\n" "$count" "$global_elapsed"
+	# cp ./$output_dir/index.html ./index.html
+	ln -sf ./$output_dir/index.html ./index.html
 }
 
 
@@ -225,32 +238,38 @@ else
 	node_runner="npx"
 fi
 
+html_optimize_file () {
+		local file="$1"
+		tmpfile=$(mktemp)
+		${node_runner} html-minifier-terser \
+			--collapse-whitespace \
+			--remove-comments \
+			--remove-optional-tags \
+			--remove-redundant-attributes \
+			--remove-script-type-attributes \
+			--remove-style-link-type-attributes \
+			--use-short-doctype \
+			--minify-css true \
+			--minify-js true \
+			"$file" -o "$tmpfile" 2>/dev/null && mv "$tmpfile" "$file"
+}
+
 perform_html_optimization () {
 	OUT_DIR="out"
 
 # Loop through all .html files in OUT_DIR
 find "$OUT_DIR" -type f -name "*.html" | while read -r file; do
-    # echo "Minifying: $file"
-
-    tmpfile=$(mktemp)
-    ${node_runner} html-minifier-terser \
-        --collapse-whitespace \
-        --remove-comments \
-        --remove-optional-tags \
-        --remove-redundant-attributes \
-        --remove-script-type-attributes \
-        --remove-style-link-type-attributes \
-        --use-short-doctype \
-        --minify-css true \
-        --minify-js true \
-        "$file" -o "$tmpfile" 2>/dev/null && mv "$tmpfile" "$file"  # || printf "Failed to minify: $file\n"
+    # echo "Minifying: $file
+	html_optimize_file "$file"
 done
+
+html_optimize_file "./index.html"
 }
 
 perform_css_optimization () {
 	# This function is not used in the current context, but can be used to optimize CSS files
 	# echo "Performing CSS optimization..."
-	${node_runner} postcss ./assets/styles/styles.css --output ./assets/styles.css
+	${node_runner} postcss ./assets_src/styles/styles.css --output ./out/.assets/styles.css
 }
 
 liveStartMessage="\n\033[43m\033[30m LIVE BUILD \e[0m"
@@ -270,6 +289,12 @@ case "${1:-}" in
 	perform_html_optimization
 	exit
 	;;
+"deploy")
+	./generate
+	./generate minify-out
+	bunx vercel
+	exit
+	;;
 "rm")
 	rm -r ./$output_dir/${2}.html
 	rm -r ./$output_dir/${2}.md
@@ -284,6 +309,8 @@ case "${1:-}" in
 	python3 -m http.server 5050
 	exit
 	;;
+"quiet")
+	;;
 "live")
 	./.tooling/hs.py --ui
 	exit
@@ -291,6 +318,8 @@ case "${1:-}" in
 esac
 
 # generate_index
+
+global_start_time=$(date +%s%3N)
 
 # Default: Build All Files
 
@@ -326,11 +355,15 @@ for job in $(jobs -p); do
 	wait "$job"
 done
 
+global_end_time=$(date +%s%3N)
+global_elapsed=$((global_end_time - global_start_time))
+	# print_verbose "\e[32mGENERATED\e[0m %s in %dms\n" "$file" "$elapsed"
 # POST BUILD TASKS
 
 generate_index
 generate_rss
-perform_css_optimization
+# perform_css_optimization
+make -C ./assets_src build-regen
 # perform_html_optimization
 
 

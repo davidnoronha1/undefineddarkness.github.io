@@ -1,9 +1,15 @@
 {
-  "dependencies": {},
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@types/three": "^0.179.0",
     "cssnano": "^7.1.0",
     "html-minifier-terser": "^7.2.0",
     "postcss-cli": "^11.0.1",
-    "postcss-import": "^16.1.1"
+    "postcss-import": "^16.1.1",
+    "rollup": "^4.49.0"
+  },
+  "dependencies": {
+    "purgecss": "^7.0.2",
+    "three": "^0.179.1"
   }
 }

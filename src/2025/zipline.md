@@ -2,5 +2,5 @@
 A summary of my experience in the Zipline robotics competition
 #END HEADER
 
-#PDF /assets/zipline.pdf
+#PDF /assets/documents/zipline.pdf
 #END PDF
