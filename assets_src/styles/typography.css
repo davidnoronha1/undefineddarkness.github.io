@@ -1,7 +1,7 @@
 
 @font-face {
 	font-family: 'Body Font';
-	src: url('/assets/fonts/FairfaxHDEmoji.ttf');
+	src: url('/assets/fonts/FairfaxHDEmoji.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }

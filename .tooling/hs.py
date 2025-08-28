@@ -2,10 +2,11 @@
 #
 # /// script
 # requires-python = ">=3.12"
-# dependencies = [ "aiohttp", "watchfiles" ]
+# dependencies = [ "aiohttp", "watchfiles", "aiohttp_compress" ]
 # ///
 
 from aiohttp import web, WSMsgType
+from aiohttp_compress import compress_middleware
 from mimetypes import guess_type as guess_mime_type
 from pathlib import Path
 from watchfiles import awatch
@@ -52,14 +53,9 @@ injectionScript = """
 """
 
 def injectHTML(path):
-
-    fp = open(path, "r", encoding="utf8")
-    content = fp.read()
-    fp.close()
-
-    content = content.replace("</body>", injectionScript)
-
-    return web.Response(content_type="text/html", text=content)
+    with open(path, "r", encoding="utf8") as fp:
+        content = fp.read()
+    return content.replace("</body>", injectionScript)
 
 async def generichandle(req):
     path = Path(req.match_info.get('name', 'index.html'))
@@ -69,15 +65,15 @@ async def generichandle(req):
         return web.Response(status=404, text=fileNotFoundDoc, content_type="text/html")
 
     if path.suffix == '.html':
-        return injectHTML(path)
+        html_content = injectHTML(path)
+        content_bytes = html_content.encode('utf-8')
+        mimetype = "text/html"
+    else:
+        with open(path, "rb") as fp:
+            content_bytes = fp.read()
+        mimetype = guess_mime_type(str(path))[0] or "text/plain"
 
-    fp = open(path, "rb")
-    content = fp.read()
-    fp.close()
-
-    mimetype = guess_mime_type(str(path))[0] or "text/plain"
-
-    return web.Response(body=content, content_type=mimetype)
+    return web.Response(body=content_bytes, content_type=mimetype, headers={'Cache-Control': 'max-age=31536000'})
 
 sockets = []
 async def wshandle(req):
@@ -100,6 +96,7 @@ async def wshandle(req):
     return ws
 
 app = web.Application()
+app.middlewares.append(compress_middleware)
 app.add_routes([
     web.get('/', generichandle),
     web.get('/ws-connect', wshandle),
@@ -126,6 +123,7 @@ async def watch():
     async for changes in awatch('./src'):
         for change in changes:
             fp = Path(change[1])
+
             print(prefix + f" Rebuilding {fp.stem} ({str(fp)})")
             process = subprocess.run([ bash_path, "./generate", fp.relative_to(script_dir) ], stdout=subprocess.PIPE)
             print(process.stdout.decode('utf8').strip())
@@ -150,19 +148,25 @@ async def rebuild():
 
 async def listen_for_keys():
     loop = asyncio.get_event_loop()
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
+    rebuilding = False
     try:
-        tty.setraw(sys.stdin.fileno())
         while True:
-            char = await loop.run_in_executor(None, sys.stdin.read, 1)
-            if char in ['r', ' ']:
-                print("REBUILDING")
+            # Prompt user for a command
+            cmd = await loop.run_in_executor(None, lambda: input("> ").strip())
+
+            if cmd in ['r', ''] and not rebuilding:  # allow 'r' or just Enter
+                rebuilding = True
+                print(prefix + "Rebuilding...")
                 await rebuild()
-            elif char == 'q':
-                break
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+                rebuilding = False
+            elif cmd == 'q':
+                print(prefix + "Goodbye!")
+                sys.exit(0)  # quit the whole script
+    except (KeyboardInterrupt, EOFError):
+        print(prefix + "Goodbye!")
+        sys.exit(0)
+
+
 
 async def main():
 
