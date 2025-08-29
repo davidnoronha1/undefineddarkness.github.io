@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
+	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+	<meta name="author" content="nes" />
+	<title>My custom markdown flavour</title>
+	<meta property="og:title" content="My custom markdown flavour" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://nes.is-a.dev/out/2022/nesdown.html" />
+	<meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+	<link rel="preload" href="/assets/fonts/FairfaxHDEmoji.woff2" as="font" type="font/woff2" crossorigin>
+	<style>@font-face{font-family:Body Font;font-style:normal;font-weight:400;src:url(/assets/fonts/FairfaxHDEmoji.woff2) format("woff2")}@font-face{font-family:Heading Font;src:url(/assets/fonts/cozette.woff2) format("woff2")}:root{--article-size:1em;--human-style:"CASL" 0.8}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:Body Font,Heading Font,Symbols Nerd Font,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;font-variation-settings:"MONO" 0;font-weight:400}figcaption,i{font-style:italic}code,pre{font-family:Heading Font,Body Font,Courier New,Courier,monospace;font-size:calc(var(--article-size)*.9);font-variation-settings:"MONO" 1}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:Heading Font,Body Font,Gill Sans,Gill Sans MT,Calibri,Trebuchet MS,sans-serif;font-variation-settings:var(--human-style)}h1,h2,h3{font-variation-settings:var(--human-style),"wght" 600;font-weight:400}h1{font-size:calc(var(--article-size)*2.1);margin-bottom:.4em}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5)}.txt-c{text-align:center}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--white)}.hljs{background-color:inherit!important;background:inherit!important}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}code,pre{line-height:normal;scrollbar-color:var(--white-darker) var(--white-lighter)}pre{border-radius:5px;margin:0;overflow-x:auto;overflow-y:hidden;padding:1em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:23vw;width:100%}body>article:first-child{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:none;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}blockquote{margin:1em 0 0 5em}li>blockquote{margin:1em 0 0 1em}blockquote:before{content:"❝";font-size:2.5em;left:-1.5em;position:absolute;top:-.4em}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:"▶";font-size:.8em;left:-1.2em;position:absolute;top:.15em;transition:all .3s ease}details[open] summary:before{transform:rotate(90deg)}mark{background:var(--white-darker);color:inherit;display:inline-block;padding:1em}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}article footer,main footer{margin-left:0}table{border:10px double var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}nav.toc{float:right;font-size:.8em;margin:2em;max-width:20vw;position:fixed;right:0;text-overflow:ellipsis;top:0;z-index:999}nav.toc ul{list-style:none;margin:0;padding:0;white-space:nowrap}nav.toc ul .toc-subheading:before{border-left:2px solid gray;content:"";padding-left:.8em}nav.toc ul .toc-subheading:last-child:before{background-image:linear-gradient(180deg,gray 0,gray 50%,transparent 0,transparent 75%,transparent);background-repeat:no-repeat;background-size:2px 100%;border-left:none}nav.toc ul .toc-subheading{position:relative}nav.toc ul .toc-subheading:after{border-bottom:2px solid gray;content:"";height:.5em;left:0;position:absolute;width:.6em}nav.toc a{color:var(--black)}nav.toc ul .toc-subheading{margin-left:.6em}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}nav.toc{display:none}blockquote{margin-left:1em}blockquote:before{left:-.7em}}</style>
+</head>
+
+<body>
+	<nav class="toc">
+		<ul><li class='toc-subheading'><a href='#markdown-in-html-blocks'>Markdown in HTML blocks</a></li><li class='toc-subheading'><a href='#block-quotes'>Block Quotes</a></li><li class='toc-subheading'><a href='#inlines'>Inlines</a></li><li class='toc-subheading'><a href='#syntax-highlighting'>Syntax Highlighting</a></li><li><a href='#transformers'>Transformers</a></li><li class='toc-subheading'><a href='#table-transformer'>Table Transformer</a></li><li class='toc-subheading'><a href='#verbatim-transformer'>Verbatim Transformer</a></li><li class='toc-subheading'><a href='#f-fold-transformer'>(f) Fold Transformer</a></li><li><a href='#problems'>Problems</a></li></ul>
+	</nav>
+	<article>
+
+
+		<!-- HIGHLIGHTJS LOADING -->
+		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript>
+		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
+		<header>
+  <h1>My custom markdown flavour</h1>
+  <!-- post_description="A description of my custom markdown parser" -->
+</header>
+<br/>
+Markdown is nearly ubquitious now-a-days. Anytime you need a simple text format for documentation or formatting,<br/>
+It is at the ready.<br/>
+<br/>
+I like it's simplicity a lot too but how strict some of the syntax rules end up being, They kind of rub me the wrong way.<br/>
+So when making this site, I decided I would finally fix it myself, Of course, It wouldn't do if it was written in a "normal" language like Python or C or Rust or something, No It had to be different, and so it was written in Bash. (Not posix cause writing something perfectly in posix makes me pine for bash builtins)<br/>
+<br/>
+The result is ~600 lines of barely unreadable sphagetti, Even I can't read what<br/>
+it's doing sometimes. But as the old adeage goes, What's not broken don't fix, and believe me I've tried to replace it entirely but then give up because of how much effort it would be.<br/>
+<br/>
+So here are some of the things I added to <i>nesdown</i>:<br/>
+You can find it here, <a href="https://github.com/undefinedDarkness/undefineddarkness.github.io/tree/master/.tooling">https://github.com/undefinedDarkness/undefineddarkness.github.io/tree/master/.tooling</a><br/>
+<br/>
+<h3 id="markdown-in-html-blocks">Markdown in HTML blocks</h3>
+<p>
+Since I couldn't be bothered to implement the correct logic and this works just as well,<br/>
+<br/>
+It just barely colliding into inline HTML markup but processes any markdown it finds within.<br/>
+<br/>
+So now something like this<br/>
+<pre>
+<code class="language-plaintext">&lt;div class&equals;'txt-c'&gt;&lsqb;View Page Source&rsqb;(/src/2022/nesdown.md)&lt;/div&gt;
+</code>
+</pre>
+will generate:<br/>
+<div class='txt-c'><a href="/src/2022/nesdown.md">View Page Source</a></div><br/>
+</p>
+<h3 id="block-quotes">Block Quotes</h3>
+<p>
+This isn't anything new either, but I cant ever remember the syntax for other flavours<br/>
+<br/>
+<pre>
+<code class="language-plaintext">&gt;&gt;&gt;
+Be the change you want to see in the world.
+&gt;&gt;&gt; Mahtma Gandhi
+</code>
+</pre>
+becomes<br/>
+<figure>
+<blockquote>
+Be the change you want to see in the world.<br/>
+</blockquote>
+<figcaption>Mahtma Gandhi</figcaption>
+</figure>
+<br/>
+<br/>
+</p>
+<h3 id="inlines">Inlines</h3>
+<p>
+Because I could, I barely use these...<br/>
+<pre>
+<code class="language-plaintext">&equals;&equals;Pay attention to me&equals;&equals;
+</code>
+</pre>
+<br/>
+<mark>You better</mark><br/>
+<br/>
+</p>
+<h3 id="syntax-highlighting">Syntax Highlighting</h3>
+<p>
+This is nothing new, but the neat part is that its done entirely in the markdown generation step.<br/>
+So no javascript library is required later, <br/>
+EDIT: Actually I lied, I've shifted to using highlight js because getting source-highlight working on windows is a PITA and I want my site to be able to be developed no matter what software I'm using at the time, I might look into a Python based solution later, will have to see.<br/>
+EDIT: Initially I was doing syntax highlighting using <code>vim</code> but the HTML export from vim doesnt support treesitter and I eventually figured it's too much post processing pipeline to bother maintaining<br/>
+<br/>
+<pre>
+<code class="language-c">&#35;include &lt;stdio.h&gt;
+
+float Q_rsqrt( float number )
+{
+    long i;
+    float x2, y;
+    const float threehalfs &equals; 1.5F;
+
+    x2 &equals; number &#42; 0.5F;
+    y  &equals; number;
+    i  &equals; &#42; ( long &#42; ) &y;                       // evil floating point bit level hacking
+    i  &equals; 0x5f3759df - ( i &gt;&gt; 1 );               // what the fuck? 
+    y  &equals; &#42; ( float &#42; ) &i;
+    y  &equals; y &#42; ( threehalfs - ( x2 &#42; y &#42; y ) );   // 1st iteration
+//  y  &equals; y &#42; ( threehalfs - ( x2 &#42; y &#42; y ) );   // 2nd iteration, this can be removed
+
+    return y;
+}
+
+int main () {
+    printf("Hello world\n");
+}	</code>
+</pre>
+<br/>
+</p>
+<h2 id="transformers">Transformers</h2>
+<p>
+I built it initially around the idea of these, but essentially they're like functions that take raw text as input and output html.<br/>
+The raw text can really be anything, which is where I find them really useful.<br/>
+<br/>
+And making a transformer is as simply as creating a new bash function.<br/>
+<br/>
+EDIT: If I knew TCL existed before I would have simply used TCL 😢 but now I have to live with this mostrosity<br/>
+<br/>
+</p>
+<h3 id="table-transformer">Table Transformer</h3>
+<p>
+Markdown table syntax is just painful. Sure, it's readable in text form but thats only if you don't have a mess of differently sized columns and data values. (which is really easy) And if you do, its painful to edit manually,<br/>
+you always gotta delegate to some tool which is a whole mess<br/>
+<br/>
+Since of course I could do a better job than all the bright people that have spent a lot of time thinking about the markdown syntax, This was what I came up with and to be entirely honestly, I'm quite happy with it, It's not very clear but it's decently readable and fortunatley easy to modify as well.<br/>
+<br/>
+<pre>
+<code class="language-plaintext">&#35;TABLE Fruits   Vegetables
+       Apple    Carrot
+       Orange   Tomato
+       Banana   Eggplant
+&#35;END TABLE
+</code>
+</pre>
+becomes<br/>
+<table class="">
+<thead><tr>
+<th>Fruits</th>
+<th>Vegetables</th>
+</tr>
+</thead><tbody><tr>
+<td>Apples</td>
+<td>Carrot<br/></td>
+</tr>
+<tr>
+<td>Orange</td>
+<td>Tomato<br/></td>
+</tr>
+<tr>
+<td>Banana</td>
+<td>Eggplant<br/></td>
+</tr>
+</tbody></table>
+<br/>
+where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)<br/>
+This syntax pretty much breaks the moment you want something really long though, but at that point, I think just using HTML Tables directly is the best idea.<br/>
+<br/>
+</p>
+<h3 id="verbatim-transformer">Verbatim Transformer </h3>
+<p>
+A crutch to deal with nesdown not having any idea of what its doing when transforming markdown syntax, Just spits out the input its given and ~sort of~ guarrentes that it wont be changed in any way.<br/>
+<br/>
+</p>
+<h3 id="f-fold-transformer">(f) Fold Transformer</h3>
+<p>
+A slight syntactic sugar over <code>&lt;detail&gt;</code> & <code>&lt;summary&gt;</code><br/>
+<br/>
+<pre>
+<code class="language-plaintext">&#35;f It's a secret
+I said it was a secret &gt;:(
+&#35;END f
+</code>
+</pre>
+becomes<br/>
+
+<details>
+	<summary>
+		It's a secret
+	</summary>
+	<p>
+		I said it was a secret >:(<br/>
+	</p>
+</details>
+<br/>
+</p>
+<h2 id="problems">Problems</h2>
+<p>
+Currently to make new lines break like I want, A lot of <code>&lt;br&gt;</code>s are scattered throughout the output.<br/>
+<br/>
+Besides that, the output is really quite ugly, I know its not meant for a person to read but still...<br/>
+<br/>
+EDIT: The poor browser has to choke down my trashy HTML but such is it's poor fate<br/>
+<br/>
+<hr />
+<br/>
+I know my little toy isn't remarkable in any particular way but I was hoping to showcare it since over the years, Ive spent a decent chunk of time on it.<br/>
+<br/>
+
+<details>
+	<summary>
+		charmap for cozette
+	</summary>
+	<p>
+		<pre>
+<code>
+         0 1 2 3 4 5 6 7 8 9 A B C D E F
+        ┌───────────────────────────────
+ U+0002_│  ! " # $ % & ' ( ) * + , - . /
+ U+0003_│0 1 2 3 4 5 6 7 8 9 : ; < = > ?
+ U+0004_│@ A B C D E F G H I J K L M N O
+ U+0005_│P Q R S T U V W X Y Z [ \ ] ^ _
+ U+0006_│` a b c d e f g h i j k l m n o
+ U+0007_│p q r s t u v w x y z { | } ~
+ U+000A_│  ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬   ® ¯
+ U+000B_│° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿
+ U+000C_│À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï
+ U+000D_│Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß
+ U+000E_│à á â ã ä å æ ç è é ê ë ì í î ï
+ U+000F_│ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
+ U+0010_│Ā ā Ă ă Ą ą Ć ć Ĉ ĉ Ċ ċ Č č Ď ď
+ U+0011_│Đ đ Ē ē Ĕ ĕ Ė ė Ę ę Ě ě Ĝ ĝ Ğ ğ
+ U+0012_│Ġ ġ Ģ ģ Ĥ ĥ Ħ ħ Ĩ ĩ Ī ī Ĭ ĭ Į į
+ U+0013_│İ ı Ĳ ĳ Ĵ ĵ Ķ ķ ĸ Ĺ ĺ Ļ ļ Ľ ľ Ŀ
+ U+0014_│ŀ Ł ł Ń ń Ņ ņ Ň ň ŉ Ŋ ŋ Ō ō Ŏ ŏ
+ U+0015_│Ő ő Œ œ Ŕ ŕ Ŗ ŗ Ř ř Ś ś Ŝ ŝ Ş ş
+ U+0016_│Š š Ţ ţ Ť ť Ŧ ŧ Ũ ũ Ū ū Ŭ ŭ Ů ů
+ U+0017_│Ű ű Ų ų Ŵ ŵ Ŷ ŷ Ÿ Ź ź Ż ż Ž ž ſ
+ U+0018_│ƀ Ɓ Ƃ ƃ Ƅ ƅ Ɔ Ƈ ƈ Ɖ Ɗ Ƌ ƌ ƍ Ǝ Ə
+ U+0019_│Ɛ Ƒ ƒ Ɠ Ɣ ƕ Ɩ Ɨ Ƙ ƙ ƚ ƛ Ɯ Ɲ ƞ Ɵ
+ U+001A_│Ơ ơ Ƣ ƣ Ƥ ƥ Ʀ Ƨ ƨ Ʃ ƪ ƫ Ƭ ƭ Ʈ Ư
+ U+001B_│ư Ʊ Ʋ Ƴ ƴ Ƶ ƶ Ʒ Ƹ ƹ ƺ ƻ Ƽ ƽ ƾ ƿ
+ U+001C_│ǀ ǁ ǂ ǃ                   Ǎ ǎ Ǐ
+ U+001D_│ǐ Ǒ ǒ Ǔ ǔ Ǖ ǖ Ǘ ǘ Ǚ ǚ Ǜ ǜ ǝ Ǟ ǟ
+ U+001E_│Ǡ ǡ Ǣ ǣ Ǥ ǥ Ǧ ǧ Ǩ ǩ Ǫ ǫ Ǭ ǭ Ǯ ǯ
+ U+001F_│ǰ       Ǵ ǵ Ƕ Ƿ Ǹ ǹ Ǻ ǻ Ǽ ǽ Ǿ ǿ
+ U+0020_│Ȁ ȁ Ȃ ȃ Ȅ ȅ Ȇ ȇ Ȉ ȉ Ȋ ȋ Ȍ ȍ Ȏ ȏ
+ U+0021_│Ȑ ȑ Ȓ ȓ Ȕ ȕ Ȗ ȗ Ș ș Ț ț Ȝ ȝ Ȟ ȟ
+ U+0022_│Ƞ ȡ     Ȥ ȥ Ȧ ȧ Ȩ ȩ   ȫ   ȭ Ȯ ȯ
+ U+0023_│  ȱ Ȳ ȳ ȴ ȵ ȶ ȷ ȸ ȹ Ⱥ Ȼ ȼ Ƚ Ⱦ
+ U+0024_│  Ɂ ɂ Ƀ   Ʌ Ɇ ɇ
+ U+0025_│ɐ ɑ ɒ ɓ ɔ ɕ ɖ ɗ ɘ ə ɚ ɛ ɜ ɝ ɞ ɟ
+ U+0026_│ɠ ɡ ɢ ɣ ɤ ɥ ɦ ɧ ɨ ɩ ɪ ɫ ɬ ɭ ɮ ɯ
+ U+0027_│ɰ ɱ ɲ ɳ ɴ ɵ ɶ ɷ ɸ ɹ ɺ ɻ ɼ ɽ ɾ ɿ
+ U+0028_│ʀ ʁ ʂ ʃ ʄ ʅ ʆ ʇ ʈ ʉ ʊ ʋ ʌ ʍ ʎ ʏ
+ U+0029_│ʐ ʑ ʒ ʓ ʔ ʕ ʖ ʗ ʘ ʙ ʚ ʛ ʜ ʝ ʞ ʟ
+ U+002A_│ʠ ʡ ʢ ʣ ʤ ʥ ʦ ʧ ʨ           ʮ ʯ
+ U+002B_│ʰ ʱ ʲ ʳ ʴ ʵ ʶ ʷ ʸ ʹ ʺ ʻ ʼ ʽ ʾ ʿ
+ U+002C_│ˀ ˁ ˂ ˃ ˄ ˅ ˆ ˇ ˈ ˉ ˊ ˋ ˌ ˍ ˎ ˏ
+ U+002D_│ː ˑ ˒ ˓ ˔ ˕ ˖ ˗ ˘ ˙ ˚ ˛ ˜ ˝ ˞ ˟
+ U+002E_│ˠ ˡ ˢ ˣ ˤ ˥ ˦ ˧ ˨ ˩     ˬ ˭   ˯
+ U+002F_│˰ ˱ ˲ ˳ ˴ ˵ ˶ ˷   ˹ ˺ ˻ ˼ ˽ ˾
+ U+0030_│ ̀  ́  ̂  ̃  ̄  ̅  ̆  ̇  ̈  ̉  ̊  ̋  ̌  ̍  ̎  ̏
+ U+0031_│ ̐  ̑  ̒  ̓  ̔  ̕  ̖  ̗  ̘  ̙  ̚  ̛  ̜  ̝  ̞  ̟
+ U+0032_│ ̠      ̣  ̤  ̥  ̦  ̧  ̨  ̩  ̪  ̫  ̬  ̭  ̮  ̯
+ U+0033_│ ̰  ̱  ̲  ̳            ̹  ̺  ̻  ̼  ̽  ̾  ̿
+ U+0034_│ ̀  ́  ͂  ̓      ͆  ͇  ͈
+ U+0035_│   ͑            ͗          ͜  ͝
+ U+0036_│   ͡
+ U+0037_│        ʹ ͵                 ;
+ U+0038_│        ΄ ΅ Ά · Έ Ή Ί   Ό   Ύ Ώ
+ U+0039_│ΐ Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο
+ U+003A_│Π Ρ   Σ Τ Υ Φ Χ Ψ Ω Ϊ Ϋ ά έ ή ί
+ U+003B_│ΰ α β γ δ ε ζ η θ ι κ λ μ ν ξ ο
+ U+003C_│π ρ ς σ τ υ φ χ ψ ω ϊ ϋ ό ύ ώ Ϗ
+ U+003D_│          ϕ   ϗ     Ϛ ϛ Ϝ ϝ
+ U+003F_│        ϴ     Ϸ ϸ Ϲ
+ U+0040_│Ѐ Ё Ђ Ѓ Є Ѕ І Ї Ј Љ Њ Ћ Ќ Ѝ Ў Џ
+ U+0041_│А Б В Г Д Е Ж З И Й К Л М Н О П
+ U+0042_│Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я
+ U+0043_│а б в г д е ж з и й к л м н о п
+ U+0044_│р с т у ф х ц ч ш щ ъ ы ь э ю я
+ U+0045_│ѐ ё ђ ѓ є ѕ і ї ј љ њ ћ ќ ѝ ў џ
+ U+0046_│Ѡ ѡ Ѣ ѣ Ѥ ѥ Ѧ ѧ Ѩ ѩ Ѫ ѫ Ѭ ѭ Ѯ ѯ
+ U+0047_│Ѱ ѱ Ѳ ѳ Ѵ ѵ Ѷ ѷ Ѹ ѹ Ѻ ѻ Ѽ ѽ Ѿ ѿ
+ U+0048_│Ҁ ҁ ҂               Ҋ ҋ Ҍ ҍ Ҏ ҏ
+ U+0049_│Ґ ґ Ғ ғ Ҕ ҕ Җ җ Ҙ ҙ Қ қ Ҝ ҝ Ҟ ҟ
+ U+004A_│Ҡ ҡ Ң ң Ҥ ҥ Ҧ ҧ Ҩ ҩ Ҫ ҫ Ҭ ҭ Ү ү
+ U+004B_│Ұ ұ Ҳ ҳ Ҵ ҵ Ҷ ҷ Ҹ ҹ Һ һ Ҽ ҽ Ҿ ҿ
+ U+004C_│Ӏ Ӂ ӂ Ӄ ӄ Ӆ ӆ Ӈ ӈ Ӊ ӊ Ӌ ӌ Ӎ ӎ ӏ
+ U+004D_│Ӑ ӑ Ӓ ӓ Ӕ ӕ Ӗ ӗ Ә ә Ӛ ӛ Ӝ ӝ Ӟ ӟ
+ U+004E_│Ӡ ӡ Ӣ ӣ Ӥ ӥ Ӧ ӧ Ө ө Ӫ ӫ Ӭ ӭ Ӯ ӯ
+ U+004F_│Ӱ ӱ Ӳ ӳ Ӵ ӵ Ӷ ӷ Ӹ ӹ Ӻ ӻ Ӽ ӽ Ӿ ӿ
+ U+0050_│Ԁ ԁ Ԃ ԃ Ԅ ԅ Ԇ ԇ Ԉ ԉ Ԋ ԋ Ԍ ԍ Ԏ ԏ
+ U+0051_│Ԑ ԑ Ԓ ԓ Ԕ ԕ Ԗ ԗ Ԙ ԙ Ԛ ԛ Ԝ ԝ Ԟ ԟ
+ U+0052_│Ԡ ԡ Ԣ ԣ Ԥ ԥ Ԧ ԧ Ԩ ԩ Ԫ ԫ Ԭ ԭ Ԯ ԯ
+ U+00CA_│ಠ
+ U+00E3_│                              ฿
+ U+016A_│ᚠ   ᚢ ᚣ ᚤ ᚥ ᚦ   ᚨ ᚩ ᚪ ᚫ ᚬ
+ U+01D0_│ᴀ             ᴇ
+ U+01D2_│          ᴥ
+ U+01D4_│                    ᵊ
+ U+01D9_│  ᶑ
+ U+01DB_│                      ᶻ       ᶿ
+ U+01E0_│Ḁ ḁ Ḃ ḃ Ḅ ḅ Ḇ ḇ Ḉ ḉ Ḋ ḋ Ḍ ḍ Ḏ ḏ
+ U+01E1_│Ḑ ḑ Ḓ ḓ Ḕ ḕ Ḗ ḗ Ḙ ḙ Ḛ ḛ Ḝ ḝ Ḟ ḟ
+ U+01E2_│Ḡ ḡ Ḣ ḣ Ḥ ḥ Ḧ ḧ Ḩ ḩ Ḫ ḫ Ḭ ḭ Ḯ ḯ
+ U+01E3_│Ḱ ḱ Ḳ ḳ Ḵ ḵ Ḷ ḷ Ḹ ḹ Ḻ ḻ Ḽ ḽ Ḿ ḿ
+ U+01E4_│Ṁ ṁ Ṃ ṃ Ṅ ṅ Ṇ ṇ Ṉ ṉ Ṋ ṋ Ṍ ṍ Ṏ ṏ
+ U+01E5_│Ṑ ṑ Ṓ ṓ Ṕ ṕ Ṗ ṗ Ṙ ṙ Ṛ ṛ Ṝ ṝ Ṟ ṟ
+ U+01E6_│Ṡ ṡ Ṣ ṣ Ṥ ṥ Ṧ ṧ Ṩ ṩ Ṫ ṫ Ṭ ṭ Ṯ ṯ
+ U+01E7_│Ṱ ṱ Ṳ ṳ Ṵ ṵ Ṷ ṷ Ṹ ṹ Ṻ ṻ Ṽ ṽ Ṿ ṿ
+ U+01E8_│Ẁ ẁ Ẃ ẃ Ẅ ẅ Ẇ ẇ Ẉ ẉ Ẋ ẋ Ẍ ẍ Ẏ ẏ
+ U+01E9_│Ẑ ẑ Ẓ ẓ Ẕ ẕ ẖ ẗ ẘ ẙ ẚ ẛ ẜ ẝ ẞ ẟ
+ U+01EA_│Ạ ạ Ả ả Ấ ấ Ầ ầ Ẩ ẩ Ẫ ẫ Ậ ậ Ắ ắ
+ U+01EB_│Ằ ằ Ẳ ẳ Ẵ ẵ Ặ ặ Ẹ ẹ Ẻ ẻ Ẽ ẽ Ế ế
+ U+01EC_│Ề ề Ể ể Ễ ễ Ệ ệ Ỉ ỉ Ị ị Ọ ọ Ỏ ỏ
+ U+01ED_│Ố ố Ồ ồ Ổ ổ Ỗ ỗ Ộ ộ Ớ ớ Ờ ờ Ở ở
+ U+01EE_│Ỡ ỡ Ợ ợ Ụ ụ Ủ ủ Ứ ứ Ừ ừ Ử ử Ữ ữ
+ U+01EF_│Ự ự Ỳ ỳ Ỵ ỵ Ỷ ỷ Ỹ ỹ
+ U+01F0_│ἀ ἁ ἂ ἃ ἄ ἅ     Ἀ Ἁ Ἂ Ἃ Ἄ Ἅ
+ U+01F1_│ἐ ἑ ἒ ἓ ἔ ἕ     Ἐ Ἑ Ἒ Ἓ Ἔ Ἕ
+ U+01F2_│ἠ ἡ ἢ ἣ ἤ ἥ     Ἠ Ἡ Ἢ Ἣ Ἤ Ἥ
+ U+01F3_│ἰ ἱ ἲ ἳ ἴ ἵ     Ἰ Ἱ Ἲ Ἳ Ἴ Ἵ
+ U+01F4_│ὀ ὁ ὂ ὃ ὄ ὅ     Ὀ Ὁ Ὂ Ὃ Ὄ Ὅ
+ U+01F5_│ὐ ὑ ὒ ὓ ὔ ὕ       Ὑ   Ὓ   Ὕ
+ U+01F6_│ὠ ὡ ὢ ὣ ὤ ὥ     Ὠ Ὡ Ὢ Ὣ Ὤ Ὥ
+ U+01F7_│ὰ ά ὲ έ ὴ ή ὶ ί ὸ ό ὺ ύ ὼ ώ
+ U+01F8_│ᾀ ᾁ ᾂ ᾃ ᾄ ᾅ     ᾈ ᾉ ᾊ ᾋ ᾌ ᾍ
+ U+01F9_│ᾐ ᾑ ᾒ ᾓ ᾔ ᾕ     ᾘ ᾙ ᾚ ᾛ ᾜ ᾝ
+ U+01FA_│ᾠ ᾡ ᾢ ᾣ ᾤ ᾥ     ᾨ ᾩ ᾪ ᾫ ᾬ ᾭ
+ U+01FB_│ᾰ ᾱ ᾲ ᾳ ᾴ   ᾶ ᾷ Ᾰ Ᾱ Ὰ Ά ᾼ
+ U+01FC_│    ῂ ῃ ῄ   ῆ ῇ Ὲ Έ Ὴ Ή ῌ
+ U+01FD_│ῐ ῑ ῒ ΐ     ῖ ῗ Ῐ Ῑ Ὶ Ί
+ U+01FE_│ῠ ῡ ῢ ΰ ῤ ῥ ῦ   Ῠ Ῡ Ὺ Ύ Ῥ
+ U+01FF_│    ῲ ῳ ῴ   ῶ ῷ Ὸ Ό Ὼ Ώ ῼ
+ U+0201_│‐ ‑ ‒ – — ― ‖ ‗ ‘ ’ ‚ ‛ “ ” „ ‟
+ U+0202_│† ‡ • ‣ ․ ‥ … ‧
+ U+0203_│‰ ‱ ′ ″ ‴ ‵ ‶ ‷ ‸ ‹ › ※ ‼ ‽ ‾ ‿
+ U+0204_│    ⁂ ⁃ ⁄ ⁅ ⁆ ⁇ ⁈ ⁉
+ U+0205_│  ⁑         ⁖   ⁘ ⁙ ⁚ ⁛ ⁜ ⁝ ⁞
+ U+0207_│⁰ ⁱ     ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ
+ U+0208_│₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎
+ U+0209_│ₐ ₑ ₒ ₓ ₔ ₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ
+ U+020A_│₠ ₡ ₢ ₣ ₤ ₥ ₦ ₧ ₨ ₩ ₪ ₫ € ₭ ₮ ₯
+ U+020B_│₰ ₱ ₲   ₴ ₵     ₸ ₹ ₺   ₼ ₽ ₾ ₿
+ U+0210_│℀ ℁ ℂ ℃ ℄ ℅ ℆ ℇ ℈ ℉ ℊ ℋ ℌ ℍ ℎ ℏ
+ U+0211_│ℐ ℑ ℒ ℓ ℔ ℕ № ℗ ℘ ℙ ℚ ℛ ℜ ℝ ℞ ℟
+ U+0212_│℠ ℡ ™ ℣ ℤ ℥ Ω ℧ ℨ ℩ K Å ℬ ℭ ℮ ℯ
+ U+0213_│ℰ ℱ Ⅎ ℳ ℴ         ℹ   ℻
+ U+0214_│  ⅁ ⅂ ⅃ ⅄           ⅊ ⅋ ⅌ ⅍ ⅎ ⅏
+ U+0215_│⅐ ⅑ ⅒ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅚ ⅛ ⅜ ⅝ ⅞ ⅟
+ U+0216_│Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ Ⅺ Ⅻ Ⅼ Ⅽ Ⅾ Ⅿ
+ U+0217_│ⅰ ⅱ ⅲ ⅳ ⅴ ⅵ ⅶ ⅷ ⅸ ⅹ ⅺ ⅻ ⅼ ⅽ ⅾ ⅿ
+ U+0218_│ↀ ↁ ↂ Ↄ ↄ         ↉ ↊ ↋
+ U+0219_│← ↑ → ↓ ↔ ↕ ↖ ↗ ↘ ↙ ↚ ↛ ↜ ↝ ↞ ↟
+ U+021A_│↠ ↡ ↢ ↣ ↤ ↥ ↦ ↧ ↨ ↩ ↪ ↫ ↬   ↮ ↯
+ U+021B_│↰ ↱ ↲ ↳ ↴ ↵ ↶ ↷ ↸ ↹ ↺ ↻ ↼ ↽ ↾ ↿
+ U+021C_│⇀ ⇁ ⇂ ⇃ ⇄ ⇅ ⇆ ⇇ ⇈ ⇉ ⇊ ⇋ ⇌ ⇍ ⇎ ⇏
+ U+021D_│⇐ ⇑ ⇒ ⇓ ⇔ ⇕ ⇖ ⇗ ⇘ ⇙ ⇚ ⇛     ⇞ ⇟
+ U+021E_│⇠ ⇡ ⇢ ⇣ ⇤ ⇥ ⇦ ⇧ ⇨ ⇩ ⇪ ⇫ ⇬ ⇭ ⇮ ⇯
+ U+021F_│⇰ ⇱ ⇲ ⇳   ⇵ ⇶
+ U+0220_│∀ ∁ ∂ ∃ ∄ ∅ ∆ ∇ ∈ ∉ ∊ ∋ ∌ ∍ ∎ ∏
+ U+0221_│∐ ∑ − ∓ ∔ ∕ ∖ ∗ ∘ ∙ √ ∛ ∜ ∝ ∞ ∟
+ U+0222_│∠ ∡ ∢ ∣ ∤ ∥ ∦ ∧ ∨ ∩ ∪ ∫ ∬ ∭ ∮ ∯
+ U+0223_│∰ ∱ ∲ ∳ ∴ ∵ ∶ ∷ ∸ ∹ ∺ ∻ ∼ ∽ ∾ ∿
+ U+0224_│≀ ≁ ≂ ≃ ≄ ≅ ≆ ≇ ≈ ≉ ≊ ≋ ≌ ≍ ≎ ≏
+ U+0225_│≐ ≑ ≒ ≓
+ U+0226_│≠ ≡ ≢ ≣ ≤ ≥ ≦ ≧ ≨ ≩ ≪ ≫ ≬ ≭ ≮ ≯
+ U+0227_│≰ ≱ ≲ ≳ ≴ ≵ ≶ ≷ ≸ ≹ ≺ ≻ ≼ ≽ ≾ ≿
+ U+0228_│⊀ ⊁ ⊂ ⊃ ⊄ ⊅ ⊆ ⊇ ⊈ ⊉ ⊊ ⊋       ⊏
+ U+0229_│⊐ ⊑ ⊒ ⊓ ⊔ ⊕ ⊖ ⊗ ⊘ ⊙ ⊚ ⊛ ⊜ ⊝ ⊞ ⊟
+ U+022A_│⊠ ⊡ ⊢ ⊣ ⊤ ⊥     ⊨
+ U+022B_│⊰ ⊱ ⊲ ⊳ ⊴ ⊵ ⊶ ⊷ ⊸ ⊹ ⊺ ⊻ ⊼ ⊽ ⊾ ⊿
+ U+022C_│⋀ ⋁ ⋂ ⋃ ⋄ ⋅ ⋆ ⋇ ⋈ ⋉ ⋊ ⋋ ⋌ ⋍ ⋎ ⋏
+ U+022D_│⋐ ⋑ ⋒ ⋓ ⋔ ⋕ ⋖ ⋗ ⋘ ⋙ ⋚ ⋛ ⋜ ⋝ ⋞ ⋟
+ U+022E_│⋠ ⋡ ⋢ ⋣ ⋤ ⋥ ⋦ ⋧ ⋨ ⋩ ⋪ ⋫ ⋬ ⋭ ⋮ ⋯
+ U+022F_│⋰ ⋱
+ U+0230_│⌀   ⌂     ⌅ ⌆ ⌇ ⌈ ⌉ ⌊ ⌋ ⌌ ⌍ ⌎ ⌏
+ U+0231_│⌐   ⌒     ⌕     ⌘   ⌚⌛⌜ ⌝ ⌞ ⌟
+ U+0232_│⌠ ⌡               〈〉
+ U+0233_│          ⌵ ⌶ ⌷ ⌸ ⌹ ⌺     ⌽ ⌾ ⌿
+ U+0234_│⍀ ⍁ ⍂             ⍉   ⍋   ⍍ ⍎
+ U+0235_│    ⍒     ⍕     ⍘ ⍙ ⍚ ⍛ ⍜ ⍝ ⍞ ⍟
+ U+0236_│⍠ ⍡ ⍢ ⍣ ⍤ ⍥     ⍨   ⍪ ⍫ ⍬ ⍭ ⍮ ⍯
+ U+0237_│  ⍱ ⍲ ⍳ ⍴ ⍵ ⍶ ⍷ ⍸ ⍹ ⍺ ⍻     ⍾ ⍿
+ U+0238_│              ⎇ ⎈ ⎉ ⎊ ⎋ ⎌ ⎍
+ U+0239_│          ⎕           ⎛ ⎜ ⎝ ⎞ ⎟
+ U+023A_│⎠ ⎡ ⎢ ⎣ ⎤ ⎥ ⎦ ⎧ ⎨ ⎩ ⎪ ⎫ ⎬ ⎭ ⎮ ⎯
+ U+023B_│                            ⎾ ⎿
+ U+023C_│⏀ ⏁ ⏂ ⏃ ⏄ ⏅ ⏆ ⏇ ⏈ ⏉ ⏊ ⏋ ⏌   ⏎ ⏏
+ U+023E_│                ⏨
+ U+023F_│⏰    ⏳⏴ ⏵ ⏶ ⏷ ⏸ ⏹ ⏺ ⏻ ⏼ ⏽ ⏾
+ U+0240_│␀ ␁ ␂ ␃ ␄ ␅ ␆ ␇ ␈ ␉ ␊ ␋ ␌ ␍ ␎ ␏
+ U+0241_│␐ ␑ ␒ ␓ ␔ ␕ ␖ ␗ ␘ ␙ ␚ ␛ ␜ ␝ ␞ ␟
+ U+0242_│␠ ␡ ␢ ␣ ␤ ␥ ␦ ␧ ␨ ␩
+ U+0246_│① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯
+ U+0247_│⑰ ⑱ ⑲ ⑳ ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿
+ U+0248_│⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ ⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏
+ U+0249_│⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ ⒜ ⒝ ⒞ ⒟
+ U+024A_│⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯
+ U+024B_│⒰ ⒱ ⒲ ⒳ ⒴ ⒵ Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ
+ U+024C_│Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ
+ U+024D_│ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ
+ U+024E_│ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ ⓪ ⓫ ⓬ ⓭ ⓮ ⓯
+ U+024F_│⓰ ⓱ ⓲ ⓳ ⓴ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿
+ U+0250_│─ ━ │ ┃ ┄ ┅ ┆ ┇ ┈ ┉ ┊ ┋ ┌ ┍ ┎ ┏
+ U+0251_│┐ ┑ ┒ ┓ └ ┕ ┖ ┗ ┘ ┙ ┚ ┛ ├ ┝ ┞ ┟
+ U+0252_│┠ ┡ ┢ ┣ ┤ ┥ ┦ ┧ ┨ ┩ ┪ ┫ ┬ ┭ ┮ ┯
+ U+0253_│┰ ┱ ┲ ┳ ┴ ┵ ┶ ┷ ┸ ┹ ┺ ┻ ┼ ┽ ┾ ┿
+ U+0254_│╀ ╁ ╂ ╃ ╄ ╅ ╆ ╇ ╈ ╉ ╊ ╋ ╌ ╍ ╎ ╏
+ U+0255_│═ ║ ╒ ╓ ╔ ╕ ╖ ╗ ╘ ╙ ╚ ╛ ╜ ╝ ╞ ╟
+ U+0256_│╠ ╡ ╢ ╣ ╤ ╥ ╦ ╧ ╨ ╩ ╪ ╫ ╬ ╭ ╮ ╯
+ U+0257_│╰ ╱ ╲ ╳ ╴ ╵ ╶ ╷ ╸ ╹ ╺ ╻ ╼ ╽ ╾ ╿
+ U+0258_│▀ ▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▉ ▊ ▋ ▌ ▍ ▎ ▏
+ U+0259_│▐ ░ ▒ ▓ ▔ ▕ ▖ ▗ ▘ ▙ ▚ ▛ ▜ ▝ ▞ ▟
+ U+025A_│■ □ ▢ ▣ ▤ ▥ ▦ ▧ ▨ ▩ ▪ ▫ ▬ ▭ ▮ ▯
+ U+025B_│▰ ▱ ▲ △ ▴ ▵ ▶ ▷ ▸ ▹ ► ▻ ▼ ▽ ▾ ▿
+ U+025C_│◀ ◁ ◂ ◃ ◄ ◅ ◆ ◇ ◈ ◉ ◊ ○ ◌ ◍ ◎ ●
+ U+025D_│◐ ◑ ◒ ◓ ◔ ◕ ◖ ◗ ◘ ◙ ◚ ◛ ◜ ◝ ◞ ◟
+ U+025E_│◠ ◡ ◢ ◣ ◤ ◥ ◦ ◧ ◨ ◩ ◪ ◫ ◬ ◭ ◮ ◯
+ U+025F_│◰ ◱ ◲ ◳ ◴ ◵ ◶ ◷ ◸ ◹ ◺ ◻ ◼ ◽◾◿
+ U+0260_│  ☁   ☃   ★ ☆ ☇ ☈           ☎ ☏
+ U+0261_│☐ ☑ ☒ ☓   ☕☖ ☗ ☘ ☙
+ U+0262_│☠ ☡ ☢ ☣ ☤ ☥ ☦ ☧ ☨ ☩ ☪ ☫ ☬ ☭ ☮ ☯
+ U+0263_│☰ ☱ ☲ ☳ ☴ ☵ ☶ ☷ ☸ ☹ ☺ ☻ ☼ ☽ ☾ ☿
+ U+0264_│♀ ♁ ♂           ♈♉♊♋♌♍♎♏
+ U+0265_│♐♑♒♓♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟
+ U+0266_│♠ ♡ ♢ ♣ ♤ ♥ ♦ ♧ ♨ ♩ ♪ ♫ ♬ ♭ ♮ ♯
+ U+0268_│⚀ ⚁ ⚂ ⚃ ⚄ ⚅ ⚆ ⚇ ⚈ ⚉
+ U+0269_│⚐ ⚑               ⚙
+ U+026A_│⚠ ⚡⚢ ⚣   ⚥ ⚦   ⚨
+ U+026B_│    ⚲ ⚳ ⚴ ⚵     ⚸
+ U+026C_│                  ⛉ ⛊
+ U+026D_│        ⛔
+ U+0270_│          ✅    ✈ ✉
+ U+0271_│      ✓ ✔ ✕ ✖ ✗ ✘ ✙ ✚ ✛ ✜ ✝ ✞ ✟
+ U+0272_│✠ ✡ ✢ ✣ ✤ ✥ ✦ ✧ ✨✩ ✪ ✫ ✬ ✭ ✮ ✯
+ U+0273_│✰ ✱ ✲ ✳ ✴ ✵       ✹
+ U+0274_│        ❄               ❌  ❎
+ U+0275_│      ❓❔❕❖ ❗
+ U+0276_│    ❢ ❣ ❤ ❥ ❦ ❧         ❬ ❭ ❮ ❯
+ U+0277_│❰ ❱ ❲ ❳ ❴ ❵ ❶ ❷ ❸ ❹ ❺ ❻ ❼ ❽ ❾ ❿
+ U+0278_│➀ ➁ ➂ ➃ ➄ ➅ ➆ ➇ ➈ ➉ ➊ ➋ ➌ ➍ ➎ ➏
+ U+0279_│➐ ➑ ➒ ➓                 ➜
+ U+027C_│                    ⟊
+ U+027D_│                        ⟜
+ U+027E_│            ⟦ ⟧ ⟨ ⟩ ⟪ ⟫
+ U+0280_│⠀ ⠁ ⠂ ⠃ ⠄ ⠅ ⠆ ⠇ ⠈ ⠉ ⠊ ⠋ ⠌ ⠍ ⠎ ⠏
+ U+0281_│⠐ ⠑ ⠒ ⠓ ⠔ ⠕ ⠖ ⠗ ⠘ ⠙ ⠚ ⠛ ⠜ ⠝ ⠞ ⠟
+ U+0282_│⠠ ⠡ ⠢ ⠣ ⠤ ⠥ ⠦ ⠧ ⠨ ⠩ ⠪ ⠫ ⠬ ⠭ ⠮ ⠯
+ U+0283_│⠰ ⠱ ⠲ ⠳ ⠴ ⠵ ⠶ ⠷ ⠸ ⠹ ⠺ ⠻ ⠼ ⠽ ⠾ ⠿
+ U+0284_│⡀ ⡁ ⡂ ⡃ ⡄ ⡅ ⡆ ⡇ ⡈ ⡉ ⡊ ⡋ ⡌ ⡍ ⡎ ⡏
+ U+0285_│⡐ ⡑ ⡒ ⡓ ⡔ ⡕ ⡖ ⡗ ⡘ ⡙ ⡚ ⡛ ⡜ ⡝ ⡞ ⡟
+ U+0286_│⡠ ⡡ ⡢ ⡣ ⡤ ⡥ ⡦ ⡧ ⡨ ⡩ ⡪ ⡫ ⡬ ⡭ ⡮ ⡯
+ U+0287_│⡰ ⡱ ⡲ ⡳ ⡴ ⡵ ⡶ ⡷ ⡸ ⡹ ⡺ ⡻ ⡼ ⡽ ⡾ ⡿
+ U+0288_│⢀ ⢁ ⢂ ⢃ ⢄ ⢅ ⢆ ⢇ ⢈ ⢉ ⢊ ⢋ ⢌ ⢍ ⢎ ⢏
+ U+0289_│⢐ ⢑ ⢒ ⢓ ⢔ ⢕ ⢖ ⢗ ⢘ ⢙ ⢚ ⢛ ⢜ ⢝ ⢞ ⢟
+ U+028A_│⢠ ⢡ ⢢ ⢣ ⢤ ⢥ ⢦ ⢧ ⢨ ⢩ ⢪ ⢫ ⢬ ⢭ ⢮ ⢯
+ U+028B_│⢰ ⢱ ⢲ ⢳ ⢴ ⢵ ⢶ ⢷ ⢸ ⢹ ⢺ ⢻ ⢼ ⢽ ⢾ ⢿
+ U+028C_│⣀ ⣁ ⣂ ⣃ ⣄ ⣅ ⣆ ⣇ ⣈ ⣉ ⣊ ⣋ ⣌ ⣍ ⣎ ⣏
+ U+028D_│⣐ ⣑ ⣒ ⣓ ⣔ ⣕ ⣖ ⣗ ⣘ ⣙ ⣚ ⣛ ⣜ ⣝ ⣞ ⣟
+ U+028E_│⣠ ⣡ ⣢ ⣣ ⣤ ⣥ ⣦ ⣧ ⣨ ⣩ ⣪ ⣫ ⣬ ⣭ ⣮ ⣯
+ U+028F_│⣰ ⣱ ⣲ ⣳ ⣴ ⣵ ⣶ ⣷ ⣸ ⣹ ⣺ ⣻ ⣼ ⣽ ⣾ ⣿
+ U+0294_│                    ⥊
+ U+0298_│          ⦅ ⦆
+ U+029B_│                              ⦿
+ U+029D_│            ⧖
+ U+029F_│                    ⧺ ⧻
+ U+02A0_│                  ⨉
+ U+02A2_│                              ⨯
+ U+02B1_│    ⬒ ⬓ ⬔ ⬕ ⬖ ⬗ ⬘ ⬙ ⬚ ⬛⬜⬝ ⬞ ⬟
+ U+02B2_│⬠ ⬡ ⬢ ⬣ ⬤ ⬥ ⬦ ⬧ ⬨ ⬩ ⬪ ⬫ ⬬ ⬭ ⬮ ⬯
+ U+02B3_│  ⬱
+ U+02B5_│⭐⭑ ⭒ ⭓ ⭔
+ U+02B6_│⭠ ⭡ ⭢ ⭣ ⭤ ⭥ ⭦ ⭧ ⭨ ⭩
+ U+02B8_│⮀ ⮁ ⮂ ⮃ ⮄ ⮅ ⮆ ⮇
+ U+02BB_│                ⮸
+ U+02BC_│          ⯅ ⯆ ⯇ ⯈   ⯊ ⯋
+ U+02C6_│    Ɫ                     Ɑ
+ U+02C7_│  ⱱ
+ U+02E3_│                          ⸽
+ U+0300_│  、。〃〄々〆〇〈〉《》「」『』
+ U+0301_│【】〒〓〔〕〖〗〘〙〚〛〜〝〞〟
+ U+0303_│            〶〷        〼〽
+ U+0304_│぀ ぁあぃいぅうぇえぉおかがきぎく
+ U+0305_│ぐけげこごさざしじすずせぜそぞた
+ U+0306_│だちぢっつづてでとどなにぬねのは
+ U+0307_│ばぱひびぴふぶぷへべぺほぼぽまみ
+ U+0308_│むめもゃやゅゆょよらりるれろゎわ
+ U+0309_│ゐゑをんゔゕゖ    ゙゚゛゜ゝゞゟ
+ U+030A_│゠ァアィイゥウェエォオカガキギク
+ U+030B_│グケゲコゴサザシジスズセゼソゾタ
+ U+030C_│ダチヂッツヅテデトドナニヌネノハ
+ U+030D_│バパヒビピフブプヘベペホボポマミ
+ U+030E_│ムメモャヤュユョヨラリルレロヮワ
+ U+030F_│ヰヱヲンヴヵヶヷヸヹヺ・ーヽヾヿ
+ U+0322_│㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩㈪㈫㈬㈭㈮㈯
+ U+0323_│㈰㈱㈲            ㈹
+ U+0325_│  ㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟
+ U+0328_│㊀㊁㊂㊃㊄㊅㊆㊇㊈㊉㊊㊋㊌㊍㊎㊏
+ U+0329_│㊐
+ U+032A_│      ㊣㊤㊥㊦㊧㊨
+ U+032B_│  ㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿
+ U+032C_│㋀㋁㋂㋃㋄㋅㋆㋇㋈㋉㋊㋋
+ U+032D_│㋐㋑㋒㋓㋔㋕㋖㋗㋘㋙㋚㋛㋜㋝㋞㋟
+ U+032E_│㋠㋡㋢㋣㋤㋥㋦㋧㋨㋩㋪㋫㋬㋭㋮㋯
+ U+032F_│㋰㋱㋲㋳㋴㋵㋶㋷㋸㋹㋺㋻㋼㋽㋾㋿
+ U+0330_│      ㌃                  ㌍
+ U+0331_│        ㌔      ㌘
+ U+0332_│    ㌢㌣    ㌦㌧      ㌫
+ U+0333_│            ㌶        ㌻
+ U+0334_│                  ㍉㍊    ㍍
+ U+0335_│  ㍑          ㍗㍘㍙㍚㍛㍜㍝㍞㍟
+ U+0336_│㍠㍡㍢㍣㍤㍥㍦㍧㍨㍩㍪㍫㍬㍭㍮㍯
+ U+0337_│㍰                    ㍻㍼㍽㍾
+ U+0338_│                            ㎎㎏
+ U+0339_│                        ㎜㎝㎞㎟
+ U+033A_│  ㎡
+ U+033C_│        ㏄                ㏍
+ U+033D_│  ㏑
+ U+033E_│㏠㏡㏢㏣㏤㏥㏦㏧㏨㏩㏪㏫㏬㏭㏮㏯
+ U+033F_│㏰㏱㏲㏳㏴㏵㏶㏷㏸㏹㏺㏻㏼㏽㏾
+ U+04E0_│一    七      万  三上下
+ U+04E2_│                          中
+ U+04E5_│                          九
+ U+04E8_│                        二
+ U+04E9_│        五
+ U+04EB_│                    人
+ U+04EC_│                    今
+ U+04ED_│                          仝
+ U+04F1_│  休
+ U+04F5_│          何
+ U+0514_│                先
+ U+0516_│          入          八  六
+ U+0518_│            円
+ U+051F_│                    出
+ U+0520_│            分
+ U+0524_│                          前
+ U+0531_│              北
+ U+0533_│                    区
+ U+0534_│  十  千        午  半
+ U+0535_│              南
+ U+053C_│                      友
+ U+053F_│      右
+ U+0540_│                          名
+ U+056D_│                      四
+ U+056F_│                          国
+ U+0571_│                              土
+ U+0591_│            外
+ U+0592_│              大  天
+ U+0597_│      女
+ U+05B5_│子            字
+ U+05B6_│            学
+ U+05C0_│                              小
+ U+05C7_│  山
+ U+05DD_│                          川
+ U+05DE_│            左
+ U+05E0_│    市
+ U+05E7_│        年
+ U+05F8_│                        後
+ U+065E_│          日
+ U+0664_│    時
+ U+066F_│                書
+ U+0670_│                月
+ U+0672_│                木      本
+ U+0675_│  村
+ U+0676_│          来
+ U+0677_│  東
+ U+0682_│  校
+ U+06BC_│                          母毎
+ U+06C1_│              気
+ U+06C3_│        水
+ U+06F2_│    漢
+ U+0706_│                      火
+ U+0723_│            父
+ U+0751_│                              生
+ U+0753_│              男    町
+ U+0767_│                          白百
+ U+079D_│    秒
+ U+0805_│                            聞
+ U+0884_│                        行
+ U+0897_│                              西
+ U+0898_│                      見
+ U+08A7_│  話
+ U+08A9_│                            語
+ U+08AA_│                          読
+ U+08EC_│                    車
+ U+091D_│  金
+ U+0957_│              長
+ U+0959_│      間
+ U+096E_│                雨
+ U+096F_│                      電
+ U+098D_│                              食
+ U+09AD_│                高
+ U+0A7A_│                Ꞩ
+ U+0AB6_│          ꭥ
+ U+0E00_│          
+ U+0E0A_│   
+ U+0E0B_│               
+ U+0E0D_│       
+ U+0E20_│                          
+ U+0E21_│                            
+ U+0E22_│                        
+ U+0E23_│          
+ U+0E24_│        
+ U+0E25_│            
+ U+0E27_│  
+ U+0E28_│                     
+ U+0E5F_│                         
+ U+0E60_│               
+ U+0E61_│               
+ U+0E62_│              
+ U+0E63_│                   
+ U+0E64_│                            
+ U+0E65_│                           
+ U+0E67_│                   
+ U+0E68_│                     
+ U+0E69_│              
+ U+0E6A_│                 
+ U+0E6B_│    
+ U+0E70_│                        
+ U+0E71_│                        
+ U+0E72_│                     
+ U+0E73_│                     
+ U+0E74_│                       
+ U+0E75_│              
+ U+0E76_│                       
+ U+0E77_│                           
+ U+0E78_│           
+ U+0E79_│                  
+ U+0E7A_│                         
+ U+0E7B_│               
+ U+0E7C_│         
+ U+0EA7_│            
+ U+0EAE_│                
+ U+0EFF_│                       
+ U+0F00_│                    
+ U+0F01_│                 
+ U+0F02_│                    
+ U+0F03_│                     
+ U+0F04_│                     
+ U+0F05_│          
+ U+0F06_│                
+ U+0F07_│                   
+ U+0F08_│        
+ U+0F09_│                          
+ U+0F0A_│                     
+ U+0F0B_│
+ U+0F0C_│        
+ U+0F0E_│             
+ U+0F0F_│                       
+ U+0F10_│                
+ U+0F11_│                    
+ U+0F12_│             
+ U+0F13_│                        
+ U+0F14_│        
+ U+0F15_│                        
+ U+0F16_│                      
+ U+0F17_│                     
+ U+0F18_│                       
+ U+0F19_│                
+ U+0F1A_│                            
+ U+0F1B_│                      
+ U+0F1C_│      
+ U+0F1D_│      
+ U+0F1E_│                     
+ U+0F1F_│                        
+ U+0F20_│ 
+ U+0F21_│                  
+ U+0F23_│      
+ U+0F24_│    
+ U+0F25_│    
+ U+0F26_│                 
+ U+0F27_│
+ U+0F29_│            
+ U+0F2C_│                  
+ U+0F2D_│                       
+ U+0F30_│               
+ U+0F31_│                
+ U+0F40_│                           
+ U+0F41_│          
+ U+0F42_│                    
+ U+0F43_│     
+ U+0F44_│                  
+ U+0F46_│     
+ U+0F47_│                      
+ U+0F48_│                        
+ U+0F49_│                         
+ U+0F4A_│         
+ U+0F52_│                  
+ U+0F53_│                      
+ U+0F54_│                   
+ U+0F55_│                     
+ U+0F57_│                       
+ U+0F58_│               
+ U+0F59_│
+ U+0F5A_│                             
+ U+0F5B_│                       
+ U+0F5E_│                      
+ U+0F63_│   
+ U+0F65_│                 
+ U+0F66_│                 
+ U+0F67_│      
+ U+0F68_│                        
+ U+0F6A_│             
+ U+0F6B_│                
+ U+0F6F_│                              
+ U+0F71_│                        
+ U+0F72_│                      
+ U+0F74_│                    
+ U+0F78_│      
+ U+0F79_│        
+ U+0F7B_│              
+ U+0F7C_│                          
+ U+0F7D_│                  
+ U+0F7F_│                      
+ U+0F80_│                    
+ U+0F81_│                            
+ U+0F82_│
+ U+0F83_│                 
+ U+0F88_│            
+ U+0F89_│                              
+ U+0F8D_│             
+ U+0F8F_│                            
+ U+0FA7_│                          墳奄奔
+ U+0FA8_│婢
+ U+0FAA_│                直睊
+ U+0FAB_│            襁                謹
+ U+0FB0_│  ﬁ ﬂ
+ U+0FB6_│                ﭨ
+ U+0FBF_│  ﯱ
+ U+0FC2_│                            ﰮ
+ U+0FC5_│                      ﱛ ﱜ ﱝ
+ U+0FCC_│                        ﳌ
+ U+0FCE_│        ﳤ
+ U+0FD0_│      ﴃ   ﴅ ﴆ ﴇ ﴈ ﴉ ﴊ ﴋ ﴌ ﴍ ﴎ ﴏ
+ U+0FD1_│ﴐ
+ U+0FD3_│    ﴲ
+ U+0FD4_│    ﵂
+ U+0FE5_│        ﹔﹕﹖﹗﹘﹙﹚﹛﹜﹝﹞﹟
+ U+0FE6_│﹠﹡﹢﹣﹤﹥﹦  ﹨﹩﹪﹫
+ U+0FF0_│  ！＂＃＄％＆＇（）＊＋，－．／
+ U+0FF1_│０１２３４５６７８９：；＜＝＞？
+ U+0FF2_│＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯ
+ U+0FF3_│ＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿
+ U+0FF4_│｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏ
+ U+0FF5_│ｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～｟
+ U+0FF6_│｠｡ ｢ ｣ ､ ･ ｦ ｧ ｨ ｩ ｪ ｫ ｬ ｭ ｮ ｯ
+ U+0FF7_│ｰ ｱ ｲ ｳ ｴ ｵ ｶ ｷ ｸ ｹ ｺ ｻ ｼ ｽ ｾ ｿ
+ U+0FF8_│ﾀ ﾁ ﾂ ﾃ ﾄ ﾅ ﾆ ﾇ ﾈ ﾉ ﾊ ﾋ ﾌ ﾍ ﾎ ﾏ
+ U+0FF9_│ﾐ ﾑ ﾒ ﾓ ﾔ ﾕ ﾖ ﾗ ﾘ ﾙ ﾚ ﾛ ﾜ ﾝ ﾞ ﾟ
+ U+0FFE_│￠￡￢￣￤￥￦  ￨ ￩ ￪ ￫ ￬ ￭ ￮
+ U+0FFF_│                        ￼ �
+ U+1016_│                              𐅯
+ U+102A_│            𐊦
+ U+102C_│                  𐋉           𐋏
+ U+1031_│          𐌕
+ U+1034_│      𐍃
+ U+1CC0_│𜰀 𜰁 𜰂 𜰃 𜰄 𜰅 𜰆 𜰇 𜰈 𜰉 𜰊 𜰋 𜰌 𜰍 𜰎 𜰏
+ U+1CC1_│𜰐 𜰑 𜰒 𜰓 𜰔 𜰕 𜰖 𜰗 𜰘 𜰙 𜰚 𜰛 𜰜 𜰝 𜰞 𜰟
+ U+1CC2_│𜰠 𜰡 𜰢 𜰣 𜰤 𜰥 𜰦 𜰧 𜰨 𜰩 𜰪 𜰫 𜰬 𜰭 𜰮 𜰯
+ U+1CC3_│𜰰 𜰱 𜰲 𜰳 𜰴 𜰵 𜰶 𜰷 𜰸 𜰹 𜰺 𜰻 𜰼 𜰽 𜰾 𜰿
+ U+1CC4_│𜱀 𜱁 𜱂 𜱃 𜱄 𜱅 𜱆 𜱇 𜱈 𜱉 𜱊 𜱋 𜱌 𜱍 𜱎 𜱏
+ U+1CC5_│𜱐 𜱑 𜱒 𜱓 𜱔 𜱕 𜱖 𜱗 𜱘 𜱙 𜱚 𜱛 𜱜 𜱝 𜱞 𜱟
+ U+1CC6_│𜱠 𜱡 𜱢 𜱣 𜱤 𜱥 𜱦 𜱧 𜱨 𜱩 𜱪 𜱫 𜱬 𜱭 𜱮 𜱯
+ U+1CC7_│𜱰 𜱱 𜱲 𜱳 𜱴 𜱵 𜱶 𜱷 𜱸 𜱹 𜱺 𜱻 𜱼 𜱽 𜱾 𜱿
+ U+1CC8_│𜲀 𜲁 𜲂 𜲃 𜲄 𜲅 𜲆 𜲇 𜲈 𜲉 𜲊 𜲋 𜲌 𜲍 𜲎 𜲏
+ U+1CC9_│𜲐 𜲑 𜲒 𜲓 𜲔 𜲕 𜲖 𜲗 𜲘 𜲙 𜲚 𜲛 𜲜 𜲝 𜲞 𜲟
+ U+1CCA_│𜲠 𜲡 𜲢 𜲣 𜲤 𜲥 𜲦 𜲧 𜲨 𜲩 𜲪 𜲫 𜲬 𜲭 𜲮 𜲯
+ U+1CCB_│𜲰 𜲱 𜲲 𜲳 𜲴 𜲵 𜲶 𜲷 𜲸 𜲹 𜲺 𜲻 𜲼 𜲽 𜲾 𜲿
+ U+1CCC_│𜳀 𜳁 𜳂 𜳃 𜳄 𜳅 𜳆 𜳇 𜳈 𜳉 𜳊 𜳋 𜳌 𜳍 𜳎 𜳏
+ U+1CCD_│𜳐 𜳑 𜳒 𜳓 𜳔 𜳕 𜳖 𜳗 𜳘 𜳙 𜳚 𜳛 𜳜 𜳝 𜳞 𜳟
+ U+1CCE_│𜳠 𜳡 𜳢 𜳣 𜳤 𜳥 𜳦 𜳧 𜳨 𜳩 𜳪 𜳫 𜳬 𜳭 𜳮 𜳯
+ U+1CCF_│𜳰 𜳱 𜳲 𜳳 𜳴 𜳵 𜳶 𜳷 𜳸 𜳹
+ U+1CD0_│𜴀 𜴁 𜴂 𜴃 𜴄 𜴅 𜴆 𜴇 𜴈 𜴉 𜴊 𜴋 𜴌 𜴍 𜴎 𜴏
+ U+1CD1_│𜴐 𜴑 𜴒 𜴓 𜴔 𜴕 𜴖 𜴗 𜴘 𜴙 𜴚 𜴛 𜴜 𜴝 𜴞 𜴟
+ U+1CD2_│𜴠 𜴡 𜴢 𜴣 𜴤 𜴥 𜴦 𜴧 𜴨 𜴩 𜴪 𜴫 𜴬 𜴭 𜴮 𜴯
+ U+1CD3_│𜴰 𜴱 𜴲 𜴳 𜴴 𜴵 𜴶 𜴷 𜴸 𜴹 𜴺 𜴻 𜴼 𜴽 𜴾 𜴿
+ U+1CD4_│𜵀 𜵁 𜵂 𜵃 𜵄 𜵅 𜵆 𜵇 𜵈 𜵉 𜵊 𜵋 𜵌 𜵍 𜵎 𜵏
+ U+1CD5_│𜵐 𜵑 𜵒 𜵓 𜵔 𜵕 𜵖 𜵗 𜵘 𜵙 𜵚 𜵛 𜵜 𜵝 𜵞 𜵟
+ U+1CD6_│𜵠 𜵡 𜵢 𜵣 𜵤 𜵥 𜵦 𜵧 𜵨 𜵩 𜵪 𜵫 𜵬 𜵭 𜵮 𜵯
+ U+1CD7_│𜵰 𜵱 𜵲 𜵳 𜵴 𜵵 𜵶 𜵷 𜵸 𜵹 𜵺 𜵻 𜵼 𜵽 𜵾 𜵿
+ U+1CD8_│𜶀 𜶁 𜶂 𜶃 𜶄 𜶅 𜶆 𜶇 𜶈 𜶉 𜶊 𜶋 𜶌 𜶍 𜶎 𜶏
+ U+1CD9_│𜶐 𜶑 𜶒 𜶓 𜶔 𜶕 𜶖 𜶗 𜶘 𜶙 𜶚 𜶛 𜶜 𜶝 𜶞 𜶟
+ U+1CDA_│𜶠 𜶡 𜶢 𜶣 𜶤 𜶥 𜶦 𜶧 𜶨 𜶩 𜶪 𜶫 𜶬 𜶭 𜶮 𜶯
+ U+1CDB_│𜶰 𜶱 𜶲 𜶳 𜶴 𜶵 𜶶 𜶷 𜶸 𜶹 𜶺 𜶻 𜶼 𜶽 𜶾 𜶿
+ U+1CDC_│𜷀 𜷁 𜷂 𜷃 𜷄 𜷅 𜷆 𜷇 𜷈 𜷉 𜷊 𜷋 𜷌 𜷍 𜷎 𜷏
+ U+1CDD_│𜷐 𜷑 𜷒 𜷓 𜷔 𜷕 𜷖 𜷗 𜷘 𜷙 𜷚 𜷛 𜷜 𜷝 𜷞 𜷟
+ U+1CDE_│𜷠 𜷡 𜷢 𜷣 𜷤 𜷥 𜷦 𜷧 𜷨 𜷩 𜷪 𜷫 𜷬 𜷭 𜷮 𜷯
+ U+1CDF_│𜷰 𜷱 𜷲 𜷳 𜷴 𜷵 𜷶 𜷷 𜷸 𜷹 𜷺 𜷻 𜷼 𜷽 𜷾 𜷿
+ U+1CE0_│𜸀 𜸁 𜸂 𜸃 𜸄 𜸅 𜸆 𜸇 𜸈 𜸉 𜸊 𜸋 𜸌 𜸍 𜸎 𜸏
+ U+1CE1_│𜸐 𜸑 𜸒 𜸓 𜸔 𜸕 𜸖 𜸗 𜸘 𜸙 𜸚 𜸛 𜸜 𜸝 𜸞 𜸟
+ U+1CE2_│𜸠 𜸡 𜸢 𜸣 𜸤 𜸥 𜸦 𜸧 𜸨 𜸩 𜸪 𜸫 𜸬 𜸭 𜸮 𜸯
+ U+1CE3_│𜸰 𜸱 𜸲 𜸳 𜸴 𜸵 𜸶 𜸷 𜸸 𜸹 𜸺 𜸻 𜸼 𜸽 𜸾 𜸿
+ U+1CE4_│𜹀 𜹁 𜹂 𜹃 𜹄 𜹅 𜹆 𜹇 𜹈 𜹉 𜹊 𜹋 𜹌 𜹍 𜹎 𜹏
+ U+1CE5_│𜹐 𜹑 𜹒 𜹓 𜹔 𜹕 𜹖 𜹗 𜹘 𜹙 𜹚 𜹛 𜹜 𜹝 𜹞 𜹟
+ U+1CE6_│𜹠 𜹡 𜹢 𜹣 𜹤 𜹥 𜹦 𜹧 𜹨 𜹩 𜹪 𜹫 𜹬 𜹭 𜹮 𜹯
+ U+1CE7_│𜹰 𜹱 𜹲 𜹳 𜹴 𜹵 𜹶 𜹷 𜹸 𜹹 𜹺 𜹻 𜹼 𜹽 𜹾 𜹿
+ U+1CE8_│𜺀 𜺁 𜺂 𜺃 𜺄 𜺅 𜺆 𜺇 𜺈 𜺉 𜺊 𜺋 𜺌 𜺍 𜺎 𜺏
+ U+1CE9_│𜺐 𜺑 𜺒 𜺓 𜺔 𜺕 𜺖 𜺗 𜺘 𜺙 𜺚 𜺛 𜺜 𜺝 𜺞 𜺟
+ U+1CEA_│𜺠 𜺡 𜺢 𜺣 𜺤 𜺥 𜺦 𜺧 𜺨 𜺩 𜺪 𜺫 𜺬 𜺭 𜺮 𜺯
+ U+1CEB_│𜺰 𜺱 𜺲 𜺳
+ U+1D30_│            𝌆 𝌇 𝌈 𝌉 𝌊 𝌋 𝌌 𝌍 𝌎 𝌏
+ U+1D31_│𝌐 𝌑 𝌒 𝌓 𝌔 𝌕 𝌖 𝌗 𝌘 𝌙 𝌚 𝌛 𝌜 𝌝 𝌞 𝌟
+ U+1D32_│𝌠 𝌡 𝌢 𝌣 𝌤 𝌥 𝌦 𝌧 𝌨 𝌩 𝌪 𝌫 𝌬 𝌭 𝌮 𝌯
+ U+1D33_│𝌰 𝌱 𝌲 𝌳 𝌴 𝌵 𝌶 𝌷 𝌸 𝌹 𝌺 𝌻 𝌼 𝌽 𝌾 𝌿
+ U+1D34_│𝍀 𝍁 𝍂 𝍃 𝍄 𝍅 𝍆 𝍇 𝍈 𝍉 𝍊 𝍋 𝍌 𝍍 𝍎 𝍏
+ U+1D35_│𝍐 𝍑 𝍒 𝍓 𝍔 𝍕 𝍖
+ U+1D4D_│𝓐   𝓒
+ U+1D4E_│    𝓢
+ U+1D53_│                          𝔽 𝔾
+ U+1D54_│                    𝕊       𝕎 𝕏
+ U+1D55_│              𝕗 𝕘
+ U+1D56_│      𝕣 𝕤       𝕨 𝕩
+ U+1D64_│                              𝙏
+ U+1F00_│        🀄
+ U+1F0A_│🂠 🂡 🂢 🂣 🂤 🂥 🂦 🂧 🂨 🂩 🂪 🂫 🂬 🂭 🂮
+ U+1F0B_│  🂱 🂲 🂳 🂴 🂵 🂶 🂷 🂸 🂹 🂺 🂻 🂼 🂽 🂾 🂿
+ U+1F0C_│  🃁 🃂 🃃 🃄 🃅 🃆 🃇 🃈 🃉 🃊 🃋 🃌 🃍 🃎 🃏
+ U+1F0D_│  🃑 🃒 🃓 🃔 🃕 🃖 🃗 🃘 🃙 🃚 🃛 🃜 🃝 🃞 🃟
+ U+1F10_│                      🄋 🄌 🄍
+ U+1F11_│🄐 🄑 🄒 🄓 🄔 🄕 🄖 🄗 🄘 🄙 🄚 🄛 🄜 🄝 🄞 🄟
+ U+1F12_│🄠 🄡 🄢 🄣 🄤 🄥 🄦 🄧 🄨 🄩
+ U+1F15_│🅐 🅑 🅒 🅓 🅔 🅕 🅖 🅗 🅘 🅙 🅚 🅛 🅜 🅝 🅞 🅟
+ U+1F16_│🅠 🅡 🅢 🅣 🅤 🅥 🅦 🅧 🅨 🅩
+ U+1F17_│🅰 🅱 🅲 🅳 🅴 🅵 🅶 🅷 🅸 🅹 🅺 🅻 🅼 🅽 🅾 🅿
+ U+1F18_│🆀 🆁 🆂 🆃 🆄 🆅 🆆 🆇 🆈 🆉
+ U+1F1E_│            🇦 🇧 🇨 🇩 🇪 🇫 🇬 🇭 🇮 🇯
+ U+1F1F_│🇰 🇱 🇲 🇳 🇴 🇵 🇶 🇷 🇸 🇹 🇺 🇻 🇼 🇽 🇾 🇿
+ U+1F31_│  🌑🌒🌓🌔🌕🌖🌗🌘          🌞
+ U+1F33_│  🌱  🌳        🌸
+ U+1F34_│🍀                          🍎🍏
+ U+1F37_│                  🍹
+ U+1F38_│  🎁
+ U+1F39_│        🎔
+ U+1F3A_│                            🎮
+ U+1F3B_│  🎱
+ U+1F40_│                🐈        🐍  🐏
+ U+1F41_│                🐘    🐛
+ U+1F42_│              🐧  🐩🐪🐫🐬
+ U+1F43_│                  🐹
+ U+1F44_│              👇👈
+ U+1F46_│                  👩
+ U+1F47_│                      👻  👽👾
+ U+1F48_│💀                      💌  💎
+ U+1F49_│      💓💔💕💖💗💘💙💚💛💜💝💞
+ U+1F4A_│💠💡  💣💤💥      💩        💮💯
+ U+1F4B_│💰  💲                💻💼💽💾💿
+ U+1F4C_│📀📁📂📃📄📅📆📇      📋📌
+ U+1F4D_│            📖          📜📝📞
+ U+1F4E_│📠📡    📤📥📦📧📨📩
+ U+1F4F_│📰
+ U+1F50_│                      🔋
+ U+1F51_│🔐🔑🔒🔓      🔗
+ U+1F52_│              🔧        🔬  🔮
+ U+1F55_│🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟
+ U+1F56_│🕠🕡🕢🕣🕤🕥🕦🕧
+ U+1F58_│    🖂 🖃
+ U+1F5A_│        🖤      🖨 🖩 🖪 🖫 🖬 🖭
+ U+1F5B_│      🖳         🖸
+ U+1F5F_│    🗲
+ U+1F60_│                😈  😊      😎
+ U+1F61_│😐
+ U+1F68_│🚀
+ U+1F6E_│🛠 🛡           🛧
+ U+1F6F_│                🛸
+ U+1F8B_│🢰 🢱 🢲 🢳 🢴 🢵 🢶 🢷 🢸 🢹 🢺 🢻
+ U+1F90_│                          🤍🤎
+ U+1F91_│            🤖
+ U+1F93_│              🤷
+ U+1F98_│🦀                  🦊  🦌
+ U+1F9E_│  🧡
+ U+1FA7_│          🩵🩶🩷
+ U+1FA9_│                              🪟
+ U+1FB0_│🬀 🬁 🬂 🬃 🬄 🬅 🬆 🬇 🬈 🬉 🬊 🬋 🬌 🬍 🬎 🬏
+ U+1FB1_│🬐 🬑 🬒 🬓 🬔 🬕 🬖 🬗 🬘 🬙 🬚 🬛 🬜 🬝 🬞 🬟
+ U+1FB2_│🬠 🬡 🬢 🬣 🬤 🬥 🬦 🬧 🬨 🬩 🬪 🬫 🬬 🬭 🬮 🬯
+ U+1FB3_│🬰 🬱 🬲 🬳 🬴 🬵 🬶 🬷 🬸 🬹 🬺 🬻 🬼 🬽 🬾 🬿
+ U+1FB4_│🭀 🭁 🭂 🭃 🭄 🭅 🭆 🭇 🭈 🭉 🭊 🭋 🭌 🭍 🭎 🭏
+ U+1FB5_│🭐 🭑 🭒 🭓 🭔 🭕 🭖 🭗 🭘 🭙 🭚 🭛 🭜 🭝 🭞 🭟
+ U+1FB6_│🭠 🭡 🭢 🭣 🭤 🭥 🭦 🭧 🭨 🭩 🭪 🭫 🭬 🭭 🭮 🭯
+ U+1FB7_│🭰 🭱 🭲 🭳 🭴 🭵 🭶 🭷 🭸 🭹 🭺 🭻 🭼 🭽 🭾 🭿
+ U+1FB8_│🮀 🮁 🮂 🮃 🮄 🮅 🮆 🮇 🮈 🮉 🮊 🮋 🮌 🮍 🮎 🮏
+ U+1FB9_│🮐 🮑 🮒   🮔 🮕 🮖 🮗 🮘 🮙 🮚 🮛 🮜 🮝 🮞 🮟
+ U+1FBA_│🮠 🮡 🮢 🮣 🮤 🮥 🮦 🮧 🮨 🮩 🮪 🮫 🮬 🮭 🮮 🮯
+ U+1FBB_│🮰 🮱 🮲 🮳 🮴 🮵 🮶 🮷 🮸 🮹 🮺 🮻 🮼 🮽 🮾 🮿
+ U+1FBC_│🯀 🯁 🯂 🯃 🯄 🯅 🯆 🯇 🯈 🯉 🯊 🯋 🯌 🯍 🯎 🯏
+ U+1FBD_│🯐 🯑 🯒 🯓 🯔 🯕 🯖 🯗 🯘 🯙 🯚 🯛 🯜 🯝 🯞 🯟
+ U+1FBE_│🯠 🯡 🯢 🯣 🯤 🯥 🯦 🯧 🯨 🯩 🯪 🯫 🯬 🯭 🯮 🯯
+ U+1FBF_│🯰 🯱 🯲 🯳 🯴 🯵 🯶 🯷 🯸 🯹
+ U+F000_│    󰀂
+ U+F004_│                        󰁌
+ U+F006_│                              󰁯
+ U+F007_│                  󰁹 󰁺 󰁻 󰁼 󰁽 󰁾 󰁿
+ U+F008_│󰂀 󰂁 󰂂 󰂃 󰂄 󰂅 󰂆 󰂇 󰂈 󰂉 󰂊 󰂋 󰂌 󰂍 󰂎 󰂏
+ U+F009_│󰂐 󰂑                 󰂚 󰂛 󰂜 󰂝 󰂞 󰂟
+ U+F00A_│󰂠
+ U+F00B_│                    󰂺
+ U+F00C_│󰃀 󰃁 󰃂 󰃃 󰃄 󰃅 󰃆
+ U+F00F_│󰃰
+ U+F017_│    󰅲
+ U+F01A_│                󰆨
+ U+F01F_│󰇰
+ U+F023_│    󰈲
+ U+F024_│                          󰉍
+ U+F029_│                    󰊚
+ U+F02A_│    󰊢
+ U+F02D_│  󰋑     󰋔
+ U+F030_│            󰌆
+ U+F031_│                      󰌛
+ U+F032_│󰌠
+ U+F041_│  󰐑
+ U+F048_│                      󰒋   󰒍
+ U+F04B_│    󰒲
+ U+F051_│                              󰔟
+ U+F055_│                  󰕙
+ U+F05A_│                              󰖯
+ U+F05B_│󰖰
+ U+F05C_│            󰗆       󰗊
+ U+F064_│          󰙅
+ U+F06A_│          󰚥       󰚩
+ U+F072_│                      󰜫
+ U+F07D_│        󰟔
+ U+F084_│        󰡄
+ U+F08A_│                        󰢬
+ U+F08C_│󰣀
+ U+F0A0_│                    󰨊
+ U+F0DD_│            󰷖
+ U+F10F_│                            󱃾
+ U+F116_│                      󱅫
+ U+F118_│      󱆃
+ U+F121_│  󱈑
+ U+F12A_│              󱊧
+ U+F135_│                  󱍙
+ U+F141_│              󱐗
+</code>
+</pre>
+	</p>
+</details>
+		<footer style="margin-bottom: 2em;">
+			<a class="special" href="/index.html">Return To Index</a>
+		</footer>
+	</article>
+</body>
