@@ -10,23 +10,23 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ⚙️
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22' # Specify the Node.js version to use
+      # - name: Setup Node.js ⚙️
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '22' # Specify the Node.js version to use
 
-      - name: Install Dependencies 📦
-        run: npm install # Adjust this command if you use a different package manager or have additional setup steps
+      # - name: Install Dependencies 📦
+      #   run: npm install # Adjust this command if you use a different package manager or have additional setup steps
 
-      - name: Install gnuplot
-        run: sudo apt install gnuplot-nox colorized-logs
+      # - name: Install gnuplot
+      #   run: sudo apt install gnuplot-nox colorized-logs
 
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      # - name: Install bun
+      #   uses: oven-sh/setup-bun@v2
 
-      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
-        run: |
-          bash ./generate && bash ./generate minify-out
+      # - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+      #   run: |
+      #     bash ./generate && bash ./generate minify-out
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
