@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>Nes's Personal Site</title>
+        <link>http://nes.is-a.dev</link>
+        <description>My little corner of the internet</description>
+        <language>en-us</language>
+        <pubDate>Sat, 30 Aug 2025 00:50:36 +0530</pubDate>
+        <lastBuildDate>Sat, 30 Aug 2025 00:50:36 +0530</lastBuildDate>
+        <item>
+            <title>G-Senjou No Maou (Devil on G String)</title>
+            <link>http://nes.is-a.dev/random/gsenjounomaou.html</link>
+            <description>G-Senjou No Maou (Devil on G String)</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:35 +0530</pubDate>
+            <guid>http://nes.is-a.dev/random/gsenjounomaou.html</guid>
+        </item>
+        <item>
+            <title>2024, What can the web do?</title>
+            <link>http://nes.is-a.dev/2024/fugu.html</link>
+            <description>2024, What can the web do?</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:34 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2024/fugu.html</guid>
+        </item>
+        <item>
+            <title>stable diffussion experiments</title>
+            <link>http://nes.is-a.dev/2024/sd.html</link>
+            <description>stable diffussion experiments</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2024/sd.html</guid>
+        </item>
+        <item>
+            <title>modern video and image codecs</title>
+            <link>http://nes.is-a.dev/2024/imgvidenc.html</link>
+            <description>modern video and image codecs</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2024/imgvidenc.html</guid>
+        </item>
+        <item>
+            <title>C Compiler Binary Optimization</title>
+            <link>http://nes.is-a.dev/2021/small-c.html</link>
+            <description>C Compiler Binary Optimization</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/small-c.html</guid>
+        </item>
+        <item>
+            <title>Godot for UI</title>
+            <link>http://nes.is-a.dev/2021/godot.html</link>
+            <description>Godot for UI</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:34 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/godot.html</guid>
+        </item>
+        <item>
+            <title>Vi IMproved</title>
+            <link>http://nes.is-a.dev/2021/vim.html</link>
+            <description>Vi IMproved</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:34 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/vim.html</guid>
+        </item>
+        <item>
+            <title>Emacs</title>
+            <link>http://nes.is-a.dev/2021/emacs.html</link>
+            <description>Emacs</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/emacs.html</guid>
+        </item>
+        <item>
+            <title>A day of fixing bitmap fonts on Linux/X11</title>
+            <link>http://nes.is-a.dev/2021/bmps.html</link>
+            <description>A day of fixing bitmap fonts on Linux/X11</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/bmps.html</guid>
+        </item>
+        <item>
+            <title>neovim w/ xterm</title>
+            <link>http://nes.is-a.dev/2021/xterm-sixel-nvim.html</link>
+            <description>neovim w/ xterm</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/xterm-sixel-nvim.html</guid>
+        </item>
+        <item>
+            <title>Lorem Ipsum</title>
+            <link>http://nes.is-a.dev/2021/lorem.html</link>
+            <description>Lorem Ipsum</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/lorem.html</guid>
+        </item>
+        <item>
+            <title>Wayland</title>
+            <link>http://nes.is-a.dev/2021/wayland.html</link>
+            <description>Wayland</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2021/wayland.html</guid>
+        </item>
+        <item>
+            <title>Approximating sin(x)</title>
+            <link>http://nes.is-a.dev/2022/approximating-sin.html</link>
+            <description>Approximating sin(x)</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2022/approximating-sin.html</guid>
+        </item>
+        <item>
+            <title>My custom markdown flavour</title>
+            <link>http://nes.is-a.dev/2022/nesdown.html</link>
+            <description>My custom markdown flavour</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2022/nesdown.html</guid>
+        </item>
+        <item>
+            <title>My Language Tierlist</title>
+            <link>http://nes.is-a.dev/2022/tierlist.html</link>
+            <description>My Language Tierlist</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2022/tierlist.html</guid>
+        </item>
+        <item>
+            <title>Menory</title>
+            <link>http://nes.is-a.dev/2022/menory.html</link>
+            <description>Menory</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2022/menory.html</guid>
+        </item>
+        <item>
+            <title>Fast Inverse Square Root (Quake III Arena)</title>
+            <link>http://nes.is-a.dev/todo/fisr.html</link>
+            <description>Fast Inverse Square Root (Quake III Arena)</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/todo/fisr.html</guid>
+        </item>
+        <item>
+            <title>ASUS TUF A15 2023</title>
+            <link>http://nes.is-a.dev/2025/tuf.html</link>
+            <description>ASUS TUF A15 2023</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:35 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2025/tuf.html</guid>
+        </item>
+        <item>
+            <title>ZipLine 2024: My first dive in robotics</title>
+            <link>http://nes.is-a.dev/2025/zipline.html</link>
+            <description>ZipLine 2024: My first dive in robotics</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2025/zipline.html</guid>
+        </item>
+        <item>
+            <title>Cheapino</title>
+            <link>http://nes.is-a.dev/2025/cheapino.html</link>
+            <description>Cheapino</description>
+            <pubDate>Sat, 30 Aug 2025 00:50:33 +0530</pubDate>
+            <guid>http://nes.is-a.dev/2025/cheapino.html</guid>
+        </item>
+    </channel>
+</rss>

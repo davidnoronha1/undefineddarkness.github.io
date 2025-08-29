@@ -172,8 +172,8 @@ generate_index() {
 
 
 	printf "\r\e[33m\e[1mBUILT\e[0m %d files in %dms.\n" "$count" "$global_elapsed"
-	# cp ./$output_dir/index.html ./index.html
-	ln -sf ./$output_dir/index.html ./index.html
+	cp ./$output_dir/index.html ./index.html
+	# ln -sf ./$output_dir/index.html ./index.html
 }
 
 
