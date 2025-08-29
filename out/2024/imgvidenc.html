@@ -1,1 +1,78 @@
-<!doctype html><html lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png"><link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico"><link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png"><meta name="msapplication-config" content="/assets/icons/browserconfig.xml"><meta name="author" content="nes"><title>modern video and image codecs</title><meta property="og:title" content="modern video and image codecs"><meta property="og:type" content="article"><meta property="og:url" content="https://nes.is-a.dev/out/2024/imgvidenc.html"><meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg"><link rel="preload" href="/assets/fonts/FairfaxHDEmoji.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:Body Font;font-style:normal;font-weight:400;src:url(/assets/fonts/FairfaxHDEmoji.woff2) format("woff2")}@font-face{font-family:Heading Font;src:url(/assets/fonts/cozette.woff2) format("woff2")}:root{--article-size:1em;--human-style:"CASL" 0.8}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:Body Font,Heading Font,Symbols Nerd Font,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;font-variation-settings:"MONO" 0;font-weight:400}h1,h2,h3{font-family:Heading Font,Body Font,Gill Sans,Gill Sans MT,Calibri,Trebuchet MS,sans-serif;font-variation-settings:var(--human-style)}h1,h2,h3{font-variation-settings:var(--human-style),"wght" 600;font-weight:400}h1{font-size:calc(var(--article-size)*2.1);margin-bottom:.4em}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5)}header .img-sml{image-rendering:pixelated}.img-sml{max-height:200px;max-width:200px}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}.hljs{background-color:inherit!important;background:inherit!important}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}article{line-height:1.5;padding-left:12vw;padding-right:23vw;width:100%}body>article:first-child{padding-top:2em}article ul,li>ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:none;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}mark{background:var(--white-darker);color:inherit;display:inline-block;padding:1em}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}article footer{margin-left:0}article img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}nav.toc{float:right;font-size:.8em;margin:2em;max-width:20vw;position:fixed;right:0;text-overflow:ellipsis;top:0;z-index:999}nav.toc ul{list-style:none;margin:0;padding:0;white-space:nowrap}nav.toc ul .toc-subheading:before{border-left:2px solid gray;content:"";padding-left:.8em}nav.toc ul .toc-subheading:last-child:before{background-image:linear-gradient(180deg,gray 0,gray 50%,transparent 0,transparent 75%,transparent);background-repeat:no-repeat;background-size:2px 100%;border-left:none}nav.toc ul .toc-subheading{position:relative}nav.toc ul .toc-subheading:after{border-bottom:2px solid gray;content:"";height:.5em;left:0;position:absolute;width:.6em}nav.toc a{color:var(--black)}nav.toc ul .toc-subheading{margin-left:.6em}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}nav.toc{display:none}header img{float:revert}}</style><nav class="toc"><ul><li><a href="#video-codecs">Video Codecs</a><li class="toc-subheading"><a href="#av1-avif">AV1 / AVIF</a><li><a href="#image-codecs">Image Codecs</a><li class="toc-subheading"><a href="#quif">QUIF</a><li class="toc-subheading"><a href="#png">PNG</a><li class="toc-subheading"><a href="#jpeg">JPEG</a></ul></nav><article><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript><script defer="defer" src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll()"></script><header><img class="img-sml" src="assets/images/icon-avif.avif"><h1>modern video and image codecs</h1></header>Video & Image Video codecs are something that always interest me just because of the amount of engineering put into them<br><br><h2 id="video-codecs">Video Codecs</h2><p><h3 id="av1-avif">AV1 / AVIF</h3><p><br><h2 id="image-codecs">Image Codecs</h2><p><h3 id="quif">QUIF</h3><p><h3 id="png">PNG</h3><p><h3 id="jpeg">JPEG</h3><p><br><mark>🚧 This article is a work in progress 🚧</mark><footer style="margin-bottom:2em"><a class="special" href="/index.html">Return To Index</a></footer></article>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
+	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+	<meta name="author" content="nes" />
+	<title>modern video and image codecs</title>
+	<meta property="og:title" content="modern video and image codecs" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://nes.is-a.dev/out/2024/imgvidenc.html" />
+	<meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+	<link rel="preload" href="/assets/fonts/FairfaxHDEmoji.woff2" as="font" type="font/woff2" crossorigin>
+	<style>@font-face{font-family:Body Font;font-style:normal;font-weight:400;src:url(/assets/fonts/FairfaxHDEmoji.woff2) format("woff2")}@font-face{font-family:Heading Font;src:url(/assets/fonts/cozette.woff2) format("woff2")}:root{--article-size:1em;--human-style:"CASL" 0.8}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:Body Font,Heading Font,Symbols Nerd Font,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;font-variation-settings:"MONO" 0;font-weight:400}h1,h2,h3{font-family:Heading Font,Body Font,Gill Sans,Gill Sans MT,Calibri,Trebuchet MS,sans-serif;font-variation-settings:var(--human-style)}h1,h2,h3{font-variation-settings:var(--human-style),"wght" 600;font-weight:400}h1{font-size:calc(var(--article-size)*2.1);margin-bottom:.4em}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5)}header .img-sml{image-rendering:pixelated}.img-sml{max-height:200px;max-width:200px}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}.hljs{background-color:inherit!important;background:inherit!important}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}article{line-height:1.5;padding-left:12vw;padding-right:23vw;width:100%}body>article:first-child{padding-top:2em}article ul,li>ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:none;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}mark{background:var(--white-darker);color:inherit;display:inline-block;padding:1em}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}article footer{margin-left:0}article img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}nav.toc{float:right;font-size:.8em;margin:2em;max-width:20vw;position:fixed;right:0;text-overflow:ellipsis;top:0;z-index:999}nav.toc ul{list-style:none;margin:0;padding:0;white-space:nowrap}nav.toc ul .toc-subheading:before{border-left:2px solid gray;content:"";padding-left:.8em}nav.toc ul .toc-subheading:last-child:before{background-image:linear-gradient(180deg,gray 0,gray 50%,transparent 0,transparent 75%,transparent);background-repeat:no-repeat;background-size:2px 100%;border-left:none}nav.toc ul .toc-subheading{position:relative}nav.toc ul .toc-subheading:after{border-bottom:2px solid gray;content:"";height:.5em;left:0;position:absolute;width:.6em}nav.toc a{color:var(--black)}nav.toc ul .toc-subheading{margin-left:.6em}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}nav.toc{display:none}header img{float:revert}}</style>
+</head>
+
+<body>
+	<nav class="toc">
+		<ul><li><a href='#video-codecs'>Video Codecs</a></li><li class='toc-subheading'><a href='#av1-avif'>AV1 / AVIF</a></li><li><a href='#image-codecs'>Image Codecs</a></li><li class='toc-subheading'><a href='#quif'>QUIF</a></li><li class='toc-subheading'><a href='#png'>PNG</a></li><li class='toc-subheading'><a href='#jpeg'>JPEG</a></li></ul>
+	</nav>
+	<article>
+
+
+		<!-- HIGHLIGHTJS LOADING -->
+		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript>
+		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
+		<header>
+  <img class='img-sml' src="assets/images/icon-avif.avif" />
+  <!-- post_image="assets/images/icon-avif.avif" -->
+  <h1>modern video and image codecs</h1>
+  <!-- post_description="A brief look into modern video and image codecs" -->
+</header>
+Video & Image Video codecs are something that always interest me just because of the amount of engineering put into them<br/>
+<br/>
+<h2 id="video-codecs">Video Codecs</h2>
+<p>
+</p>
+<h3 id="av1-avif">AV1 / AVIF</h3>
+<p>
+<br/>
+</p>
+<h2 id="image-codecs">Image Codecs</h2>
+<p>
+</p>
+<h3 id="quif">QUIF</h3>
+<p>
+</p>
+<h3 id="png">PNG</h3>
+<p>
+</p>
+<h3 id="jpeg">JPEG</h3>
+<p>
+<br/>
+<mark>🚧 This article is a work in progress 🚧</mark>
+		<footer style="margin-bottom: 2em;">
+			<a class="special" href="/index.html">Return To Index</a>
+		</footer>
+	</article>
+</body>
