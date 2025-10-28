@@ -212,6 +212,10 @@ pdf () {
     # printf '<iframe class="pdfobject" title="Embedded PDF" src="%s" allow="fullscreen" style="border: none; position: absolute; inset: 0px; width: 100%; height: 100%;"></iframe>' "${3}"
 }
 
+redirect () {
+    printf '<meta http-equiv="refresh" content="0; url=%s" />' "$3"
+}
+
 pdfi () {
     local pdf_path="$3"
     export want_pdfi=1

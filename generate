@@ -289,6 +289,10 @@ case "${1:-}" in
 	perform_html_optimization
 	exit
 	;;
+"minify-html")
+	html_optimize_file "$2"
+	exit
+	;;
 "deploy")
 	./generate
 	./generate minify-out
