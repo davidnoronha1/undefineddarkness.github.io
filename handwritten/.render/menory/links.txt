@@ -1,0 +1,4 @@
+https://en.wikibooks.org/wiki/Data_Structures/Stacks_and_Queues
+https://github.com/google/sanitizers/wiki/addresssanitizer
+https://linux.die.net/man/3/malloc
+https://samwho.dev/big-o/

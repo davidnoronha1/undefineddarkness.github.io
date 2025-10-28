@@ -2,5 +2,5 @@
 Everything you need to know about manual memory management
 #END HEADER
 
-#PDF /assets/documents/menory.pdf#zoom=200
-#END PDF
+#REDIRECT /handwritten/viewer/index.html?article=menory&pagecount=12
+#END REDIRECT
