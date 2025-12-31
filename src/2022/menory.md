@@ -1,5 +1,4 @@
 # Basic Memory Introduction
-
 An introduction to low-level programming and how to avoid
 
 ```c
