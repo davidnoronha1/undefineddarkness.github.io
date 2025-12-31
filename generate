@@ -167,7 +167,7 @@ generate_index() {
 			posts+="</div></li>\n"
 
 			((count++))
-		done < <(grep -ProH '<h1.*?>.*</h1>' "${folder}")
+		done < <(grep -ProH -m 1 '<h1.*?>.*</h1>' "${folder}")
 		folder=${folder#*/}
 		sed -i "s\`!POSTS-${folder^^}!\`$posts\`g" "./$output_dir/index.tmp.html"
 	done
