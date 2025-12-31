@@ -6,11 +6,6 @@
 	font-style: normal;
 }
 
-@font-face {
-	font-family: 'Heading Font';
-	src: url('/assets/fonts/cozette.woff2') format('woff2');
-}
-
 :root {
 	--article-size: 1em;
 	--human-style: 'CASL' 0.8;

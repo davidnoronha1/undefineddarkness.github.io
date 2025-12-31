@@ -5,6 +5,15 @@
 
 set -e  # Exit on any error
 
+debug_prefix=""
+dbg () {
+	if [ -n "${optimize_debug:-}" ]; then
+		format=$1
+		shift
+		printf "\033[32mDBG\033[0m${debug_prefix} $format \n" "$@" >&2
+	fi
+}
+
 # Check if required tools are installed
 check_dependencies() {
     local missing_deps=()
@@ -13,8 +22,8 @@ check_dependencies() {
         missing_deps+=("bun")
     fi
     
-    if ! command -v convert &> /dev/null; then
-        missing_deps+=("imagemagick")
+    if ! command -v ffmpeg &> /dev/null; then
+        missing_deps+=("ffmpeg")
     fi
     
     if [ ${#missing_deps[@]} -ne 0 ]; then
@@ -29,18 +38,30 @@ convert_to_avif() {
     local src_path="$1"
     local dest_path="$2"
     
+    # Skip if output already exists
+    if [ -f "$dest_path" ]; then
+        dbg "Skipping: $dest_path (already exists)"
+        return 0
+    fi
+    
     # Create destination directory if it doesn't exist
     mkdir -p "$(dirname "$dest_path")"
     
-    # Use ImageMagick convert to convert to AVIF
-    convert "$src_path" -quality 80 "$dest_path"
+    # Use ffmpeg to convert to AVIF
+    ffmpeg -i "$src_path" -c:v libaom-av1 -crf 28 -still-picture 1 "$dest_path" 2>/dev/null
     
-    echo "Converted: $src_path -> $dest_path" >&2
+    if [ $? -eq 0 ]; then
+        dbg "Converted: $src_path -> $dest_path"
+    else
+        echo "Error converting: $src_path" >&2
+        return 1
+    fi
 }
 
 # Process images referenced in HTML
 process_images() {
     local html_content="$1"
+    local html_dir="$2"
     local processed_html="$html_content"
     
     # Find all image sources (src attributes)
@@ -54,15 +75,54 @@ process_images() {
 			if [[ "$img_src" == http* ]]; then
 				continue
 			fi
+
+            # Handle local images (starting with ./ or ../)
+            # dbg "Processing local image: $img_src" 
+            if [[ $img_src == ./* || $img_src == ../* ]] || [[ $img_src != /assets/* ]]; then
+                if [[ $img_src == ../../assets/* ]]; then
+                    # dbg "Skipping image outside project assets: $img_src"
+                    continue
+                fi
+
+                # echo "Processing local image: $img_src"
+                # Resolve the path relative to the HTML file directory
+                local resolved_src
+                # echo "Searching for local image: $img_src in dir: $html_dir" >&2
+                if [ -n "$html_dir" ]; then
+                    resolved_src=$(cd "$html_dir" && realpath "$img_src")
+                else
+                    resolved_src=$(realpath "$img_src")
+                fi
+                
+                # Check if source file exists
+                if [ ! -f "$resolved_src" ]; then
+                    echo "Warning: Local image not found: $resolved_src (from $img_src)" >&2
+                    continue
+                fi
+                
+                # Extract filename without extension
+                local filename=$(basename "$resolved_src")
+                local name="${filename%.*}"
+                
+                # Define destination path in assets/
+                local dest_path="assets/${name}.avif"
+                local new_src="/assets/${name}.avif"
+                
+                # Convert to AVIF
+                convert_to_avif "$resolved_src" "$dest_path"
+                
+                # Update HTML content to reference AVIF file
+                processed_html=$(echo "$processed_html" | sed "s|$img_src|$new_src|g")
+                
+                continue
+            fi
+
 			local src_from_assets=${img_src#*assets/}
 
             # Extract filename and extension
             local filename=${src_from_assets}
-            # filename=$(basename "$img_src")
             local name="${src_from_assets%.*}"
             local ext="${src_from_assets##*.}"
-
-			
             
             # Define source and destination paths
             local src_path="assets_src/$filename"
@@ -89,10 +149,19 @@ process_images() {
 main() {
     local input_file=""
     local output_file=""
+    local html_dir=""
     
     # Parse arguments
     while [[ $# -gt 0 ]]; do
         case $1 in
+            --stdin)
+                input_file=""
+                shift
+                ;;
+            --resolve)
+                html_dir=$(dirname "$2")
+                shift 2
+                ;;
             -i|--input)
                 input_file="$2"
                 shift 2
@@ -109,6 +178,12 @@ main() {
     done
     
     check_dependencies
+    
+    # Determine HTML file directory for resolving relative paths
+    # local html_dir=""
+    # if [ -n "$input_file" ]; then
+    #     html_dir=$(dirname "$input_file")
+    # fi
     
     # Read HTML content
     local html_content
@@ -132,25 +207,19 @@ main() {
     temp_html=$(mktemp --suffix=.html)
     
     # Process images and update HTML
-    echo "Processing images..." >&2
     local processed_html
-    processed_html=$(process_images "$html_content")
-    
-    # Write processed HTML to temp file
-    # echo "$processed_html" > "$temp_html"
+    processed_html=$(process_images "$html_content" "$html_dir")
     
     # Use bunx critical to inline CSS
-    echo "Inlining critical CSS..." >&2
     local critical_css
     critical_css=$(bunx purgecss --css assets/styles.css --content /dev/stdin <<<"$processed_html" | jq -r .[0].css)
-	# printf '%s\n' "${critical_css}"  >&2
+    
     # Cleanup
 	processed_html=$(echo "$processed_html" | sed "s|<link rel=\"stylesheet\" href=\"/assets/styles.css\" />|<style>${critical_css}</style>|")
 	
 	# Output result
 	if [ -n "$output_file" ]; then
 	    echo "$processed_html" > "$output_file"
-	    echo "Output written to: $output_file" >&2
 	else
 	    echo "$processed_html"
 	fi
@@ -164,8 +233,9 @@ Usage: $0 [OPTIONS]
 
 This script processes HTML files by:
 1. Converting PNG/JPG images from assets_src/images/ to AVIF in assets/images/
-2. Updating image references in the HTML
-3. Inlining critical CSS using bunx critical
+2. Handling local relative images (./ or ../) by copying and converting them
+3. Updating image references in the HTML
+4. Inlining critical CSS using bunx critical
 
 Options:
   -i, --input FILE    Input HTML file (default: read from stdin)
@@ -175,7 +245,7 @@ Options:
 
 Requirements:
 - bun (with critical package available)
-- ImageMagick (convert command)
+- ffmpeg (for AVIF conversion)
 
 Directory structure:
 assets_src/images/  - Source images (PNG, JPG, etc.)

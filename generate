@@ -91,7 +91,12 @@ build_md() {
 	fi
 	format_doc_heading "$out" "$1"
 	mkdir -p "$(dirname "$out")"
-	printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" | bash ./assets_src/.tooling/optimize_page.sh >"$out"
+	if [ -z "$GENERATE_NO_OPTIMIZE_PAGE" ]; then
+		printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" \
+		 | bash ./assets_src/.tooling/optimize_page.sh --stdin --resolve "$1" >"$out"
+	else
+		printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" > "$out"
+	fi
 	fin "$1"
 }
 
@@ -167,9 +172,12 @@ generate_index() {
 		sed -i "s\`!POSTS-${folder^^}!\`$posts\`g" "./$output_dir/index.tmp.html"
 	done
 
-	bash ./assets_src/.tooling/optimize_page.sh -i "./$output_dir/index.tmp.html" -o "$output_dir/index.html"
-	rm "./$output_dir/index.tmp.html"
-
+	if [ -n "$GENERATE_NO_OPTIMIZE_PAGE" ]; then
+		mv "./$output_dir/index.tmp.html" "./$output_dir/index.html"
+	else
+		bash ./assets_src/.tooling/optimize_page.sh -i "./$output_dir/index.tmp.html" -o "$output_dir/index.html"
+		rm "./$output_dir/index.tmp.html"
+	fi
 
 	printf "\r\e[33m\e[1mBUILT\e[0m %d files in %dms.\n" "$count" "$global_elapsed"
 	cp ./$output_dir/index.html ./index.html
