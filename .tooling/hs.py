@@ -137,7 +137,9 @@ async def watch():
 
 async def rebuild():
     print(prefix + " Rebuilding all files")
-    process = await asyncio.create_subprocess_exec(bash_path, "./generate", stdout=subprocess.PIPE)
+    env = os.environ.copy()
+    # env['GENERATE_NO_OPTIMIZE_PAGE'] = '1'
+    process = await asyncio.create_subprocess_exec(bash_path, "./generate", stdout=subprocess.PIPE, env=env)
     stdout, _ = await process.communicate()
     print(stdout.decode('utf8').strip())
     for socket in sockets:

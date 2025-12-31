@@ -277,8 +277,16 @@ initial_transformer () {
 		prefix_ptr+='
 		<!-- HIGHLIGHTJS LOADING -->
 		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload="this.onload=null;this.rel='"'stylesheet'"'">
+		
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript>
-		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js" onload="hljs.highlightAll();"></script>
+		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/languages/x86asm.min.js"></script>
+		<!-- ADD MORE LANGUAGES HERE IF NEEDED -->
+		<script>
+		document.addEventListener("DOMContentLoaded", (event) => {
+			hljs.highlightAll();
+		});
+		</script>
 		'
 	fi
 }
