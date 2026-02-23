@@ -52,7 +52,7 @@ h1,h2,h3 {
 }
 
 h1 {
-	margin-bottom: 0.4em;
+	margin-bottom: 0;
     font-size: calc(2.1 * var(--article-size));
 }
 

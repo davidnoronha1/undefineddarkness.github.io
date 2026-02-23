@@ -79,10 +79,10 @@ process_images() {
             # Handle local images (starting with ./ or ../)
             # dbg "Processing local image: $img_src" 
             if [[ $img_src == ./* || $img_src == ../* ]] || [[ $img_src != /assets/* ]]; then
-                if [[ $img_src == ../../assets/* ]]; then
+                # if [[ $img_src == ../../assets/* ]]; then
                     # dbg "Skipping image outside project assets: $img_src"
-                    continue
-                fi
+                    # continue
+                # fi
 
                 # echo "Processing local image: $img_src"
                 # Resolve the path relative to the HTML file directory
@@ -93,6 +93,8 @@ process_images() {
                 else
                     resolved_src=$(realpath "$img_src")
                 fi
+
+                resolved_src=${resolved_src/out\/.assets/assets_src}
                 
                 # Check if source file exists
                 if [ ! -f "$resolved_src" ]; then
@@ -127,7 +129,7 @@ process_images() {
             # Define source and destination paths
             local src_path="assets_src/$filename"
             local dest_path="assets/${name}.avif"
-            local new_src="assets/${name}.avif"
+            local new_src="/assets/${name}.avif"
             
             # Check if source file exists
             if [ -f "$src_path" ]; then

@@ -96,14 +96,14 @@ Expand is the main one, it says "I will take up as much of my parent's
 space as possible", So for example: 2 children nodes both having expand
 = true, would look like (they divide the parent's space evenly)
 
-![](../../assets/images/dump/godot-expand-show.png)
+![](/assets/images/dump/godot-expand-show.png)
 
 Then if this isn't enough for you, *it often isn't*, Stretch Ratio can
 help you out, it determines how much of the parent's space the child is
 willing to gobble up, for example 1 is 100% of the space, 0.5 is 50% and
 so on and so forth, this is a 6:4 stretch ratio
 
-![](../../assets/images/dump/godot-ratio-show.png)
+![](/assets/images/dump/godot-ratio-show.png)
 
 Make sure your ratio sums up to 1, or it won't make sense.
 
@@ -112,7 +112,7 @@ things, this is where any Control node's `rect_min_size` property comes
 in, It's comparatively simple, You simply define how many X and Y pixels
 you want.
 
-![](../../assets/images/dump/godot-min-size-show.png)
+![](/assets/images/dump/godot-min-size-show.png)
 
 This is after disabling Expand & Fill as they interfere, Fill is mostly
 fine but if you want your child's height to be less than your parent's
@@ -192,7 +192,7 @@ most properties is very good.
     feel. This is what the default theme editor looks like and while its
     certainly usable…
     
-    ![](../../assets/images/dump/godot-theme-editor.png)
+    ![](/assets/images/dump/godot-theme-editor.png)
     
     I think it's a bit more confusing than it should be, You have to
     select what you want to change from the Type: drop down menu,

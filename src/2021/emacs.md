@@ -263,7 +263,7 @@ which one isn't broken yet. `M-x` doctor - Hey I got it to work :)
 
     Before you delve any deeper, This is the end result in my Emacs
     configuration,
-    ![](../../assets/images/org-mode.png)
+    ![](/assets/images/org-mode.png)
     *Font used is
     iA Writer Quattro - It's been made for iA writer which is a Markdown
     editor for MacOS, that looks really good.*

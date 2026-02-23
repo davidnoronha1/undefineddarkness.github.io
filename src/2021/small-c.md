@@ -307,3 +307,5 @@ More on why:
 - https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/
 - https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/
 - https://www.youtube.com/watch?v=bD1wWY1YD-M
+- https://justine.lol/sizetricks/
+- https://nathanotterness.com/2021/10/tiny_elf_modernized.html
