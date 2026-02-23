@@ -5,13 +5,139 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Experiments Listing</title>
 	<link rel="stylesheet" href="/assets/styles.css">
+	<style>
+		.experiments-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 2em;
+			margin-top: 2em;
+		}
+
+		.experiment-card {
+			border: 1px solid var(--gray);
+			border-radius: 5px;
+			overflow: hidden;
+			transition: transform 0.2s ease;
+		}
+
+		.experiment-card:hover {
+			transform: translateY(-4px);
+		}
+
+		.experiment-preview {
+			width: 100%;
+			height: 200px;
+			border: none;
+			border-bottom: 1px solid var(--gray);
+			background: var(--white-lighter);
+			pointer-events: none;
+			overflow: hidden;
+		}
+		
+		.experiment-preview::-webkit-scrollbar {
+			display: none;
+		}
+
+		.experiment-info {
+			padding: 1em;
+		}
+
+		.experiment-info h3 {
+			margin-top: 0;
+			margin-bottom: 0.5em;
+		}
+
+		.experiment-info p {
+			margin: 0.5em 0;
+			color: var(--gray);
+			font-size: 0.9em;
+		}
+
+		.experiment-link {
+			display: inline-block;
+			margin-top: 0.5em;
+			color: var(--black);
+			text-decoration: none;
+			font-weight: 600;
+		}
+
+		.experiment-link:hover {
+			text-decoration: underline;
+		}
+
+		@media only screen and (max-width: 600px) {
+			.experiments-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
 </head>
 <body>
 	<article>
 		<h1>Little Web Experiments</h1>
-		<ul>
-			<li></li>
-		</ul>
+		<p>A collection of small interactive experiments and demos.</p>
+
+		<div class="experiments-grid">
+			<div class="experiment-card">
+				<iframe class="experiment-preview" src="./fsa.html" loading="lazy" scrolling="no"></iframe>
+				<div class="experiment-info">
+					<h3>File System Access</h3>
+					<p>A directory browser that lets you peek into your local filesystem right from the browser.</p>
+					<a href="./fsa.html" class="experiment-link">Open Experiment →</a>
+				</div>
+			</div>
+
+			<div class="experiment-card">
+				<iframe class="experiment-preview" src="./serial.html" loading="lazy" scrolling="no"></iframe>
+				<div class="experiment-info">
+					<h3>Web Serial Console</h3>
+					<p>Talk to hardware through your browser - a full terminal for serial devices using Web Serial API.</p>
+					<a href="./serial.html" class="experiment-link">Open Experiment →</a>
+				</div>
+			</div>
+
+			<div class="experiment-card">
+				<iframe class="experiment-preview" src="https://bcd-table.neswk.workers.dev/" loading="lazy" scrolling="no"></iframe>
+				<div class="experiment-info">
+					<h3>BCD Table</h3>
+					<p>An embeddable browser compatibility data table - check what features work where.</p>
+					<a href="https://bcd-table.neswk.workers.dev/" class="experiment-link">Open Experiment →</a>
+				</div>
+			</div>
+
+			<div class="experiment-card">
+				<iframe class="experiment-preview" src="./code-highlight-cp/index.html" loading="lazy" scrolling="no"></iframe>
+				<div class="experiment-info">
+					<h3>Code Highlight</h3>
+					<p>Paste your code and watch it get syntax highlighted with custom themes on the fly.</p>
+					<a href="./code-highlight-cp/index.html" class="experiment-link">Open Experiment →</a>
+				</div>
+			</div>
+
+			<div class="experiment-card">
+				<img class="experiment-preview" src="pixless-demo.png" alt="Pixless demo" style="object-fit: cover;">
+				<div class="experiment-info">
+					<h3>Pixless</h3>
+					<p>A retro camera simulator with brutally limited resolution and palette - turn any photo into pixel art.</p>
+					<a href="https://pixless.pages.dev/" class="experiment-link">Open Experiment →</a>
+				</div>
+			</div>
+
+			<!-- <div class="experiment-card">
+				<div class="experiment-preview" style="display: flex; align-items: center; justify-content: center; color: var(--gray);">
+					<span>🔧 TinyC</span>
+				</div>
+				<div class="experiment-info">
+					<h3>TinyC</h3>
+					<p>How small can a C binary get without writing assembly? An experiment in minimal executable sizes.</p>
+					<a href="./tinyc/" class="experiment-link">View Project →</a>
+				</div>
+			</div> -->
+		</div>
 	</article>
+
+	<footer>
+		<a href="/">← Back to home</a>
+	</footer>
 </body>
 </html>
