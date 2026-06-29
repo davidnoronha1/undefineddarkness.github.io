@@ -262,7 +262,7 @@ carousel () {
 
 columns () {
 	content="$1"
-	printf '<div class="row>%s</div>' "$content"
+	printf '<div class="row">%s</div>' "$content"
 }
 
 table () {

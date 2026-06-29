@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
+	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+	<meta name="author" content="nes" />
+	<title>Low Latency Camera Streaming in Robotics</title>
+	<meta property="og:title" content="Low Latency Camera Streaming in Robotics" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="out/2025/camera_streaming.html" />
+	<meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+	<link rel="preload" href="/assets/fonts/FairfaxHDEmoji.woff2" as="font" type="font/woff2" crossorigin>
+	<style>@font-face{font-family:Body Font;font-style:normal;font-weight:400;src:url(/assets/fonts/FairfaxHDEmoji.woff2) format("woff2")}:root{--article-size:1em;--human-style:"CASL" 0.8}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:Body Font,Heading Font,Symbols Nerd Font,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif;font-variation-settings:"MONO" 0;font-weight:400}figcaption,i{font-style:italic}code,pre{font-family:Heading Font,Body Font,Courier New,Courier,monospace;font-size:calc(var(--article-size)*.9);font-variation-settings:"MONO" 1}summary{font-size:calc(var(--article-size)*1.2)}.human,h1,h2,h3{font-family:Heading Font,Body Font,Gill Sans,Gill Sans MT,Calibri,Trebuchet MS,sans-serif;font-variation-settings:var(--human-style)}h1,h2,h3{font-variation-settings:var(--human-style),"wght" 600;font-weight:400}h1{font-size:calc(var(--article-size)*2.1);margin-bottom:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5)}.row{display:flex;gap:1em}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--white)}.hljs{background-color:inherit!important;background:inherit!important}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--white-darker) var(--white-lighter)}pre{border-radius:5px;margin:0;overflow-x:auto;overflow-y:hidden;padding:1em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:23vw;width:100%}body>article:first-child{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:none;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:"▶";font-size:.8em;left:-1.2em;position:absolute;top:.15em;transition:all .3s ease}details[open] summary:before{transform:rotate(90deg)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}article footer,main footer{margin-left:0}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}nav.toc{float:right;font-size:.8em;margin:2em;max-width:20vw;position:fixed;right:0;text-overflow:ellipsis;top:0;z-index:999}nav.toc ul{list-style:none;margin:0;padding:0;white-space:nowrap}nav.toc ul .toc-subheading:before{border-left:2px solid gray;content:"";padding-left:.8em}nav.toc ul .toc-subheading:last-child:before{background-image:linear-gradient(180deg,gray 0,gray 50%,transparent 0,transparent 75%,transparent);background-repeat:no-repeat;background-size:2px 100%;border-left:none}nav.toc ul .toc-subheading{position:relative}nav.toc ul .toc-subheading:after{border-bottom:2px solid gray;content:"";height:.5em;left:0;position:absolute;width:.6em}nav.toc a{color:var(--black)}nav.toc ul .toc-subheading{margin-left:.6em}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}nav.toc{display:none}header img{float:revert}}</style>
+</head>
+
+<body>
+	<nav class="toc">
+		<ul><li><a href='#how-do-digital-cameras-work'>How do digital cameras work</a></li><li class='toc-subheading'><a href='#sensor-bayer-filter'>Sensor / Bayer Filter</a></li><li class='toc-subheading'><a href='#video4linux-usb-standards-compliant-cameras'>Video4Linux (USB / Standards compliant cameras)</a></li></ul>
+	</nav>
+	<article>
+
+
+		<!-- HIGHLIGHTJS LOADING -->
+		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript>
+		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/languages/x86asm.min.js"></script>
+		<!-- ADD MORE LANGUAGES HERE IF NEEDED -->
+		<script>
+		document.addEventListener("DOMContentLoaded", (event) => {
+			hljs.highlightAll();
+		});
+		</script>
+		<figure><img src="/assets/IMX335-5MP-USB-Camera-A-details-1-removebg-preview.png" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
+<header>
+<h1>Low Latency Camera Streaming in Robotics</h1>
+</header>
+So as part of my work at Dreadnought Robotics and a few other places since, I've often had to grapple with and sort out why a camera stream is not performing as it should and this can have many reasons like purely from my experience I've seen things <br/>
+<br/>
+<ul>
+<li>like the USB / Ethernet cable being too fragile<br/>
+    We needed to connect a USB camera that was under our bot to the main compute within the bot and the only entry was through a penetrator only designed for thinner ethernet wires and we also mostly had lots of high quality ethernet tether so we had to frankenstein a USB -> Ethernet -> USB setup. This worked on a good day but it was also very fragile<br/>
+</li>
+<li>the USB 2.0 cable being re-soldered so many times <br/>
+    it has to be re-twisted now and then to properly transmit data or the bandwidth drops and the framerate goes to like 3 or 5 from an expected 60 and if you didn't know about the cable issue you'd not figure it out<br/>
+    The insulation had also been cut so the strands didnt have anything holding them together :) <br/>
+</li>
+</ul><br/>So this documents my research and I guess my frustration finding a "sort" of way to get a low latency camera stream working across multiple different setups with different compute, different architectures etc, My experience has mostly been with USB cameras (for the receiving frames side) but the publishing side will hold true for any camera.<br/>
+<br/>
+So to fully illustrate how this entire pipeline works and to appreciate the complexity of cameras somewhat, I am going to go through the entire thing, It'll be a bit abstract at parts I am not super familiar but I'll try to be as in depth as I can<br/>
+<br/>
+<h2 id="how-do-digital-cameras-work">How do digital cameras work</h2>
+<p>
+<br/>
+</p>
+<h3 id="sensor-bayer-filter">Sensor / Bayer Filter</h3>
+<p>
+So the camera is made up of a grid of photo cells, these cells can only measure luminance, as in how bright the light hitting it is, this grid is then read either row by row (CCA) or each cell can be read individually (CMOS), Most cameras today follow the CMOS architecture since it easier and hence cheaper to manufacture.<br/>
+<br/>
+But as you can imagine, a grid of luminence sensors isnt exactly sufficient to percieve colour so this is where colour filters come in. Unlike the human eye which has cones and rods for colour & luminence respectivley, Camera sensors need some way to filter the luminence they recieve to a particular colour spectrum, This is usually done with a bayer filter.<br/>
+<br/>
+<div class="row"><figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bayer_pattern_on_sensor.svg/1920px-Bayer_pattern_on_sensor.svg.png" alt="bayer filter" title="bayer filter" loading="lazy" /><figcaption>bayer filter</figcaption></figure><br/>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Eyesensitivity.svg/1280px-Eyesensitivity.svg.png" alt="human eye sensitivity" title="human eye sensitivity" loading="lazy" /><figcaption>human eye sensitivity</figcaption></figure><br/></div>
+<br/>
+This seperates the colours coming into the sensor, and since the pattern is repeated you can take the image from the sensor with the filter applied and "debayer" it to compute the R, G, B values for each pixel. (If you notice there are twice as many green spots on the filter compared to red & blue, because we percieve green more strongly than red or blue)<br/>
+<br/>
+
+<details>
+	<summary>
+		<h3>Image Signal Processor (ISP)</h3>
+	</summary>
+	<p>
+		This isn't something you need to worry about with USB or Ethernet cameras since they have an integrated ISP that takes care of reading data from the camera sensor, debayering it etc and presenting it in a format you can easily consume (USB is usually V4l2 & Ethernet can be custom), But if you are dealing with MIPI CSI cameras then you need to worry about this, since then, the sensor is directly connected to your devboard and the devboards internal ISP must be configured to communicate with the camera sensor, which if not included in your devices kernel (Raspi thankfully supports majority), can end up with you needing to edit files that look like this:<br/>
+<br/>
+<pre>
+<code class="language-dtb">...
+&amp;{/} {
+	clk_csi0_imx219_fixed: csi0-imx219-xclk {
+		compatible &equals; &quot;fixed-clock&quot;;
+		&#35;clock-cells &equals; &lt;0&gt;;
+		clock-frequency &equals; &lt;24000000&gt;;
+	};
+};
+
+&amp;mcu_gpio0 {
+    status &equals; &quot;okay&quot;;
+};
+
+&amp;main_i2c2 {
+	status &equals; &quot;okay&quot;;
+	pinctrl-names &equals; &quot;default&quot;;
+	pinctrl-0 &equals; &lt;&amp;main_i2c2_pins_default&gt;;
+	clock-frequency &equals; &lt;400000&gt;;
+
+	&#35;address-cells &equals; &lt;1&gt;;
+	&#35;size-cells &equals; &lt;0&gt;;
+
+	imx219_0: sensor&&#35;64;10 {
+		compatible &equals; &quot;sony,imx219&quot;;
+		reg &equals; &lt;0x10&gt;;
+
+		clocks &equals; &lt;&amp;clk_csi0_imx219_fixed&gt;;
+		clock-names &equals; &quot;xclk&quot;;
+
+		pinctrl-names &equals; &quot;default&quot;;
+		pinctrl-0 &equals; &lt;&amp;csi0_gpio_pins_default&gt;;
+
+		reset-gpios &equals; &lt;&amp;mcu_gpio0 15 GPIO_ACTIVE_HIGH&gt;;
+
+		port {
+			csi2_cam0: endpoint {
+				remote-endpoint &equals; &lt;&amp;csi2rx0_in_sensor&gt;;
+				link-frequencies &equals; /bits/ 64 &lt;456000000&gt;;
+				clock-lanes &equals; &lt;0&gt;;
+...	</code>
+</pre>
+<br/>
+Suffice to say its a big hassle and when you need to handle it, it takes forever to properly integrate the camera hardware, especially if documentation is unsatisfactory<br/>
+<br/>
+	</p>
+</details>
+<br/>
+</p>
+<h3 id="video4linux-usb-standards-compliant-cameras">Video4Linux (USB / Standards compliant cameras)</h3>
+<p>
+So this is the linux subsystem that is in charge of all video device aquistion, enumeration and handling on linux, It is what lets you configure the camera properties like exposure, auto focus etc and for this article most importantly it lets you query all the devices and shows you all the different streams it supports, a <i>stream</i> is just a valid configuration of FORMAT, RESOLUTION & FPS that the device <b>currently</b> supports and is capable of publishing.<br/>
+<br/>
+<a href="https://www.linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/v4l2.html">V4l2 Documentation</a><br/>
+<br/>
+So for example my laptop webcam supports the following:<br/>
+<pre>
+<code class="language-plaintext">$ v4l2-ctl --all
+Driver Info:
+        Driver name      : uvcvideo
+        Card type        : Integrated Camera: Integrated C
+        Bus info         : usb-0000:05:00.3-3
+        Driver version   : 6.8.12
+        Capabilities     : 0x84a00001
+                Video Capture
+                Metadata Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : uvcvideo
+        Model            : Integrated Camera: Integrated C
+        Serial           :
+        Bus info         : usb-0000:05:00.3-3
+        Media version    : 6.8.12
+        Hardware revision: 0x00002510 (9488)
+        Driver version   : 6.8.12
+Interface Info:
+        ID               : 0x03000002
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : Integrated Camera: Integrated C
+        Function         : V4L2 I/O
+        Flags            : default
+        Pad 0x01000007   : 0: Sink
+          Link 0x02000013: from remote pad 0x100000a of entity 'Extension 4' (Video Pixel Formatter): Data, Enabled, Immutable
+Priority: 2
+Video input : 0 (Camera 1: ok)
+Format Video Capture:
+        Width/Height      : 1280/720
+        Pixel Format      : 'MJPG' (Motion-JPEG)
+        Field             : None
+        Bytes per Line    : 0
+        Size Image        : 1843200
+        Colorspace        : sRGB
+        Transfer Function : Rec. 709
+        YCbCr/HSV Encoding: Rec. 709
+        Quantization      : Default (maps to Full Range)
+        Flags             :
+Crop Capability Video Capture:
+        Bounds      : Left 0, Top 0, Width 1280, Height 720
+        Default     : Left 0, Top 0, Width 1280, Height 720
+        Pixel Aspect: 1/1
+Selection Video Capture: crop_default, Left 0, Top 0, Width 1280, Height 720, Flags:
+Selection Video Capture: crop_bounds, Left 0, Top 0, Width 1280, Height 720, Flags:
+Streaming Parameters Video Capture:
+        Capabilities     : timeperframe
+        Frames per second: 30.000 (30/1)
+        Read buffers     : 0
+
+User Controls
+
+                     brightness 0x00980900 (int)    : min&equals;0 max&equals;255 step&equals;1 default&equals;128 value&equals;128
+                       contrast 0x00980901 (int)    : min&equals;0 max&equals;100 step&equals;1 default&equals;32 value&equals;32
+                     saturation 0x00980902 (int)    : min&equals;0 max&equals;100 step&equals;1 default&equals;64 value&equals;64
+                            hue 0x00980903 (int)    : min&equals;-180 max&equals;180 step&equals;1 default&equals;0 value&equals;0
+        white_balance_automatic 0x0098090c (bool)   : default&equals;1 value&equals;1
+                          gamma 0x00980910 (int)    : min&equals;90 max&equals;150 step&equals;1 default&equals;120 value&equals;120
+           power_line_frequency 0x00980918 (menu)   : min&equals;0 max&equals;2 default&equals;1 value&equals;1 (50 Hz)
+                                0: Disabled
+                                1: 50 Hz
+                                2: 60 Hz
+      white_balance_temperature 0x0098091a (int)    : min&equals;2800 max&equals;6500 step&equals;1 default&equals;4600 value&equals;4600 flags&equals;inactive
+                      sharpness 0x0098091b (int)    : min&equals;0 max&equals;7 step&equals;1 default&equals;3 value&equals;3
+         backlight_compensation 0x0098091c (int)    : min&equals;0 max&equals;2 step&equals;1 default&equals;1 value&equals;1
+
+Camera Controls
+
+                  auto_exposure 0x009a0901 (menu)   : min&equals;0 max&equals;3 default&equals;3 value&equals;3 (Aperture Priority Mode)
+                                1: Manual Mode
+                                3: Aperture Priority Mode
+         exposure_time_absolute 0x009a0902 (int)    : min&equals;2 max&equals;1250 step&equals;1 default&equals;156 value&equals;156 flags&equals;inactive
+     exposure_dynamic_framerate 0x009a0903 (bool)   : default&equals;0 value&equals;1
+                        privacy 0x009a0910 (bool)   : default&equals;0 value&equals;0 flags&equals;read-only
+</code>
+</pre>
+		<footer style="margin-bottom: 2em;">
+			<a class="special" href="/index.html">Return To Index</a>
+		</footer>
+	</article>
+</body>

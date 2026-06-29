@@ -302,7 +302,7 @@ it down a lot is to do<br/>
 <br/>
 <pre>
 <code class="language- gdscript">if Engine.editor_hint:
-    print("Running in editor")
+    print(&quot;Running in editor&quot;)
    return	</code>
 </pre>
 <br/>
@@ -311,7 +311,7 @@ somewhat like this<br/>
 <br/>
 <pre>
 <code class="language- gdscript">editor func only_in_editor():
-    print("I only run in the editor")	</code>
+    print(&quot;I only run in the editor&quot;)	</code>
 </pre>
 <br/>
 Definitely a nitpick, but true private functions would be nice to go<br/>
@@ -323,21 +323,21 @@ other script files (This is very basic stuff) is to have 2 scripts like<br/>
 this:<br/>
 <br/>
 <pre>
-<code class="language-gdscript">extends Node
+<code class="language-gdscript">&lt;span style&equals;"color:&#35;e3ceab"&gt;extends&lt;/span&gt; Node
 
-func greet(name: String) -&gt; String:
-  return "Hello there, " + name	</code>
+&lt;span style&equals;"color:&#35;e3ceab"&gt;func&lt;/span&gt; &lt;span style&equals;"color:&#35;aae3b2"&gt;greet&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;name&lt;span style&equals;"color:&#35;dcdccc"&gt;:&lt;/span&gt; String&lt;span style&equals;"color:&#35;dcdccc"&gt;) -&gt;&lt;/span&gt; String&lt;span style&equals;"color:&#35;dcdccc"&gt;:&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;e3ceab"&gt;return&lt;/span&gt; &lt;span style&equals;"color:&#35;cc9393"&gt;&quot;Hello there, &quot;&lt;/span&gt; &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; name	</code>
 </pre>
 <br/>
 &<br/>
 <br/>
 <pre>
-<code class="language-gdscript">extends Node
+<code class="language-gdscript">&lt;span style&equals;"color:&#35;e3ceab"&gt;extends&lt;/span&gt; Node
 
-var hello &equals; preload("res://hello.gd").new()
+&lt;span style&equals;"color:&#35;e3ceab"&gt;var&lt;/span&gt; hello &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;e3ceab"&gt;preload&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;cc9393"&gt;&quot;res://hello.gd&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;).&lt;/span&gt;&lt;span style&equals;"color:&#35;aae3b2"&gt;new&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;()&lt;/span&gt;
 
-func _ready() -&gt; void:
-    print(hello.greet("Jeffery"))	</code>
+&lt;span style&equals;"color:&#35;e3ceab"&gt;func&lt;/span&gt; &lt;span style&equals;"color:&#35;aae3b2"&gt;_ready&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;() -&gt;&lt;/span&gt; void&lt;span style&equals;"color:&#35;dcdccc"&gt;:&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;e3ceab"&gt;print&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;hello&lt;span style&equals;"color:&#35;dcdccc"&gt;.&lt;/span&gt;&lt;span style&equals;"color:&#35;aae3b2"&gt;greet&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;cc9393"&gt;&quot;Jeffery&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;))&lt;/span&gt;	</code>
 </pre>
 <br/>
 This might be fine, but I just don't like it :| A proper import / export<br/>

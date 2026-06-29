@@ -310,23 +310,23 @@ Exactly how its obtained via the Remez Algorithm, is something I haven't really 
 <br/>
 An implementation in C is given here:<br/>
 <pre>
-<code class="language-c">static double minimaxsin(double x)
-{
-    static const
-    double a0 &equals;  1.0,
-           a1 &equals; -1.666666666640169148537065260055e-1,
-           a2 &equals;  8.333333316490113523036717102793e-3,
-           a3 &equals; -1.984126600659171392655484413285e-4,
-           a4 &equals;  2.755690114917374804474016589137e-6,
-           a5 &equals; -2.502845227292692953118686710787e-8,
-           a6 &equals;  1.538730635926417598443354215485e-10;
-    double x2 &equals; x &#42; x;
-    /&#42;
-        a0x + a1x^3 + a2x^5 + a3x^7...
-    &#42;/
-    return x &#42; (a0 + x2 &#42; (a1 + x2 &#42; (a2 + x2
-             &#42; (a3 + x2 &#42; (a4 + x2 &#42; (a5 + x2 &#42; a6))))));
-}	</code>
+<code class="language-c">&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;static double&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;minimaxsin&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;double&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;)&lt;/span&gt;
+&lt;span style&equals;"color:&#35;dcdccc"&gt;{&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;static const&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;double&lt;/span&gt; a0 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;
+           a1 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals; -&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.666666666640169148537065260055e-1&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;
+           a2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;8.333333316490113523036717102793e-3&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;
+           a3 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals; -&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.984126600659171392655484413285e-4&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;
+           a4 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;2.755690114917374804474016589137e-6&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;
+           a5 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals; -&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;2.502845227292692953118686710787e-8&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;
+           a6 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.538730635926417598443354215485e-10&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;double&lt;/span&gt; x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; x &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;        a0x + a1x^3 + a2x^5 + a3x^7...&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;    &ast;/&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;e3ceab"&gt;return&lt;/span&gt; x &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast; (&lt;/span&gt;a0 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast; (&lt;/span&gt;a1 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast; (&lt;/span&gt;a2 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2
+             &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast; (&lt;/span&gt;a3 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast; (&lt;/span&gt;a4 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast; (&lt;/span&gt;a5 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt; a6&lt;span style&equals;"color:&#35;dcdccc"&gt;))))));&lt;/span&gt;
+&lt;span style&equals;"color:&#35;dcdccc"&gt;}&lt;/span&gt;	</code>
 </pre>
 <br/>
 It functions very similarly to the taylor polynomial, except the constants have been replaced to achieve greather accuracy,<br/>
@@ -344,49 +344,49 @@ Which it does, achieving some 10^4 times smaller error in comparison (for 7 term
 		Looking at the implementation of sin in musl, We get:<br/>
 <pre>
 <code class="language-c">
-/&#42;
- &#42;      3. sin(x) is approximated by a polynomial of degree 13 on
- &#42;         &lsqb;0,pi/4&rsqb;
- &#42;                               3            13
- &#42;              sin(x) ~ x + S1&#42;x + ... + S6&#42;x
- &#42;         where
- &#42;
- &#42;      |sin(x)         2     4     6     8     10     12  |     -58
- &#42;      |----- - (1+S1&#42;x +S2&#42;x +S3&#42;x +S4&#42;x +S5&#42;x  +S6&#42;x   )| &lt;&equals; 2
- &#42;      |  x                                               |
- &#42;
- &#42;      4. sin(x+y) &equals; sin(x) + sin'(x')&#42;y
- &#42;                  ~ sin(x) + (1-x&#42;x/2)&#42;y
- &#42;         For better accuracy, let
- &#42;                   3      2      2      2      2
- &#42;              r &equals; x &#42;(S2+x &#42;(S3+x &#42;(S4+x &#42;(S5+x &#42;S6))))
- &#42;         then                   3    2
- &#42;              sin(x) &equals; x + (S1&#42;x + (x &#42;(r-y/2)+y))
-&#42;/
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;      3. sin(x) is approximated by a polynomial of degree 13 on&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;         &lsqb;0,pi/4&rsqb;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;                               3            13&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;              sin(x) ~ x + S1&ast;x + ... + S6&ast;x&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;         where&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;      |sin(x)         2     4     6     8     10     12  |     -58&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;      |----- - (1+S1&ast;x +S2&ast;x +S3&ast;x +S4&ast;x +S5&ast;x  +S6&ast;x   )| &lt;&equals; 2&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;      |  x                                               |&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;      4. sin(x+y) &equals; sin(x) + sin&&#35;39;(x&&#35;39;)&ast;y&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;                  ~ sin(x) + (1-x&ast;x/2)&ast;y&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;         For better accuracy, let&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;                   3      2      2      2      2&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;              r &equals; x &ast;(S2+x &ast;(S3+x &ast;(S4+x &ast;(S5+x &ast;S6))))&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;         then                   3    2&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt; &ast;              sin(x) &equals; x + (S1&ast;x + (x &ast;(r-y/2)+y))&lt;/span&gt;
+&lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;&ast;/&lt;/span&gt;
 
-static const double
-S1  &equals; -1.66666666666666324348e-01, /&#42; 0xBFC55555, 0x55555549 &#42;/
-S2  &equals;  8.33333333332248946124e-03, /&#42; 0x3F811111, 0x1110F8A6 &#42;/
-S3  &equals; -1.98412698298579493134e-04, /&#42; 0xBF2A01A0, 0x19C161D5 &#42;/
-S4  &equals;  2.75573137070700676789e-06, /&#42; 0x3EC71DE3, 0x57B1FE7D &#42;/
-S5  &equals; -2.50507602534068634195e-08, /&#42; 0xBE5AE5E6, 0x8A2B9CEB &#42;/
-S6  &equals;  1.58969099521155010221e-10; /&#42; 0x3DE5D93A, 0x5ACFD57C &#42;/
+&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;static const double&lt;/span&gt;
+S1  &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals; -&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.66666666666666324348e-01&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast; 0xBFC55555, 0x55555549 &ast;/&lt;/span&gt;
+S2  &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;8.33333333332248946124e-03&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast; 0x3F811111, 0x1110F8A6 &ast;/&lt;/span&gt;
+S3  &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals; -&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.98412698298579493134e-04&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast; 0xBF2A01A0, 0x19C161D5 &ast;/&lt;/span&gt;
+S4  &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;2.75573137070700676789e-06&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast; 0x3EC71DE3, 0x57B1FE7D &ast;/&lt;/span&gt;
+S5  &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals; -&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;2.50507602534068634195e-08&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast; 0xBE5AE5E6, 0x8A2B9CEB &ast;/&lt;/span&gt;
+S6  &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt;  &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1.58969099521155010221e-10&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt; &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;/&ast; 0x3DE5D93A, 0x5ACFD57C &ast;/&lt;/span&gt;
 
-double __sin(double x, double dx, int is_dx_not_zero)
-{
-	double_t x2,x3,x4,r;
+&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;double&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;__sin&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;double&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;double&lt;/span&gt; dx&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; is_dx_not_zero&lt;span style&equals;"color:&#35;dcdccc"&gt;)&lt;/span&gt;
+&lt;span style&equals;"color:&#35;dcdccc"&gt;{&lt;/span&gt;
+	double_t x2&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;x3&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;x4&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt;r&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
 
-	x2 &equals; x&#42;x;
-	x4 &equals; x2&#42;x2;
-	r &equals; S2 + x2&#42;(S3 + x2&#42;S4) + x2&#42;x4&#42;(S5 + x2&#42;S6);
-	x3 &equals; x2&#42;x;
-	if (is_dx_not_zero &equals;&equals; 0)
-        // This unwraps to a taylor expansion of 6 terms
-		return x + x3&#42;(S1 + x2&#42;r);
-	else
+	x2 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;x&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+	x4 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;x2&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+	r &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; S2 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;(&lt;/span&gt;S3 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;S4&lt;span style&equals;"color:&#35;dcdccc"&gt;) +&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;x4&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;(&lt;/span&gt;S5 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;S6&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+	x3 &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;x&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+	&lt;span style&equals;"color:&#35;e3ceab"&gt;if&lt;/span&gt; &lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;is_dx_not_zero &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;)&lt;/span&gt;
+        &lt;span style&equals;"color:&#35;7f9f7f; font-style:italic"&gt;// This unwraps to a taylor expansion of 6 terms&lt;/span&gt;
+		&lt;span style&equals;"color:&#35;e3ceab"&gt;return&lt;/span&gt; x &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x3&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;(&lt;/span&gt;S1 &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;r&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+	&lt;span style&equals;"color:&#35;e3ceab"&gt;else&lt;/span&gt;
         
-		return x - ((x2&#42;(0.5&#42;dx - x3&#42;r) - dx) - x3&#42;S1);
-}	</code>
+		&lt;span style&equals;"color:&#35;e3ceab"&gt;return&lt;/span&gt; x &lt;span style&equals;"color:&#35;dcdccc"&gt;- ((&lt;/span&gt;x2&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0.5&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;dx &lt;span style&equals;"color:&#35;dcdccc"&gt;-&lt;/span&gt; x3&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;r&lt;span style&equals;"color:&#35;dcdccc"&gt;) -&lt;/span&gt; dx&lt;span style&equals;"color:&#35;dcdccc"&gt;) -&lt;/span&gt; x3&lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;S1&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+&lt;span style&equals;"color:&#35;dcdccc"&gt;}&lt;/span&gt;	</code>
 </pre>
 <br/>
 Although I am not sure what is happening in the 2nd if branch, It seems to use a polynomial approximation of degree 13 to get results for x in the range \([-\pi/4, +\pi/4]\), Which is obtained in the parent sin(x) function with argument reduction (dividing by \(\pi/2\) and getting the remainder), And the final result from said sin(x) is obtained with a combination of __sin(x) and similarly __cos(x) depending on the quadrant of the function (there is also a case for sin x ~= x for small x).<br/>

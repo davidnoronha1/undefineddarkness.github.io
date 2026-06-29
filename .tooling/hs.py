@@ -179,9 +179,9 @@ async def main():
     # Initiate Web Server
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, "localhost", 5000)
+    site = web.TCPSite(runner, "0.0.0.0", 5000)
     await site.start()
-    print(prefix + "Server Started @ \u001b[31mhttp://127.0.0.1:5000\u001b[0m")
+    print(prefix + "Server Started @ \u001b[31mhttp://localhost:5000\u001b[0m")
 
     if args.ui:
         print(prefix + "UI mode enabled. Press 'r' or space to rebuild, 'q' to quit.")

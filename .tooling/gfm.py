@@ -1,3 +1,10 @@
+#!/usr/bin/env -S uv run --script
+#
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [ "cmarkgfm" ]
+# ///
+
 import sys
 import cmarkgfm
 from pathlib import Path

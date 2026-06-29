@@ -1,0 +1,11 @@
+services:
+  generate:
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "5000:5000"   # ./generate live
+      - "5050:5050"   # ./generate serve
+    # bun install runs once when the container first starts, then it stays alive
+    command: sh -c "bun install && sleep infinity"

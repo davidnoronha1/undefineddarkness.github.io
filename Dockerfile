@@ -1,7 +1,5 @@
-# Use the Debian Slim base image
 FROM ghcr.io/astral-sh/uv:debian-slim
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
@@ -14,22 +12,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     colorized-logs \
     ca-certificates \
     unzip \
+    ffmpeg \
+    jq \
+    python3 \
+    dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
-# Install bun
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
-# Install python dependencies
-# RUN uv pip install cmarkgfm ansi2html fonttools brotli
-
-RUN bun --version
-
-# Set the working directory
 WORKDIR /app
 
-# Copy the application source code
-COPY . /app
-
-# The command to run the build.
-CMD ["make"]
+# Pre-warm Bun's download cache so the first bun install on container start is fast.
+# The actual node_modules are created at runtime (bind-mount replaces /app).
+COPY package.json bun.lock ./
+RUN bun install

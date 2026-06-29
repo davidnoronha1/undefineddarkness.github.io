@@ -19,7 +19,7 @@ __syntax_hl_highlight () {
 		--inline-css \
 		--no-trailing-nl \
 		--pretty-symbols \
-		--config-file=assets/syntax.theme \
+		--config-file=assets_src/syntax.theme \
 		--no-version-info | sed 's/*/\&ast;/g;'
 }
 
