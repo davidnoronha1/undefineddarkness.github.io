@@ -63,45 +63,45 @@ Well, let us start with a non trivial program and go from there,<br/>
 For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a><br/>
 <br/>
 <pre>
-<code class="language-c">&#35;include &lt;stdlib.h&gt;
-&#35;include "tigr.h"
-&#35;include &lt;time.h&gt;
-&#35;include &lt;stdio.h&gt;
+<code class="language-c">&lt;span style&equals;"color:&#35;ffcfaf; font-weight:bold"&gt;&#35;include &lt;stdlib.h&gt;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;ffcfaf; font-weight:bold"&gt;&#35;include&lt;/span&gt; &lt;span style&equals;"color:&#35;cc9393"&gt;&quot;tigr.h&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;ffcfaf; font-weight:bold"&gt;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;ffcfaf; font-weight:bold"&gt;&#35;include &lt;time.h&gt;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;ffcfaf; font-weight:bold"&gt;&#35;include &lt;stdio.h&gt;&lt;/span&gt;
 
-int randomNo(int min, int max) {
-  return min + rand() / (RAND_MAX / (max - min + 1) + 1);
-}
+&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;randomNo&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; min&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; max&lt;span style&equals;"color:&#35;dcdccc"&gt;) {&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;e3ceab"&gt;return&lt;/span&gt; min &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;rand&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;() / (&lt;/span&gt;RAND_MAX &lt;span style&equals;"color:&#35;dcdccc"&gt;/ (&lt;/span&gt;max &lt;span style&equals;"color:&#35;dcdccc"&gt;-&lt;/span&gt; min &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;) +&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;1&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+&lt;span style&equals;"color:&#35;dcdccc"&gt;}&lt;/span&gt;
 
-int main() {
+&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;main&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;() {&lt;/span&gt;
 
-  srand(time(NULL));
+  &lt;span style&equals;"color:&#35;aabfe3"&gt;srand&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;aabfe3"&gt;time&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;NULL&lt;span style&equals;"color:&#35;dcdccc"&gt;));&lt;/span&gt;
 
-  Tigr &#42;screen &equals; tigrWindow(320, 240, "Hello", 0);
-  int x, y;
-  char &#42;fmt &equals; malloc(100);
-  while (!tigrClosed(screen)) {
-    tigrClear(screen, tigrRGB(0x11, 0x11, 0x11));
+  Tigr &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;screen &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrWindow&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;320&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;240&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;cc9393"&gt;&quot;Hello&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; y&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;char&lt;/span&gt; &lt;span style&equals;"color:&#35;dcdccc"&gt;&ast;&lt;/span&gt;fmt &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;malloc&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;100&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;e3ceab"&gt;while&lt;/span&gt; &lt;span style&equals;"color:&#35;dcdccc"&gt;(!&lt;/span&gt;&lt;span style&equals;"color:&#35;aabfe3"&gt;tigrClosed&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;)) {&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrClear&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrRGB&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x11&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x11&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x11&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;));&lt;/span&gt;
 
-    tigrPrint(screen, tfont, 120, 110, tigrRGB(0xf0, 0xf0, 0xf0),
-              "Hello, world.");
-	snprintf(fmt, 100, "%d, %d", x, y);
-	tigrPrint(screen, tfont, 120, 110 + 16, tigrRGB(0xf0, 0xf0, 0xf0), fmt);
+    &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrPrint&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; tfont&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;120&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;110&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrRGB&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xf0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xf0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xf0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;),&lt;/span&gt;
+              &lt;span style&equals;"color:&#35;cc9393"&gt;&quot;Hello, world.&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+	&lt;span style&equals;"color:&#35;aabfe3"&gt;snprintf&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;fmt&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;100&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;cc9393"&gt;&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;c07abe"&gt;%d&lt;/span&gt;&lt;span style&equals;"color:&#35;cc9393"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;c07abe"&gt;%d&lt;/span&gt;&lt;span style&equals;"color:&#35;cc9393"&gt;&quot;&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; y&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+	&lt;span style&equals;"color:&#35;aabfe3"&gt;tigrPrint&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; tfont&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;120&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;110&lt;/span&gt; &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;16&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrRGB&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xf0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xf0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xf0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;),&lt;/span&gt; fmt&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
 
-    tigrMouse(screen, &x, &y, NULL);
-    tigrFillCircle(screen, x, y, 8, tigrRGB(0xff, 0x00, 0x00));
+    &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrMouse&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;, &amp;&lt;/span&gt;x&lt;span style&equals;"color:&#35;dcdccc"&gt;, &amp;&lt;/span&gt;y&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; NULL&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrFillCircle&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; y&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;8&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrRGB&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xff&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x00&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x00&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;));&lt;/span&gt;
 
-    for (int i &equals; 0; i &lt; 100; i++) {
-      int x &equals; randomNo(0, 320);
-      int y &equals; randomNo(0, 240);
-      tigrLine(screen, x, y, x, y + 10, tigrRGB(0x00, 0x00, 0xff));
-    }
+    &lt;span style&equals;"color:&#35;e3ceab"&gt;for&lt;/span&gt; &lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; i &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt; i &lt;span style&equals;"color:&#35;dcdccc"&gt;&lt;&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;100&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt; i&lt;span style&equals;"color:&#35;dcdccc"&gt;++) {&lt;/span&gt;
+      &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; x &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;randomNo&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;320&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+      &lt;span style&equals;"color:&#35;dfdfbf; font-weight:bold"&gt;int&lt;/span&gt; y &lt;span style&equals;"color:&#35;dcdccc"&gt;&equals;&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;randomNo&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;240&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+      &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrLine&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; y&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; x&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; y &lt;span style&equals;"color:&#35;dcdccc"&gt;+&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;10&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrRGB&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;&lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x00&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0x00&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;,&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0xff&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;));&lt;/span&gt;
+    &lt;span style&equals;"color:&#35;dcdccc"&gt;}&lt;/span&gt;
 
-    tigrUpdate(screen);
-  }
-  free(fmt);
-  tigrFree(screen);
-  return 0;
-}	</code>
+    &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrUpdate&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;dcdccc"&gt;}&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;aabfe3"&gt;free&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;fmt&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;aabfe3"&gt;tigrFree&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;(&lt;/span&gt;screen&lt;span style&equals;"color:&#35;dcdccc"&gt;);&lt;/span&gt;
+  &lt;span style&equals;"color:&#35;e3ceab"&gt;return&lt;/span&gt; &lt;span style&equals;"color:&#35;dca3a3; font-weight:bold"&gt;0&lt;/span&gt;&lt;span style&equals;"color:&#35;dcdccc"&gt;;&lt;/span&gt;
+&lt;span style&equals;"color:&#35;dcdccc"&gt;}&lt;/span&gt;	</code>
 </pre>
 Nothing flashy, it just opens a window, draws some text and some rain.<br/>
 Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.<br/>
@@ -359,66 +359,66 @@ BASIC_CC &equals; ${CC} ${SOURCES} ${LIBS} -march&equals;native -fuse-ld&equals;
 all: build-all
 
 basic:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_CC} -o out/basic
 	
 BASIC_OPTIMIZED_CC &equals; ${BASIC_CC}  -Oz -fno-ident -fno-asynchronous-unwind-tables 
 basic-optimized:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_CC} -o out/basic-optimized
 
 BASIC_OPTIMIZED_STRIPPED_CC &equals; ${BASIC_OPTIMIZED_CC} -s
 basic-optimized-stripped:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_STRIPPED_CC} -o out/basic-optimized-stripped
 
 BASIC_OPTIMIZED_STRIPPED_LTO_CC &equals; ${BASIC_OPTIMIZED_STRIPPED_CC} -flto
 basic-optimized-stripped-lto:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -o out/basic-optimized-stripped-lto
 
 BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC &equals; ${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -z noseparate-code -Wl,--gc-sections -Wl,--strip-all -Wl,--icf&equals;all -Wl,--lto-O3 -Wl,-O2
 basic-optimized-stripped-lto-linker:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC} -o out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-zstd: basic-optimized-stripped-lto-linker
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	zstd -22 --ultra -f out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker.zst
 
 basic-optimized-stripped-lto-linker-compressed-gz:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.gz
 	gzip --best -f out/basic-optimized-stripped-lto-linker -c &gt; out/basic-optimized-stripped-lto-linker.gz
 
 basic-optimized-stripped-lto-linker-compressed-xz:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.xz
 	xz -e -k -9 out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-bzip2:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.bz2
 	bzip2 -k --best ./out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-7z:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.7z
 &#35; 	7z a -mx&equals;9 -m0&equals;LZMA2 -mfb&equals;64 -md&equals;64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
 	7z a -mx&equals;9 out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-upx: basic-optimized-stripped-lto-linker
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker-upx
 	upx --ultra-brute --no-lzma out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker-upx
 
 source-code:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	cp makefile src.c tigr.c tigr.h out/
 	tar -czf out/source-code.tar.gz -C out makefile src.c tigr.c tigr.h
@@ -435,11 +435,11 @@ build-all: basic \
 			basic-optimized-stripped-lto-linker-compressed-bzip2 \
 			basic-optimized-stripped-lto-linker-compressed-7z \
 			source-code
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
-	du -b out/&#42;
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	du -b out/&ast;
 
 clean:
-	@echo "\033&lsqb;1m$@:\033&lsqb;0m"
+	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
 	rm -rf out	</code>
 </pre>
 	</p>

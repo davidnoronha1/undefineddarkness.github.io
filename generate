@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# When invoked outside a container, delegate to the long-running Docker container.
+if [ ! -f /.dockerenv ]; then
+    docker compose up -d generate
+    # Wait for bun install (first start only — instant on subsequent calls)
+    until docker compose exec generate test -d node_modules 2>/dev/null; do sleep 0.5; done
+    exec docker compose exec generate ./generate "$@"
+fi
+
 # Init:
 
 # Enable bash options
@@ -85,7 +93,7 @@ build_md() {
 	out=${out/.md/.html}
 	markup=""
 	if [ "$is_in_ricing_guide" -eq 1 ]; then
-		markup="$(python3 ./.tooling/gfm.py "$1")"
+		markup="$(uv run ./.tooling/gfm.py "$1")"
 	else
 		markup=$(quiet=true bash ./.tooling/pond.sh "$1")
 	fi
