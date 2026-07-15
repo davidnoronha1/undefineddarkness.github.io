@@ -116,13 +116,13 @@ if platform.system() == 'Windows':
 else:
     bash_path = Path('/bin/bash')
 
-script_dir = Path.cwd()
+script_dir = Path.cwd().resolve()
 
 
 async def watch():
     async for changes in awatch('./src'):
         for change in changes:
-            fp = Path(change[1])
+            fp = Path(change[1]).resolve()
 
             print(prefix + f" Rebuilding {fp.stem} ({str(fp)})")
             process = subprocess.run([ bash_path, "./generate", fp.relative_to(script_dir) ], stdout=subprocess.PIPE)
