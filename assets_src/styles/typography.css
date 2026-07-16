@@ -31,20 +31,12 @@
 @font-face { font-family: 'Courier'; src: local('Courier'); unicode-range: U+0000-007F; }
 @font-face { font-family: 'Nimbus Mono PS'; src: local('Nimbus Mono PS'); unicode-range: U+0000-007F; }
 
-/* Deployed at /assets/fonts/FairfaxOctant.woff2 by assets_src/Makefile's
-   build-fonts target, which runs FairfaxHD through
-   fonts/.tooling/subset_octant.py to strip it down to just ASCII + the
-   Block Elements / Symbols for Legacy Computing Supplement glyphs gnuplot's
-   `block octant` terminal draws with (see .gnuplot-container pre in
-   minor.css). Only declared here, not preloaded, so the browser fetches it
-   lazily and only on pages that actually render a gnuplot plot. */
-@font-face {
-	font-family: 'FairfaxOctant';
-	src: url('/assets/fonts/FairfaxOctant.woff2') format('woff2');
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}
+/* FairfaxOctant's @font-face is NOT declared here. It's injected per-page
+   by .tooling/transformers.sh's gnuplot() function (into final.sh's
+   want_gnuplot_font block) instead of globally — declaring it in this
+   always-bundled stylesheet would make every page a candidate for fetching
+   the font, not just the ones with an actual gnuplot plot. See
+   .gnuplot-container pre in minor.css for where it's used. */
 
 article {
 	font-size: var(--article-size);
