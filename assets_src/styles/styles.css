@@ -143,7 +143,14 @@ pre {
 }
 
 pre:has(code:not(.language-plaintext)) {
-    border: 1px solid;
+    /* pre's background/text stay fixed dark/white in both site themes (see
+       the nv- prefixed vars above), but this border had no explicit color
+       so it used currentColor — white. That's invisible against the light
+       theme's page background, but in dark mode the page background goes
+       dark too, so the same white border suddenly reads as a glowing
+       outline. Pin it to the same fixed gray already used for pre's
+       scrollbar so it stays a subtle, theme-independent line. */
+    border: 1px solid var(--nv-gray);
 }
 
 .whitespace-pre {
@@ -312,7 +319,11 @@ article footer {
 table {
     border-collapse: collapse;
     table-layout: fixed;
-    border: 10px double var(--gray);
+    /* Was a heavy 10px double frame around the table, on top of the 1px
+       solid grid lines every cell already draws — matching it to the same
+       1px solid the cells use lets border-collapse merge them into one
+       clean line instead of a border-within-a-border. */
+    border: 1px solid var(--gray);
 }
 
 table * {
