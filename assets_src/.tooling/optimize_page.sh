@@ -66,8 +66,8 @@ process_images() {
     
     # Find all image sources (src attributes)
     local img_sources
-    img_sources=$(echo "$html_content" | grep -oP 'src="[^"]*\.(png|jpg|jpeg|webp|gif)"' | sed 's/src="//;s/"//' || true)
-    
+    img_sources=$(echo "$html_content" | grep -oP 'src="[^"]*\.(png|jpg|jpeg|jfif|webp|gif)"' | sed 's/src="//;s/"//' || true)
+
     # Process each image
     while IFS= read -r img_src; do
         if [ -n "$img_src" ]; then
@@ -76,46 +76,50 @@ process_images() {
 				continue
 			fi
 
-            # Handle local images (starting with ./ or ../)
-            # dbg "Processing local image: $img_src" 
-            if [[ $img_src == ./* || $img_src == ../* ]] || [[ $img_src != /assets/* ]]; then
-                # if [[ $img_src == ../../assets/* ]]; then
-                    # dbg "Skipping image outside project assets: $img_src"
-                    # continue
-                # fi
-
-                # echo "Processing local image: $img_src"
-                # Resolve the path relative to the HTML file directory
+            # Handle images stored next to their source document: either
+            # relative to the source doc (./foo.png, ../foo.png, bare foo.png)
+            # or repo-root-absolute (/src/2025/foo.png).
+            if [[ $img_src != /assets/* ]]; then
                 local resolved_src
-                # echo "Searching for local image: $img_src in dir: $html_dir" >&2
-                if [ -n "$html_dir" ]; then
+                if [[ $img_src == /* ]]; then
+                    # Repo-root-absolute path (e.g. /src/2025/foo.png). The
+                    # build always runs from the repo root, so resolve
+                    # against cwd, not against $html_dir.
+                    resolved_src=$(realpath ".${img_src}")
+                elif [ -n "$html_dir" ]; then
+                    # Resolve the path relative to the HTML file directory
                     resolved_src=$(cd "$html_dir" && realpath "$img_src")
                 else
                     resolved_src=$(realpath "$img_src")
                 fi
 
                 resolved_src=${resolved_src/out\/.assets/assets_src}
-                
+
                 # Check if source file exists
                 if [ ! -f "$resolved_src" ]; then
                     echo "Warning: Local image not found: $resolved_src (from $img_src)" >&2
                     continue
                 fi
-                
+
                 # Extract filename without extension
                 local filename=$(basename "$resolved_src")
                 local name="${filename%.*}"
-                
+                # Namespace by the containing directory (e.g. "2025") so
+                # same-named images from different source folders don't
+                # collide once flattened into assets/.
+                local subdir
+                subdir=$(basename "$(dirname "$resolved_src")")
+
                 # Define destination path in assets/
-                local dest_path="assets/${name}.avif"
-                local new_src="/assets/${name}.avif"
-                
+                local dest_path="assets/${subdir}/${name}.avif"
+                local new_src="/assets/${subdir}/${name}.avif"
+
                 # Convert to AVIF
                 convert_to_avif "$resolved_src" "$dest_path"
-                
+
                 # Update HTML content to reference AVIF file
                 processed_html=$(echo "$processed_html" | sed "s|$img_src|$new_src|g")
-                
+
                 continue
             fi
 
@@ -135,9 +139,14 @@ process_images() {
             if [ -f "$src_path" ]; then
                 # Convert to AVIF
                 convert_to_avif "$src_path" "$dest_path"
-                
+
                 # Update HTML content to reference AVIF file
                 processed_html=$(echo "$processed_html" | sed "s|$img_src|$new_src|g")
+            elif [ -f "assets/$filename" ]; then
+                # No assets_src source to convert, but the file was placed
+                # directly in the output assets/ dir (e.g. already
+                # hand-optimized) — the reference already resolves as-is.
+                :
             else
                 echo "Warning: Source image not found: $src_path [${img_src}]" >&2
             fi

@@ -51,7 +51,9 @@ initial_transformer () {
 	local loaded_mermaid=0
 	local loaded_mathjax=0
 	local skip_forced_newline=0
-	
+	local blank_run=0
+	local after_block_end=0
+
 	while read -r line; do
 		skip_forced_newline=0
 
@@ -94,6 +96,10 @@ initial_transformer () {
 			# Primary Article Heading
 			'# '*)
 				if ! (( inside_code_block )); then
+					while (( blank_run > 0 )); do
+						output_ptr=${output_ptr%'<br/>'"$NEWL"}
+						blank_run=$(( blank_run - 1 ))
+					done
 					output_ptr+="<header>$NEWL<h1>${line#'# '}</h1>$NEWL</header>$NEWL" #${line#'# '}"
 					continue
 				fi
@@ -107,8 +113,14 @@ initial_transformer () {
 					inside_paragraph=0
 					output_ptr+="</p>$NEWL"
 				fi
-				
+
 				if ! (( inside_code_block )); then
+					# Swallow any stray <br/> left by blank source lines right
+					# before this heading; the heading's own margin handles spacing.
+					while (( blank_run > 0 )); do
+						output_ptr=${output_ptr%'<br/>'"$NEWL"}
+						blank_run=$(( blank_run - 1 ))
+					done
 					local level=${line%% *}
                     local id=$(slugify "${line#$level }")
 					output_ptr+="<h${#level} id=\"${id}\">${line#"$level "}</h${#level}>$NEWL" # "${#level}" "$id" "${line#"$level "}" "${#level}"
@@ -128,6 +140,7 @@ initial_transformer () {
 				;;
             '#END '*)
                 (( inside_code_block == 0 )) && inside_transformer_block=0 && output_ptr+="$line" && skip_forced_newline=1
+                (( inside_code_block == 0 )) && after_block_end=1
                 ;;
             #'\(')
 			#	(( inside_code_block == 0 )) && inside_transformer_block='math' && printf '%s' "$line"
@@ -161,10 +174,10 @@ initial_transformer () {
 						# TODO: Convert to single sed call
 						escape_code_block ptr
 						output_ptr+="${ptr}</code>$NEWL</pre>$NEWL"
-					else 
+					else
 						ptr=$($syntax_hl_backend "$language" <<< "$ptr")
-						escape_code_block ptr
-						output_ptr+="${ptr}$TAB</code>$NEWL</pre>$NEWL"	
+						escape_highlighted_code_block ptr
+						output_ptr+="${ptr}$TAB</code>$NEWL</pre>$NEWL"
 						# printf '$TAB</code>$NEWL</pre>$NEWL'
 					fi
 					
@@ -176,8 +189,14 @@ initial_transformer () {
 					local ptr=''
 					local language=${line#'```'}
 					inside_code_block=1
-					if [[ "$language" != "mermaid" &&  "$language" != "math" ]]; then 
-						
+					# Swallow any stray <br/> left by blank source lines right
+					# before this code block.
+					while (( blank_run > 0 )); do
+						output_ptr=${output_ptr%'<br/>'"$NEWL"}
+						blank_run=$(( blank_run - 1 ))
+					done
+					if [[ "$language" != "mermaid" &&  "$language" != "math" ]]; then
+
 						output_ptr+="<pre>$NEWL<code class=\"language-${language:-plaintext}\">"
 					fi
 					dbg "--- CODE BLOCK ($language) ---"
@@ -229,10 +248,22 @@ initial_transformer () {
 			fi
 
 			if ! [[ "$line" == '<'* ]]; then
-				output_ptr+="<br/>$NEWL"
+				if [ -z "$line" ] && (( after_block_end )); then
+					# Swallow blank line(s) right after a #END block close;
+					# the block's own markup already handles its spacing.
+					dbg "Swallowing blank line after block end"
+				else
+					output_ptr+="<br/>$NEWL"
+					if [ -z "$line" ]; then
+						blank_run=$(( blank_run + 1 ))
+					else
+						blank_run=0
+						after_block_end=0
+					fi
+				fi
 			fi
 		fi
-	done 
+	done
 
 	if (( loaded_mermaid )); then 
 		prefix_ptr+='
@@ -261,7 +292,7 @@ initial_transformer () {
 		"
 
 		prefix_ptr+="
-		<!-- KATEX LOADING -->\\
+		<!-- KATEX LOADING -->
 		 <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css\" integrity=\"sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP\" crossorigin=\"anonymous\">
 		<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js\"></script>
 		<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js\"></script>

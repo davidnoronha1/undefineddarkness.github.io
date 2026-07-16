@@ -116,13 +116,13 @@ if platform.system() == 'Windows':
 else:
     bash_path = Path('/bin/bash')
 
-script_dir = Path.cwd()
+script_dir = Path.cwd().resolve()
 
 
 async def watch():
     async for changes in awatch('./src'):
         for change in changes:
-            fp = Path(change[1])
+            fp = Path(change[1]).resolve()
 
             print(prefix + f" Rebuilding {fp.stem} ({str(fp)})")
             process = subprocess.run([ bash_path, "./generate", fp.relative_to(script_dir) ], stdout=subprocess.PIPE)
@@ -148,17 +148,18 @@ async def rebuild():
         except:
             pass
 
+prompt = "\033[1m\033[31mHS\033[0m  \033[2m[r]ebuild [q]uit ❯\033[0m "
+
 async def listen_for_keys():
     loop = asyncio.get_event_loop()
     rebuilding = False
     try:
         while True:
             # Prompt user for a command
-            cmd = await loop.run_in_executor(None, lambda: input("> ").strip())
+            cmd = await loop.run_in_executor(None, lambda: input(prompt).strip())
 
             if cmd in ['r', ''] and not rebuilding:  # allow 'r' or just Enter
                 rebuilding = True
-                print(prefix + "Rebuilding...")
                 await rebuild()
                 rebuilding = False
             elif cmd == 'q':

@@ -33,6 +33,20 @@ escape_code_block () {
 	retptr=$ptr
 }
 
+# Like escape_code_block, but for content that has already been turned into
+# real HTML by the syntax highlighter (e.g. <span style="..."> tags). Only
+# escapes characters that could be misread as markdown by final_transformer;
+# leaves <, > and = alone so the highlighter's own tags/attributes survive.
+escape_highlighted_code_block () {
+	local -n retptr=${1}
+	ptr=$retptr
+	ptr=${ptr//'#'/'&#35;'}
+	ptr=${ptr//'['/'&lsqb;'}
+	ptr=${ptr//']'/'&rsqb;'}
+	ptr=${ptr//'*'/'&#42;'}
+	retptr=$ptr
+}
+
 get_temp_dir_in_output_folder () {
 	mkdir -p ./out/.pond-tmp
 	tmpdir=$(mktemp -d ./out/.pond-tmp/XXXXXXXX)

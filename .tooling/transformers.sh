@@ -18,6 +18,20 @@ f () {
 	shift
 	trimmed=$*
 	trimmed=${trimmed#'#f '}
+
+	# If the summary embeds a raw heading tag (e.g. "<h3>Title</h3>"), give it
+	# a slugified id so URL fragments can target it, matching how normal
+	# markdown headings get their ids in initial_transformer.
+	if [[ "$trimmed" =~ ^(.*)\<(h[1-6])\>(.*)\</h[1-6]\>(.*)$ ]]; then
+		local pre="${BASH_REMATCH[1]}"
+		local tag="${BASH_REMATCH[2]}"
+		local heading_text="${BASH_REMATCH[3]}"
+		local post="${BASH_REMATCH[4]}"
+		local slug
+		slug=$(slugify "$heading_text")
+		trimmed="${pre}<${tag} id=\"${slug}\">${heading_text}</${tag}>${post}"
+	fi
+
 	printf "
 <details>
 	<summary>
@@ -82,6 +96,10 @@ header () {
 
     # print header
     echo "<header>"
+    # Optional explicit publish date (date=YYYY-MM-DD), used by generate_index/
+    # generate_rss to override the git-derived date when it's wrong (e.g. a
+    # source file was renamed and git rename-detection lost its history).
+    [[ -n "${attr_date:-}" ]] && echo "  <!-- post_date=\"${attr_date}\" -->"
     if [[ -n "${attr_image:-}" ]]; then
 		if [ -n "${attr_icon:-}" ]; then
 			echo "  <img src=\"${attr_image}\" />"
@@ -185,7 +203,7 @@ gnuplot() {
                 -e 's/color:#bbb;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:break-word//g'
         printf '    </div>
                     <details class='minor-fold'>
-                        <summary>Code</summary>
+                        <summary> Code</summary>
                         <pre>
                             <code>%s</code>
                         </pre>

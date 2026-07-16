@@ -1,4 +1,6 @@
-# Basic Memory Introduction
+#HEADER Basic Memory Introduction
+A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.
+#END HEADER
 An introduction to low-level programming and how to avoid
 
 ```c
@@ -319,7 +321,3 @@ You can also set breakpts. for the prog. to auto stop w/n reached & watch variab
 Tools like ClangD w/ Clang Format turned on can help you catch errors early.
 
 Simple Rule of Thumb is whenever passing a pointer to MULTIPLE elements, pass in a length parameter as well.
-
-(*) I apologize for the constant shifts in the size of my handwriting, It took me a while to figure that I should keep it large & consistent for legibility.
-
-I wouldve typed but if I did that I wouldve never finished it ehehe.

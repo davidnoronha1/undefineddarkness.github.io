@@ -26,15 +26,28 @@
     background-color: var(--white-lighter);
     color: var(--black-darker) !important;
     padding: 0;
-    font-family: 'Body Font';
+    /* FairfaxOctant (see @font-face in typography.css) has full glyph
+       coverage for the Unicode block/octant characters gnuplot draws with,
+       and is a true fixed-width font so the character grid stays aligned. */
+    font-family: 'FairfaxOctant', var(--mono-font);
     overflow-wrap: unset !important;
     word-wrap: unset !important;
+    /* The global `pre` rule sets white-space: normal (so long code lines
+       can wrap); that collapses gnuplot's whitespace-art layout and wraps
+       it, wrecking the character grid. Force it back to preformatted. */
+    white-space: pre !important;
   overflow-x: auto;         /* enable horizontal scroll if too wide */
-  max-width: 100vw;          /* don't extend beyond parent */
+  /* 100vw ignores the article's side padding (12vw/16vw, see styles.css),
+     so a wide plot (long "outside right" legends especially) would extend
+     past the visible column and get silently clipped by body's
+     overflow-x: hidden instead of scrolling. 100% of the actual content
+     column keeps the scrollbar the one that triggers. */
+  max-width: 100%;
 }
 
 .gnuplot-container {
     width: fit-content;
+    max-width: 100%;
     height: fit-content;
     font-size: 0.8em;
 }

@@ -1,4 +1,4 @@
-#HEADER ASUS TUF A15 2023
+#HEADER ASUS TUF FA507RE
 A description of the bad time I've had with my new laptop
 #END HEADER
 
@@ -13,6 +13,14 @@ This piece of shit can't boot stablelly into any operating system, Windows needs
 
 ### Poweroff / Reboot Issues
 This one affects Linux a lot more than Windows but the laptop will just reboot and poweroff w/o any notice at all, there are no kernel logs of the same and w/h it happens on windows, Event Viewer just lists it as a unexpected poweroff 😭, THIS IS INCREDIBLY FRUSTRATING, Since especially on Linux it can die within 5-10 minutes and fucks up a wide variety of software that don't expect to just randomly loose power like Vim, Git, Fixing git repos cuz they got corrupted due to this takes forever
+
+**Update**: Apparently this is because this Ryzen generation is particularly unstable and or the power manager for the chip is very unstable, And is a [documented issue](https://wiki.archlinux.org/title/Ryzen#Random_reboots)
+
+Besides this the sleep states are also very unstable on this laptop so finally I modified the power plan to use active cooling and max cpu performance profile when on battery and also disabled sleep / turning off the screen after inactivity. All thanks to [this reddit post](https://www.reddit.com/r/Asustuf/comments/1ri4y87/facing_random_crashesreboot_on_my_asus_tuf_a15/)
+
+![screenshot of windows power plan settings](./image-3.png)
+
+On linux I was able to reduce the number of reboots with `acpi=off` but that is a no-good solution since I lose the trackpad and battery tracking among other things, these issues point to a bad BIOS from ASUS
 
 ## Build Quality Issues
 I'll admit I'm not the most careful laptop user on this planet, but this one feels particularly poor despite the few bumps and knocks I've put the laptop through.

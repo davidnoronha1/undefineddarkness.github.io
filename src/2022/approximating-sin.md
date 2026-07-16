@@ -15,7 +15,6 @@ Even for something like \(\sin(\pi/12)\),
 
 Fortunatley, many brilliant mathematicians have come with approximations for these functions, Some which we humans can use and some which we cant.
 
-<div class="split-f">
 #GNUPLOT
 
 set xrange [-10:10]
@@ -43,7 +42,7 @@ f(x) = x - x**3/6 + x**5/120 - x**7/5040
 
 plot sin(x) - f(x) lc rgb "#D7BAFF" lw 3 title "sin(x) - f(x)"
 #END GNUPLOT
-</div>
+
 ## Taylor Series
 Probably the one most are familiar with, This is a really understandable way of expressing sin(x) in terms of a polynomial
 ```math
