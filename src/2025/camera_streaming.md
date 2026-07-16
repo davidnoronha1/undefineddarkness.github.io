@@ -1,5 +1,7 @@
 ![](/assets/IMX335-5MP-USB-Camera-A-details-1-removebg-preview.png)
-# Low Latency Camera Streaming in Robotics
+#HEADER Low Latency Camera Streaming in Robotics
+Lessons from debugging flaky, laggy camera streams on robots.
+#END HEADER
 So as part of my work at Dreadnought Robotics and a few other places since, I've often had to grapple with and sort out why a camera stream is not performing as it should and this can have many reasons like purely from my experience I've seen things 
 
 - like the USB / Ethernet cable being too fragile

@@ -1,5 +1,5 @@
 #HEADER ZipLine 2024: My first dive in robotics
-A summary of my experience in the Zipline robotics competition
+A description of my experience in the IIT Techfest Meshmerize robotics competition
 #END HEADER
 
 #PDF /assets/documents/zipline.pdf

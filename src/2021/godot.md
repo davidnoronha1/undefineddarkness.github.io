@@ -2,8 +2,7 @@
 My experience when using Godot to make a mostly UI application
 #END HEADER
 
-*This is my attempt at rewriting the original article, Since that one
-wasn't well structured and a few of my opinions had changed since then*
+*This is my attempt at rewriting the original article, Since that one wasn't well structured and a few of my opinions had changed since then*
 
 After spending some time making Cello in Godot's UI system, I have to
 say it has been the most **fun** I have had making any GUI application,
@@ -54,16 +53,15 @@ results. (for usable at least), You just need to set the
 
 These are mine for Cello, which have so far worked fine for me.
 
-  - Mode: disabled
-  - Aspect: ignore
-  - Shrink: 1 (default)
+- Mode: disabled
+- Aspect: ignore
+- Shrink: 1 (default)
 
 ### Layout
 
 [Godot Docs Page](https://docs.godotengine.org/en/stable/tutorials/ui/gui_containers.html)
 
-*I highly suggest you take a read through it if you're interested, It
-explains everything in a much better way than I could.
+*I highly suggest you take a read through it if you're interested, It explains everything in a much better way than I could.*
 
 The layout system I am most used to is definitely CSS Flexbox, there is
 just something about it resizing to fit the child neatly that is
@@ -82,10 +80,10 @@ To fix these each widget (Godot calls them Nodes but I am going to use
 Widget & Node interchangeably), has some size flags to determine its
 behaviour when requesting space. They are:
 
-  - Expand
-  - Fill
-  - Shrink Center
-  - Shrink End
+- Expand
+- Fill
+- Shrink Center
+- Shrink End
 
 and a *stretch ratio*; I am going to ignore Shrink Center & Shrink End
 since so far I have not had the need to use them. Fill should be on at
@@ -138,78 +136,75 @@ property it is and any child widgets, without overriding a theme from a
 parent widget further up in the hierarchy; and the editor experience for
 most properties is very good.
 
-1.  Rounded Corners for images \[1\]
-    
-    While you can apply `corner-radius` for most theme-able widgets, a
-    surprising exceptions is `TextureRect`, the fix I found was to use
-    this shader from someone, I lost the source apologies.
-    
-    ``` glsl
-    shader_type canvas_item;
-    render_mode blend_mix,unshaded;
-    
-    uniform vec4 color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
-    
-    uniform float radius : hint_range(0.0, 1.0) = 0.0;
-    uniform vec2 size = vec2(1.0, 1.0);
-    
-    void fragment() {
-      vec4 texture_color = texture(TEXTURE, UV);
-      COLOR = texture_color * color;
-    
-      vec2 size_ratio = vec2(max(1.0, size.x / size.y), max(1.0, size.y / size.x));
-      float half_radius = 0.5 * radius;
-      vec2 dist_max = half_radius / size_ratio;
-      vec2 edge_pos = clamp(UV, dist_max, 1.0 - dist_max);
-      float edge_dist = distance(UV * size_ratio, edge_pos * size_ratio);
-      COLOR.a *= step(edge_dist, half_radius + 0.000001);
-    }
-    ```
+#### 1. Rounded Corners for images [1]
 
-2.  Fonts
-    
-    Godot's system is good currently and allows a lot of flexibility
-    when defining what font to use, allowing you to toggle filtering /
-    not use vector fonts etc. But its inability to use fonts from the
-    system is a bit annoying, I have to package every font I want with
-    the project; That is probably fine for a game but picking up fonts
-    from the system would be useful functionality.
-    
-    And from a bit of messing around, looks like the only way to use
-    things like **bold** *italic* and
-    <span class="underline"><span class="underline">under
-    line</span></span> in the general UI, is to use a `RichTextLabel`
-    that accept BBcode markup, and even for that you need to define
-    separate fonts for each weight / slant you want. :/ No fancy
-    variable fonts here.
-    
-    For other widgets, if there is no font property for it, you're out
-    of luck.
+While you can apply `corner-radius` for most theme-able widgets, a
+surprising exceptions is `TextureRect`, the fix I found was to use
+this shader from someone, I lost the source apologies.
 
-3.  Theme Editor
-    
-    You might call this a nitpick, but it is something worth nothing I
-    feel. This is what the default theme editor looks like and while its
-    certainly usable…
-    
-    ![](/assets/images/dump/godot-theme-editor.png)
-    
-    I think it's a bit more confusing than it should be, You have to
-    select what you want to change from the Type: drop down menu,
-    instead of intuitively clicking on one of the widgets in the preview
-    to modify it.
-    
-    I'd prefer just the preview window without all the buttons at the
-    top, and a sidebar with all the available properties in one
-    condensed view for modification.
-    
-    TODO: Create mockup
+```glsl
+shader_type canvas_item;
+render_mode blend_mix,unshaded;
+
+uniform vec4 color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+uniform float radius : hint_range(0.0, 1.0) = 0.0;
+uniform vec2 size = vec2(1.0, 1.0);
+
+void fragment() {
+  vec4 texture_color = texture(TEXTURE, UV);
+  COLOR = texture_color * color;
+
+  vec2 size_ratio = vec2(max(1.0, size.x / size.y), max(1.0, size.y / size.x));
+  float half_radius = 0.5 * radius;
+  vec2 dist_max = half_radius / size_ratio;
+  vec2 edge_pos = clamp(UV, dist_max, 1.0 - dist_max);
+  float edge_dist = distance(UV * size_ratio, edge_pos * size_ratio);
+  COLOR.a *= step(edge_dist, half_radius + 0.000001);
+}
+```
+
+#### 2. Fonts
+
+Godot's system is good currently and allows a lot of flexibility
+when defining what font to use, allowing you to toggle filtering /
+not use vector fonts etc. But its inability to use fonts from the
+system is a bit annoying, I have to package every font I want with
+the project; That is probably fine for a game but picking up fonts
+from the system would be useful functionality.
+
+And from a bit of messing around, looks like the only way to use things like **bold** *italic* and <u>underline</u> in the general UI, is to use a `RichTextLabel`
+that accept BBcode markup, and even for that you need to define
+separate fonts for each weight / slant you want. :/ No fancy
+variable fonts here.
+
+For other widgets, if there is no font property for it, you're out
+of luck.
+
+#### 3. Theme Editor
+
+You might call this a nitpick, but it is something worth nothing I
+feel. This is what the default theme editor looks like and while its
+certainly usable…
+
+![](/assets/images/dump/godot-theme-editor.png)
+
+I think it's a bit more confusing than it should be, You have to
+select what you want to change from the Type: drop down menu,
+instead of intuitively clicking on one of the widgets in the preview
+to modify it.
+
+I'd prefer just the preview window without all the buttons at the
+top, and a sidebar with all the available properties in one
+condensed view for modification.
+
+TODO: Create mockup
 
 ## GDScript
 
 I decided that to get the most out of the box experience, I would use
 Godot's own builtin scripting language (called GDScript) and also
-because it integrated the best with the Engine, (C\# also integrates
+because it integrated the best with the Engine, (C# also integrates
 very well). While I wouldn't call it unusable, It certainly was not
 *fun* to use.
 
@@ -217,7 +212,7 @@ The syntax which is mostly copied from Python is fine… Some things
 taking several lines when they shouldn't need to is a bit frustrating
 but it's fine.
 
-\[2\] GDScript recently gained support for Static Typing which is great
+[2] GDScript recently gained support for Static Typing which is great
 but to say its fragile is putting it mildly, It's optional so it's very
 lightly enforced, And in some places is missing entirely. There is still
 no way to define some kind of interface type over dictionary, or define
@@ -235,7 +230,7 @@ twice, The only way to exclude some game specific code to run in the
 editor which would probably error it out and maybe even crash it or slow
 it down a lot is to do
 
-``` gdscript
+```gdscript
 if Engine.editor_hint:
     print("Running in editor")
    return
@@ -244,7 +239,7 @@ if Engine.editor_hint:
 which is just ugly in a word, I'd rather a way alongside the if check
 somewhat like this
 
-``` gdscript
+```gdscript
 editor func only_in_editor():
     print("I only run in the editor")
 ```
@@ -281,8 +276,7 @@ This might be fine, but I just don't like it :| A proper import / export
 system would be nice to see
 
 Tween **nodes** which are used for animation but are meant to be used
-almost entirely from within code become a bit annoying after some time.
-\[3\]
+almost entirely from within code become a bit annoying after some time. [3]
 
 Maybe I was expecting a bit too much though, It's not *designed* for a
 lot of this, but in my opinion a lot of it leads to simply better /
@@ -294,8 +288,7 @@ significantly when writing code.
 As for performance, while I won't call it light weight , its not too
 outrageously intensive, as long as you tone down the fps and don't go
 nuts with the asset loading, it'll probably be fine… Memory usage can
-get out of hand if you don't mind it tho. *I found 25 fps to be good
-enough for my purposes.* For GUI alone though, it's not very good.
+get out of hand if you don't mind it tho. *I found 25 fps to be good enough for my purposes.* For GUI alone though, it's not very good.
 
 It definitely isn't the best if you want a accessible UI system, outside
 of like translations, you won't find much of that here.
@@ -311,6 +304,7 @@ start.
 
 
 Footnotes:
-1.  This has been addressed in Godot V4.
-2.  This has been addressed in Godot V4.
-3.  This has been addressed in Godot V4.
+
+- [1] This has been addressed in Godot V4.
+- [2] This has been addressed in Godot V4.
+- [3] This has been addressed in Godot V4.

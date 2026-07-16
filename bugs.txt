@@ -1,0 +1,22 @@
+blank line before heading means there is too much space
+same for code blocks, be intelligent on leaving space here.
+
+code block scroll bars dont integrate well in light mode, (they are white and scroller is also white, make the bar black integrated with the code block margin and the scroller dark gray)
+
+#f doesnt work properly when the <summary> is a heading
+
+make the asset pipeline more flexible and should be able to properly handle assets stored next to the source document OR in /assets
+
+I want emoji to be coloured! right now they are not!
+
+inline code is not very noticable, try to make it without a bg color
+
+return to index should have an arrow to its left but no arrow
+
+too much margins on small screens that the about link collection line has to wrap, fix!
+
+sort articles by date
+
+article heading has to wrap (stable diffiusion experiments)
+
+all wrapped text in heading looks bad

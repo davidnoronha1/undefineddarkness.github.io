@@ -21,6 +21,7 @@
     --nv-black: #181818;
     --nv-white: #fafafa;
     --nv-black-darker: #111;
+    --nv-gray: #555;
     --gray: color-mix(in srgb, var(--black) 60%, var(--white) 40%);
 }
 
@@ -97,7 +98,22 @@ img {
 pre,
 code {
     line-height: initial;
-     scrollbar-color: var(--white-darker) var(--white-lighter);
+    /* pre's background is always dark (--nv-black-darker, never theme-swapped),
+       so its scrollbar should stay dark too instead of following the page theme. */
+    scrollbar-color: var(--nv-gray) var(--nv-black-darker);
+}
+
+pre::-webkit-scrollbar {
+    height: 0.6em;
+}
+
+pre::-webkit-scrollbar-track {
+    background-color: var(--nv-black-darker);
+}
+
+pre::-webkit-scrollbar-thumb {
+    background-color: var(--nv-gray);
+    border-radius: 5px;
 }
 
 img.inline {
@@ -112,8 +128,8 @@ pre {
     overflow-y: hidden;
     overflow-x: auto;
     text-align: left;
-    margin: 0;
-    padding: 1em;
+    margin: 0.5em 0;
+    padding: 0.6em 0.8em;
     white-space: normal;
     border-radius: 5px;
 }
@@ -137,12 +153,14 @@ figure {
 article,
 main {
     width: 100%;
-    padding-right: 23vw;
+    padding-right: 16vw;
     padding-left: 12vw;
     line-height: 1.5;
 }
 
-body > article:first-child {
+/* `nav.toc` precedes `article` in the markup, so `:first-child` here never
+   matched anything — article is always the second child of body. */
+body > article {
     padding-top: 2em;
 }
 
@@ -172,7 +190,7 @@ iframe.nb {
 
 a {
     color: var(--gray);
-    text-decoration: none;
+    text-decoration: underline;
     word-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
@@ -222,16 +240,24 @@ summary::marker {
 }
 
 summary::before {
-    content: "▶";
+    /* Plain ASCII '>' rather than ▶ — a real glyph outside ASCII risks
+       being picked up by whatever emoji-capable font is installed instead
+       of rendering as plain text. */
+    content: url("data:image/svg+xml,%3Csvg clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='32' heigh='32'%3E%3Cpath d='m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z'/%3E%3C/svg%3E");
     position: absolute;
     font-size: 0.8em;
-    left: -1.2em;
-    top: 0.15em;
-    transition: all 0.3s ease;
+    left: -1.4em;
+    /* Center vertically against the summary's actual height rather than a
+       fixed offset tuned for single-line text — a heading (or anything
+       taller) inside <summary> would otherwise push the marker toward the
+       top of the box instead of centering it. */
+    top: 50%;
+    transform: translateY(-40%);
+    transition: transform 0.3s ease;
 }
 
 details[open] summary::before {
-    transform: rotate(90deg);
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /*
@@ -257,11 +283,13 @@ footer {
     align-items: center;
 }
 
-footer>a[href="/out/index.html"] {
+/* Class selector (not an attribute selector) so purgecss's critical-CSS
+   pass reliably keeps this rule when inlining per-page styles. */
+.return-index {
     text-decoration: none;
 }
 
-footer>a[href="/out/index.html"]::before {
+.return-index::before {
     content: "✈";
     padding-right: 10px;
 }
@@ -334,74 +362,12 @@ li .in-margin {
     left: -3em;
 }
 
-/* @media (prefers-color-scheme: light) { */
-
-
-nav.toc {
-    position: fixed;
-    top: 0;
-    right: 0;
-    float: right;
-    max-width: 20vw;
-    font-size: 0.8em;
-    text-overflow: ellipsis;
-    margin: 2em;
-    z-index: 999;
-}
-
-nav.toc ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
-}
-
-nav.toc ul .toc-subheading::before {
-    border-left: 2px solid gray;
-    content: "";
-    padding-left: 0.8em;
-}
-
-nav.toc ul .toc-subheading:last-child:before {
-    border-left: none;
-    background-image: linear-gradient(to bottom, gray 0%, gray 50%, transparent 50%, transparent 75%, transparent 100%);
-    background-size: 2px 100%;
-    background-repeat: no-repeat;
-}
-
-nav.toc ul .toc-subheading {
-    position: relative;
-}
-
-nav.toc ul .toc-subheading::after {
-    left: 0;
-    position: absolute;
-    content: "";
-    width: 0.6em;
-    height: 0.5em;
-    border-bottom: 2px solid gray;
-    /* borer-bottom-left-radius: 8px; */
-    /* border-left: 2px solid gray; */
-}
-
-nav.toc a {
-    color: var(--black);
-}
-
-nav.toc ul .toc-subheading {
-    margin-left: 0.6em;
-}
-
 @media only screen and (max-width: 600px) {
 
     /*-- Mobile Styles --*/
     article {
         padding-left: 8vw;
         padding-right: 0;
-    }
-
-    nav.toc {
-        display: none;
     }
 
     header img {

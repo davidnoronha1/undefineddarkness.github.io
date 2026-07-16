@@ -5,9 +5,9 @@ all: build
 
 build:
 	@echo "--> Building CSS..."
-	@make -C assets_src build-css
+	@make -s -C assets_src build-css
 	@echo "--> Building other assets..."
-	@make -C assets_src build-other
+	@make -s -C assets_src build-other
 	@echo "--> Generating site..."
 	@./generate
 

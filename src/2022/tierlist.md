@@ -4,7 +4,7 @@ A tierlist of programming languages I have used
 
 #TABLE	.tierlist
 USEFUL	Rust	Typescript	C#	C++
-FUN	C	Lua	TCL
+FUN	C	Lua	TCL Haskell
 BEARABLE	Javascript	Go	Python
 PAINFUL	Bash
 TRASH	Perl
@@ -13,6 +13,7 @@ TRASH	Perl
 ## Notes
 - `Rust` - Eh, You knew it was gonna be on the list. Rust is immensley complicated but It's not hard to be productive in it, But when I use it, I feel like I'm arguing with someone on how I should write my code..
 It's good that the borrow checker has your back but you fight with it quite often, or at least until you develop an intuition for it. But it's not too bad once you get used to it.
+**UPDATE**: Its a good language, just stick to anything that isn't embedded or async (that isn't tokio) or multithreaded
 
 - `C` is really fun to work in, Having full control of what is happening is a great way to feel all powerful. But it is really not a good choice for building anything very complicated.
 And when it is used, there are often hacks or like annoying limitations that libraries have to work around which is all around quite frustrating. Not to say it's hard to use or anything just can get frustrating with time.
@@ -24,6 +25,7 @@ It's really quite a nice language and the new stuff in C23 should make it even b
 
 - `C++` - C++ just fixes a lot of gripes I have with C, But it replaces C's foot pistol with a sniper rifle. Unless you're familiar with a debugger and the code you're running, It can be really hard to find errors in C++, It fixes a lot of the pain points in C and admittedly introduces it's own.
 Just having namespaces, lambdas, struct methods you can actually use and lots of other additions make it really a lot less painful to use than C. I haven't used it in a really large project so I dont' know how it behaves in an enviroment like that.
+**UPDATE**: It behaves fine, just be prepared to diagnose CMake errors more than language errors & Modern C++ is really quite good (when it wil get implemented in compilers that is...)
 
 - `Javascript` - This is the first language I learnt and I have a lot of love for it but not having types and constantly forced to fix your code because of some tiny thing you couldnt predict (cause again, no types la la la) can get really frustrating,
 And even the ecosystem around it is just how to say *laden*. Even for simple things, The alternative to just DIY is something really complicated so you DIY and then your solution becomes complicated too and the cycle continues...

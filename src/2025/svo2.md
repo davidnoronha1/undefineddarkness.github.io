@@ -28,8 +28,8 @@ Which after triggering some vague memories of the ROS2 bag format, led me to the
 
 After dumping out whatever information I could from the bag, I was able to figure out this much
 
-$mcap info FILE
-```
+```sh
+$ mcap info FILE
 channels:
         (1) svo_header                                1 msgs                      : sl_type [jsonschema]                              
         (2) Camera_SN38486288/side_by_side          762 msgs (14.64..14.66Hz)     : Camera_SN38486288/side_by_side [zed_sdk_encoded]  
@@ -101,7 +101,6 @@ After extracting out the executable, I saw that it wasn't `strip`ed which meant 
 Also spent a while fiddling with Ghidra and GDB hoping to figure out as the program executed but the program not actually working on the files had was a big damper
 
 So this didnt go anywhere, but binary reverse enginnering is always fun
-
 
 ## No other ideas
 Being completley out of ideas and kind of tired of hitting my head against it with little progress, I asked a few agents about it to just compare responses, Microsoft Copilot had no idea, ditto for Gemini but Claude suggested the JPEGs could be storing the [bayer pattern](https://en.wikipedia.org/wiki/Bayer_filter) and the 4 images had to be compared together somehow
@@ -385,7 +384,6 @@ Two timestamp domains exist:
 ---
 
 ## Known Unknowns
-
 - Binary format of `sensors` / `integrated_sensors` data blob
 - Meaning of `ts_a` / `ts_b` tick units
 - `pixel_format` enum value `2` in header binary (assumed YUYV)

@@ -68,23 +68,6 @@ format_doc_heading() {
 	doc_heading=${template_pre_content/'!DOCUMENT-PATH!'/"$doc_path"}
 	doc_heading=${doc_heading//'!TITLE!'/"$doc_title"}
 	doc_heading=${doc_heading//'!URL!'/"${doc_url}"}
-
-	toc="<ul>"
-	while read -r heading; do
-		local level=${heading%% *}
-		local without_heading=${heading#$level }
-		local slug=$(slugify "${without_heading}")
-		case "$heading" in
-		'## '*)
-			toc+="<li><a href='#${slug}'>${without_heading}</a></li>"
-			;;
-		'### '*)
-			toc+="<li class='toc-subheading'><a href='#${slug}'>${without_heading}</a></li>"
-			;;
-		esac
-	done < <(grep -P "##+" $2)
-	toc+='</ul>'
-	doc_heading=${doc_heading/'!TABLEOFCONTENT!'/"$toc"}
 }
 
 # Tasks:
@@ -144,16 +127,62 @@ generate_org_full() {
 	emacs "${emacs_arguments[@]}" >/dev/null 2>&1
 }
 
-count=0
+# Resolve the source file (.md/.org/.html) an out/ file was built from, and
+# return its "publish date" as a unix epoch. Prefers an explicit
+# `#header ... date=YYYY-MM-DD` override (emitted as a post_date HTML
+# comment) since git history can be wrong for renamed/rewritten files; falls
+# back to the file's first git commit date, then mtime.
+get_article_date() {
+	local out_file="$1"
+
+	local override
+	override=$(grep -Po '<!--\s*post_date=\K.*(?=-->)' "$out_file" 2>/dev/null | head -n1)
+	override=${override//\"/}
+	override="${override#"${override%%[![:space:]]*}"}"
+	override="${override%"${override##*[![:space:]]}"}"
+	if [ -n "$override" ]; then
+		local override_epoch
+		override_epoch=$(date -d "$override" +%s 2>/dev/null)
+		[ -n "$override_epoch" ] && { printf '%s' "$override_epoch"; return; }
+	fi
+
+	local base="${out_file#"$output_dir"/}"
+	base="src/${base%.html}"
+	local src=""
+	for ext in md org html; do
+		if [ -f "${base}.${ext}" ]; then
+			src="${base}.${ext}"
+			break
+		fi
+	done
+
+	local date_epoch=""
+	if [ -n "$src" ]; then
+		date_epoch=$(git log --follow --diff-filter=A --format=%at -- "$src" 2>/dev/null | tail -1)
+		[ -z "$date_epoch" ] && date_epoch=$(stat -c %Y "$src" 2>/dev/null)
+	fi
+	[ -z "$date_epoch" ] && date_epoch=$(stat -c %Y "$out_file" 2>/dev/null)
+	printf '%s' "${date_epoch:-0}"
+}
+
 generate_index() {
 	cp ./src/index.html ./$output_dir/index.tmp.html 2>/dev/null
-	find "$output_dir"/ \
-		-maxdepth 1 \
-		-type d \
-		-not -path "$output_dir/" \
-		-printf '%T@ %p\n' | sort -n | cut -d' ' -f2 | while read -r folder; do
+
+	# Note: folder iteration order doesn't matter here — each folder's posts
+	# are substituted into a fixed !POSTS-<YEAR>! placeholder position in the
+	# template (src/index.html), so only the per-article sort below (by date,
+	# newest first) affects the rendered page.
+	while read -r folder; do
 		local posts=""
+		local article_lines=""
 		while read -r match; do
+			file=${match%%:*}
+			d=$(get_article_date "$file")
+			article_lines+="${d}	${match}"$'\n'
+		done < <(grep -ProH -m 1 '<h1.*?>.*</h1>' "${folder}")
+
+		while IFS=$'\t' read -r d match; do
+			[ -z "$match" ] && continue
 			file=${match%%:*}
 			title=${match#*:}
 
@@ -174,11 +203,11 @@ generate_index() {
 			[ -n "$desc" ] && posts+="<p class='description'>${desc//'"'/}</p>"
 			posts+="</div></li>\n"
 
-			((count++))
-		done < <(grep -ProH -m 1 '<h1.*?>.*</h1>' "${folder}")
+		done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
+
 		folder=${folder#*/}
 		sed -i "s\`!POSTS-${folder^^}!\`$posts\`g" "./$output_dir/index.tmp.html"
-	done
+	done < <(find "$output_dir"/ -maxdepth 1 -type d -not -path "$output_dir/")
 
 	if [ -n "$GENERATE_NO_OPTIMIZE_PAGE" ]; then
 		mv "./$output_dir/index.tmp.html" "./$output_dir/index.html"
@@ -187,7 +216,6 @@ generate_index() {
 		rm "./$output_dir/index.tmp.html"
 	fi
 
-	printf "\r\e[33m\e[1mBUILT\e[0m %d files in %dms.\n" "$count" "$global_elapsed"
 	cp ./$output_dir/index.html ./index.html
 	# ln -sf ./$output_dir/index.html ./index.html
 }
@@ -212,33 +240,39 @@ generate_rss() {
 		echo "        <lastBuildDate>$pub_date</lastBuildDate>"
 	} >$rss_file
 
-	find $output_dir/ \
-		-maxdepth 1 \
-		-type d \
-		-not -path "$output_dir/" \
-		-printf '%T@ %p\n' | sort -nr | cut -d' ' -f2 | while read -r folder; do
+	# Collect every article across all year-folders with its date, then emit
+	# newest-first — RSS readers expect feed items in that order.
+	local article_lines=""
+	while read -r folder; do
 		while read -r match; do
 			file=${match%%:*}
-			title=${match#*:}
-
-			clean_markup title
-
-			[ -z "${title/ /}" ] && continue
-
-			item_link="$site_url/${file#$output_dir/}"
-			item_pub_date=$(date -R -r "$file")
-
-			{
-				echo '        <item>'
-				echo "            <title>$title</title>"
-				echo "            <link>$item_link</link>"
-				echo "            <description>$title</description>"
-				echo "            <pubDate>$item_pub_date</pubDate>"
-				echo "            <guid>$item_link</guid>"
-				echo '        </item>'
-			} >>$rss_file
+			d=$(get_article_date "$file")
+			article_lines+="${d}	${match}"$'\n'
 		done < <(grep -ProH '<h1.*?>.*</h1>' "${folder}")
-	done
+	done < <(find "$output_dir"/ -maxdepth 1 -type d -not -path "$output_dir/")
+
+	while IFS=$'\t' read -r d match; do
+		[ -z "$match" ] && continue
+		file=${match%%:*}
+		title=${match#*:}
+
+		clean_markup title
+
+		[ -z "${title/ /}" ] && continue
+
+		item_link="$site_url/${file#$output_dir/}"
+		item_pub_date=$(date -R -d "@${d}")
+
+		{
+			echo '        <item>'
+			echo "            <title>$title</title>"
+			echo "            <link>$item_link</link>"
+			echo "            <description>$title</description>"
+			echo "            <pubDate>$item_pub_date</pubDate>"
+			echo "            <guid>$item_link</guid>"
+			echo '        </item>'
+		} >>$rss_file
+	done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
 
 	{
 		echo '    </channel>'
@@ -339,8 +373,6 @@ esac
 
 # generate_index
 
-global_start_time=$(date +%s%3N)
-
 # Default: Build All Files
 
 intermediate=
@@ -359,15 +391,23 @@ template_post_content=$intermediate
 
 mkdir -p $output_dir
 rm -r -f $output_dir/.pond-tmp
+
+# Rebuild the CSS bundle *before* the per-page builds below, since each
+# page's critical-CSS inlining step (optimize_page.sh) purges against
+# out/.assets/styles.css — if that happened after, every page would purge
+# against the previous run's stylesheet, one full build behind.
+make -s -C ./assets_src build-css
+
 files_to_build="$*"
 if [ -z "${files_to_build/ /}" ]; then
-	files_to_build=$(echo ./src/**/*.html ./src/*.html ./src/*.md ./src/**/*.md ./src/**/*.org ./src/*.org)
+	# globstar's ** already matches zero directories, so it covers top-level
+	# files too — a separate ./src/*.ext glob would just build them twice.
+	files_to_build=$(echo ./src/**/*.html ./src/**/*.md ./src/**/*.org)
 fi
 oifs=$IFS
 IFS=" "
 for file in ${files_to_build}; do
 	build "$file"
-	count=$((count + 1))
 done
 IFS=$oifs
 
@@ -375,15 +415,12 @@ for job in $(jobs -p); do
 	wait "$job"
 done
 
-global_end_time=$(date +%s%3N)
-global_elapsed=$((global_end_time - global_start_time))
-	# print_verbose "\e[32mGENERATED\e[0m %s in %dms\n" "$file" "$elapsed"
 # POST BUILD TASKS
 
 generate_index
 generate_rss
 # perform_css_optimization
-make -C ./assets_src build-regen
+make -s -C ./assets_src build-regen
 # perform_html_optimization
 
 
