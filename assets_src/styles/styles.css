@@ -11,6 +11,14 @@
 }
 
 :root {
+    /* Without this, browsers that don't see an explicit light/dark
+       declaration assume the page is light-only and apply their own
+       "force dark" heuristic on top of it (Chrome/Android WebView do this) —
+       that heuristic includes an invert-ish filter over color glyphs like
+       emoji, which is what was washing them out. Declaring both here tells
+       the browser we already handle both modes ourselves (see the
+       prefers-color-scheme block below), so it leaves rendering alone. */
+    color-scheme: light dark;
     --margin: -0.8em;
     --black: #181818;
     --white: #fafafa;

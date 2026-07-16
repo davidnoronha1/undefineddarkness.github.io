@@ -23,6 +23,10 @@ final_transformer() {
         s!==(.+?)==!<mark>\1</mark>!g;
 	' <<< "$content"
 
+	if [ -n "${want_gnuplot_font}" ]; then
+		printf '<style>@font-face{font-family:"FairfaxOctant";src:url(/assets/fonts/FairfaxOctant.woff2) format("woff2");font-weight:normal;font-style:normal;font-display:swap}</style>'
+	fi
+
 	if [ -n "${want_iframe_resizer}" ]; then
 		printf '
 				<script defer src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.3.2"></script>

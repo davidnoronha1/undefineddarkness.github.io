@@ -5,8 +5,22 @@
         <link>http://nes.is-a.dev</link>
         <description>My little corner of the internet</description>
         <language>en-us</language>
-        <pubDate>Thu, 16 Jul 2026 17:07:55 +0000</pubDate>
-        <lastBuildDate>Thu, 16 Jul 2026 17:07:55 +0000</lastBuildDate>
+        <pubDate>Thu, 16 Jul 2026 17:45:11 +0000</pubDate>
+        <lastBuildDate>Thu, 16 Jul 2026 17:45:11 +0000</lastBuildDate>
+        <item>
+            <title>Reverse-enginnering SVO2</title>
+            <link>http://nes.is-a.dev/2025/svo2.html</link>
+            <description>Reverse-enginnering SVO2</description>
+            <pubDate>Thu, 16 Jul 2026 17:39:53 +0000</pubDate>
+            <guid>http://nes.is-a.dev/2025/svo2.html</guid>
+        </item>
+        <item>
+            <title>Approximating sin(x)</title>
+            <link>http://nes.is-a.dev/2022/approximating-sin.html</link>
+            <description>Approximating sin(x)</description>
+            <pubDate>Thu, 16 Jul 2026 17:34:13 +0000</pubDate>
+            <guid>http://nes.is-a.dev/2022/approximating-sin.html</guid>
+        </item>
         <item>
             <title>Terminal tips \& tricks</title>
             <link>http://nes.is-a.dev/2021/xterm-sixel-nvim.html</link>
@@ -27,13 +41,6 @@
             <description>ASUS TUF FA507RE</description>
             <pubDate>Thu, 16 Jul 2026 16:18:59 +0000</pubDate>
             <guid>http://nes.is-a.dev/2025/tuf.html</guid>
-        </item>
-        <item>
-            <title>Approximating sin(x)</title>
-            <link>http://nes.is-a.dev/2022/approximating-sin.html</link>
-            <description>Approximating sin(x)</description>
-            <pubDate>Thu, 16 Jul 2026 15:25:39 +0000</pubDate>
-            <guid>http://nes.is-a.dev/2022/approximating-sin.html</guid>
         </item>
         <item>
             <title>Fast Inverse Square Root (Quake III Arena)</title>
@@ -83,13 +90,6 @@
             <description>WSLg with Docker</description>
             <pubDate>Wed, 15 Jul 2026 13:17:04 +0000</pubDate>
             <guid>http://nes.is-a.dev/2025/wslgdocker.html</guid>
-        </item>
-        <item>
-            <title>Reverse-enginnering SVO2</title>
-            <link>http://nes.is-a.dev/2025/svo2.html</link>
-            <description>Reverse-enginnering SVO2</description>
-            <pubDate>Wed, 15 Jul 2026 12:51:43 +0000</pubDate>
-            <guid>http://nes.is-a.dev/2025/svo2.html</guid>
         </item>
         <item>
             <title>My Language Tierlist</title>

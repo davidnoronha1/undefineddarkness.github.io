@@ -194,6 +194,12 @@ gnuplot() {
         exit
         "
         export want_tab_script=1
+        # Only the block/octant terminal (this branch) renders with
+        # FairfaxOctant (see .gnuplot-container pre in minor.css) — the svg
+        # branch above uses a normal system font. Gate the @font-face here
+        # instead of declaring it globally in typography.css, so the font
+        # is only ever fetched on pages that actually have a gnuplot plot.
+        export want_gnuplot_font=1
         code_=$content
         escape_code_block code_
         printf '<div>

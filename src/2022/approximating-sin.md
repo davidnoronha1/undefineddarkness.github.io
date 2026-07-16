@@ -60,24 +60,28 @@ Taking the general form of the polynomial to be \(P(x) = C_0x^0 + C_1x^1 + C_2x^
 
 <div class="split">
 <div>
-\[
+
+```math
 \begin{gathered}
 \sin(x) = 0 \\
 \frac{d\sin(x)}{dx} = \cos(x) = 1 \\
 \frac{d^2\sin(x)}{dx^2} = -\sin(x) = 0 \\
 \frac{d^3\sin(x)}{dx^2} = -\cos(x) = -1
 \end{gathered}
-\]
+```
+
 </div>
 <div>
-\[
+
+```math
 \begin{gathered}
 P(0) = C_0 = 0 \\
 \frac{dP}{dx} = C_1 = 1 \\
 \frac{d^2P}{dx^2} = C_2 = 0 \\
 \frac{d^3P}{dx^3} = C_3 = -1
 \end{gathered}
-\]
+```
+
 </div>
 </div>
 
@@ -96,7 +100,12 @@ plot e(x) lc rgb "#D7BAFF" lw 3 title "e(x)"
 
 ## Bhaskara's Approximation
 This is a formula for calculating sin(x) discovered by 7th centuary Indian mathematician Baskara,
-$$\sin(\theta) \approx \frac{16x(\pi-x)}{5\pi^2-4x(\pi-x)}$$ And it's so accurate in the range [0,pi] that its graph is *coincident* with sin(x).
+
+```math
+\sin(\theta) \approx \frac{16x(\pi-x)}{5\pi^2-4x(\pi-x)}
+```
+
+And it's so accurate in the range [0,pi] that its graph is *coincident* with sin(x).
 
 The plot above is of the **error** of this function w/ sin(x), which as you can infer is pretty low
 
