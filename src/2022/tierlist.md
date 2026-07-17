@@ -4,7 +4,7 @@ A tierlist of programming languages I have used
 
 #TABLE	.tierlist
 USEFUL	Rust	Typescript	C#	C++
-FUN	C	Lua	TCL Haskell
+FUN	C	Lua	TCL	Haskell
 BEARABLE	Javascript	Go	Python
 PAINFUL	Bash
 TRASH	Perl

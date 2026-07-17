@@ -9,6 +9,10 @@ $./a.out
 Core Dumped.
 ```
 
+#CALLOUT
+This article also has an original handwritten version which this cleaned up document is dervied from, You can find it [here](/assets/documents/menory.pdf)
+#END CALLOUT
+
 Note: I've pretty much only covered the kinds of errors you'd encounter in a single threaded program.
 
 going over why it happens, how to diagnose compiled (C/C++) programs & how to fix it.

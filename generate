@@ -201,12 +201,28 @@ generate_index() {
 			fi
 			posts+="<div><a class='special' href='/$file'>$title</a>"
 			[ -n "$desc" ] && posts+="<p class='description'>${desc//'"'/}</p>"
-			posts+="</div></li>\n"
+			posts+="</div></li>"$'\n'
 
 		done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
 
 		folder=${folder#*/}
-		sed -i "s\`!POSTS-${folder^^}!\`$posts\`g" "./$output_dir/index.tmp.html"
+		# Plain prefix/suffix split, not sed and not ${var//pat/repl}: both
+		# treat a bare '&' in the replacement as "insert the whole match"
+		# (sed's own rule; bash's patsub_replacement shopt copies it), so any
+		# post title containing an escaped ampersand (&amp;, see the
+		# #HEADER transformer) would get the placeholder itself spliced back
+		# into the output. %%/# pattern trimming has no such substitution
+		# text, so it's immune.
+		placeholder="!POSTS-${folder^^}!"
+		index_tmp_content=$(<"./$output_dir/index.tmp.html")
+		# Folders with no matching placeholder in the template (.assets,
+		# todo) must leave the content untouched — when the pattern doesn't
+		# match, %%/# trimming both return the string as-is, so blindly
+		# reassembling prefix+posts+suffix would double the whole file.
+		if [[ "$index_tmp_content" == *"$placeholder"* ]]; then
+			index_tmp_content="${index_tmp_content%%"$placeholder"*}${posts}${index_tmp_content#*"$placeholder"}"
+			printf '%s\n' "$index_tmp_content" > "./$output_dir/index.tmp.html"
+		fi
 	done < <(find "$output_dir"/ -maxdepth 1 -type d -not -path "$output_dir/")
 
 	if [ -n "$GENERATE_NO_OPTIMIZE_PAGE" ]; then

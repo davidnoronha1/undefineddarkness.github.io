@@ -24,7 +24,7 @@ These recently added streams allow you to read and write compressed data to stre
 
 In the meantime, people have been compressing [their web pages by storing it inside a WebP image](https://purplesyringa.moe/blog/webp-the-webpage-compression-format/), I wonder what result's one would get with AVIF though I don't imagine them to be *too* different 
 
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.CompressionStream&reportSize=true'></iframe>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.CompressionStream&reportSize=true'></iframe>
 
 - [Issue for zstd](https://github.com/whatwg/compression/issues/54)
 - [Issue for brotli](https://github.com/whatwg/compression/issues/54)
@@ -38,7 +38,7 @@ Once the connection is established, data can be transferred in [RTCDataChannels]
 
 This is what powers stuff like [WebTorrent](https://webtorrent.io/) & [ShareDrop](https://github.com/szimek/sharedrop)
 
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.RTCPeerConnection&reportSize=true'></iframe>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.RTCPeerConnection&reportSize=true'></iframe>
 
 - [Firebase course for WebRTC](https://fireship.io/lessons/webrtc-firebase-video-chat/)
 - [MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)
@@ -49,7 +49,7 @@ The Web Serial API allows you to easily write a web app to communicate with your
 
 <a href='/experiments/serial.html'>[SERIAL CONSOLE WEBAPP]</a>
 
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.Serial&reportSize=true'></iframe>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.Serial&reportSize=true'></iframe>
 
 ## PWA: Share, URL Scheme, Custom titlebar
 This is just a few of the *many* PWA APIs that I find especially cool or useful
@@ -64,7 +64,7 @@ A few notes on usage, this API allows your app to recieve both files and textual
 
 This one is quite useful on mobile devices, kinda mid on desktop, but the real pity is it seems to be pretty inconsistent, I've used this with a personal PWA I've made to make file sharing friction-less (Goodbye, slow af notion uploads) and when I tried installing it on my Android phone through the Brave browser (My usual browser), It doesn't work :/, After some research I discovered the cause to be that as brave is a user installed application, It can't register *new* share targets of it's own, Chrome being a system installed app has the appropriate permissions to do so and works without a hitch, Even then behaviour was a little off, on my development Windows 10 machine, The share target worked just fine but on my friend's Windows 11 machine, It installed fine but the app was missing from the share menu, I'm not entirely sure why and I haven't had time to research since right now the PWA fulfills exactly what I wanted to do.
 
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=html.manifest.share_target&reportSize=true'></iframe>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=html.manifest.share_target&reportSize=true'></iframe>
 
 - [Chrome Article](https://developer.chrome.com/docs/capabilities/web-apis/web-share-target)
 
@@ -75,7 +75,7 @@ I remember seeing this in one the issues for [gluon](https://github.com/gluon-fr
 
 Again seems to only be implemented by Chromium though :/
 
-<iframe class='nb onx' style='max-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.WindowControlsOverlay&reportSize=true'></iframe>
+<iframe class='nb onx' style='max-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.WindowControlsOverlay&reportSize=true'></iframe>
 
 [Web.dev Article](https://web.dev/articles/window-controls-overlay)
 

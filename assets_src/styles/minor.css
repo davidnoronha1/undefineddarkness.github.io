@@ -22,6 +22,30 @@
     color: var(--gray);
 }
 
+/* Callout / admonition boxes, see the #CALLOUT transformer in
+   .tooling/transformers.sh */
+.callout {
+    margin: 1em 0;
+    padding: 0.7em 1em;
+    border-left: 3px solid var(--gray);
+    background: var(--white-darker);
+}
+
+.callout-title {
+    margin: 0 0 0.4em 0;
+    font-weight: bold;
+}
+
+.callout-content > :last-child {
+    margin-bottom: 0;
+}
+
+.callout-note      { border-left-color: #6a9ef2; }
+.callout-tip       { border-left-color: #5fb87a; }
+.callout-important { border-left-color: #b483e8; }
+.callout-warning   { border-left-color: #d6a72b; }
+.callout-caution   { border-left-color: #e0605c; }
+
 .gnuplot-container pre {
     background-color: var(--white-lighter);
     color: var(--black-darker) !important;

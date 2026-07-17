@@ -15,7 +15,6 @@ So this documents my research and I guess my frustration finding a "sort" of way
 So to fully illustrate how this entire pipeline works and to appreciate the complexity of cameras somewhat, I am going to go through the entire thing, It'll be a bit abstract at parts I am not super familiar but I'll try to be as in depth as I can
 
 ## How do digital cameras work
-
 ### Sensor / Bayer Filter
 So the camera is made up of a grid of photo cells, these cells can only measure luminance, as in how bright the light hitting it is, this grid is then read either row by row (CCA) or each cell can be read individually (CMOS), Most cameras today follow the CMOS architecture since it easier and hence cheaper to manufacture.
 
@@ -28,7 +27,7 @@ But as you can imagine, a grid of luminence sensors isnt exactly sufficient to p
 
 This seperates the colours coming into the sensor, and since the pattern is repeated you can take the image from the sensor with the filter applied and "debayer" it to compute the R, G, B values for each pixel. (If you notice there are twice as many green spots on the filter compared to red & blue, because we percieve green more strongly than red or blue)
 
-#f <h3>Image Signal Processor (ISP)</h3>
+#f <h3> Image Signal Processor (ISP)</h3>
 This isn't something you need to worry about with USB or Ethernet cameras since they have an integrated ISP that takes care of reading data from the camera sensor, debayering it etc and presenting it in a format you can easily consume (USB is usually V4l2 & Ethernet can be custom), But if you are dealing with MIPI CSI cameras then you need to worry about this, since then, the sensor is directly connected to your devboard and the devboards internal ISP must be configured to communicate with the camera sensor, which if not included in your devices kernel (Raspi thankfully supports majority), can end up with you needing to edit files that look like this:
 
 ```dtb
@@ -168,3 +167,16 @@ Camera Controls
      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=1
                         privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only
 ```
+
+## On device image pub sub
+Once you have obtained your image in memory in some known format (typically RGB, NV12 or YUV422) there will typically be multiple applications that need to use it, and they might all want it in a different format, resolution & framerate etc.
+
+So your publishing system must be able to easily handle creating multiple streams and providing scripts data where it is wanted (eg: ML scripts will typically want a resized image of RGB format in the GPU)
+
+The solution you would most easily reach for is ROS since that is what you have been using for all your other sensors & data. But images & large data in general is a place where ROS really does not shine. To illustrate this I will set up a benchmark
+
+Just a simple publisher publishing 1080p RGB images through image transport with little configuration (relying on defaults mostly) and 2 subscribers, one displaying the frames as they come in with an FPS counter and one that is writing them to a file also printing out FPS.
+
+We can also measure the size of data being transferred with WireShark to find an estimate of overhead.
+
+

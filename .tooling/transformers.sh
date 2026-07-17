@@ -12,6 +12,44 @@ box () {
 	printf "<div class='box'>\n%s\n</div>" "$1"
 }
 
+# GitHub-style admonition box, e.g.:
+#   #CALLOUT warning Read this first
+#   Some *important* text.
+#   #END CALLOUT
+# Type is note|tip|important|warning|caution (defaults to note). Anything
+# typed after the type becomes a custom title; otherwise the type name
+# itself (capitalized) is used as the title.
+callout () {
+	content="$1"
+	shift 2   # drop "CONTENT" and "#CALLOUT"
+
+	type="${1,,}"
+	shift
+	title="$*"
+
+	case "$type" in
+		note|tip|important|warning|caution) ;;
+		*) title="${type}${title:+ $title}"; type="note" ;;
+	esac
+
+	case "$type" in
+		note)      icon="📝" ;;
+		tip)       icon="💡" ;;
+		important) icon="❗" ;;
+		warning)   icon="⚠️" ;;
+		caution)   icon="🛑" ;;
+	esac
+
+	[ -z "$title" ] && title="${type^}"
+
+	printf '<div class="callout callout-%s">
+<p class="callout-title">%s %s</p>
+<div class="callout-content">
+%s
+</div>
+</div>' "$type" "$icon" "$title" "$content"
+}
+
 # Folded text
 f () {
 	content=$1
@@ -110,8 +148,16 @@ header () {
 		fi
     fi
     # dbg "Got title to be ${_title[*]}"
-    echo "  <h1>${title[*]}</h1>"
-    echo "  <!-- post_description=\"${content%%'<br/>'}\" -->"
+    # Escape bare '&' so it doesn't corrupt the HTML comment attribute or
+    # break the RSS feed's XML (raw '&' isn't valid there) — authors used to
+    # have to hand-write "\&", which just left a literal backslash in the
+    # output instead of actually escaping anything.
+    title_text="${title[*]}"
+    title_text="${title_text//&/&amp;}"
+    desc_text="${content%%'<br/>'}"
+    desc_text="${desc_text//&/&amp;}"
+    echo "  <h1>${title_text}</h1>"
+    echo "  <!-- post_description=\"${desc_text}\" -->"
     echo "</header>"
 }
 
