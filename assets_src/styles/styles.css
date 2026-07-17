@@ -35,7 +35,7 @@
 
 pre {
     background-color: var(--nv-black-darker);
-    color: var(--white);
+    color: var(--nv-white);
 }
 
 .hljs {
@@ -224,6 +224,12 @@ figcaption {
     color: color-mix(in srgb, var(--black) 70%, var(--white) 30%);
 }
 
+hr {
+    border: none;
+    border-top: 1px solid var(--gray);
+    margin: 0.5em 0 0 0;
+}
+
 blockquote {
     margin: 1em 0 0 5em;
 }
@@ -273,6 +279,16 @@ summary::before {
 
 details[open] summary::before {
     transform: translateY(-50%) rotate(90deg);
+}
+
+@media (prefers-color-scheme: dark) {
+    summary::before {
+        /* The arrow is a solid-black SVG baked into a data URI — content:
+           url(...) is replaced content, so it doesn't inherit currentColor
+           the way an inline <svg> would. Invert it here instead of encoding
+           a second copy of the same path just to swap the fill color. */
+        filter: invert(1);
+    }
 }
 
 /*

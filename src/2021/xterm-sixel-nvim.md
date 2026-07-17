@@ -1,4 +1,4 @@
-#HEADER Terminal tips \& tricks
+#HEADER Terminal tips & tricks
 😎
 #END HEADER
 Just a few things Ive learnt after spending a lot of time in a lot of different terminals.

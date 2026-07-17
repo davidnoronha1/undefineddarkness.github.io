@@ -66,7 +66,7 @@ These recently added streams allow you to read and write compressed data to stre
 <br/>
 In the meantime, people have been compressing <a href="https://purplesyringa.moe/blog/webp-the-webpage-compression-format/">their web pages by storing it inside a WebP image</a>, I wonder what result's one would get with AVIF though I don't imagine them to be <i>too</i> different <br/>
 <br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.CompressionStream&reportSize=true'></iframe><br/>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.CompressionStream&reportSize=true'></iframe><br/>
 <ul>
 <li><a href="https://github.com/whatwg/compression/issues/54">Issue for zstd</a><br/>
 </li>
@@ -85,7 +85,7 @@ Once the connection is established, data can be transferred in <a href="https://
 <br/>
 This is what powers stuff like <a href="https://webtorrent.io/">WebTorrent</a> & <a href="https://github.com/szimek/sharedrop">ShareDrop</a><br/>
 <br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.RTCPeerConnection&reportSize=true'></iframe><br/>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.RTCPeerConnection&reportSize=true'></iframe><br/>
 <ul>
 <li><a href="https://fireship.io/lessons/webrtc-firebase-video-chat/">Firebase course for WebRTC</a><br/>
 </li>
@@ -99,7 +99,7 @@ This is what powers stuff like <a href="https://webtorrent.io/">WebTorrent</a> &
 The Web Serial API allows you to easily write a web app to communicate with your microcontroller over USB serial, This only works on Edge & Chrome for now though<br/>
 <br/>
 <a href='/experiments/serial.html'>[SERIAL CONSOLE WEBAPP]</a><br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.Serial&reportSize=true'></iframe><br/>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.Serial&reportSize=true'></iframe><br/>
 </p>
 <h2 id="pwa-share-url-scheme-custom-titlebar">PWA: Share, URL Scheme, Custom titlebar</h2>
 <p>
@@ -117,7 +117,7 @@ A few notes on usage, this API allows your app to recieve both files and textual
 <br/>
 This one is quite useful on mobile devices, kinda mid on desktop, but the real pity is it seems to be pretty inconsistent, I've used this with a personal PWA I've made to make file sharing friction-less (Goodbye, slow af notion uploads) and when I tried installing it on my Android phone through the Brave browser (My usual browser), It doesn't work :/, After some research I discovered the cause to be that as brave is a user installed application, It can't register <i>new</i> share targets of it's own, Chrome being a system installed app has the appropriate permissions to do so and works without a hitch, Even then behaviour was a little off, on my development Windows 10 machine, The share target worked just fine but on my friend's Windows 11 machine, It installed fine but the app was missing from the share menu, I'm not entirely sure why and I haven't had time to research since right now the PWA fulfills exactly what I wanted to do.<br/>
 <br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=false&key=html.manifest.share_target&reportSize=true'></iframe><br/>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=html.manifest.share_target&reportSize=true'></iframe><br/>
 <ul>
 <li><a href="https://developer.chrome.com/docs/capabilities/web-apis/web-share-target">Chrome Article</a><br/>
 </li>
@@ -130,7 +130,7 @@ I remember seeing this in one the issues for <a href="https://github.com/gluon-f
 <br/>
 Again seems to only be implemented by Chromium though :/<br/>
 <br/>
-<iframe class='nb onx' style='max-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=false&key=api.WindowControlsOverlay&reportSize=true'></iframe><br/>
+<iframe class='nb onx' style='max-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.WindowControlsOverlay&reportSize=true'></iframe><br/>
 <a href="https://web.dev/articles/window-controls-overlay">Web.dev Article</a><br/>
 <br/>
 <script>

@@ -77,7 +77,7 @@ initial_transformer () {
 	local blank_run=0
 	local after_block_end=0
 
-	while read -r line; do
+	while read -r line || [ -n "$line" ]; do
 		skip_forced_newline=0
 
 		if [ -z "${line/ /}" ] && (( inside_list )) && ! (( inside_code_block )) && ! (( inside_quote_block )); then
@@ -138,7 +138,16 @@ initial_transformer () {
 				# End previous paragraph if opened
 				if (( inside_paragraph )); then
 					inside_paragraph=0
-					output_ptr+="</p>$NEWL"
+					if [[ "$output_ptr" == *"<p>$NEWL" ]]; then
+						# Back-to-back headings: the previous heading opened
+						# a <p> but nothing was ever written into it before
+						# this heading closed it. Drop the empty tag instead
+						# of closing it — an empty <p></p> between two
+						# headings renders as an extra, unwanted gap.
+						output_ptr=${output_ptr%"<p>$NEWL"}
+					else
+						output_ptr+="</p>$NEWL"
+					fi
 				fi
 
 				if ! (( inside_code_block )); then
