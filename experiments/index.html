@@ -3,7 +3,23 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Experiments Listing</title>
+	<title>Projects Listing</title>
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
 	<link rel="stylesheet" href="/assets/styles.css">
 	<style>
 		.experiments-grid {
@@ -53,12 +69,19 @@
 			font-size: 0.9em;
 		}
 
+		.experiment-footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 0.7em;
+		}
+
 		.experiment-link {
 			display: inline-block;
-			margin-top: 0.5em;
 			color: var(--black);
 			text-decoration: none;
 			font-weight: 600;
+			font-size: 1.2em;
 		}
 
 		.experiment-link:hover {
@@ -70,83 +93,191 @@
 				grid-template-columns: 1fr;
 			}
 		}
+
+		.callout {
+			display: flex;
+			align-items: center;
+			gap: 0.6em;
+			margin-top: 1.5em;
+			padding: 0.9em 1.1em;
+			border: 1px solid var(--gray);
+			border-left: 4px solid coral;
+			border-radius: 5px;
+			background: var(--white-lighter);
+			font-size: 0.95em;
+		}
+
+		.callout a {
+			color: inherit;
+			font-weight: 600;
+		}
+
+		.tag-filters {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5em;
+			margin-top: 1.5em;
+		}
+
+		.tag-filter {
+			border: 1px solid var(--gray);
+			border-radius: 999px;
+			background: none;
+			color: var(--black);
+			padding: 0.3em 0.9em;
+			font-size: 0.85em;
+			cursor: pointer;
+			font-family: inherit;
+			transition: background 0.15s ease, color 0.15s ease;
+		}
+
+		.tag-filter:hover {
+			border-color: var(--black);
+		}
+
+		.tag-filter.active {
+			background: var(--black);
+			color: var(--white);
+			border-color: var(--black);
+		}
+
+		.experiment-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4em;
+		}
+
+		.experiment-tag {
+			font-size: 0.75em;
+			color: var(--gray);
+			border: 1px solid var(--gray);
+			border-radius: 999px;
+			padding: 0.15em 0.7em;
+		}
+
+		.experiment-card.hidden {
+			display: none;
+		}
 	</style>
 </head>
 <body>
 	<article>
-		<h1>Little Web Experiments</h1>
-		<p>A collection of small interactive experiments and demos.</p>
+		<h1>Projects</h1>
+		<p>A collection of small interactive projects and demos.</p>
+
+		<div class="callout">
+			<span>🔭</span>
+			<span>This is just a sample - check out all my projects on <a href="https://github.com/davidnoronha1">GitHub</a>.</span>
+		</div>
+
+		<div class="tag-filters" id="tag-filters"></div>
 
 		<div class="experiments-grid">
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Toy">
 				<iframe class="experiment-preview" src="./fsa.html" loading="lazy" scrolling="no"></iframe>
 				<div class="experiment-info">
 					<h3>File System Access</h3>
 					<p>A directory browser that lets you peek into your local filesystem right from the browser.</p>
-					<a href="./fsa.html" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Toy</span></div>
+						<a href="./fsa.html" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Robotics">
 				<iframe class="experiment-preview" src="./serial.html" loading="lazy" scrolling="no"></iframe>
 				<div class="experiment-info">
 					<h3>Web Serial Console</h3>
 					<p>Talk to hardware through your browser - a full terminal for serial devices using Web Serial API.</p>
-					<a href="./serial.html" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Robotics</span></div>
+						<a href="./serial.html" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Demo">
 				<iframe class="experiment-preview" src="https://bcd-table.neswk.workers.dev/" loading="lazy" scrolling="no"></iframe>
 				<div class="experiment-info">
 					<h3>BCD Table</h3>
 					<p>An embeddable browser compatibility data table - check what features work where.</p>
-					<a href="https://bcd-table.neswk.workers.dev/" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Demo</span></div>
+						<a href="https://bcd-table.neswk.workers.dev/" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Toy">
 				<iframe class="experiment-preview" src="./code-highlight-cp/index.html" loading="lazy" scrolling="no"></iframe>
 				<div class="experiment-info">
 					<h3>Code Highlight</h3>
 					<p>Paste your code and watch it get syntax highlighted with custom themes on the fly.</p>
-					<a href="./code-highlight-cp/index.html" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Toy</span></div>
+						<a href="./code-highlight-cp/index.html" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Toy">
 				<img class="experiment-preview" src="pixless-demo.png" alt="Pixless demo" style="object-fit: cover;">
 				<div class="experiment-info">
 					<h3>Pixless</h3>
 					<p>A retro camera simulator with brutally limited resolution and palette - turn any photo into pixel art.</p>
-					<a href="https://pixless.pages.dev/" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Toy</span></div>
+						<a href="https://pixless.pages.dev/" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Hackathon">
 				<img class="experiment-preview" src="sumi-demo.png" alt="Sumi demo" style="object-fit: cover;">
 				<div class="experiment-info">
 					<h3>Sumi</h3>
 					<p>A programmatic drawing canvas based on a JS subset - write code to paint.</p>
-					<a href="https://sumi_v0.surge.sh/" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Hackathon</span></div>
+						<a href="https://sumi_v0.surge.sh/" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Hackathon,Demo">
 				<img class="experiment-preview" src="booking-3d-demo.png" alt="3D Booking System demo" style="object-fit: cover;">
 				<div class="experiment-info">
 					<h3>3D Booking System</h3>
 					<p>A hackathon project built with Godot - an interactive 3D booking demo that lets you see what the movie will look like from your seat.</p>
-					<a href="https://lookaway-project.vercel.app/" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Hackathon</span><span class="experiment-tag">Demo</span></div>
+						<a href="https://lookaway-project.vercel.app/" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
-			<div class="experiment-card">
+			<div class="experiment-card" data-tags="Web,Personal">
 				<img class="experiment-preview" src="crawly-demo.png" alt="Crawly demo" style="object-fit: cover;">
 				<div class="experiment-info">
 					<h3>Crawly</h3>
 					<p>A web extension to visualize how sites are connected to the wider web.</p>
-					<a href="https://github.com/davidnoronha1/crawly" class="experiment-link">Open Experiment →</a>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Personal</span></div>
+						<a href="https://github.com/davidnoronha1/crawly" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="experiment-card" data-tags="Web,Personal">
+				<img class="experiment-preview" src="tinyws-demo.png" alt="tinyws demo" style="object-fit: cover;">
+				<div class="experiment-info">
+					<h3>tinyws</h3>
+					<p>Tiny Widget System - a widget system for Linux leveraging GTK Webkit support to create complex interactive widgets with full support for web tech.</p>
+					<div class="experiment-footer">
+						<div class="experiment-tags"><span class="experiment-tag">Web</span><span class="experiment-tag">Personal</span></div>
+						<a href="https://github.com/davidnoronha1/tinyws" class="experiment-link" aria-label="Open Project">→</a>
+					</div>
 				</div>
 			</div>
 
@@ -166,5 +297,51 @@
 	<footer>
 		<a href="/">← Back to home</a>
 	</footer>
+
+	<script>
+		(function () {
+			const cards = Array.from(document.querySelectorAll('.experiment-card'));
+			const filterBar = document.getElementById('tag-filters');
+			const tags = Array.from(new Set(cards.flatMap(card => card.dataset.tags.split(',')))).sort();
+			const active = new Set();
+
+			function render() {
+				cards.forEach(card => {
+					const cardTags = card.dataset.tags.split(',');
+					const visible = active.size === 0 || cardTags.some(t => active.has(t));
+					card.classList.toggle('hidden', !visible);
+				});
+			}
+
+			const allBtn = document.createElement('button');
+			allBtn.className = 'tag-filter active';
+			allBtn.textContent = 'All';
+			allBtn.addEventListener('click', () => {
+				active.clear();
+				filterBar.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
+				allBtn.classList.add('active');
+				render();
+			});
+			filterBar.appendChild(allBtn);
+
+			tags.forEach(tag => {
+				const btn = document.createElement('button');
+				btn.className = 'tag-filter';
+				btn.textContent = tag;
+				btn.addEventListener('click', () => {
+					if (active.has(tag)) {
+						active.delete(tag);
+						btn.classList.remove('active');
+					} else {
+						active.add(tag);
+						btn.classList.add('active');
+					}
+					allBtn.classList.toggle('active', active.size === 0);
+					render();
+				});
+				filterBar.appendChild(btn);
+			});
+		})();
+	</script>
 </body>
 </html>
