@@ -37,28 +37,13 @@ build-css: $(OUTPUT_CSS)
 
 build-other: ../out/.assets/ascii-3d-viewer.js
 
-build-fonts:
-	@mkdir -p ../assets/fonts
-# 	cp ./fonts/cozette.woff2 ../assets/fonts/cozette.woff2 -v
-# 	cp ./fonts/unscii-16.woff ../assets/fonts/unscii-16.woff -v
-	@uv run ./fonts/.tooling/subset_octant.py ./fonts/FairfaxHD.woff2 ../assets/fonts/FairfaxOctant.woff2
-# 	bash ./fonts/.tooling/optimize_font.sh -o ../assets/fonts ./fonts/KreativeSquare.ttf
-
-build-images:
-# 	cd .. && ./generate
-# 	cd .. && uv run ./assets_src/images/.tooling/optimize_sourced.py
-
-build-links:
-# -n keeps `ln -sf` from dereferencing an already-existing symlink-to-directory:
-# without it, re-running this target drops the new link *inside* the target dir
-# (e.g. assets_src/models/models) instead of replacing the top-level symlink.
-	@ln -sfn ../../assets_src/models ../assets/models
-	@ln -sfn ../../assets_src/other ../assets/other
-	@ln -sfn ../../assets_src/documents ../assets/documents
-	@ln -sfn ../../assets_src/icons ../assets/icons
+# Fonts/icons/models/documents/etc. are no longer symlinked or built here —
+# they're picked up as plain source files by `.tooling/assets.py build`
+# (flattened into out/.assets/ with their original filename kept). To
+# regenerate FairfaxOctant.woff2 from FairfaxHD.woff2, run:
+#   uv run ./fonts/.tooling/subset_octant.py ./fonts/FairfaxHD.woff2 ./fonts/FairfaxOctant.woff2
+# and check the result in as a source file.
 
 build-regen:
 # 	git diff --quiet HEAD -- ./other/ascii-3d-viewer.ts || make build-3d-viewer
 	@make -s build-css
-# 	make build-fonts
-#	make build-images

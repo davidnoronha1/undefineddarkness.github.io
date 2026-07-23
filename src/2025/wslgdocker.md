@@ -8,7 +8,7 @@ Recently WSL2 came out with the feature allowing you to have X11 or Wayland appl
 This comes from my work on my drone simulator in o3de, After dockerizing it I wanted to see if I could get it to run on windows
 
 ## WSLg Archiecture
-![wslg architecture](/src/2025/image.png)
+![wslg architecture](image.png)
 
 So in any WSL distro, the environment variables are all properly set and `/mnt/wslg` is mounted so the applications work without any configuration but this isn't the case **inside** our docker container
 
@@ -72,7 +72,7 @@ docker run -it \
 #END f
 
 ## vGPU & DirectX
-![directx vgpu architecture](/src/2025/image-1.png)
+![directx vgpu architecture](image-1.png)
 
 dxgkrnl is a custom linux kernel driver that communicates over the VM bus to the windows GPU driver and uses this connection to talk to the physical GPU
 

@@ -1,4 +1,4 @@
-#HEADER Vi IMproved	image=/assets/images/dump/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103.webp
+#HEADER Vi IMproved	image=/assets/images/dump/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103.avif
 Cool vim stuff
 #END HEADER
 

@@ -84,7 +84,7 @@ build_md() {
 	mkdir -p "$(dirname "$out")"
 	if [ -z "$GENERATE_NO_OPTIMIZE_PAGE" ]; then
 		printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" \
-		 | bash ./assets_src/.tooling/optimize_page.sh --stdin --resolve "$1" >"$out"
+		 | bash ./assets_src/.tooling/optimize_page.sh --stdin >"$out"
 	else
 		printf '%s\n%s\n%s' "$doc_heading" "$markup" "$template_post_content" > "$out"
 	fi
@@ -438,6 +438,14 @@ generate_rss
 # perform_css_optimization
 make -s -C ./assets_src build-regen
 # perform_html_optimization
+
+# Populate out/.assets (flat, hashed media + passthrough for everything
+# else) and, in the same process/pass, rewrite every asset reference in the
+# built output to match — including .html source files that are just cp'd
+# verbatim by build_html (which never got any asset resolution before) and
+# experiments/, hand-written static HTML that ./generate never builds into
+# out/ at all but still hardcodes /assets/... references.
+./.tooling/assets.py sync "$output_dir" experiments
 
 
 exit

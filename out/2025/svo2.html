@@ -6,23 +6,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="color-scheme" content="light dark">
 	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
 	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
-	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
+	<meta name="msapplication-config" content="/assets/browserconfig.xml">
 	<meta name="author" content="nes" />
 	<title>Reverse-enginnering SVO2</title>
 	<meta property="og:title" content="Reverse-enginnering SVO2" />
@@ -124,7 +124,7 @@ Megapixels                      : 0.922
 <br/>
 At this point I had a feeling that it was going a bit too easy so far and I was to be proven right, After extracing the JFIFs, The images look like this<br/>
 <br/>
-<figure><img src="/assets/svo2-a.jfif" alt="example svo2 image (raw)" title="example svo2 image (raw)" loading="lazy" /><figcaption>example svo2 image (raw)</figcaption></figure><br/>
+<figure><img src="/assets/svo2-a-e5e70b8ab1.avif" alt="example svo2 image (raw)" title="example svo2 image (raw)" loading="lazy" /><figcaption>example svo2 image (raw)</figcaption></figure><br/>
 <br/>
 At this point I realized this project wasn't gonna be as easy as I had hoped, I didn't have any ideas at this point besides trying to reinterpret the JPEG as it being in another colourplane (the images extracted were in GRAY8 I was trying to make it YUV422 or the standard JPEG format)<br/>
 <br/>
@@ -153,19 +153,19 @@ This sounded the most likely thing I'd heard so we pursued that path, me being t
 <br/>
 After trying out a bunch of ideas with how the arrange the data to form the final 2x1280 : 720 image, we were finally able to see some kind of texture that looks about right<br/>
 <br/>
-<figure><img src="/assets/2025/left_gray.avif" alt="monochrome image of an underwater scene" title="monochrome image of an underwater scene" loading="lazy" /><figcaption>monochrome image of an underwater scene</figcaption></figure><br/>
+<figure><img src="/assets/left-gray-acc72ae107.avif" alt="monochrome image of an underwater scene" title="monochrome image of an underwater scene" loading="lazy" /><figcaption>monochrome image of an underwater scene</figcaption></figure><br/>
 <br/>
 So we had the shape right and the size right but no luck on the colours, No matter what we did we couldn't get the colours to show up without some weird patterning<br/>
 <br/>
-<figure><img src="/assets/2025/square-pattern.avif" alt="a square pattern" title="a square pattern" loading="lazy" /><figcaption>a square pattern</figcaption></figure><br/>
-<figure><img src="/assets/2025/final_BGGR_right.avif" alt="a blue image of an underwater scene but with pattern on it" title="a blue image of an underwater scene but with pattern on it" loading="lazy" /><figcaption>a blue image of an underwater scene but with pattern on it</figcaption></figure><br/>
+<figure><img src="/assets/square-pattern-5cef8aef33.avif" alt="a square pattern" title="a square pattern" loading="lazy" /><figcaption>a square pattern</figcaption></figure><br/>
+<figure><img src="/assets/final-bggr-right-e0cfe9b6c2.avif" alt="a blue image of an underwater scene but with pattern on it" title="a blue image of an underwater scene but with pattern on it" loading="lazy" /><figcaption>a blue image of an underwater scene but with pattern on it</figcaption></figure><br/>
 <br/>
 Since we had gotten somewhere partly, we went about in circles trying to figure out what kind of layering they were doing to form the bayer pattern<br/>
 <br/>
 <a href="https://docs.kernel.org/userspace-api/media/v4l/pixfmt-packed-yuv.html">YUYV422 Description</a><br/>
 I revisited the initial idea I had of it being YUV data planes in the JPEG misinterpreted as monochrome, That seems to be the final clue because soon after that we were able to write a successful decoder<br/>
 <br/>
-<figure><img src="/assets/2025/eg-output.avif" alt="example output image" title="example output image" loading="lazy" /><figcaption>example output image</figcaption></figure><br/>
+<figure><img src="/assets/eg-output-c89f94df02.avif" alt="example output image" title="example output image" loading="lazy" /><figcaption>example output image</figcaption></figure><br/>
 <br/>
 In more detail -> The 4 strips of images (5120x180px) when stacked vertically give an image of the expected size 5120x720, this can then be reshaped to get the 2 channels for YUYV into 2x2560x720 which can then be given to OpenCV to get a BGR / RGB frame for encoding<br/>
 <br/>
