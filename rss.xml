@@ -5,21 +5,21 @@
         <link>http://nes.is-a.dev</link>
         <description>My little corner of the internet</description>
         <language>en-us</language>
-        <pubDate>Tue, 21 Jul 2026 12:02:11 +0000</pubDate>
-        <lastBuildDate>Tue, 21 Jul 2026 12:02:11 +0000</lastBuildDate>
+        <pubDate>Wed, 22 Jul 2026 09:15:48 +0000</pubDate>
+        <lastBuildDate>Wed, 22 Jul 2026 09:15:48 +0000</lastBuildDate>
+        <item>
+            <title>Low Latency Camera Streaming in Robotics</title>
+            <link>http://nes.is-a.dev/2025/camera_streaming.html</link>
+            <description>Low Latency Camera Streaming in Robotics</description>
+            <pubDate>Wed, 22 Jul 2026 09:15:46 +0000</pubDate>
+            <guid>http://nes.is-a.dev/2025/camera_streaming.html</guid>
+        </item>
         <item>
             <title>ASUS TUF FA507RE</title>
             <link>http://nes.is-a.dev/2025/tuf.html</link>
             <description>ASUS TUF FA507RE</description>
             <pubDate>Tue, 21 Jul 2026 12:00:26 +0000</pubDate>
             <guid>http://nes.is-a.dev/2025/tuf.html</guid>
-        </item>
-        <item>
-            <title>Low Latency Camera Streaming in Robotics</title>
-            <link>http://nes.is-a.dev/2025/camera_streaming.html</link>
-            <description>Low Latency Camera Streaming in Robotics</description>
-            <pubDate>Tue, 21 Jul 2026 12:00:19 +0000</pubDate>
-            <guid>http://nes.is-a.dev/2025/camera_streaming.html</guid>
         </item>
         <item>
             <title>Fast Inverse Square Root (Quake III Arena)</title>

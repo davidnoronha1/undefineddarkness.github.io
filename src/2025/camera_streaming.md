@@ -173,10 +173,257 @@ Once you have obtained your image in memory in some known format (typically RGB,
 
 So your publishing system must be able to easily handle creating multiple streams and providing scripts data where it is wanted (eg: ML scripts will typically want a resized image of RGB format in the GPU)
 
-The solution you would most easily reach for is ROS since that is what you have been using for all your other sensors & data. But images & large data in general is a place where ROS really does not shine. To illustrate this I will set up a benchmark
+The solution you would most easily reach for is ROS since that is what you have been using for all your other sensors & data. But images & large data in general is a place where ROS really does not shine.  In my experience it will reliably transfer frames but a 30FPS is typically a 15-20FPS frame stream after going through ROS.
 
-Just a simple publisher publishing 1080p RGB images through image transport with little configuration (relying on defaults mostly) and 2 subscribers, one displaying the frames as they come in with an FPS counter and one that is writing them to a file also printing out FPS.
+By default ROS transfers image raw over the network, a 720p RGB image becomes `1280 * 720 * 3 + 56 = ~2.7MB` bytes (the 56 is the frame header)
 
-We can also measure the size of data being transferred with WireShark to find an estimate of overhead.
+For 60fps this demands a bandwidth of `2.8 * 60 / 1000 = ~165MB/s = ~1.33Gbps` purely for a single image stream & typically you will have multiple streams based on the number of nodes working on it and possible streams of multiple cameras and different resolutions, formats etc.
 
+This becomes better with `image_transport` but this isn't directly supported  in `rclpy` so almost always you end up with the raw stream in my experience.
+(There is support added but not everyone architects their scripts with it / around it) - and then I have found it to be kind of a stop-gap solution that doesn't fully solve the problem every time.
 
+I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less apable from your typical laptop. I should capture a pcap of a system while it is running.
+
+Typically also in image pipelines you want to avoid copies and ROS does about 3-4 copies per image. Obviously all these latencies compound with larger images and higher framerates.
+
+This framerate that fluctuates under load is something I have been chasing a solutions for my entire time in Dreadnought and these are the solutions I have found that work
+
+### iceoryx (shared memory, zero copy)
+Even just avoiding sending the image over the network and keeping it on the same device and trying to avoid copies can make a large difference, You can also _technically_ do this with the ROS2 RMW backends [CycloneDDS](https://cyclonedds.io/docs/cyclonedds/0.8.2/shared_memory.html) & [FastDDS](https://github.com/eProsima/rmw_fastrtps?tab=readme-ov-file#enable-zero-copy-data-sharing) but I have not that work well for me.
+
+So I have mostly been using [iceoryx](https://github.com/eclipse-iceoryx/iceoryx) as a separate pub-sub system alongside ROS for larger data (like laser profiler batches) with a config like this:
+```toml
+[general]
+version = 1
+
+[[segment]]
+
+    # ── Small pools (iceoryx internal: service discovery, heartbeats, routing) ──
+    [[segment.mempool]]
+    size  = 128
+    count = 1000
+
+    [[segment.mempool]]
+    size  = 1024
+    count = 500
+
+    [[segment.mempool]]
+    size  = 16384
+    count = 200
+
+    # ── camera payload pool ─────────────────────────────────────────────
+    # Covers 1440×1080 BayerRG8 (1.5 MB + iceoryx overhead). Increase size to
+    # ~16 MiB if running 2448×2048 RGB8 cameras; reduce count if RAM is tight.
+    [[segment.mempool]]
+    size  = 2097152     # 2 MiB
+    count = 300         # 300 × 2 MiB = 600 MB
+```
+
+Typically you should create a different `mempool` for each kind of message type you expect to have and give it a sufficient amount of reserved slots (`count`) to cope with traffic.
+#CALLOUT note
+ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile & build it from source then use `iox-roudi` from `/usr/local/bin` (which is where the source build installs it) instead of the one included in ROS2.
+#END CALLOUT
+
+### motion-jpeg (mjpeg)
+When trying to display the stream you either need a custom viewer script (ROS has this with `rviz` & `image_view`) or the format needs to be one of `mjpeg` or `rtsp`. 
+
+Even when trying to display your live video stream in the browser or any kind of front end your best bet without streaming to the cloud is `mjpeg` or WebRTC - if you are streaming to the cloud then you can transcode and display it however you live, typically I think HLS is used.
+
+But displaying with webrtc is a whole _process_ in of itself, since typically the flow looks something like
+![webrtc diagram](image-5.png)
+
+So you need *another* server besides the main publishing server and the whole neotiation is complicated enough that ffmpeg fully delegates it to [another seperate program](https://github.com/bluenviron/mediamtx) and gstreamer only has a [third party plugin](https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/tree/main/net/webrtc?ref_type=heads) that fully implements it (by embedding a signalling server within its sink)
+
+motion jpeg is much simpler, the whole infrastructure to publish a mjpeg stream is this
+```cpp
+class MjpegStreamer {
+public:
+  MjpegStreamer(int port, int quality)
+      : port_(port), quality_(quality), running_(false), listenFd_(-1),
+        currentFrameId_(0) {}
+
+  ~MjpegStreamer() { stop(); }
+
+  void start() {
+    if (running_.exchange(true))
+      return;
+    acceptThread_ = std::thread([this] { acceptLoop(); });
+  }
+
+  void stop() {
+    if (!running_.exchange(false))
+      return;
+    if (listenFd_ >= 0) {
+      ::shutdown(listenFd_, SHUT_RDWR);
+    }
+    frameCv_.notify_all();
+    if (acceptThread_.joinable()) {
+      acceptThread_.join();
+    }
+    if (listenFd_ >= 0) {
+      ::close(listenFd_);
+      listenFd_ = -1;
+    }
+  }
+
+  int getPort() const { return port_; }
+
+  void pushFrame(const cv::Mat &bgr) {
+    if (bgr.empty()) {
+      return;
+    }
+
+    std::vector<uint8_t> jpegBuf;
+    std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, quality_};
+    cv::imencode(".jpg", bgr, jpegBuf, params);
+
+    {
+      std::lock_guard<std::mutex> lk(frameMtx_);
+      frame_ = std::move(jpegBuf);
+      currentFrameId_++;
+    }
+    frameCv_.notify_all();
+  }
+
+private:
+  static constexpr const char *kHttpHdr =
+      "HTTP/1.1 200 OK\r\n"
+      "Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary\r\n"
+      "Cache-Control: no-cache\r\n"
+      "Connection: close\r\n"
+      "\r\n";
+
+  void acceptLoop() {
+    listenFd_ = ::socket(AF_INET, SOCK_STREAM, 0);
+    if (listenFd_ < 0) {
+      return;
+    }
+    int opt = 1;
+    ::setsockopt(listenFd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    sockaddr_in addr{};
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = INADDR_ANY;
+    addr.sin_port = htons(static_cast<uint16_t>(port_));
+    if (::bind(listenFd_, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)) 
+        0) {
+      ::close(listenFd_);
+      listenFd_ = -1;
+      return;
+    }
+    ::listen(listenFd_, 8);
+
+    while (running_.load()) {
+      sockaddr_in ca{};
+      socklen_t cl = sizeof(ca);
+      int fd = ::accept(listenFd_, reinterpret_cast<sockaddr *>(&ca), &cl);
+      if (fd < 0) {
+        break;
+      }
+      char rbuf[2048];
+      int received = ::recv(fd, rbuf, sizeof(rbuf) - 1, 0);
+      if (received > 0) {
+        std::thread([this, fd] { serveClient(fd); }).detach();
+      } else {
+        ::close(fd);
+      }
+    }
+  }
+
+  void serveClient(int fd) {
+    if (::send(fd, kHttpHdr, strlen(kHttpHdr), MSG_NOSIGNAL) < 0) {
+      ::close(fd);
+      return;
+    }
+    uint64_t lastSentId = 0;
+    while (running_.load()) {
+      std::vector<uint8_t> jpeg;
+      {
+        std::unique_lock<std::mutex> lk(frameMtx_);
+        frameCv_.wait_for(lk, std::chrono::seconds(2), [this, lastSentId] {
+          return currentFrameId_ > lastSentId || !running_.load();
+        });
+        if (!running_.load())
+          break;
+        if (currentFrameId_ <= lastSentId)
+          continue;
+        jpeg = frame_;
+        lastSentId = currentFrameId_;
+      }
+      std::string hdr = "--mjpeg_boundary\r\n"
+                        "Content-Type: image/jpeg\r\n"
+                        "Content-Length: " +
+                        std::to_string(jpeg.size()) +
+                        "\r\n"
+                        "\r\n";
+      if (::send(fd, hdr.data(), hdr.size(), MSG_NOSIGNAL) < 0)
+        break;
+      if (::send(fd, jpeg.data(), jpeg.size(), MSG_NOSIGNAL) < 0)
+        break;
+      if (::send(fd, "\r\n", 2, MSG_NOSIGNAL) < 0)
+        break;
+    }
+    ::close(fd);
+  }
+
+  int port_;
+  int quality_;
+  std::atomic<bool> running_;
+  int listenFd_;
+  std::thread acceptThread_;
+  std::mutex frameMtx_;
+  std::condition_variable frameCv_;
+  std::vector<uint8_t> frame_;
+  uint64_t currentFrameId_;
+};
+```
+
+This works by the `Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary` header, which tells the client to expect a stream of data that is separated by a boundary, and that each part of the stream should replace the previous part. 
+
+Each frame is sent like this:
+```
+--mjpeg_boundary\r\n
+Content-Type: image/jpeg\r\n
+Content-Length: 48213\r\n
+\r\n
+[raw JPEG bytes]\r\n
+```
+The parser knows that the content after the `mjpeg_boundry` is meant to replace the content so the browser will continually update the image as long as the connection is maintained with the server. This format is also compatible with OpenCV, ffmpeg and VLC. Since each frame is a complete JPEG frame the receiving end can also be very simple as long as it understands how to decode a JPEG image.
+
+Here is a little demo that is being live streamed from a vercel service:
+![mjpeg demo in a <img> tag](https://mjpeg-demo.vercel.app/api/mjpeg)
+
+#CALLOUT note
+Another advantage is that some cameras support directly outputting JPEG encoded frames so you can fully skip the encoding step of raw pixel format -> encoded jpeg image saving some latency when you can fully passthrough frames.
+#END CALLOUT
+
+## rtsp
+Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the *keyframes* you can fully reconstruct the original video.
+
+This is a [better explanation of how these modern codecs work](https://sonnati.wordpress.com/2014/06/20/h265-part-i-technical-overview/), this is for h265 but the same general ideas persist for h264, av1 etc.
+
+Typically the video encoding you choose really depends on what exactly your hardware supports, if you are on Intel you can use the `qsv` family of encoders, nvidia `nvenc` and AMD `amf`, [ffmpeg hwaccel guide](https://trac.ffmpeg.org/wiki/HWAccelIntro) - There are also *generic* accelerated encoders that use [va-api](https://trac.ffmpeg.org/wiki/Hardware/VAAPI), dx11, dx12 or vulkan for acceleration but I find that using the device specific api is reliably better.
+
+On my laptop this is available by default (use [this script](https://gist.github.com/davidnoronha1/e964e4c6c7b07ae30f126a8e7dc12b96) to find for your hardware):
+```
+  Tool        Vendor / Backend             Codec   Encoder / Element
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ffmpeg      NVIDIA                       H.264   h264_nvenc
+  ffmpeg      NVIDIA                       HEVC    hevc_nvenc
+  ffmpeg      Intel/AMD (VAAPI)            H.264   h264_vaapi
+  ffmpeg      Intel/AMD (VAAPI)            HEVC    hevc_vaapi
+  gstreamer   NVIDIA (nvcodec)             H.264   nvcudah264enc
+  gstreamer   NVIDIA (nvcodec)             H.264   nvautogpuh264enc
+  gstreamer   NVIDIA (nvcodec)             HEVC    nvcudah265enc
+  gstreamer   NVIDIA (nvcodec)             HEVC    nvautogpuh265enc
+```
+(I dont have AMF compiled into my ffmpeg)
+
+#CALLOUT note
+This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 2km long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.
+#END CALLOUT
+
+RTSP doesn't work to send media to the browser since if you are sending video you need WebRTC or HLS. But for any scripts on your local network you can use it and it is understood by OpenCV, ffmpeg and others (they also understand mjpeg), I've found that setting these flags for the reciever stream helps to priotize latency over perfect frames.
+```
+export OPENCV_FFMPEG_CAPTURE_OPTIONS="fifo_size;500000|overrun_nonfatal;1|fflags;nobuffer|flags;low_delay|framedrop;1|vf;setpts=0"
+```
+Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame
