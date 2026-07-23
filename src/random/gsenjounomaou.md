@@ -82,10 +82,10 @@ If you just read the main route, without ever touching the others, This is quite
 The H scenes are present and can feel a little bit unecessary at times but 🤷
 
 #CAROUSEL
-../../assets/images/dump/fd8478dd-1343-4fe9-9f8b-aea6def4d92d.png
-../../assets/images/dump/13e00c90-17e8-4f2a-931b-612c2e11b2e3.png
-../../assets/images/dump/63c2aeff-76b5-43fe-b705-f4912292379b.png
-../../assets/images/dump/a7ab27ec-1aba-41e8-9b30-cee5da50ffe8.png
-../../assets/images/dump/e0234249-4893-4378-bf1b-687b1766bc80.png
-../../assets/images/dump/f29af82e-d091-4ef5-9ab6-c339359bd101.png
+../../assets/images/dump/fd8478dd-1343-4fe9-9f8b-aea6def4d92d.avif
+../../assets/images/dump/13e00c90-17e8-4f2a-931b-612c2e11b2e3.avif
+../../assets/images/dump/63c2aeff-76b5-43fe-b705-f4912292379b.avif
+../../assets/images/dump/a7ab27ec-1aba-41e8-9b30-cee5da50ffe8.avif
+../../assets/images/dump/e0234249-4893-4378-bf1b-687b1766bc80.avif
+../../assets/images/dump/f29af82e-d091-4ef5-9ab6-c339359bd101.avif
 #END CAROUSEL

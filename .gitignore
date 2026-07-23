@@ -9,3 +9,4 @@ experiments/tinyc/out
 .tooling/__pycache__
 bun.lockb
 .vercel
+out/.pond-tmp/

@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     colorized-logs \
     ca-certificates \
     unzip \
-    ffmpeg \
+    libavif-bin \
     jq \
     python3 \
     dos2unix \
