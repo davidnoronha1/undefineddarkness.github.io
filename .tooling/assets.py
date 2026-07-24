@@ -239,11 +239,15 @@ IMPORT_RE = re.compile(r"""(?P<prefix>\bimport\s+)(?P<quote>["'])(?P<value>[^"']
 # comments like post_image="/assets/..." (used by generate_index/rss),
 # PDFObject.embed("/assets/documents/....pdf"), and similar one-off JS/text
 # call sites that aren't a recognized HTML attribute.
-QUOTED_ASSET_RE = re.compile(r"""(?P<prefix>)(?P<quote>["'])(?P<value>(?:\.\./|\./|/)*assets/[^"']+)(?P=quote)""")
-
 # The site's own canonical domain — og:image etc. sometimes hardcode the
 # full production URL rather than a site-relative /assets/ path.
 SITE_ORIGINS = ("https://nes.is-a.dev", "http://nes.is-a.dev")
+
+QUOTED_ASSET_RE = re.compile(
+    r"""(?P<prefix>)(?P<quote>["'])(?P<value>(?:"""
+    + "|".join(re.escape(o) for o in SITE_ORIGINS)
+    + r""")?(?:\.\./|\./|/)*assets/[^"']+)(?P=quote)"""
+)
 EXTERNAL_PREFIXES = ("http://", "https://", "//", "data:", "mailto:")
 
 
