@@ -25,11 +25,34 @@
 	<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
 	<meta name="author" content="nes" />
 	<title>!TITLE!</title>
+	<meta name="description" content="!DESCRIPTION!" />
+	<link rel="canonical" href="!URL!" />
+	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
 	<meta property="og:title" content="!TITLE!" />
+	<meta property="og:description" content="!DESCRIPTION!" />
 	<meta property="og:type" content="article" />
 	<meta property="og:url" content="!URL!" />
-	<meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+	<meta property="og:image" content="!IMAGE!" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="!TITLE!" />
+	<meta name="twitter:description" content="!DESCRIPTION!" />
+	<meta name="twitter:image" content="!IMAGE!" />
 	<link rel="stylesheet" href="/assets/styles.css" />
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"headline": "!TITLE!",
+		"description": "!DESCRIPTION!",
+		"url": "!URL!",
+		"image": "!IMAGE!",
+		"author": {
+			"@type": "Person",
+			"name": "nes",
+			"url": "https://nes.is-a.dev/about.html"
+		}
+	}
+	</script>
 </head>
 
 <body>

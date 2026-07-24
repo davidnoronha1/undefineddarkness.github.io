@@ -37,6 +37,6 @@ The inductor inside the tape creates a magnetic field that replicates the analog
 Some nice resources I found when researching this:
 - [Technology Connections / Cassette Adapters are surprisingly simple](https://www.youtube.com/watch?v=dH4n8fUjtLQ)
 - [Panasonic Technical Terms](https://ant-audio.co.uk/Tape_Recording/Library/PTRTT.pdf)
-- [JVC Service Guide Cassette](https://ant-audio.co.uk/Tape_Recording/Library/JVC_Service_Guide_Cassette_Mech.pdf)
+- [JVC Service Guide Cassette](https://ant-audio.co.uk/Tape_Recording/Library/JVC_Service_Guide_Cassette_Mech.pdf) (This details how the tape is moved within the tape deck)
 - [BASF Inventor's Notebook - Cassette Housing](https://ant-audio.co.uk/Tape_Recording/Library/Cassette_Housing.pdf)
 - [IEC 94 - Magnetic Tape Sound Recording Systems](/assets/documents/IEC_94_Magnetic_Tape_Sound_Recording_Systems_Parts_1-11.pdf) (See part 7)

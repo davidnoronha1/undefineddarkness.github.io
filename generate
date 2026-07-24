@@ -53,7 +53,9 @@ slugify() {
 	echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
 }
 
-base_url="https://nes.is-a.dev/${output_dir}/"
+base_url="https://nes.is-a.dev/"
+default_description="My little corner of the internet — notes on hardware, software, and whatever else I'm tinkering with."
+default_image="https://nes.is-a.dev/assets/images/nes-export.avif"
 format_doc_heading() {
 	doc_path=${1#'./src/'}
 	doc_path=${doc_path%'.'*}
@@ -65,9 +67,25 @@ format_doc_heading() {
 	doc_url=$1
 	doc_url=${doc_url/"./${output_dir}/"/"$base_url"}
 
+	doc_description=$(grep -Po '<!--\s*post_description=\K.*(?=-->)' <<<"$markup" | head -n1)
+	doc_description=${doc_description//'"'/}
+	doc_description="${doc_description%"${doc_description##*[![:space:]]}"}"
+	[ -z "$doc_description" ] && doc_description="$default_description"
+
+	doc_image=$(grep -Po '<!--\s*post_image=\K.*(?=-->)' <<<"$markup" | head -n1)
+	doc_image=${doc_image//'"'/}
+	doc_image="${doc_image%"${doc_image##*[![:space:]]}"}"
+	if [ -n "$doc_image" ]; then
+		[[ "$doc_image" == http* ]] || doc_image="${base_url%/}${doc_image}"
+	else
+		doc_image="$default_image"
+	fi
+
 	doc_heading=${template_pre_content/'!DOCUMENT-PATH!'/"$doc_path"}
 	doc_heading=${doc_heading//'!TITLE!'/"$doc_title"}
 	doc_heading=${doc_heading//'!URL!'/"${doc_url}"}
+	doc_heading=${doc_heading//'!DESCRIPTION!'/"${doc_description}"}
+	doc_heading=${doc_heading//'!IMAGE!'/"${doc_image}"}
 }
 
 # Tasks:
@@ -239,7 +257,7 @@ generate_index() {
 
 generate_rss() {
 	local rss_file="./rss.xml"
-	local site_url="http://nes.is-a.dev"
+	local site_url="https://nes.is-a.dev"
 	local site_title="Nes's Personal Site"
 	local site_description="My little corner of the internet"
 	local pub_date=$(date -R)
@@ -279,11 +297,16 @@ generate_rss() {
 		item_link="$site_url/${file#$output_dir/}"
 		item_pub_date=$(date -R -d "@${d}")
 
+		item_desc=$(grep -Po '<!--\s*post_description=\K.*(?=-->)' "$file" | head -n1)
+		item_desc=${item_desc//'"'/}
+		item_desc="${item_desc%"${item_desc##*[![:space:]]}"}"
+		[ -z "$item_desc" ] && item_desc="$title"
+
 		{
 			echo '        <item>'
 			echo "            <title>$title</title>"
 			echo "            <link>$item_link</link>"
-			echo "            <description>$title</description>"
+			echo "            <description>$item_desc</description>"
 			echo "            <pubDate>$item_pub_date</pubDate>"
 			echo "            <guid>$item_link</guid>"
 			echo '        </item>'
@@ -294,6 +317,43 @@ generate_rss() {
 		echo '    </channel>'
 		echo '</rss>'
 	} >>$rss_file
+}
+
+generate_sitemap() {
+	local sitemap_file="./sitemap.xml"
+	local site_url="https://nes.is-a.dev"
+	local now
+	now=$(date -u +%Y-%m-%d)
+
+	{
+		echo '<?xml version="1.0" encoding="UTF-8" ?>'
+		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+		echo "    <url><loc>${site_url}/</loc><lastmod>${now}</lastmod></url>"
+		echo "    <url><loc>${site_url}/about.html</loc><lastmod>${now}</lastmod></url>"
+	} >$sitemap_file
+
+	local article_lines=""
+	while read -r folder; do
+		while read -r match; do
+			file=${match%%:*}
+			d=$(get_article_date "$file")
+			article_lines+="${d}	${match}"$'\n'
+		done < <(grep -ProH -m 1 '<h1.*?>.*</h1>' "${folder}")
+	done < <(find "$output_dir"/ -maxdepth 1 -type d -not -path "$output_dir/")
+
+	while IFS=$'\t' read -r d match; do
+		[ -z "$match" ] && continue
+		file=${match%%:*}
+
+		local page_url="$site_url/${file#$output_dir/}"
+		local lastmod
+		lastmod=$(date -u -d "@${d}" +%Y-%m-%d 2>/dev/null)
+		[ -z "$lastmod" ] && lastmod="$now"
+
+		echo "    <url><loc>${page_url}</loc><lastmod>${lastmod}</lastmod></url>" >>$sitemap_file
+	done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
+
+	echo '</urlset>' >>$sitemap_file
 }
 
 # generate_index
@@ -435,6 +495,7 @@ done
 
 generate_index
 generate_rss
+generate_sitemap
 # perform_css_optimization
 make -s -C ./assets_src build-regen
 # perform_html_optimization
