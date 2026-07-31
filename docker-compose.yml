@@ -1,5 +1,6 @@
 services:
   generate:
+    image: ghcr.io/davidnoronha1/undefineddarkness.github.io:latest
     build: .
     volumes:
       - .:/app
