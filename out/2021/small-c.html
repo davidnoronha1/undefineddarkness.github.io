@@ -37,7 +37,7 @@
 	<meta name="twitter:title" content="C Compiler Binary Optimization" />
 	<meta name="twitter:description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags" />
 	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special,var{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}button{background:coral;border:0;box-shadow:none;color:var(--white);cursor:pointer;display:inline-block;font-family:inherit;font-size:.8em;height:fit-content;outline:0;outline:1px solid var(--white);outline-offset:-6px;padding:.8em .9em;text-wrap:nowrap;width:fit-content}button:hover{font-weight:700}.minor-fold summary{color:var(--gray);font-size:.8em}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;max-width:100%;overflow-x:auto;white-space:pre!important}.gnuplot-container{font-size:.8em;height:fit-content;max-width:100%;width:fit-content}.gnuplot-container svg{height:100%;width:100%}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:light dark;--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}@media (prefers-color-scheme:dark){summary:before{filter:invert(1)}}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
+	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special,var{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.reset{font-weight:400}.demo .split>*{border:2.5px solid coral;text-align:center}.split>*{width:100%}.split{display:grid;grid-template-columns:1fr 1fr;grid-column-gap:1em;grid-row-gap:1em}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:light dark;--margin:-0.8em;--black:#181818;--white:#fafafa;--white-lighter:#fdfdfd;--black-darker:#111;--white-darker:#f0f0f0;--black-lighter:#333;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}@media (prefers-color-scheme:dark){:root{--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0}}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}img.inline{float:left;margin-bottom:1em;margin-right:1em;max-width:18em;width:unset}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}@media (prefers-color-scheme:dark){summary:before{filter:invert(1)}}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",
@@ -169,127 +169,1445 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 <br/>
 I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br/>
 <br/>
-<div>
-                    <div class="gnuplot-container"><pre style="">                                                                                                                                                      
-     70000 <span style="color:var(--black-darker)">𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆</span>66.52kB                                                  
-           <span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷊𜵨𜷊</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.7z <span style="color:#ffb3ba">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.xz <span style="color:#ffdfba">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">  </span>basic-optimized-stripped-lto-linker.zst <span style="color:#ffffba">𜴡𜴮🮅𜴮🮅𜴍  
-     </span>60000 <span style="color:var(--black-darker)">▐𜴉𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">   </span>basic-optimized-stripped-lto-linker.gz <span style="color:#baffc9">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                                   </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">  </span>basic-optimized-stripped-lto-linker.bz2 <span style="color:#bae1ff">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                          </span>51.86kB  <span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">  </span>basic-optimized-stripped-lto-linker-upx <span style="color:#c9baff">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                           </span><span style="color:#a9dfbf">▗▄𜵡▄𜵡▖  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">      </span>basic-optimized-stripped-lto-linker <span style="color:#ffbaf3">𜴡𜴮🮅𜴮🮅𜴍  
-     </span>50000 <span style="color:var(--black-darker)">▐𜺣𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠</span>47.94kB<span style="color:var(--black-darker)">𜺠 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜺠 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">             </span>basic-optimized-stripped-lto <span style="color:#e8a5a5">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                    </span><span style="color:#f7dc6f">𜷇𜵭𜷇𜵭▆  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                 </span>basic-optimized-stripped <span style="color:#f5cba7">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                    </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                          </span>basic-optimized <span style="color:#f7dc6f">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                                    </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                       </span>source-code.tar.gz <span style="color:#a9dfbf">𜴡𜴮🮅𜴮🮅𜴍  
-           </span><span style="color:var(--black-darker)">▐                                                           </span>38.52kB  <span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                    </span>basic <span style="color:#a9cce3">𜴡𜴮🮅𜴮🮅𜴍  
-     </span>40000 <span style="color:var(--black-darker)">▐𜺨𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫</span><span style="color:#f5cba7">𜷇</span><span style="color:#e8c4a5">𜵯</span><span style="color:#f5cba7">𜷇</span><span style="color:#e8c4a5">𜵯</span><span style="color:#f5cba7">▆</span><span style="color:var(--black-darker)">𜺫 𜺫</span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜺫 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜺫 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐                                                            </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐                                            </span>31.56kB31.60kB  <span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐                                             </span><span style="color:#ffbaf3">𜵭𜷇𜵭𜷇▆  </span><span style="color:#e8a5a5">𜶖𜵭𜷇𜵭𜷇𜵈  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-     </span>30000 <span style="color:var(--black-darker)">▐𜴀𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█ </span><span style="color:var(--black-darker)">𜴃</span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈</span><span style="color:#dba4a4">𜵏 </span><span style="color:var(--black-darker)">𜴃</span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴃 𜴃</span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴃 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜴃 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐                                             </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐                                             </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐                                    </span>19.84kB  <span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-     </span>20000 <span style="color:var(--black-darker)">▐𜴉𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span>17.04kB17.58kB<span style="color:var(--black-darker)">𜴘 </span><span style="color:#c9baff">𜶖𜷇𜵭𜷇𜵭𜵈</span><span style="color:var(--black-darker)">𜴘 </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█ </span><span style="color:var(--black-darker)">𜴘</span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈</span><span style="color:#dba4a4">𜵦 </span><span style="color:var(--black-darker)">𜴘</span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴘 𜴘</span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█</span><span style="color:var(--black-darker)">𜴘 </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌</span><span style="color:var(--black-darker)">𜴘 </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-          </span>14.43kB 14.74kB16.11kB  <span style="color:#baffc9">▗𜵡▄𜵡▄▖  </span><span style="color:#bae1ff">𜷇𜵭𜷇𜵭▆  </span><span style="color:#c9baff">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐</span><span style="color:#ffb3ba">▂▂▂▂𜺣  </span><span style="color:#ffdfba">𜵡▄𜵡▄▄  </span><span style="color:#ffffba">▐𜵨𜷊𜵨𜷊▌  </span><span style="color:#baffc9">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#bae1ff">𜷈𜵨𜷈𜵨█  </span><span style="color:#c9baff">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-           ▐</span><span style="color:#ffb3ba">𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffdfba">𜵨𜷈𜵨𜷈█  </span><span style="color:#ffffba">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#baffc9">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#bae1ff">𜷈𜵨𜷈𜵨█  </span><span style="color:#c9baff">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#ffbaf3">𜵨𜷈𜵨𜷈█  </span><span style="color:#e8a5a5">▐𜵨𜷈𜵨𜷈▌  </span><span style="color:#f5cba7">𜷈𜵨𜷈𜵨█   </span><span style="color:#f7dc6f">𜷈𜵨𜷈𜵨█  </span><span style="color:#a9dfbf">▐𜷈𜵨𜷈𜵨▌  </span><span style="color:#a9cce3">𜵨𜷈𜵨𜷈</span><span style="color:#a9cce3;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">▐</span><span style="color:var(--black-darker)">                                                  
-     </span>10000 <span style="color:var(--black-darker)">▐</span><span style="color:#e3acb1">𜷈</span><span style="color:#e7adb2">𜷠</span><span style="color:#e3acb1">𜷈</span><span style="color:#e7adb2">𜷠</span><span style="color:#ddabb0">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#e7ceb2">𜷠</span><span style="color:#e3ccb1">𜷈</span><span style="color:#e7ceb2">𜷠</span><span style="color:#e3ccb1">𜷈</span><span style="color:#e3ccb1;background-color:var(--black-darker)"></span><span style="color:#ffdfba;background-color:var(--black-darker)">🮅</span><span style="color:#ffdfba"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#ddddb0">𜷕</span><span style="color:#e7e7b2">𜷠</span><span style="color:#e3e3b1">𜷈</span><span style="color:#e7e7b2">𜷠</span><span style="color:#e3e3b1">𜷈</span><span style="color:#ddddb0">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#b0ddb9">𜷕</span><span style="color:#b2e7be">𜷠</span><span style="color:#b1e3bc">𜷈</span><span style="color:#b2e7be">𜷠</span><span style="color:#b1e3bc">𜷈</span><span style="color:#b0ddb9">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#b1cde3">𜷈</span><span style="color:#b2d0e7">𜷠</span><span style="color:#b1cde3">𜷈</span><span style="color:#b2d0e7">𜷠</span><span style="color:#b2d0e7;background-color:var(--black-darker)"></span><span style="color:#bae1ff;background-color:var(--black-darker)">🮅</span><span style="color:#bae1ff"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#b9b0dd">𜷕</span><span style="color:#bcb1e3">𜷈</span><span style="color:#beb2e7">𜷠</span><span style="color:#bcb1e3">𜷈</span><span style="color:#beb2e7">𜷠</span><span style="color:#b9b0dd">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#e7b2de">𜷠</span><span style="color:#e3b1da">𜷈</span><span style="color:#e7b2de">𜷠</span><span style="color:#e3b1da">𜷈</span><span style="color:#e3b1da;background-color:var(--black-darker)"></span><span style="color:#ffbaf3;background-color:var(--black-darker)">🮅</span><span style="color:#ffbaf3"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#cea3a3">𜷕</span><span style="color:#d5a3a3">𜷠</span><span style="color:#d2a3a3">𜷈</span><span style="color:#d5a3a3">𜷠</span><span style="color:#d2a3a3">𜷈</span><span style="color:#cea3a3">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#dcbda4">𜷈</span><span style="color:#e0bfa5">𜷠</span><span style="color:#dcbda4">𜷈</span><span style="color:#e0bfa5">𜷠</span><span style="color:#e0bfa5;background-color:var(--black-darker)"></span><span style="color:#f5cba7;background-color:var(--black-darker)">🮅</span><span style="color:#f5cba7"></span><span style="color:var(--black-darker)">▂▂▂</span><span style="color:#ddc981">𜷈</span><span style="color:#e1cc7e">𜷠</span><span style="color:#ddc981">𜷈</span><span style="color:#e1cc7e">𜷠</span><span style="color:#e1cc7e;background-color:var(--black-darker)"></span><span style="color:#f7dc6f;background-color:var(--black-darker)">🮅</span><span style="color:#f7dc6f"></span><span style="color:var(--black-darker)">▂▂</span><span style="color:#a5c8b3">𜷕</span><span style="color:#a6ccb5">𜷈</span><span style="color:#a6ceb6">𜷠</span><span style="color:#a6ccb5">𜷈</span><span style="color:#a6ceb6">𜷠</span><span style="color:#a5c8b3">𜷀</span><span style="color:var(--black-darker)">▂▂</span><span style="color:#a6c0d2">𜷠</span><span style="color:#a6becf">𜷈</span><span style="color:#a6c0d2">𜷠</span><span style="color:#a6becf">𜷈</span><span style="color:#a6becf;background-color:#a9cce3"></span><span style="color:var(--black-darker);background-color:#a9cce3">𜷕</span><span style="color:var(--black-darker)">                                                  
-             </span>7z     xz     zst     gz     bz2     upx   linker  -flto    -s     -Os   source  basic                                                   
-                                                                                                                                                      
-                                            Compression/Build Type                                                                                    
-</pre>
-    </div>
-                    <details class=minor-fold>
-                        <summary> Code</summary>
-                        <pre>
-                            <code>set boxwidth 0.6
-set style fill solid 0.7
-set key outside right
-set xtics nomirror
-set xtics ("7z" 0, "xz" 1, "zst" 2, "gz" 3, "bz2" 4, "upx" 5, "linker" 6, "-flto" 7, "-s" 8, "-Os" 9, "source" 10, "basic" 11)
-set xlabel "Compression/Build Type"
-set ylabel "File Size (bytes)"
-set grid ytics
-set style data boxes
+<?xml version="1.0" encoding="utf-8"  standalone="no"?>
+<svg  onload="if (typeof(gnuplot_svg)!='undefined') gnuplot_svg.Init(evt)" 
+ viewBox="0 0 950 500"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+>
 
-plot '-' using 1:2 with boxes lc rgb '&#35;FFB3BA' title "basic-optimized-stripped-lto-linker.7z", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;FFDFBA' title "basic-optimized-stripped-lto-linker.xz", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;FFFFBA' title "basic-optimized-stripped-lto-linker.zst", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;BAFFC9' title "basic-optimized-stripped-lto-linker.gz", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;BAE1FF' title "basic-optimized-stripped-lto-linker.bz2", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;C9BAFF' title "basic-optimized-stripped-lto-linker-upx", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;FFBAF3' title "basic-optimized-stripped-lto-linker", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;E8A5A5' title "basic-optimized-stripped-lto", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;F5CBA7' title "basic-optimized-stripped", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;F7DC6F' title "basic-optimized", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;A9DFBF' title "source-code.tar.gz", \
-    '-' using 1:2:3 with labels offset 0,1 notitle, \
-    '-' using 1:2 with boxes lc rgb '&#35;A9CCE3' title "basic", \
-    '-' using 1:2:3 with labels offset 0,1 notitle
-0 14778 "14.43kB"
-e
-0 14778 "14.43kB"
-e
-1 15100 "14.74kB"
-e
-1 15100 "14.74kB"
-e
-2 16497 "16.11kB"
-e
-2 16497 "16.11kB"
-e
-3 17448 "17.04kB"
-e
-3 17448 "17.04kB"
-e
-4 17998 "17.58kB"
-e
-4 17998 "17.58kB"
-e
-5 20320 "19.84kB"
-e
-5 20320 "19.84kB"
-e
-6 32312 "31.56kB"
-e
-6 32312 "31.56kB"
-e
-7 32360 "31.60kB"
-e
-7 32360 "31.60kB"
-e
-8 39448 "38.52kB"
-e
-8 39448 "38.52kB"
-e
-9 49088 "47.94kB"
-e
-9 49088 "47.94kB"
-e
-10 53107 "51.86kB"
-e
-10 53107 "51.86kB"
-e
-11 68120 "66.52kB"
-e
-11 68120 "66.52kB"
-e</code>
-                        </pre>
-                    </details>
-                </div>
+<title>Gnuplot</title>
+<desc>Produced by GNUPLOT 6.0 patchlevel 2 </desc>
+
+<script type="text/javascript" > <![CDATA[
+// From:	Marko Karjalainen <markokarjalainen@kolumbus.fi>
+// Date:	27 Aug 2018
+// Experimental gnuplot plugin for svg
+//
+// All svg elements on page get own gnuplot plugin attached by js, so no conflict with global variables.
+//
+// Javascript variables are read from second script tag and converted to json for import to plugin.
+// Inline events are removed from xml and new ones are attached with addEventListener function.
+// Inline events should be removed from xml and xml should have better id/class names to attach events from js.
+//
+// Improved mouseover text and image handling
+//   content changed to xml only if it really changed and bouncing is calculated once.
+//
+// Convert functions are same as before, maybe renamed better.
+//
+// Javascript routines for mouse and keyboard interaction with
+// SVG documents produced by gnuplot SVG terminal driver.
+
+// TODO do not create inline events to svg and give id or classes for getting elements
+// TODO make own svg layer x/y range sized for coordinates?
+
+if (window) {
+    window.addEventListener('load', function () {
+        // Find svg elements
+        var svg = document.querySelectorAll('svg');
+        for (var i = 0; i < svg.length; i++) {
+            // Init plugin
+            if (!svg[i].gnuplot) {
+                // Check if gnuplot generated svg
+                if(svg[i].getElementById('gnuplot_canvas')){
+                    svg[i].gnuplot = new gnuplot_svg(svg[i]);
+                }
+            }
+        }
+    });
+}
+
+gnuplot_svg = function (svgElement) {
+
+    var version = '12 June 2024';
+
+    var settings = {};
+
+    var viewBoxResetValue = [];
+
+    var drag = {
+        'enabled': false,
+        'offset': { 'x': 0, 'y': 0 },
+        'change': svgElement.createSVGPoint(),
+        'timeout': null
+    };
+
+    var coordinateText = {
+        'enabled': false,
+        'element': svgElement.getElementById('coord_text')
+    };
+
+    var popoverContainer = {
+        'element': null,
+        'content': null,
+    };
+
+    var popoverImage = {
+        'element': null,
+        'content': null,
+        'width': 300,
+        'height': 200,
+        'defaultWidth': 300,
+        'defaultHeight': 200,
+    };
+
+    var popoverText = {
+        'element': null,
+        'content': null,
+        'width': 11,
+        'height': 16,
+        'defaultWidth': 11,
+        'defaultHeight': 16,
+    };
+
+    var point = svgElement.createSVGPoint();
+
+    var axisDate = new Date();
+
+    var gridEnabled = false;
+
+    // Get plot boundaries and axis scaling information for mousing from current object script tag
+    // TODO add these to svg xml custom attribute for reading(json format)
+    var parseSettings = function () {
+        var script = svgElement.querySelectorAll('script');
+        if (script && script[1]) {
+            // Chrome may break the original CDATA section into more than one piece,
+            // which will lead to failure if we don't combine them back into a single section.
+            var scriptText = script[1].innerHTML.replaceAll("<!\[CDATA\[", "").replaceAll("\]\]>", "")
+            // Remove inline comments
+            scriptText = scriptText.replace(/^\s*\/\/.*\n/g, '');
+            // Change prefix to "
+            scriptText = scriptText.replace(/gnuplot_svg\./g, '"');
+            // Change = to " :
+            scriptText = scriptText.replace(/ = /g, '" : ');
+            // Change line endings to comma
+            scriptText = scriptText.replace(/;\n|\n/g, ',');
+            // Remove last comma
+            scriptText = scriptText.replace(/,+$/, '');
+            // Parse as json string
+            settings = JSON.parse("{\n" + scriptText + "\n}");
+        }
+    };
+
+    // Add interactive events
+    var addEvents = function () {
+        var i;
+
+        // Get keyentry elements
+        var toggleVisibility = svgElement.querySelectorAll('g[id$="_keyentry"]');
+        for (i = 0; i < toggleVisibility.length; i++) {
+            // ------- Remove inline events
+            toggleVisibility[i].removeAttribute('onclick');
+            // -------
+
+            // Add keyentry event to toggle visibility
+            toggleVisibility[i].addEventListener('click', key.bind(null, toggleVisibility[i].getAttribute('id'), null));
+        }
+
+        // ------- Remove inline events from bounding box
+        var boundingBox = svgElement.querySelector('rect[onclick^="gnuplot_svg.toggleCoordBox"]');
+        if (boundingBox) {
+            boundingBox.removeAttribute('onclick');
+            boundingBox.removeAttribute('onmousemove');
+        }
+        // ------- Remove inline events from canvas
+        var canvas = svgElement.getElementById('gnuplot_canvas');
+        if (canvas) {
+            canvas.removeAttribute('onclick');
+            canvas.removeAttribute('onmousemove');
+        }
+        // -------
+
+        // Get grid image
+        var toggleGrid = svgElement.querySelector('image[onclick^="gnuplot_svg.toggleGrid"]');
+        if (toggleGrid) {
+            // ------- Remove inline events
+            toggleGrid.removeAttribute('onclick');
+            // -------
+
+            // Add Toggle grid image event
+            toggleGrid.addEventListener('click', function (evt) {
+                grid();
+                evt.preventDefault();
+                evt.stopPropagation();
+            });
+        }
+
+        // Get hypertexts
+        var hyperText = svgElement.querySelectorAll('g[onmousemove^="gnuplot_svg.showHypertext"]');
+
+        // Set view element variables
+        if (hyperText.length) {
+            popoverContainer.element = svgElement.getElementById('hypertextbox');
+            popoverText.element = svgElement.getElementById('hypertext');
+            popoverImage.element = svgElement.getElementById('hyperimage');
+            popoverImage.defaultWidth = popoverImage.element.getAttribute('width');
+            popoverImage.defaultHeight = popoverImage.element.getAttribute('height');
+        }
+
+        for (i = 0; i < hyperText.length; i++) {
+            // Get text from attr uggly way, svg has empty title element
+            var text = hyperText[i].getAttribute('onmousemove').substr(31).slice(0, -2);
+
+            // ------- Remove inline events
+            hyperText[i].removeAttribute('onmousemove');
+            hyperText[i].removeAttribute('onmouseout');
+            // -------
+
+            // Add event
+            hyperText[i].addEventListener('mousemove', popover.bind(null, text, true));
+            hyperText[i].addEventListener('mouseout', popover.bind(null, null, false));
+        }
+
+        // Toggle coordinates visibility on left click on boundingBox element
+        svgElement.addEventListener('click', function (evt) {
+            if (!drag.enabled) {
+                // TODO check if inside data area, own layer for this is needed?
+                coordinate();
+                setCoordinateLabel(evt);
+            }
+        });
+
+        // Save move start position, enable drag after delay
+        svgElement.addEventListener('mousedown', function (evt) {
+
+            drag.offset = { 'x': evt.clientX, 'y': evt.clientY };
+
+            // Delay for moving, so not move accidentally if only click
+            drag.timeout = setTimeout(function () {
+                drag.enabled = true;
+            }, 250);
+
+            // Cancel draggable
+            evt.stopPropagation();
+            evt.preventDefault();
+            return false;
+        });
+
+        // Disable drag
+        svgElement.addEventListener('mouseup', function (evt) {
+            drag.enabled = false;
+            clearTimeout(drag.timeout);
+        });
+
+        // Mouse move
+        svgElement.addEventListener('mousemove', function (evt) {
+
+            // Drag svg element
+            if (evt.buttons == 1 && drag.enabled) {
+
+                // Position change
+                drag.change.x = evt.clientX - drag.offset.x;
+                drag.change.y = evt.clientY - drag.offset.y;
+
+                // Set current mouse position
+                drag.offset.x = evt.clientX;
+                drag.offset.y = evt.clientY;
+
+                // Convert to svg position
+                drag.change.matrixTransform(svgElement.getScreenCTM().inverse());
+
+                var viewBoxValues = getViewBox();
+
+                viewBoxValues[0] -= drag.change.x;
+                viewBoxValues[1] -= drag.change.y;
+
+                setViewBox(viewBoxValues);
+            }
+
+            // View coordinates on mousemove over svg element
+            if (coordinateText.enabled) {
+                // TODO check if inside data area, own layer for this is needed?
+                setCoordinateLabel(evt);
+            }
+
+        });
+
+        // Zoom with wheel
+        svgElement.addEventListener('wheel', function (evt) {
+            // x or y scroll zoom both axels
+            var delta = Math.max(-1, Math.min(1, (evt.deltaY || evt.deltaX)));
+
+            if (delta > 0) {
+                setViewBox(zoom('in'));
+            }
+            else {
+                setViewBox(zoom('out'));
+            }
+
+            // Disable scroll the entire webpage
+            evt.stopPropagation();
+            evt.preventDefault();
+            return false;
+        });
+
+        // Reset on right click or hold tap
+        svgElement.addEventListener('contextmenu', function (evt) {
+
+            setViewBox(viewBoxResetValue);
+
+            // Disable native context menu
+            evt.stopPropagation();
+            evt.preventDefault();
+            return false;
+        });
+
+        // Keyboard actions, old svg version not support key events so must listen window
+        window.addEventListener('keydown', function (evt) {
+
+            // Not capture event from inputs
+            // body = svg inline in page, svg = plain svg file, window = delegated events to object
+            if (evt.target.nodeName != 'BODY' && evt.target.nodeName != 'svg' && evt.target != window) {
+                return true;
+            }
+
+            var viewBoxValues = [];
+
+            switch (evt.key) {
+                // Move, Edge sends without Arrow word
+                case 'ArrowLeft':
+                case 'Left':
+                case 'ArrowRight':
+                case 'Right':
+                case 'ArrowUp':
+                case 'Up':
+                case 'ArrowDown':
+                case 'Down':
+                    viewBoxValues = pan(evt.key.replace('Arrow', '').toLowerCase());
+                    break;
+                // Zoom in
+                case '+':
+                case 'Add':
+                    viewBoxValues = zoom('in');
+                    break;
+                // Zoom out
+                case '-':
+                case 'Subtract':
+                    viewBoxValues = zoom('out');
+                    break;
+                // Reset
+                case 'Home':
+                    viewBoxValues = viewBoxResetValue;
+                    break;
+                // Toggle grid
+                case '#':
+                    grid();
+                    break;
+            }
+
+            if (viewBoxValues.length) {
+                setViewBox(viewBoxValues);
+            }
+        });
+    };
+
+    // Get svg viewbox details
+    var getViewBox = function () {
+        var viewBoxValues = svgElement.getAttribute('viewBox').split(' ');
+        viewBoxValues[0] = parseFloat(viewBoxValues[0]);
+        viewBoxValues[1] = parseFloat(viewBoxValues[1]);
+        viewBoxValues[2] = parseFloat(viewBoxValues[2]);
+        viewBoxValues[3] = parseFloat(viewBoxValues[3]);
+        return viewBoxValues;
+    };
+
+    // Set svg viewbox details
+    var setViewBox = function (viewBoxValues) {
+        svgElement.setAttribute('viewBox', viewBoxValues.join(' '));
+    };
+
+    // Set coordinate label position and text
+    var setCoordinateLabel = function (evt) {
+        var position = convertDOMToSVG({ 'x': evt.clientX, 'y': evt.clientY });
+
+        // Set coordinate label position
+        coordinateText.element.setAttribute('x', position.x);
+        coordinateText.element.setAttribute('y', position.y);
+
+        // Convert svg position to plot coordinates
+        var plotcoord = convertSVGToPlot(position);
+
+        // Parse label to view
+        var label = parseCoordinateLabel(plotcoord);
+
+        // Set coordinate label text
+        coordinateText.element.textContent = label.x + ' ' + label.y;
+    };
+
+    // Convert position DOM to SVG
+    var convertDOMToSVG = function (position) {
+        point.x = position.x;
+        point.y = position.y;
+        return point.matrixTransform(svgElement.getScreenCTM().inverse());
+    };
+
+    // Convert position SVG to Plot
+    var convertSVGToPlot = function (position) {
+        var plotcoord = {};
+        var plotx = position.x - settings.plot_xmin;
+        var ploty = position.y - settings.plot_ybot;
+        var x, y;
+
+        if (settings.plot_logaxis_x !== 0) {
+            x = Math.log(settings.plot_axis_xmax)
+                - Math.log(settings.plot_axis_xmin);
+            x = x * (plotx / (settings.plot_xmax - settings.plot_xmin))
+                + Math.log(settings.plot_axis_xmin);
+            x = Math.exp(x);
+        } else {
+            x = settings.plot_axis_xmin + (plotx / (settings.plot_xmax - settings.plot_xmin)) * (settings.plot_axis_xmax - settings.plot_axis_xmin);
+        }
+
+        if (settings.plot_logaxis_y !== 0) {
+            y = Math.log(settings.plot_axis_ymax)
+                - Math.log(settings.plot_axis_ymin);
+            y = y * (ploty / (settings.plot_ytop - settings.plot_ybot))
+                + Math.log(settings.plot_axis_ymin);
+            y = Math.exp(y);
+        } else {
+            y = settings.plot_axis_ymin + (ploty / (settings.plot_ytop - settings.plot_ybot)) * (settings.plot_axis_ymax - settings.plot_axis_ymin);
+        }
+
+        plotcoord.x = x;
+        plotcoord.y = y;
+        return plotcoord;
+    };
+
+    // Parse plot x/y values to label
+    var parseCoordinateLabel = function (plotcoord) {
+        var label = { 'x': 0, 'y': 0 };
+
+        if (settings.plot_timeaxis_x == 'DMS' || settings.plot_timeaxis_y == 'DMS') {
+            if (settings.plot_timeaxis_x == 'DMS') {
+                label.x = convertToDMS(plotcoord.x);
+            }
+            else {
+                label.x = plotcoord.x.toFixed(2);
+            }
+
+            if (settings.plot_timeaxis_y == 'DMS') {
+                label.y = convertToDMS(plotcoord.y);
+            }
+            else {
+                label.y = plotcoord.y.toFixed(2);
+            }
+
+        } else if (settings.polar_mode) {
+            polar = convertToPolar(plotcoord.x, plotcoord.y);
+            label.x = 'ang= ' + polar.ang.toPrecision(4);
+            label.y = 'R= ' + polar.r.toPrecision(4);
+
+        } else if (settings.plot_timeaxis_x == 'Date') {
+            axisDate.setTime(1000 * plotcoord.x);
+            var year = axisDate.getUTCFullYear();
+            var month = axisDate.getUTCMonth();
+            var date = axisDate.getUTCDate();
+            label.x = (' ' + date).slice(-2) + '/' + ('0' + (month + 1)).slice(-2) + '/' + year;
+            label.y = plotcoord.y.toFixed(2);
+        } else if (settings.plot_timeaxis_x == 'Time') {
+            axisDate.setTime(1000 * plotcoord.x);
+            var hour = axisDate.getUTCHours();
+            var minute = axisDate.getUTCMinutes();
+            var second = axisDate.getUTCSeconds();
+            label.x = ('0' + hour).slice(-2) + ':' + ('0' + minute).slice(-2) + ':' + ('0' + second).slice(-2);
+            label.y = plotcoord.y.toFixed(2);
+        } else if (settings.plot_timeaxis_x == 'DateTime') {
+            axisDate.setTime(1000 * plotcoord.x);
+            label.x = axisDate.toUTCString();
+            label.y = plotcoord.y.toFixed(2);
+        } else {
+            label.x = plotcoord.x.toFixed(2);
+            label.y = plotcoord.y.toFixed(2);
+        }
+
+        return label;
+    };
+
+    // Convert position to Polar
+    var convertToPolar = function (x, y) {
+        polar = {};
+        var phi, r;
+        phi = Math.atan2(y, x);
+        if (settings.plot_logaxis_r) {
+            r = Math.exp((x / Math.cos(phi) + Math.log(settings.plot_axis_rmin) / Math.LN10) * Math.LN10);
+        }
+        else if (settings.plot_axis_rmin > settings.plot_axis_rmax) {
+            r = settings.plot_axis_rmin - x / Math.cos(phi);
+        } else {
+            r = settings.plot_axis_rmin + x / Math.cos(phi);
+        }
+        phi = phi * (180 / Math.PI);
+        if (settings.polar_sense < 0) {
+            phi = -phi;
+        }
+        if (settings.polar_theta0 !== undefined) {
+            phi = phi + settings.polar_theta0;
+        }
+        if (phi > 180) { phi = phi - 360; }
+        polar.r = r;
+        polar.ang = phi;
+        return polar;
+    };
+
+    // Convert position to DMS
+    var convertToDMS = function (x) {
+        var dms = { d: 0, m: 0, s: 0 };
+        var deg = Math.abs(x);
+        dms.d = Math.floor(deg);
+        dms.m = Math.floor((deg - dms.d) * 60);
+        dms.s = Math.floor((deg - dms.d) * 3600 - dms.m * 60);
+        fmt = ((x < 0) ? '-' : ' ') + dms.d.toFixed(0) + '°' + dms.m.toFixed(0) + '"' + dms.s.toFixed(0) + "'";
+        return fmt;
+    };
+
+    // Set popover text to show
+    var setPopoverText = function (content) {
+
+        // Minimum length
+        popoverText.width = popoverText.defaultWidth;
+
+        // Remove old texts
+        while (null !== popoverText.element.firstChild) {
+            popoverText.element.removeChild(popoverText.element.firstChild);
+        }
+
+        var lines = content.split(/\n|\\n/g);
+
+        // Single line
+        if (lines.length <= 1) {
+            popoverText.element.textContent = content;
+            popoverText.width = popoverText.element.getComputedTextLength() + 8;
+        }
+        // Multiple lines
+        else {
+            var lineWidth = 0;
+            var tspanElement;
+
+            for (var l = 0; l < lines.length; l++) {
+                tspanElement = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+                // Y relative position
+                if (l > 0) {
+                    tspanElement.setAttribute('dy', popoverText.defaultHeight);
+                }
+                // Append text
+                tspanElement.appendChild(document.createTextNode(lines[l]));
+                popoverText.element.appendChild(tspanElement);
+
+                // Max line width
+                lineWidth = tspanElement.getComputedTextLength() + 8;
+                if (popoverText.width < lineWidth) {
+                    popoverText.width = lineWidth;
+                }
+            }
+        }
+
+        // Box Height
+        popoverText.height = 2 + popoverText.defaultHeight * lines.length;
+        popoverContainer.element.setAttribute('height', popoverText.height);
+
+        // Box Width
+        popoverContainer.element.setAttribute('width', popoverText.width);
+    };
+
+    // Set popover image to show
+    var setPopoverImage = function (content) {
+
+        // Set default image size
+        popoverImage.width = popoverImage.defaultWidth;
+        popoverImage.height = popoverImage.defaultHeight;
+
+        // Pick up height and width from image(width,height):name
+        if (content.charAt(5) == '(') {
+            popoverImage.width = parseInt(content.slice(6));
+            popoverImage.height = parseInt(content.slice(content.indexOf(',') + 1));
+        }
+
+        popoverImage.element.setAttribute('width', popoverImage.width);
+        popoverImage.element.setAttribute('height', popoverImage.height);
+        popoverImage.element.setAttribute('preserveAspectRatio', 'none');
+
+        // attach image URL as a link
+        content = content.slice(content.indexOf(':') + 1);
+        popoverImage.element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', content);
+    };
+
+    // Show popover text in given position
+    var showPopoverText = function (position) {
+        var domRect = svgElement.getBoundingClientRect();
+        domRect = convertDOMToSVG({'x': domRect.right, 'y': domRect.bottom });
+
+        // bounce off frame bottom
+        if (position.y + popoverText.height + 16 > domRect.y) {
+            position.y = domRect.y - popoverText.height - 16;
+        }
+
+        // bounce off right edge
+        if (position.x + popoverText.width + 14 > domRect.x) {
+            position.x = domRect.x - popoverText.width - 14;
+        }
+
+        // Change Box position
+        popoverContainer.element.setAttribute('x', position.x + 10);
+        popoverContainer.element.setAttribute('y', position.y + 4);
+        popoverContainer.element.setAttribute('visibility', 'visible');
+
+        // Change Text position
+        popoverText.element.setAttribute('x', position.x + 14);
+        popoverText.element.setAttribute('y', position.y + 18);
+        popoverText.element.setAttribute('visibility', 'visible');
+
+        // Change multiline text position
+        var tspan = popoverText.element.querySelectorAll('tspan');
+        for (var i = 0; i < tspan.length; i++) {
+            tspan[i].setAttribute('x', position.x + 14);
+        }
+
+        // Font properties
+        if (settings.hypertext_fontFamily != null)
+            popoverText.element.setAttribute('font-family', settings.hypertext_fontFamily);
+        if (settings.hypertext_fontStyle != null)
+            popoverText.element.setAttribute('font-style', settings.hypertext_fontStyle);
+        if (settings.hypertext_fontWeight != null)
+            popoverText.element.setAttribute('font-weight', settings.hypertext_fontWeight);
+        if (settings.hypertext_fontSize > 0)
+            popoverText.element.setAttribute('font-size', settings.hypertext_fontSize);
+    };
+
+    // Show popover image in given position
+    var showPopoverImage = function (position) {
+        var domRect = svgElement.getBoundingClientRect();
+        domRect = convertDOMToSVG({'x': domRect.right, 'y': domRect.bottom });
+
+        // bounce off frame bottom
+        if (position.y + popoverImage.height + 16 > domRect.y) {
+            position.y = domRect.y - popoverImage.height - 16;
+        }
+
+        // bounce off right edge
+        if (position.x + popoverImage.width + 14 > domRect.x) {
+            position.x = domRect.x - popoverImage.width - 14;
+        }
+
+        popoverImage.element.setAttribute('x', position.x);
+        popoverImage.element.setAttribute('y', position.y);
+        popoverImage.element.setAttribute('visibility', 'visible');
+    };
+
+    // Hide all popovers
+    var hidePopover = function () {
+        popoverContainer.element.setAttribute('visibility', 'hidden');
+        popoverText.element.setAttribute('visibility', 'hidden');
+        popoverImage.element.setAttribute('visibility', 'hidden');
+    };
+
+    // Zoom svg inside viewbox
+    var zoom = function (direction) {
+        var zoomRate = 1.1;
+        var viewBoxValues = getViewBox();
+
+        var widthBefore = viewBoxValues[2];
+        var heightBefore = viewBoxValues[3];
+
+        if (direction == 'in') {
+            viewBoxValues[2] /= zoomRate;
+            viewBoxValues[3] /= zoomRate;
+            // Pan to center
+            viewBoxValues[0] -= (viewBoxValues[2] - widthBefore) / 2;
+            viewBoxValues[1] -= (viewBoxValues[3] - heightBefore) / 2;
+        }
+        else if (direction == 'out') {
+            viewBoxValues[2] *= zoomRate;
+            viewBoxValues[3] *= zoomRate;
+            // Pan to center
+            viewBoxValues[0] += (widthBefore - viewBoxValues[2]) / 2;
+            viewBoxValues[1] += (heightBefore - viewBoxValues[3]) / 2;
+        }
+
+        return viewBoxValues;
+    };
+
+    // Pan svg inside viewbox
+    var pan = function (direction) {
+        var panRate = 10;
+        var viewBoxValues = getViewBox();
+
+        switch (direction) {
+            case 'left':
+                viewBoxValues[0] += panRate;
+                break;
+            case 'right':
+                viewBoxValues[0] -= panRate;
+                break;
+            case 'up':
+                viewBoxValues[1] += panRate;
+                break;
+            case 'down':
+                viewBoxValues[1] -= panRate;
+                break;
+        }
+
+        return viewBoxValues;
+    };
+
+    // Toggle key and chart on/off or set manually to wanted
+    var key = function (id, set, evt) {
+        var visibility = null;
+
+        // Chart element
+        var chartElement = svgElement.getElementById(id.replace('_keyentry', ''));
+        if (chartElement) {
+            // Set on/off
+            if (set === true || set === false) {
+                visibility = set ? 'visible' : 'hidden';
+            }
+            // Toggle
+            else {
+                visibility = chartElement.getAttribute('visibility') == 'hidden' ? 'visible' : 'hidden';
+            }
+            chartElement.setAttribute('visibility', visibility);
+        }
+
+        // Key element
+        var keyElement = svgElement.getElementById(id);
+        if (keyElement && visibility) {
+            keyElement.setAttribute('style', visibility == 'hidden' ? 'filter:url(#greybox)' : 'none');
+        }
+
+        if (evt !== undefined) {
+            evt.stopPropagation();
+            evt.preventDefault();
+        }
+    };
+
+    // Toggle coordinates on/off or set manually to wanted
+    var coordinate = function (set) {
+        if (coordinateText.element) {
+            // Set on/off
+            if (set === true || set === false) {
+                coordinateText.enabled = set;
+            }
+            // Toggle
+            else {
+                coordinateText.enabled = coordinateText.element.getAttribute('visibility') == 'hidden' ? true : false;
+            }
+            coordinateText.element.setAttribute('visibility', coordinateText.enabled ? 'visible' : 'hidden');
+        }
+    };
+
+    // Toggle grid on/off or set manually to wanted
+    var grid = function (set) {
+        var grid = svgElement.getElementsByClassName('gridline');
+
+        // Set on/off
+        if (set === true || set === false) {
+            gridEnabled = set;
+        }
+        // Toggle, get state from first element
+        else if (grid.length) {
+            gridEnabled = grid[0].getAttribute('visibility') == 'hidden' ? true : false;
+        }
+
+        for (i = 0; i < grid.length; i++) {
+            grid[i].setAttribute('visibility', gridEnabled ? 'visible' : 'hidden');
+        }
+    };
+
+    // Show popover text or image
+    var popover = function (content, set, evt) {
+
+        // Hide popover
+        if (set === false) {
+            hidePopover();
+
+            if (evt !== undefined) {
+                evt.stopPropagation();
+                evt.preventDefault();
+            }
+
+            return;
+        }
+
+        var position = null;
+
+        // Change content only if changed
+        if (popoverContainer.content != content) {
+
+            // Set current text
+            popoverContainer.content = content;
+
+            popoverImage.content = '';
+            popoverText.content = content;
+
+            // If text starts with image: process it as an xlinked bitmap
+            if (content.substring(0, 5) == 'image') {
+                var lines = content.split(/\n|\\n/g);
+                var nameindex = lines[0].indexOf(':');
+                if (nameindex > 0) {
+                    popoverImage.content = lines.shift();
+                    popoverText.content = '';
+
+                    // Additional text lines
+                    if (lines !== undefined && lines.length > 0) {
+                        popoverText.content = lines.join('\n');
+                    }
+                }
+            }
+
+            // Set image content
+            if(popoverImage.content){
+                setPopoverImage(popoverImage.content);
+            }
+
+            // Set text content
+            if(popoverText.content){
+                setPopoverText(popoverText.content);
+            }
+        }
+
+        if(popoverImage.content || popoverText.content){
+            position = convertDOMToSVG({'x': evt.clientX, 'y': evt.clientY });
+        }
+
+        // Show popover image on mouse position
+        if(popoverImage.content){
+            showPopoverImage(position);
+        }
+
+        // Show popover on mouse position
+        if(popoverText.content){
+            showPopoverText(position);
+        }
+
+        if (evt !== undefined) {
+            evt.stopPropagation();
+            evt.preventDefault();
+        }
+    };
+
+    // Parse plot settings
+    parseSettings();
+
+    // viewBox initial position and size
+    viewBoxResetValue = getViewBox();
+
+    // Set focusable for event focusing, not work on old svg version
+    svgElement.setAttribute('focusable', true);
+
+    // Disable native draggable
+    svgElement.setAttribute('draggable', false);
+
+    // Add events
+    addEvents();
+
+    // Return functions to outside use
+    return {
+        zoom: function (direction) {
+            setViewBox(zoom(direction));
+            return this;
+        },
+        pan: function (direction) {
+            setViewBox(pan(direction));
+            return this;
+        },
+        reset: function () {
+            setViewBox(viewBoxResetValue);
+            return this;
+        },
+        key: function (id, set) {
+            key(id, set);
+            return this;
+        },
+        coordinate: function (set) {
+            coordinate(set);
+            return this;
+        },
+        grid: function (set) {
+            grid(set);
+            return this;
+        }
+    };
+};
+
+// Old init function, remove when svg inline events removed
+gnuplot_svg.Init = function() { };
+]]>
+</script>
+
+<!-- Tie mousing to entire bounding box of the plot -->
+<rect x="0" y="0" width="950" height="500" fill="#000111" stroke="black" stroke-width="1"
+onclick="gnuplot_svg.toggleCoordBox(evt)"  onmousemove="gnuplot_svg.moveCoordBox(evt)"/>
+
+<!-- Also track mouse when it is on a plot element -->
+<g id="gnuplot_canvas" onclick="gnuplot_svg.toggleCoordBox(evt)" onmousemove="gnuplot_svg.moveCoordBox(evt)">
+
+<defs>
+
+	<circle id='gpDot' r='0.5' stroke-width='0.5' stroke='currentColor'/>
+	<path id='gpPt0' stroke-width='0.267' stroke='currentColor' d='M-1,0 h2 M0,-1 v2'/>
+	<path id='gpPt1' stroke-width='0.267' stroke='currentColor' d='M-1,-1 L1,1 M1,-1 L-1,1'/>
+	<path id='gpPt2' stroke-width='0.267' stroke='currentColor' d='M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1'/>
+	<rect id='gpPt3' stroke-width='0.267' stroke='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<rect id='gpPt4' stroke-width='0.267' stroke='currentColor' fill='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<circle id='gpPt5' stroke-width='0.267' stroke='currentColor' cx='0' cy='0' r='1'/>
+	<use xlink:href='#gpPt5' id='gpPt6' fill='currentColor' stroke='none'/>
+	<path id='gpPt7' stroke-width='0.267' stroke='currentColor' d='M0,-1.33 L-1.33,0.67 L1.33,0.67 z'/>
+	<use xlink:href='#gpPt7' id='gpPt8' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt7' id='gpPt9' stroke='currentColor' transform='rotate(180)'/>
+	<use xlink:href='#gpPt9' id='gpPt10' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt3' id='gpPt11' stroke='currentColor' transform='rotate(45)'/>
+	<use xlink:href='#gpPt11' id='gpPt12' fill='currentColor' stroke='none'/>
+	<path id='gpPt13' stroke-width='0.267' stroke='currentColor' d='M0,1.330 L1.265,0.411 L0.782,-1.067 L-0.782,-1.076 L-1.265,0.411 z'/>
+	<use xlink:href='#gpPt13' id='gpPt14' fill='currentColor' stroke='none'/>
+	<filter id='textbox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
+	  <feFlood flood-color='#000111' flood-opacity='1' result='bgnd'/>
+	  <feComposite in='SourceGraphic' in2='bgnd' operator='atop'/>
+	</filter>
+	<filter id='greybox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
+	  <feFlood flood-color='lightgrey' flood-opacity='1' result='grey'/>
+	  <feComposite in='SourceGraphic' in2='grey' operator='atop'/>
+	</filter>
+</defs>
+<g fill="none" color="#000111" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,452.00 L606.49,452.00  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,452.00 L82.00,452.00 M606.49,452.00 L598.99,452.00  '/>	<g transform="translate(67.50,455.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 10000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,379.17 L606.49,379.17  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,379.17 L82.00,379.17 M606.49,379.17 L598.99,379.17  '/>	<g transform="translate(67.50,382.42)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 20000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,306.34 L606.49,306.34  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,306.34 L82.00,306.34 M606.49,306.34 L598.99,306.34  '/>	<g transform="translate(67.50,309.59)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 30000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,233.50 L606.49,233.50  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,233.50 L82.00,233.50 M606.49,233.50 L598.99,233.50  '/>	<g transform="translate(67.50,236.75)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 40000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,160.67 L606.49,160.67  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,160.67 L82.00,160.67 M606.49,160.67 L598.99,160.67  '/>	<g transform="translate(67.50,163.92)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 50000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,87.84 L606.49,87.84  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,87.84 L82.00,87.84 M606.49,87.84 L598.99,87.84  '/>	<g transform="translate(67.50,91.09)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 60000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,15.01 L606.49,15.01  '/></g>
+<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,15.01 L82.00,15.01 M606.49,15.01 L598.99,15.01  '/>	<g transform="translate(67.50,18.26)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 70000</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M88.26,452.00 L88.26,444.50  '/>	<g transform="translate(88.26,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >7z</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M134.12,452.00 L134.12,444.50  '/>	<g transform="translate(134.12,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >xz</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M179.98,452.00 L179.98,444.50  '/>	<g transform="translate(179.98,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >zst</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M225.84,452.00 L225.84,444.50  '/>	<g transform="translate(225.84,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >gz</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M271.70,452.00 L271.70,444.50  '/>	<g transform="translate(271.70,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >bz2</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M317.56,452.00 L317.56,444.50  '/>	<g transform="translate(317.56,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >upx</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M363.43,452.00 L363.43,444.50  '/>	<g transform="translate(363.43,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >linker</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M409.29,452.00 L409.29,444.50  '/>	<g transform="translate(409.29,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >-flto</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M455.15,452.00 L455.15,444.50  '/>	<g transform="translate(455.15,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >-s</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M501.01,452.00 L501.01,444.50  '/>	<g transform="translate(501.01,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >-Os</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M546.87,452.00 L546.87,444.50  '/>	<g transform="translate(546.87,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >source</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M592.73,452.00 L592.73,444.50  '/>	<g transform="translate(592.73,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >basic</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,15.01 L74.50,452.00 L606.49,452.00 L606.49,15.01 L74.50,15.01 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	<g id="gnuplot_plot_1" ><title>basic-optimized-stripped-lto-linker.7z</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_1_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_1')">
+	<g transform="translate(893.49,25.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.7z</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 179, 186)' fill-opacity = '0.700000' points = '900.49,26.26 935.99,26.26 935.99,18.76 900.49,18.76 '/>
+	</g>
+	<path stroke='rgb(255, 179, 186)'  d='M900.49,26.26 L935.99,26.26 L935.99,18.76 L900.49,18.76 L900.49,26.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 179, 186)' fill-opacity = '0.700000' points = '74.50,452.00 102.03,452.00 102.03,417.19 74.50,417.19 '/>
+	</g>
+	<path stroke='rgb(255, 179, 186)'  d='M74.50,452.00 L74.50,417.20 L102.02,417.20 L102.02,452.00 L74.50,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_2"  fill="none"><title>gnuplot_plot_2</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(88.26,405.45)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >14.43kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_3" ><title>basic-optimized-stripped-lto-linker.xz</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_3_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_3')">
+	<g transform="translate(893.49,40.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.xz</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 223, 186)' fill-opacity = '0.700000' points = '900.49,41.26 935.99,41.26 935.99,33.76 900.49,33.76 '/>
+	</g>
+	<path stroke='rgb(255, 223, 186)'  d='M900.49,41.26 L935.99,41.26 L935.99,33.76 L900.49,33.76 L900.49,41.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 223, 186)' fill-opacity = '0.700000' points = '120.36,452.00 147.89,452.00 147.89,414.85 120.36,414.85 '/>
+	</g>
+	<path stroke='rgb(255, 223, 186)'  d='M120.36,452.00 L120.36,414.86 L147.88,414.86 L147.88,452.00 L120.36,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_4"  fill="none"><title>gnuplot_plot_4</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(134.12,403.11)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >14.74kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_5" ><title>basic-optimized-stripped-lto-linker.zst</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_5_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_5')">
+	<g transform="translate(893.49,55.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.zst</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 255, 186)' fill-opacity = '0.700000' points = '900.49,56.26 935.99,56.26 935.99,48.76 900.49,48.76 '/>
+	</g>
+	<path stroke='rgb(255, 255, 186)'  d='M900.49,56.26 L935.99,56.26 L935.99,48.76 L900.49,48.76 L900.49,56.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 255, 186)' fill-opacity = '0.700000' points = '166.22,452.00 193.75,452.00 193.75,404.67 166.22,404.67 '/>
+	</g>
+	<path stroke='rgb(255, 255, 186)'  d='M166.22,452.00 L166.22,404.68 L193.74,404.68 L193.74,452.00 L166.22,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_6"  fill="none"><title>gnuplot_plot_6</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(179.98,392.93)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >16.11kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_7" ><title>basic-optimized-stripped-lto-linker.gz</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_7_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_7')">
+	<g transform="translate(893.49,70.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.gz</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(186, 255, 201)' fill-opacity = '0.700000' points = '900.49,71.26 935.99,71.26 935.99,63.76 900.49,63.76 '/>
+	</g>
+	<path stroke='rgb(186, 255, 201)'  d='M900.49,71.26 L935.99,71.26 L935.99,63.76 L900.49,63.76 L900.49,71.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(186, 255, 201)' fill-opacity = '0.700000' points = '212.08,452.00 239.61,452.00 239.61,397.74 212.08,397.74 '/>
+	</g>
+	<path stroke='rgb(186, 255, 201)'  d='M212.08,452.00 L212.08,397.75 L239.60,397.75 L239.60,452.00 L212.08,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_8"  fill="none"><title>gnuplot_plot_8</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(225.84,386.00)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >17.04kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_9" ><title>basic-optimized-stripped-lto-linker.bz2</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_9_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_9')">
+	<g transform="translate(893.49,85.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.bz2</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(186, 225, 255)' fill-opacity = '0.700000' points = '900.49,86.26 935.99,86.26 935.99,78.76 900.49,78.76 '/>
+	</g>
+	<path stroke='rgb(186, 225, 255)'  d='M900.49,86.26 L935.99,86.26 L935.99,78.76 L900.49,78.76 L900.49,86.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(186, 225, 255)' fill-opacity = '0.700000' points = '257.94,452.00 285.47,452.00 285.47,393.74 257.94,393.74 '/>
+	</g>
+	<path stroke='rgb(186, 225, 255)'  d='M257.94,452.00 L257.94,393.75 L285.46,393.75 L285.46,452.00 L257.94,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_10"  fill="none"><title>gnuplot_plot_10</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(271.70,382.00)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >17.58kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_11" ><title>basic-optimized-stripped-lto-linker-upx</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_11_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_11')">
+	<g transform="translate(893.49,100.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker-upx</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(201, 186, 255)' fill-opacity = '0.700000' points = '900.49,101.26 935.99,101.26 935.99,93.76 900.49,93.76 '/>
+	</g>
+	<path stroke='rgb(201, 186, 255)'  d='M900.49,101.26 L935.99,101.26 L935.99,93.76 L900.49,93.76 L900.49,101.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(201, 186, 255)' fill-opacity = '0.700000' points = '303.81,452.00 331.33,452.00 331.33,376.83 303.81,376.83 '/>
+	</g>
+	<path stroke='rgb(201, 186, 255)'  d='M303.81,452.00 L303.81,376.84 L331.32,376.84 L331.32,452.00 L303.81,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_12"  fill="none"><title>gnuplot_plot_12</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(317.56,365.09)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >19.84kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_13" ><title>basic-optimized-stripped-lto-linker</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_13_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_13')">
+	<g transform="translate(893.49,115.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 186, 243)' fill-opacity = '0.700000' points = '900.49,116.26 935.99,116.26 935.99,108.76 900.49,108.76 '/>
+	</g>
+	<path stroke='rgb(255, 186, 243)'  d='M900.49,116.26 L935.99,116.26 L935.99,108.76 L900.49,108.76 L900.49,116.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(255, 186, 243)' fill-opacity = '0.700000' points = '349.67,452.00 377.19,452.00 377.19,289.49 349.67,289.49 '/>
+	</g>
+	<path stroke='rgb(255, 186, 243)'  d='M349.67,452.00 L349.67,289.50 L377.18,289.50 L377.18,452.00 L349.67,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_14"  fill="none"><title>gnuplot_plot_14</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(363.43,277.75)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >31.56kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_15" ><title>basic-optimized-stripped-lto</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_15_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_15')">
+	<g transform="translate(893.49,130.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped-lto</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(232, 165, 165)' fill-opacity = '0.700000' points = '900.49,131.26 935.99,131.26 935.99,123.76 900.49,123.76 '/>
+	</g>
+	<path stroke='rgb(232, 165, 165)'  d='M900.49,131.26 L935.99,131.26 L935.99,123.76 L900.49,123.76 L900.49,131.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(232, 165, 165)' fill-opacity = '0.700000' points = '395.53,452.00 423.06,452.00 423.06,289.14 395.53,289.14 '/>
+	</g>
+	<path stroke='rgb(232, 165, 165)'  d='M395.53,452.00 L395.53,289.15 L423.05,289.15 L423.05,452.00 L395.53,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_16"  fill="none"><title>gnuplot_plot_16</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(409.29,277.40)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >31.60kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_17" ><title>basic-optimized-stripped</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_17_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_17')">
+	<g transform="translate(893.49,145.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized-stripped</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(245, 203, 167)' fill-opacity = '0.700000' points = '900.49,146.26 935.99,146.26 935.99,138.76 900.49,138.76 '/>
+	</g>
+	<path stroke='rgb(245, 203, 167)'  d='M900.49,146.26 L935.99,146.26 L935.99,138.76 L900.49,138.76 L900.49,146.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(245, 203, 167)' fill-opacity = '0.700000' points = '441.39,452.00 468.92,452.00 468.92,237.52 441.39,237.52 '/>
+	</g>
+	<path stroke='rgb(245, 203, 167)'  d='M441.39,452.00 L441.39,237.53 L468.91,237.53 L468.91,452.00 L441.39,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_18"  fill="none"><title>gnuplot_plot_18</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(455.15,225.78)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >38.52kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_19" ><title>basic-optimized</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_19_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_19')">
+	<g transform="translate(893.49,160.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic-optimized</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(247, 220, 111)' fill-opacity = '0.700000' points = '900.49,161.26 935.99,161.26 935.99,153.76 900.49,153.76 '/>
+	</g>
+	<path stroke='rgb(247, 220, 111)'  d='M900.49,161.26 L935.99,161.26 L935.99,153.76 L900.49,153.76 L900.49,161.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(247, 220, 111)' fill-opacity = '0.700000' points = '487.25,452.00 514.78,452.00 514.78,167.31 487.25,167.31 '/>
+	</g>
+	<path stroke='rgb(247, 220, 111)'  d='M487.25,452.00 L487.25,167.32 L514.77,167.32 L514.77,452.00 L487.25,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_20"  fill="none"><title>gnuplot_plot_20</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(501.01,155.57)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >47.94kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_21" ><title>source-code.tar.gz</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_21_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_21')">
+	<g transform="translate(893.49,175.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >source-code.tar.gz</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(169, 223, 191)' fill-opacity = '0.700000' points = '900.49,176.26 935.99,176.26 935.99,168.76 900.49,168.76 '/>
+	</g>
+	<path stroke='rgb(169, 223, 191)'  d='M900.49,176.26 L935.99,176.26 L935.99,168.76 L900.49,168.76 L900.49,176.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(169, 223, 191)' fill-opacity = '0.700000' points = '533.11,452.00 560.64,452.00 560.64,138.03 533.11,138.03 '/>
+	</g>
+	<path stroke='rgb(169, 223, 191)'  d='M533.11,452.00 L533.11,138.04 L560.63,138.04 L560.63,452.00 L533.11,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_22"  fill="none"><title>gnuplot_plot_22</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(546.87,126.29)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >51.86kB</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_23" ><title>basic</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g id="gnuplot_plot_23_keyentry" visibility="visible" onclick="gnuplot_svg.toggleVisibility(evt,'gnuplot_plot_23')">
+	<g transform="translate(893.49,190.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >basic</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(169, 204, 227)' fill-opacity = '0.700000' points = '900.49,191.26 935.99,191.26 935.99,183.76 900.49,183.76 '/>
+	</g>
+	<path stroke='rgb(169, 204, 227)'  d='M900.49,191.26 L935.99,191.26 L935.99,183.76 L900.49,183.76 L900.49,191.26 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	</g>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon fill = 'rgb(169, 204, 227)' fill-opacity = '0.700000' points = '578.97,452.00 606.50,452.00 606.50,28.69 578.97,28.69 '/>
+	</g>
+	<path stroke='rgb(169, 204, 227)'  d='M578.97,452.00 L578.97,28.70 L606.49,28.70 L606.49,452.00 L578.97,452.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_24"  fill="none"><title>gnuplot_plot_24</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(592.73,16.95)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >66.52kB</tspan></text>
+	</g>
+</g>
+	</g>
+<g fill="none" color="#000111" stroke="rgb(255, 255, 255)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(255, 255, 255)'  d='M74.50,15.01 L74.50,452.00 L606.49,452.00 L606.49,15.01 L74.50,15.01 Z  '/>	<g transform="translate(16.00,233.51) rotate(270.00)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >File Size (bytes)</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(340.49,492.75)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >Compression/Build Type</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+
+<script type="text/javascript"><![CDATA[
+// plot boundaries and axis scaling information for mousing 
+gnuplot_svg.plot_term_xmax = 950;
+gnuplot_svg.plot_term_ymax = 500;
+gnuplot_svg.plot_xmin = 74.5;
+gnuplot_svg.plot_xmax = 606.5;
+gnuplot_svg.plot_ybot = 452.0;
+gnuplot_svg.plot_ytop = 15.0;
+gnuplot_svg.plot_width = 532.0;
+gnuplot_svg.plot_height = 437.0;
+gnuplot_svg.plot_axis_xmin = -0.3;
+gnuplot_svg.plot_axis_xmax = 11.3;
+gnuplot_svg.plot_axis_ymin = 10000;
+gnuplot_svg.plot_axis_ymax = 70000;
+gnuplot_svg.polar_mode = false;
+gnuplot_svg.plot_axis_x2min = "none";
+gnuplot_svg.plot_axis_y2min = "none";
+gnuplot_svg.plot_logaxis_x = 0;
+gnuplot_svg.plot_logaxis_y = 0;
+gnuplot_svg.plot_timeaxis_x = "";
+gnuplot_svg.plot_timeaxis_y = "";
+gnuplot_svg.hypertext_fontSize = 0;
+gnuplot_svg.hypertext_fontFamily = null;
+gnuplot_svg.hypertext_fontStyle = null;
+gnuplot_svg.hypertext_fontWeight = null;
+]]>
+</script>
+</g>
+
+  <text id="coord_text" text-anchor="start" pointer-events="none" fill="white"
+  font-size="12" font-family="Arial"
+  visibility="hidden"> </text>
+
+  <rect id="hypertextbox" class="hypertextbox" pointer-events="none"
+  fill="white" stroke="black" opacity="0.8"
+  height="16" visibility="hidden" />
+
+  <text id="hypertext" class="hypertext" pointer-events="none"
+  font-size="12" font-family="Arial"
+  visibility="hidden"> </text>
+
+  <image id="hyperimage" class="hyperimage" pointer-events="none"
+  fill="white" stroke="black" opacity="0.8"
+  height="200" width="300" visibility="hidden" />
+
+  <image x='10' y='474' width='16' height='16' 
+    xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVQokWP8//8/AymACc5iZGQkyEDRQCwgyUn///9nhGtgZISy8TBGnTSCnMRIavIGAGPTWfVV7DcfAAAAAElFTkSuQmCC'
+    onclick='gnuplot_svg.toggleGrid();'/>
+</svg>
 <table class="">
 <thead><tr>
 <th>size</th>
@@ -465,47 +1783,6 @@ More on why:<br/>
 <li><a href="https://justine.lol/sizetricks/">https://justine.lol/sizetricks/</a><br/>
 </li>
 <li><a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">https://nathanotterness.com/2021/10/tiny_elf_modernized.html</a><br/>
-
-<style>@font-face{font-family:"FairfaxOctant";src:url(/assets/FairfaxOctant.woff2) format("woff2");font-weight:normal;font-style:normal;font-display:swap}</style><script defer>
-
-document.querySelectorAll('.tabs-container').forEach(tabContainer => {
-  const panels = tabContainer.querySelectorAll('[data-tab-name]');
-
-  // Create button bar
-  const buttonBar = document.createElement('div');
-  buttonBar.className = 'tabs-buttons';
-
-  panels.forEach((panel, i) => {
-    const name = panel.dataset.tabName;
-    const btn = document.createElement('button');
-    btn.textContent = name;
-
-    btn.addEventListener('click', () => {
-      // Hide all panels
-      panels.forEach(p => p.style.display = 'none');
-      // Remove highlights from buttons
-      buttonBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      // Show the selected one
-      panel.style.display = 'block';
-      btn.classList.add('active');
-    });
-
-    // First button active by default
-    if (i === 0) {
-      btn.classList.add('active');
-      panel.style.display = 'block';
-    } else {
-      panel.style.display = 'none';
-    }
-
-    buttonBar.appendChild(btn);
-  });
-
-  // Insert button bar before the content
-  tabContainer.prepend(buttonBar);
-});
-
-</script>
 		<footer style="margin-bottom: 2em;">
 			<a class="special return-index" href="/index.html">Return To Index</a>
 		</footer>

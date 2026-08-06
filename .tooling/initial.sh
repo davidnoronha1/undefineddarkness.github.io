@@ -39,12 +39,13 @@ slugify () {
     echo "$1" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z
 }
 
-# Renders \(...\) inline math spans (KaTeX's inline delimiter) on a single
-# line via render_math.ts, same build-time approach as the "math" fenced
-# block below. Only ever called on non-code-block lines (see the call site
-# in initial_transformer) — code blocks routinely contain literal `\(`
-# sequences (regex examples etc.) that escape_code_block doesn't escape, so
-# this must never run over already-captured code content.
+# Renders \(...\) inline math spans (standard TeX inline delimiter) on a
+# single line via render_math.ts, same build-time approach as the "math"
+# fenced block below. Only ever called on non-code-block lines (see the
+# call site in initial_transformer) — code blocks routinely contain
+# literal `\(` sequences (regex examples etc.) that escape_code_block
+# doesn't escape, so this must never run over already-captured code
+# content.
 render_inline_math () {
 	local -n line_ref=${1}
 	local match rendered
@@ -54,7 +55,6 @@ render_inline_math () {
 		tex=${tex%'\)'}
 		rendered=$(bun .tooling/render_math.ts <<< "$tex")
 		line_ref=${line_ref/"$match"/"$rendered"}
-		loaded_katex_css=1
 	done < <(grep -Po '\\\(.*?\\\)' <<< "$line_ref")
 }
 
@@ -72,7 +72,6 @@ initial_transformer () {
 	local inside_paragraph=0
     local inside_transformer_block=0
 	local loaded_mermaid=0
-	local loaded_katex_css=0
 	local skip_forced_newline=0
 	local blank_run=0
 	local after_block_end=0
@@ -203,11 +202,10 @@ initial_transformer () {
 						output_ptr+="<div class=\"mermaid\">$ptr</div>" # "$ptr"
 						loaded_mermaid=1
 					elif [ "$language" = "math" ]; then
-						# Render to static HTML at build time (bun + the katex npm
-						# package) instead of shipping katex.min.js + auto-render to
-						# every page and re-rendering it client-side on every visit.
+						# Render to static SVG at build time (bun + the mathjax-full
+						# npm package) instead of shipping any math-rendering JS to
+						# the browser.
 						output_ptr+="$(bun .tooling/render_math.ts --display <<< "$ptr")$NEWL"
-						loaded_katex_css=1
 					elif [ -z "$language" ]; then
 						# Escape charachters that get caught by `final_transformer` later on
 						# TODO: Convert to single sed call
@@ -309,16 +307,6 @@ initial_transformer () {
 		<!-- MERMAID LOADING -->
 		<script defer src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" onload="mermaid.initialize({startOnLoad:true})"></script>
 		<script>document.addEventListener("DOMContentLoaded", () => mermaid.initialize({startOnLoad:true}))</script>'
-	fi
-
-	if (( loaded_katex_css )); then
-		# Math itself is already static HTML (rendered at build time by
-		# .tooling/render_math.ts, see the "math" fence branch above) — this
-		# CSS is only needed client-side for glyph styling/fonts, no JS.
-		prefix_ptr+="
-		<!-- KATEX CSS -->
-		 <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css\" integrity=\"sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP\" crossorigin=\"anonymous\">
-		"
 	fi
 
 	if (( loaded_hljs )); then

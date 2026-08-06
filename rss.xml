@@ -5,188 +5,188 @@
         <link>https://nes.is-a.dev</link>
         <description>My little corner of the internet</description>
         <language>en-us</language>
-        <pubDate>Fri, 31 Jul 2026 13:57:58 +0000</pubDate>
-        <lastBuildDate>Fri, 31 Jul 2026 13:57:58 +0000</lastBuildDate>
+        <pubDate>Thu, 06 Aug 2026 07:34:01 +0000</pubDate>
+        <lastBuildDate>Thu, 06 Aug 2026 07:34:01 +0000</lastBuildDate>
+        <item>
+            <title>C Compiler Binary Optimization</title>
+            <link>https://nes.is-a.dev/2021/small-c.html</link>
+            <description>I attempt to see how small I can get a C program using OpenGL with only compiler flags</description>
+            <pubDate>Thu, 06 Aug 2026 07:05:06 +0000</pubDate>
+            <guid>https://nes.is-a.dev/2021/small-c.html</guid>
+        </item>
+        <item>
+            <title>Approximating sin(x)</title>
+            <link>https://nes.is-a.dev/2022/approximating-sin.html</link>
+            <description>A look into various methods of approximating the sine function</description>
+            <pubDate>Thu, 06 Aug 2026 07:00:46 +0000</pubDate>
+            <guid>https://nes.is-a.dev/2022/approximating-sin.html</guid>
+        </item>
+        <item>
+            <title>Low Latency Camera Streaming in Robotics</title>
+            <link>https://nes.is-a.dev/2025/camera_streaming.html</link>
+            <description>Lessons from debugging flaky, laggy camera streams on robots.</description>
+            <pubDate>Wed, 05 Aug 2026 09:42:16 +0000</pubDate>
+            <guid>https://nes.is-a.dev/2025/camera_streaming.html</guid>
+        </item>
+        <item>
+            <title>Robotic Arm System Design</title>
+            <link>https://nes.is-a.dev/2025/robotic-arm-system-design.html</link>
+            <description>Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm</description>
+            <pubDate>Wed, 05 Aug 2026 06:53:30 +0000</pubDate>
+            <guid>https://nes.is-a.dev/2025/robotic-arm-system-design.html</guid>
+        </item>
         <item>
             <title>Fast Inverse Square Root (Quake III Arena)</title>
             <link>https://nes.is-a.dev/todo/fisr.html</link>
             <description>Breaking down the famous Quake III fast inverse square root trick.</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/todo/fisr.html</guid>
         </item>
         <item>
             <title>G-Senjou No Maou (Devil on G String)</title>
             <link>https://nes.is-a.dev/random/gsenjounomaou.html</link>
             <description>A review of the visual novel</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/random/gsenjounomaou.html</guid>
         </item>
         <item>
             <title>ZipLine 2024: My first dive in robotics</title>
             <link>https://nes.is-a.dev/2025/zipline.html</link>
             <description>A description of my experience in the IIT Techfest Meshmerize robotics competition</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/zipline.html</guid>
         </item>
         <item>
             <title>WSLg with Docker</title>
             <link>https://nes.is-a.dev/2025/wslgdocker.html</link>
             <description>Using WSLg from within Docker with Vulkan support</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/wslgdocker.html</guid>
         </item>
         <item>
             <title>ASUS TUF FA507RE</title>
             <link>https://nes.is-a.dev/2025/tuf.html</link>
             <description>A description of the bad time I've had with my new laptop</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/tuf.html</guid>
         </item>
         <item>
             <title>Reverse-enginnering SVO2</title>
             <link>https://nes.is-a.dev/2025/svo2.html</link>
             <description>The recording format from Stereolabs ZED cameras</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/svo2.html</guid>
-        </item>
-        <item>
-            <title>Robotic Arm System Design</title>
-            <link>https://nes.is-a.dev/2025/robotic-arm-system-design.html</link>
-            <description>Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
-            <guid>https://nes.is-a.dev/2025/robotic-arm-system-design.html</guid>
         </item>
         <item>
             <title>Cheapino</title>
             <link>https://nes.is-a.dev/2025/cheapino.html</link>
             <description>Building a Cheapino split mechanical keyboard from scratch.</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/cheapino.html</guid>
         </item>
         <item>
             <title>Electronic Tape Cassette</title>
             <link>https://nes.is-a.dev/2025/cassette.html</link>
             <description>How does a tape store signal data?</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/cassette.html</guid>
-        </item>
-        <item>
-            <title>Low Latency Camera Streaming in Robotics</title>
-            <link>https://nes.is-a.dev/2025/camera_streaming.html</link>
-            <description>Lessons from debugging flaky, laggy camera streams on robots.</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
-            <guid>https://nes.is-a.dev/2025/camera_streaming.html</guid>
         </item>
         <item>
             <title>stable diffussion experiments</title>
             <link>https://nes.is-a.dev/2024/sd.html</link>
             <description>My experience with Stable Diffusion</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2024/sd.html</guid>
         </item>
         <item>
             <title>modern video and image codecs</title>
             <link>https://nes.is-a.dev/2024/imgvidenc.html</link>
             <description>A brief look into modern video and image codecs</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2024/imgvidenc.html</guid>
         </item>
         <item>
             <title>2024, What can the web do?</title>
             <link>https://nes.is-a.dev/2024/fugu.html</link>
             <description>An overview of modern web capabilities</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2024/fugu.html</guid>
         </item>
         <item>
             <title>My Language Tierlist</title>
             <link>https://nes.is-a.dev/2022/tierlist.html</link>
             <description>A tierlist of programming languages I have used</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2022/tierlist.html</guid>
         </item>
         <item>
             <title>My custom markdown flavour</title>
             <link>https://nes.is-a.dev/2022/nesdown.html</link>
             <description>A description of my custom markdown parser</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2022/nesdown.html</guid>
         </item>
         <item>
             <title>Why</title>
             <link>https://nes.is-a.dev/2022/menory.html</link>
             <description>A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2022/menory.html</guid>
         </item>
         <item>
             <title>Basic Memory Introduction</title>
             <link>https://nes.is-a.dev/2022/menory.html</link>
             <description>A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2022/menory.html</guid>
-        </item>
-        <item>
-            <title>Approximating sin(x)</title>
-            <link>https://nes.is-a.dev/2022/approximating-sin.html</link>
-            <description>A look into various methods of approximating the sine function</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
-            <guid>https://nes.is-a.dev/2022/approximating-sin.html</guid>
         </item>
         <item>
             <title>Terminal tips &amp; tricks</title>
             <link>https://nes.is-a.dev/2021/xterm-sixel-nvim.html</link>
             <description>😎</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/xterm-sixel-nvim.html</guid>
         </item>
         <item>
             <title>Wayland</title>
             <link>https://nes.is-a.dev/2021/wayland.html</link>
             <description>My experience with wayland</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/wayland.html</guid>
         </item>
         <item>
             <title>Vi IMproved</title>
             <link>https://nes.is-a.dev/2021/vim.html</link>
             <description>Cool vim stuff</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/vim.html</guid>
-        </item>
-        <item>
-            <title>C Compiler Binary Optimization</title>
-            <link>https://nes.is-a.dev/2021/small-c.html</link>
-            <description>I attempt to see how small I can get a C program using OpenGL with only compiler flags</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
-            <guid>https://nes.is-a.dev/2021/small-c.html</guid>
         </item>
         <item>
             <title>Lorem Ipsum</title>
             <link>https://nes.is-a.dev/2021/lorem.html</link>
             <description>Test page for all the various markup used on this site</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/lorem.html</guid>
         </item>
         <item>
             <title>Godot for UI</title>
             <link>https://nes.is-a.dev/2021/godot.html</link>
             <description>My experience when using Godot to make a mostly UI application</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/godot.html</guid>
         </item>
         <item>
             <title>Emacs</title>
             <link>https://nes.is-a.dev/2021/emacs.html</link>
             <description>My time with emacs and all the places you can take it to</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/emacs.html</guid>
         </item>
         <item>
             <title>A day of fixing bitmap fonts on Linux/X11</title>
             <link>https://nes.is-a.dev/2021/bmps.html</link>
             <description>How to get bitmap fonts to work on linux</description>
-            <pubDate>Fri, 31 Jul 2026 13:56:17 +0000</pubDate>
+            <pubDate>Wed, 05 Aug 2026 05:16:37 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/bmps.html</guid>
         </item>
     </channel>

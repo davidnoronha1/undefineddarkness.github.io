@@ -5,6 +5,11 @@ transformers=""
 __start=0
 __outfile=""
 __infile=''
+# See protect_raw_block in helpers.sh — populated by transformers (chart,
+# gnuplot) that need their output shielded from final_transformer's
+# markdown-lite regex pass.
+declare -A __raw_blocks=()
+__raw_block_counter=0
 
 # shellcheck source=./tool/helpers.sh
 . "$_script_dir/helpers.sh"
@@ -139,7 +144,16 @@ IFS="$oIFS"
 printf '%s' "$prefix"
 dbg "Final Transformer"
 timer start
-final_transformer "$file"
+final_output=$(final_transformer "$file")
+for __rb_key in "${!__raw_blocks[@]}"; do
+	# The replacement operand of ${var//pat/repl} must be quoted — left
+	# bare, bash re-splits/re-globs it, and on content this size (the
+	# multi-KB gnuplot hover script) that corrupts arbitrary substrings
+	# (e.g. every "&&" came back duplicated as literal "RAWBLOCK_1RAWBLOCK_1")
+	# instead of leaving the block byte-for-byte as stored.
+	final_output=${final_output//$'\x01'"$__rb_key"$'\x01'/"${__raw_blocks[$__rb_key]}"}
+done
+printf '%s' "$final_output"
 timer end
 
 timer end "$__start"

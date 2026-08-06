@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Projects Listing</title>
+	<title>Portfolio</title>
 	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
 	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
@@ -158,12 +158,70 @@
 		.experiment-card.hidden {
 			display: none;
 		}
+
+		.flagship-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 2em;
+			margin-top: 1.5em;
+		}
+
+		.flagship-card {
+			border: 1px dashed var(--gray);
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		.flagship-card .experiment-preview {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--gray);
+			font-size: 1.1em;
+		}
+
+		.flagship-card .experiment-tag {
+			border-style: dashed;
+		}
+
+		h2 {
+			margin-top: 2.5em;
+		}
 	</style>
 </head>
 <body>
 	<article>
-		<h1>Projects</h1>
-		<p>A collection of small interactive projects and demos.</p>
+		<h1>Portfolio</h1>
+		<p>My flagship work, plus a running collection of smaller projects and demos.</p>
+
+		<h2>Flagship</h2>
+		<div class="flagship-grid">
+			<div class="flagship-card">
+				<div class="experiment-preview">🚧 Coming soon</div>
+				<div class="experiment-info">
+					<h3>Flagship project #1</h3>
+					<p>Placeholder - to be filled in.</p>
+				</div>
+			</div>
+
+			<div class="flagship-card">
+				<div class="experiment-preview">🚧 Coming soon</div>
+				<div class="experiment-info">
+					<h3>Flagship project #2</h3>
+					<p>Placeholder - to be filled in.</p>
+				</div>
+			</div>
+
+			<div class="flagship-card">
+				<div class="experiment-preview">🚧 Coming soon</div>
+				<div class="experiment-info">
+					<h3>Flagship project #3</h3>
+					<p>Placeholder - to be filled in.</p>
+				</div>
+			</div>
+		</div>
+
+		<h2>All Projects</h2>
 
 		<div class="callout">
 			<span>🔭</span>

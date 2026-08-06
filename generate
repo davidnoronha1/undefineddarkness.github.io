@@ -2,7 +2,7 @@
 
 # When invoked outside a container, delegate to the long-running Docker container.
 if [ ! -f /.dockerenv ]; then
-    docker compose up -d generate
+    docker compose up -d --no-recreate generate
     # Wait for bun install (first start only — instant on subsequent calls)
     until docker compose exec generate test -d node_modules 2>/dev/null; do sleep 0.5; done
     exec docker compose exec generate ./generate "$@"

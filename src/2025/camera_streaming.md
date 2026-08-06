@@ -101,77 +101,24 @@ Driver Info:
                 Streaming
                 Extended Pix Format
 Media Driver Info:
+```
 
 Here you can see all the different options exposed by the device to the `uvcvideo` driver. Typically cameras support a few image formats, I have so far only seen (rarely) H.264, MJPEG, YUV422 and NV12. These are all useful for different things, Typically unless you need the perfectly raw image from the camera, MJPEG will serve your needs very well, You can see how much bandwidth each of these consume:
 
-#GNUPLOT width=200
-set boxwidth 0.18
-set style fill solid 0.85
-set key outside right top
-set xtics nomirror
-set xtics ("H.264" 1, "H.265" 2, "AV1" 3, "VP9" 4, "MJPEG" 5, "NV12/I420" 6, "YUV422" 7, "YUV444" 8, "RAW10" 9, "RAW12" 10, "RGB24" 11)
-set title "Bandwidth (Mbps, log scale)"
-set ytics ("1" 1, "10" 10, "100" 100, "1000" 1000, "10000" 10000)
-set format y "%.0fM"
-set grid ytics
-set logscale y
-set yrange [1:10000]
-set xrange [0.5:11.5]
-set style data boxes
-
-plot '-' using ($1-0.27):2 with boxes lc rgb '#BAE1FF' title "1080p 30fps", \
-     '-' using ($1-0.09):2 with boxes lc rgb '#85B7EB' title "1080p 60fps", \
-     '-' using ($1+0.09):2 with boxes lc rgb '#FFDFBA' title "720p 30fps", \
-     '-' using ($1+0.27):2 with boxes lc rgb '#FFB347' title "720p 60fps"
-1 8
-2 4
-3 3
-4 4.5
-5 50
-6 373
-7 497
-8 746
-9 715
-10 857
-11 1492
-e
-1 16
-2 8
-3 6
-4 9
-5 100
-6 746
-7 995
-8 1493
-9 1430
-10 1714
-11 2985
-e
-1 4
-2 2
-3 1.5
-4 2
-5 22
-6 166
-7 221
-8 332
-9 319
-10 382
-11 664
-e
-1 8
-2 4
-3 3
-4 4
-5 44
-6 332
-7 442
-8 664
-9 637
-10 764
-11 1328
-e
-#END GNUPLOT
+#CHART ylog=true unit=Mbps width=700 height=400 title=Bandwidth (log scale) — hover a bar for its exact value
+category	1080p 30fps	1080p 60fps	720p 30fps	720p 60fps
+H.264	8	16	4	8
+H.265	4	8	2	4
+AV1	3	6	1.5	3
+VP9	4.5	9	2	4
+MJPEG	50	100	22	44
+NV12/I420	373	746	166	332
+YUV422	497	995	221	442
+YUV444	746	1493	332	664
+RAW10	715	1430	319	637
+RAW12	857	1714	382	764
+RGB24	1492	2985	664	1328
+#END CHART
 
 #TABLE	Format	Type	1080p/30fps	1080p/60fps	720p/30fps	720p/60fps
 H.264	Compressed	8 Mbps	16 Mbps	4 Mbps	8 Mbps
@@ -193,6 +140,7 @@ Few cameras support directly streaming H264 or compressed video output directly 
 
 For the small sizes of the video formats should give you a hint of where we are going next.
 
+```
         Model            : Integrated Camera: Integrated C
         Serial           :
         Bus info         : usb-0000:05:00.3-3

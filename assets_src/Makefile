@@ -39,10 +39,7 @@ build-other: ../out/.assets/ascii-3d-viewer.js
 
 # Fonts/icons/models/documents/etc. are no longer symlinked or built here —
 # they're picked up as plain source files by `.tooling/assets.py build`
-# (flattened into out/.assets/ with their original filename kept). To
-# regenerate FairfaxOctant.woff2 from FairfaxHD.woff2, run:
-#   uv run ./fonts/.tooling/subset_octant.py ./fonts/FairfaxHD.woff2 ./fonts/FairfaxOctant.woff2
-# and check the result in as a source file.
+# (flattened into out/.assets/ with their original filename kept).
 
 build-regen:
 # 	git diff --quiet HEAD -- ./other/ascii-3d-viewer.ts || make build-3d-viewer

@@ -61,7 +61,26 @@ get_temp_file_in_output_folder () {
 	echo "$tmpfile"
 }
 
-# escape_block () 
+# Shields a block of raw, already-final HTML/SVG/JS (e.g. gnuplot's
+# embedded "mouse standalone" hover script) from final_transformer's
+# markdown-lite regex pass, which runs over the *entire* built page and has
+# no concept of "this text is already markup" — a bare '*' pairing across a
+# line of JS becomes <i>...</i>, '==' becomes <mark>...</mark>, etc., and
+# either mangles the visible output or breaks the script outright with a
+# syntax error. escape_code_block's HTML-entity approach doesn't apply here
+# because entities aren't decoded inside <script> text content — so instead
+# this stashes the raw content in $__raw_blocks (a global assoc array pond.sh
+# declares) and prints an opaque \x01-delimited token in its place. pond.sh
+# swaps the tokens back for their real content after final_transformer runs.
+protect_raw_block () {
+    local content="$1"
+    __raw_block_counter=$(( __raw_block_counter + 1 ))
+    local key="RAWBLOCK_${__raw_block_counter}"
+    __raw_blocks[$key]="$content"
+    printf '\x01%s\x01' "$key"
+}
+
+# escape_block ()
 
 # Reset
 export C_RESET="\033[0m"

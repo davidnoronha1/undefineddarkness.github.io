@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     perl \
     fontforge-nox \
     make \
-    colorized-logs \
     ca-certificates \
     unzip \
     libavif-bin \
