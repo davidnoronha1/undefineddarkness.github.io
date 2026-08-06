@@ -1,4 +1,4 @@
-// glb-model-viewer.ts
+// wireframe-model-viewer.ts
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
@@ -9,7 +9,7 @@ interface WireframeOverlay {
   mat: THREE.LineBasicMaterial;
 }
 
-export class GlbModelViewer extends HTMLElement {
+export class WireframeModelViewer extends HTMLElement {
   private container: HTMLDivElement;
   private hud: HTMLDivElement;
 
@@ -359,4 +359,4 @@ export class GlbModelViewer extends HTMLElement {
   }
 }
 
-customElements.define("glb-model-viewer", GlbModelViewer);
+customElements.define("wireframe-model-viewer", WireframeModelViewer);

@@ -54,6 +54,16 @@
 			display: none;
 		}
 
+		.experiment-preview.live {
+			pointer-events: auto;
+		}
+
+		ascii-model-viewer,
+		wireframe-model-viewer {
+			width: 100%;
+			height: 200px;
+		}
+
 		.experiment-info {
 			padding: 1em;
 		}
@@ -192,12 +202,13 @@
 <body>
 	<article>
 		<h1>Portfolio</h1>
-		<p>My flagship work, plus a running collection of smaller projects and demos.</p>
+		<p><a href="/resumev3.pdf">Resume</a> - <a href="/out/about.html">Contact</a></p>
 
-		<h2>Flagship</h2>
 		<div class="flagship-grid">
 			<div class="flagship-card">
-				<div class="experiment-preview">🚧 Coming soon</div>
+				<div class="experiment-preview">
+					<ascii-model-viewer class="experiment-preview live" src="/assets/simple-auv-v1.glb" cols="60" mode="octant"></ascii-model-viewer>
+				</div>
 				<div class="experiment-info">
 					<h3>Flagship project #1</h3>
 					<p>Placeholder - to be filled in.</p>
@@ -356,6 +367,7 @@
 		<a href="/">← Back to home</a>
 	</footer>
 
+	<script defer src="/assets/ascii-model-viewer.js" type="module"></script>
 	<script>
 		(function () {
 			const cards = Array.from(document.querySelectorAll('.experiment-card'));
