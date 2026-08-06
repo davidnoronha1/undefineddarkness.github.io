@@ -167,21 +167,22 @@ gnuplot() {
     local content="${1//'<br/>'/}"
     shift
 
-    # Defaults
-    local width=90
-    local height=30
+    # Defaults. width/height are pixels (the svg terminal's unit) — these
+    # match chart.py's defaults so #GNUPLOT and #CHART look consistent.
+    local width=700
+    local height=400
     local title=""
     local legend=""
-    local svg="false"
+    local interactive="true"
 
     # Parse key=value pairs
     for arg in "$@"; do
         case "$arg" in
-            width=*)  width="${arg#width=}" ;;
-            height=*) height="${arg#height=}" ;;
-            title=*)  title="${arg#title=}" ;;
-            legend=*) legend="${arg#legend=}" ;;
-            svg=*)    svg="${arg#svg=}" ;;
+            width=*)       width="${arg#width=}" ;;
+            height=*)      height="${arg#height=}" ;;
+            title=*)       title="${arg#title=}" ;;
+            legend=*)      legend="${arg#legend=}" ;;
+            interactive=*) interactive="${arg#interactive=}" ;;
         esac
     done
 
@@ -211,70 +212,104 @@ gnuplot() {
     set linetype cycle 8
     "
 
-    if [[ "$svg" == "true" ]]; then
-        gnuplot_command="
-        set terminal svg dynamic enhanced font 'Arial,10' background rgb \"#111\"
-		set border lc rgb \"white\"
-		set tics textcolor rgb \"white\"
-		set key tc rgb \"white\"
-		set xlabel tc rgb \"white\"
-		set ylabel tc rgb \"white\"
-		set title tc rgb \"white\"
-        set output '|cat'
-        ${title:+set title '${title}'}
-        ${legend:+set key ${legend}}
-        ${style_block}
-        ${content}
-        exit
-        "
-        # printf '<div class="gnuplot-container">'
-        /usr/bin/env gnuplot <<<"$gnuplot_command"
-        # printf '</div>'
-    else
-        gnuplot_command="
-        set terminal block octant ansirgb size ${width},${height}
-        ${title:+set title '${title}'}
-        ${legend:+set key ${legend}}
-        ${style_block}
-        ${content}
-        exit
-        "
-        export want_tab_script=1
-        # Only the block/octant terminal (this branch) renders with
-        # FairfaxOctant (see .gnuplot-container pre in minor.css) — the svg
-        # branch above uses a normal system font. Gate the @font-face here
-        # instead of declaring it globally in typography.css, so the font
-        # is only ever fetched on pages that actually have a gnuplot plot.
-        export want_gnuplot_font=1
-        code_=$content
-        escape_code_block code_
-        printf '<div>
-                    <div class="gnuplot-container">'
-        /usr/bin/env gnuplot -p <<<"$gnuplot_command" | ansi2html -n | \
-            sed -e 's/#a0a0a0/var(--black-darker)/g' \
-                -e 's/color:#bbb;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:break-word//g'
-        printf '    </div>
-                    <details class='minor-fold'>
-                        <summary> Code</summary>
-                        <pre>
-                            <code>%s</code>
-                        </pre>
-                    </details>
-                </div>' "$code_"
-    fi
+    # mouse standalone: embeds gnuplot's own gnuplot_svg.js inline (no
+    # external script tag, no CSP issues) so per-point/box 'hypertext'
+    # labels (see the plot script itself) show as native hover tooltips —
+    # a few KB of gnuplot-maintained JS, not anything we're hand-rolling.
+    # interactive=false drops "mouse", producing plain static SVG with no
+    # embedded script at all.
+    local terminal_mouse=""
+    [[ "$interactive" != "false" ]] && terminal_mouse="mouse "
+
+    gnuplot_command="
+    set terminal svg ${terminal_mouse}standalone size ${width},${height} dynamic enhanced font 'Arial,10' background rgb \"#111\"
+	set border lc rgb \"white\"
+	set tics textcolor rgb \"white\"
+	set key tc rgb \"white\"
+	set xlabel tc rgb \"white\"
+	set ylabel tc rgb \"white\"
+	set title tc rgb \"white\"
+    set output '|cat'
+    ${title:+set title '${title}'}
+    ${legend:+set key ${legend}}
+    ${style_block}
+    ${content}
+    exit
+    "
+    # printf '<div class="gnuplot-container">'
+    # See protect_raw_block in helpers.sh — "mouse standalone" embeds a
+    # JS blob that final_transformer's markdown-lite pass would otherwise
+    # mangle (or break outright with a syntax error).
+    local svg_out
+    svg_out=$(/usr/bin/env gnuplot <<<"$gnuplot_command")
+    # gnuplot's mouse-mode boilerplate emits the coordinate-readout <text>
+    # (toggled by clicking the plot) with no fill color, so it defaults to
+    # black — invisible against our dark (#111) plot background. Force it
+    # white. (The hypertext tooltip box is unaffected — it already draws
+    # its own white background rect, see chart.py.)
+    svg_out=${svg_out/'<text id="coord_text" text-anchor="start" pointer-events="none"'/'<text id="coord_text" text-anchor="start" pointer-events="none" fill="white"'}
+    protect_raw_block "$svg_out"
+    # printf '</div>'
 }
 
-want() {
-	case "$3" in
-		"iframe_resizer")
-            export want_iframe_resizer=1
-			
-			;;
-		*)
-			printf '<!-- want transformer recieved: "%s" which was not found -->' "$3"
-			;;
-	esac
+# Static, build-time SVG bar chart with real hover tooltips — data-driven
+# wrapper around chart.py, which generates the grouped-boxes +
+# hypertext-anchor gnuplot script (see the #GNUPLOT hypertext comment
+# above) from plain tab-separated data instead of requiring it hand-written
+# per article. Same #TABLE-style authoring format; attrs are key=value
+# like #HEADER. Put title= LAST on the line since (like #HEADER/#VIDEO)
+# its value greedily eats every bare word up to the next key=, e.g.:
+#   #CHART ylog=true unit=Mbps width=700 height=400 title=Bandwidth
+#   category	1080p 30fps	1080p 60fps
+#   H.264	8	16
+#   MJPEG	50	100
+#   #END CHART
+chart () {
+    local content="${1//'<br/>'/}"
+    shift 2   # drop "CONTENT" and "#CHART"
+
+    local current_key="" current_val=()
+    while [[ $# -gt 0 ]]; do
+        if [[ "$1" == *=* ]]; then
+            if [[ -n "$current_key" ]]; then
+                eval "attr_${current_key}=\"\${current_val[*]}\""
+            fi
+            current_key="${1%%=*}"
+            current_val=("${1#*=}")
+        else
+            [[ -n "$current_key" ]] && current_val+=("$1")
+        fi
+        shift
+    done
+    if [[ -n "$current_key" ]]; then
+        eval "attr_${current_key}=\"\${current_val[*]}\""
+    fi
+
+    local chart_args=(--title "${attr_title:-}")
+    [[ -n "${attr_unit:-}" ]] && chart_args+=(--unit "${attr_unit}")
+    [[ -n "${attr_width:-}" ]] && chart_args+=(--width "${attr_width}")
+    [[ -n "${attr_height:-}" ]] && chart_args+=(--height "${attr_height}")
+    [[ "${attr_ylog:-}" == "true" ]] && chart_args+=(--ylog)
+    [[ "${attr_interactive:-}" == "false" ]] && chart_args+=(--no-interactive)
+
+    local svg_out
+    svg_out=$(python3 .tooling/chart.py "${chart_args[@]}" <<< "$content")
+    protect_raw_block "$svg_out"
 }
+
+# iframeResizer is disabled (see the commented-out want_iframe_resizer
+# block in final.sh) but kept here rather than deleted for now.
+# want() {
+# 	case "$3" in
+# 		"iframe_resizer")
+#             export want_iframe_resizer=1
+#
+# 			;;
+# 		*)
+# 			printf '<!-- want transformer recieved: "%s" which was not found -->' "$3"
+# 			;;
+# 	esac
+# }
 
 pdf () {
     export want_pdf_object=1
@@ -284,6 +319,63 @@ pdf () {
 
 redirect () {
     printf '<meta http-equiv="refresh" content="0; url=%s" />' "$3"
+}
+
+# Embed a video with alt text (for the video element's aria-label — <video>
+# has no native alt attribute) and an optional caption, e.g.:
+#   #VIDEO /assets/videos/clip.webm alt=Robot arm picking up a cup
+#   A quick clip showing the pick-and-place routine.
+#   #END VIDEO
+# alt (like #HEADER's attrs) takes every word up to the next key=value or
+# end of line — no quotes. The caption body is optional; when omitted, the
+# alt text is reused as the figcaption so there's always something visible
+# under the video.
+video () {
+    content="$1"
+    shift 2   # drop "CONTENT" and "#VIDEO"
+
+    src=()
+    current_key=""
+    current_val=()
+
+    while [[ $# -gt 0 ]]; do
+        if [[ "$1" == *=* ]]; then
+            if [[ -n "$current_key" ]]; then
+                eval "attr_${current_key}=\"\${current_val[*]}\""
+            fi
+            current_key="${1%%=*}"
+            current_val=("${1#*=}")
+        else
+            if [[ -n "$current_key" ]]; then
+                current_val+=("$1")
+            else
+                src+=("$1")
+            fi
+        fi
+        shift
+    done
+    if [[ -n "$current_key" ]]; then
+        eval "attr_${current_key}=\"\${current_val[*]}\""
+    fi
+
+    src_path="${src[*]}"
+    alt_text="${attr_alt:-}"
+    alt_text="${alt_text//&/&amp;}"
+
+    caption="${content%%'<br/>'}"
+    if [[ -z "${caption//[[:space:]]/}" ]]; then
+        caption="$alt_text"
+    fi
+
+    poster_attr=""
+    [[ -n "${attr_poster:-}" ]] && poster_attr=" poster=\"${attr_poster}\""
+
+    printf '<figure class="video-figure">
+  <video src="%s" controls preload="metadata" playsinline aria-label="%s"%s>
+    Your browser does not support the video tag. <a href="%s">Download the video</a> instead.
+  </video>
+  <figcaption>%s</figcaption>
+</figure>' "$src_path" "$alt_text" "$poster_attr" "$src_path" "$caption"
 }
 
 pdfi () {

@@ -31,13 +31,6 @@
 @font-face { font-family: 'Courier'; src: local('Courier'); unicode-range: U+0000-007F; }
 @font-face { font-family: 'Nimbus Mono PS'; src: local('Nimbus Mono PS'); unicode-range: U+0000-007F; }
 
-/* FairfaxOctant's @font-face is NOT declared here. It's injected per-page
-   by .tooling/transformers.sh's gnuplot() function (into final.sh's
-   want_gnuplot_font block) instead of globally — declaring it in this
-   always-bundled stylesheet would make every page a candidate for fetching
-   the font, not just the ones with an actual gnuplot plot. See
-   .gnuplot-container pre in minor.css for where it's used. */
-
 article {
 	font-size: var(--article-size);
 }

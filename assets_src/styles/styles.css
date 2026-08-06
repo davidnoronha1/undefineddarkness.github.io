@@ -379,7 +379,9 @@ h2.footnotes {
 }
 
 article img,
-main img {
+main img,
+article video,
+main video {
     object-fit: contain;
     object-position: left;
     max-height: 60vh;

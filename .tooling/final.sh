@@ -23,20 +23,19 @@ final_transformer() {
         s!==(.+?)==!<mark>\1</mark>!g;
 	' <<< "$content"
 
-	if [ -n "${want_gnuplot_font}" ]; then
-		printf '<style>@font-face{font-family:"FairfaxOctant";src:url(/assets/fonts/FairfaxOctant.woff2) format("woff2");font-weight:normal;font-style:normal;font-display:swap}</style>'
-	fi
-
-	if [ -n "${want_iframe_resizer}" ]; then
-		printf '
-				<script defer src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.3.2"></script>
-				<script defer>
-  					iframeResize({
-    					license: "GPLv3",
-    					waitForLoad: true,
-  				});
-				</script>'
-	fi
+	# iframeResizer disabled (dead code — never triggered by any current
+	# content, see #WANT below) but kept commented out rather than deleted
+	# for now.
+	# if [ -n "${want_iframe_resizer}" ]; then
+	# 	printf '
+	# 			<script defer src="https://cdn.jsdelivr.net/npm/@iframe-resizer/parent@5.3.2"></script>
+	# 			<script defer>
+  	# 					iframeResize({
+    # 					license: "GPLv3",
+    # 					waitForLoad: true,
+  	# 			});
+	# 			</script>'
+	# fi
 
 	if [ -n "${want_carousel_script}" ]; then
 		printf "<script defer>

@@ -16,6 +16,11 @@ Does everything in one process, one pass:
    and populates the one flat asset output folder:
      - image/video files get hashed (content-addressed) and, if they're a
        raster image, transcoded to AVIF: out/.assets/<slug>-<hash>.<ext>
+     - raw video (mp4/mov/mkv/...) gets re-encoded to AV1+Opus .webm *in
+       place* in assets_src first (see transcode_to_webm), with the
+       original deleted afterwards — a warning is printed before the
+       delete since it's destructive. The resulting .webm then goes
+       through the normal hash step above like any other video.
      - everything else is copied through verbatim, flattened, keeping its
        original filename: out/.assets/<original-basename>
 2. Immediately uses the resulting manifest (kept in memory only — nothing
@@ -27,6 +32,7 @@ Does everything in one process, one pass:
 
 import argparse
 import hashlib
+import os
 import re
 import shutil
 import subprocess
@@ -35,9 +41,12 @@ import unicodedata
 from pathlib import Path
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".jfif", ".webp", ".gif", ".bmp", ".tiff", ".avif"}
-# No video assets exist in the repo yet, but treat them the same way
-# (hashed, not transcoded) so a future drop-in doesn't need pipeline changes.
-VIDEO_EXTS = {".mp4", ".webm", ".mov", ".mkv"}
+# .webm is the one shippable video format (AV1 + Opus) — anything else is
+# raw camera/phone/editor output and gets transcoded to it (see
+# transcode_to_webm), in place, before the usual hash+copy media step.
+RAW_VIDEO_EXTS = {".mp4", ".mov", ".mkv", ".avi", ".m4v"}
+OPTIMIZED_VIDEO_EXT = ".webm"
+VIDEO_EXTS = RAW_VIDEO_EXTS | {OPTIMIZED_VIDEO_EXT}
 MEDIA_EXTS = IMAGE_EXTS | VIDEO_EXTS
 
 # Files/dirs under the source folder that aren't shippable media at all.
@@ -121,6 +130,62 @@ def convert_to_avif(src: Path, dest: Path) -> bool:
             bridge_png.unlink()
 
 
+def human_size(num_bytes: int) -> str:
+    size = float(num_bytes)
+    for unit in ("B", "KB", "MB", "GB"):
+        if size < 1024 or unit == "GB":
+            return f"{size:.1f}{unit}"
+        size /= 1024
+    return f"{size:.1f}GB"
+
+
+# Cap the longer edge at this many pixels (the "1080p" of either a
+# landscape 1920x1080 or a portrait 1080x1920 clip) — never upscales,
+# and force_original_aspect_ratio=decrease means whichever edge is
+# actually the long one gets capped, so orientation doesn't matter.
+MAX_VIDEO_LONG_EDGE = 1920
+
+
+def transcode_to_webm(src: Path) -> Path | None:
+    """Re-encode a raw video (mp4/mov/mkv/...) to AV1+Opus .webm in place,
+    downscaling so its long edge is at most MAX_VIDEO_LONG_EDGE (aspect
+    ratio preserved, never upscaled), then delete the original — printing
+    a warning first, since this is destructive and there's no undo.
+    Returns the new .webm path, or None (leaving the original untouched)
+    if the encode failed."""
+    dest = src.with_suffix(".webm")
+    result = _run([
+        "ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+        "-i", str(src),
+        "-vf",
+        f"scale='min({MAX_VIDEO_LONG_EDGE},iw)':'min({MAX_VIDEO_LONG_EDGE},ih)':"
+        "force_original_aspect_ratio=decrease:force_divisible_by=2",
+        "-c:v", "libaom-av1", "-crf", "23", "-b:v", "0",
+        # cpu-used 6 + tiling: ~6x faster than cpu-used 4 with no tiling
+        # (25s vs 2m34s on a 5s 4K sample), ~10% larger output — libaom
+        # can't otherwise spread a single frame across more than a
+        # handful of cores, so tiling is what actually uses the machine.
+        "-cpu-used", "6", "-row-mt", "1", "-tile-columns", "2", "-tile-rows", "1",
+        "-threads", str(os.cpu_count() or 4),
+        "-c:a", "libopus", "-b:a", "128k",
+        str(dest),
+    ])
+    if result.returncode != 0 or not dest.exists():
+        print(f"Error transcoding {src}: {result.stderr.decode(errors='replace').strip()}", file=sys.stderr)
+        if dest.exists():
+            dest.unlink()
+        return None
+
+    before, after = src.stat().st_size, dest.stat().st_size
+    print(
+        f"WARNING: deleting original raw video {src} after re-encoding to "
+        f"{dest.name} ({human_size(before)} -> {human_size(after)}) — no undo",
+        file=sys.stderr,
+    )
+    src.unlink()
+    return dest
+
+
 def process_media_file(path: Path, rel: str, output_root: Path, manifest: dict[str, str]) -> bool:
     """Hash + (for images) transcode a media file, flattening it into
     output_root, and record it in the manifest under key `rel`. Returns
@@ -188,6 +253,15 @@ def build_assets(source: str, posts: str, output: str) -> dict[str, str]:
 
         rel = path.relative_to(source_root).as_posix()
         ext = path.suffix.lower()
+
+        if ext in RAW_VIDEO_EXTS:
+            transcoded = transcode_to_webm(path)
+            if transcoded is None:
+                failures.append(rel)
+                continue
+            path = transcoded
+            rel = path.relative_to(source_root).as_posix()
+            ext = path.suffix.lower()
 
         if ext in MEDIA_EXTS:
             if not process_media_file(path, rel, output_root, manifest):
