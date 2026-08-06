@@ -43,9 +43,9 @@
 .callout-caution   { border-left-color: #e0605c; }
 
 .gnuplot-container {
-    width: fit-content;
+    /* width: fit-content; */
     max-width: 100%;
-    height: fit-content;
+    /* height: fit-content; */
     font-size: 0.8em;
 }
 
@@ -61,6 +61,33 @@
 .gnuplot-container svg {
     width: 100%;
     height: 100%;
+}
+
+/* Default (non-interactive) #CHART/#GNUPLOT output: gnuplot's own `block`
+   terminal (octant/braille characters, ansirgb colors) converted to HTML
+   by .tooling/gnuplot_block.py — see the comment there for why this
+   replaced plain (non-interactive) SVG as the default. */
+.gnuplot-container pre {
+    background-color: var(--white-lighter);
+    color: var(--black-darker) !important;
+    padding: 0;
+    /* FairfaxOctant (see @font-face in typography.css) has full glyph
+       coverage for the Unicode block/octant characters gnuplot draws with,
+       and is a true fixed-width font so the character grid stays aligned. */
+    font-family: 'FairfaxOctant', var(--mono-font);
+    overflow-wrap: unset !important;
+    word-wrap: unset !important;
+    /* The global `pre` rule sets white-space: normal (so long code lines
+       can wrap); that collapses gnuplot's whitespace-art layout and wraps
+       it, wrecking the character grid. Force it back to preformatted. */
+    white-space: pre !important;
+    overflow-x: auto;         /* enable horizontal scroll if too wide */
+    /* 100vw ignores the article's side padding (12vw/16vw, see styles.css),
+       so a wide plot (long "outside right" legends especially) would extend
+       past the visible column and get silently clipped by body's
+       overflow-x: hidden instead of scrolling. 100% of the actual content
+       column keeps the scrollbar the one that triggers. */
+    max-width: 100%;
 }
 
 .pxl,

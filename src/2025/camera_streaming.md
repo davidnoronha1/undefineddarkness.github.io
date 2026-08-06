@@ -105,7 +105,7 @@ Media Driver Info:
 
 Here you can see all the different options exposed by the device to the `uvcvideo` driver. Typically cameras support a few image formats, I have so far only seen (rarely) H.264, MJPEG, YUV422 and NV12. These are all useful for different things, Typically unless you need the perfectly raw image from the camera, MJPEG will serve your needs very well, You can see how much bandwidth each of these consume:
 
-#CHART ylog=true unit=Mbps width=700 height=400 title=Bandwidth (log scale) — hover a bar for its exact value
+#CHART ylog=true unit=Mbps width=700 height=400 interactive=false title=Bandwidth (log scale)
 category	1080p 30fps	1080p 60fps	720p 30fps	720p 60fps
 H.264	8	16	4	8
 H.265	4	8	2	4

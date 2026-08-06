@@ -11,21 +11,25 @@
 }
 
 :root {
-    /* Without this, browsers that don't see an explicit light/dark
+    /* Without this, browsers that don't see an explicit color-scheme
        declaration assume the page is light-only and apply their own
        "force dark" heuristic on top of it (Chrome/Android WebView do this) —
        that heuristic includes an invert-ish filter over color glyphs like
-       emoji, which is what was washing them out. Declaring both here tells
-       the browser we already handle both modes ourselves (see the
-       prefers-color-scheme block below), so it leaves rendering alone. */
-    color-scheme: light dark;
+       emoji, which is what was washing them out. Declaring "dark" tells the
+       browser this page IS dark and it already matches native dark UI
+       (scrollbars, form controls), so it leaves rendering alone instead of
+       trying to force it. */
+    color-scheme: dark;
     --margin: -0.8em;
-    --black: #181818;
-    --white: #fafafa;
-    --white-lighter: #fdfdfd;
-    --black-darker: #111;
-    --white-darker: #f0f0f0;
-    --black-lighter: #333;
+    /* Dark mode only — these used to be the light-mode defaults, overridden
+       by a prefers-color-scheme: dark media query; that query's values are
+       now just the permanent values, and the media query itself is gone. */
+    --black: #fafafa;
+    --white: #181818;
+    --white-lighter: #111;
+    --black-darker: #fdfdfd;
+    --white-darker: #333;
+    --black-lighter: #f0f0f0;
     --nv-black: #181818;
     --nv-white: #fafafa;
     --nv-black-darker: #111;
@@ -41,17 +45,6 @@ pre {
 .hljs {
     background-color: inherit !important;
     background: inherit !important;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --black: #fafafa;
-        --white: #181818;
-        --white-lighter: #111;
-        --black-darker: #fdfdfd;
-        --white-darker: #333;
-        --black-lighter: #f0f0f0;
-    }
 }
 
 /* -- DOCUMENT -- */
@@ -281,14 +274,13 @@ details[open] summary::before {
     transform: translateY(-50%) rotate(90deg);
 }
 
-@media (prefers-color-scheme: dark) {
-    summary::before {
-        /* The arrow is a solid-black SVG baked into a data URI — content:
-           url(...) is replaced content, so it doesn't inherit currentColor
-           the way an inline <svg> would. Invert it here instead of encoding
-           a second copy of the same path just to swap the fill color. */
-        filter: invert(1);
-    }
+summary::before {
+    /* The arrow is a solid-black SVG baked into a data URI — content:
+       url(...) is replaced content, so it doesn't inherit currentColor
+       the way an inline <svg> would. Invert it here instead of encoding
+       a second copy of the same path just to swap the fill color. Dark
+       mode is the only mode now, so this is unconditional. */
+    filter: invert(1);
 }
 
 /*

@@ -5,27 +5,27 @@
         <link>https://nes.is-a.dev</link>
         <description>My little corner of the internet</description>
         <language>en-us</language>
-        <pubDate>Thu, 06 Aug 2026 07:34:01 +0000</pubDate>
-        <lastBuildDate>Thu, 06 Aug 2026 07:34:01 +0000</lastBuildDate>
+        <pubDate>Thu, 06 Aug 2026 14:00:42 +0000</pubDate>
+        <lastBuildDate>Thu, 06 Aug 2026 14:00:42 +0000</lastBuildDate>
         <item>
             <title>C Compiler Binary Optimization</title>
             <link>https://nes.is-a.dev/2021/small-c.html</link>
             <description>I attempt to see how small I can get a C program using OpenGL with only compiler flags</description>
-            <pubDate>Thu, 06 Aug 2026 07:05:06 +0000</pubDate>
+            <pubDate>Thu, 06 Aug 2026 12:40:51 +0000</pubDate>
             <guid>https://nes.is-a.dev/2021/small-c.html</guid>
         </item>
         <item>
             <title>Approximating sin(x)</title>
             <link>https://nes.is-a.dev/2022/approximating-sin.html</link>
             <description>A look into various methods of approximating the sine function</description>
-            <pubDate>Thu, 06 Aug 2026 07:00:46 +0000</pubDate>
+            <pubDate>Thu, 06 Aug 2026 12:39:58 +0000</pubDate>
             <guid>https://nes.is-a.dev/2022/approximating-sin.html</guid>
         </item>
         <item>
             <title>Low Latency Camera Streaming in Robotics</title>
             <link>https://nes.is-a.dev/2025/camera_streaming.html</link>
             <description>Lessons from debugging flaky, laggy camera streams on robots.</description>
-            <pubDate>Wed, 05 Aug 2026 09:42:16 +0000</pubDate>
+            <pubDate>Thu, 06 Aug 2026 12:19:45 +0000</pubDate>
             <guid>https://nes.is-a.dev/2025/camera_streaming.html</guid>
         </item>
         <item>
