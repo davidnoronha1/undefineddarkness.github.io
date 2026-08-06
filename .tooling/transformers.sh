@@ -162,6 +162,16 @@ header () {
 }
 
 
+# Accepts true/on/1 (any case) as "yes" for a directive attribute — used by
+# #GNUPLOT/#CHART's svg= and interactive= flags so authors aren't stuck with
+# one exact spelling.
+is_on() {
+    case "${1,,}" in
+        true|on|1) return 0 ;;
+        *)         return 1 ;;
+    esac
+}
+
 gnuplot() {
     # Strip <br/> from content
     local content="${1//'<br/>'/}"
@@ -169,11 +179,18 @@ gnuplot() {
 
     # Defaults. width/height are pixels (the svg terminal's unit) — these
     # match chart.py's defaults so #GNUPLOT and #CHART look consistent.
+    # svg/interactive both default off: see the terminal-selection comment
+    # below for why plain SVG lost its reason to be the default once
+    # gnuplot's native block/octant terminal was wired in (see also
+    # .tooling/gnuplot_block.py, chart.py). interactive=true implies svg
+    # (mouse-standalone is still an SVG); svg=true alone gets you a plain,
+    # non-interactive SVG.
     local width=700
     local height=400
     local title=""
     local legend=""
-    local interactive="true"
+    local svg="false"
+    local interactive="false"
 
     # Parse key=value pairs
     for arg in "$@"; do
@@ -182,9 +199,11 @@ gnuplot() {
             height=*)      height="${arg#height=}" ;;
             title=*)       title="${arg#title=}" ;;
             legend=*)      legend="${arg#legend=}" ;;
+            svg=*)         svg="${arg#svg=}" ;;
             interactive=*) interactive="${arg#interactive=}" ;;
         esac
     done
+    is_on "$interactive" && svg="true"  # interactive implies svg
 
     dbg "Gnuplot content: ${C_FG_GRAY}'%s'${C_RESET}" "$content"
 
@@ -212,23 +231,54 @@ gnuplot() {
     set linetype cycle 8
     "
 
-    # mouse standalone: embeds gnuplot's own gnuplot_svg.js inline (no
-    # external script tag, no CSP issues) so per-point/box 'hypertext'
-    # labels (see the plot script itself) show as native hover tooltips —
-    # a few KB of gnuplot-maintained JS, not anything we're hand-rolling.
-    # interactive=false drops "mouse", producing plain static SVG with no
-    # embedded script at all.
-    local terminal_mouse=""
-    [[ "$interactive" != "false" ]] && terminal_mouse="mouse "
+    # interactive=true: svg mouse standalone, embedding gnuplot's own
+    # gnuplot_svg.js inline (no external script tag, no CSP issues) so
+    # per-point/box 'hypertext' labels (see the plot script itself) show
+    # as native hover tooltips — a few KB of gnuplot-maintained JS, not
+    # anything we're hand-rolling.
+    #
+    # svg=true (without interactive): plain static SVG, no embedded JS, no
+    # hover tooltips — for when vector output specifically is wanted
+    # (crisp at any zoom, print-friendly) without needing interactivity.
+    #
+    # default (neither set): gnuplot's own `block` terminal — Unicode
+    # octant/braille characters with ANSI truecolor (native to gnuplot
+    # >= 6.0, see `gnuplot -e "set terminal"`), converted to HTML by
+    # gnuplot_block.py. Measured against this project's own gnuplot 6.0: a
+    # plain (non-interactive, no embedded JS) SVG ran ~1.6x heavier than
+    # octant text plus the one-time cost of the LegacySymbols.woff2 font
+    # subset it needs (see typography.css), and several times heavier once
+    # that font is cached (shared across every octant/braille chart on the
+    # site) — plain SVG had no interactivity to justify the extra weight,
+    # so it's no longer the default. Pass svg=true or interactive=true if
+    # you actually want an SVG.
+    local size_line text_color
+    if is_on "$svg"; then
+        local mouse=""
+        is_on "$interactive" && mouse="mouse "
+        size_line="set terminal svg ${mouse}standalone size ${width},${height} dynamic enhanced font 'Arial,10' background rgb \"#111\""
+        text_color="white"  # against the svg terminal's own dark (#111) background
+    else
+        # block terminal `size` is character cells, not pixels — approximate
+        # a cell as 8x16px so existing width=/height= attrs carry over.
+        local cols=$(( width / 8 )); (( cols < 40 )) && cols=40; (( cols > 200 )) && cols=200
+        local char_rows=$(( height / 16 )); (( char_rows < 15 )) && char_rows=15; (( char_rows > 60 )) && char_rows=60
+        size_line="set terminal block octant ansirgb size ${cols},${char_rows}"
+        # The octant path is embedded in .gnuplot-container pre, styled via
+        # var(--white-lighter)/var(--black-darker) (see minor.css) — the
+        # site is dark-mode only now, so those resolve to a dark background
+        # and light text, same as the svg path above.
+        text_color="white"
+    fi
 
     gnuplot_command="
-    set terminal svg ${terminal_mouse}standalone size ${width},${height} dynamic enhanced font 'Arial,10' background rgb \"#111\"
-	set border lc rgb \"white\"
-	set tics textcolor rgb \"white\"
-	set key tc rgb \"white\"
-	set xlabel tc rgb \"white\"
-	set ylabel tc rgb \"white\"
-	set title tc rgb \"white\"
+    ${size_line}
+	set border lc rgb \"${text_color}\"
+	set tics textcolor rgb \"${text_color}\"
+	set key tc rgb \"${text_color}\"
+	set xlabel tc rgb \"${text_color}\"
+	set ylabel tc rgb \"${text_color}\"
+	set title tc rgb \"${text_color}\"
     set output '|cat'
     ${title:+set title '${title}'}
     ${legend:+set key ${legend}}
@@ -236,20 +286,27 @@ gnuplot() {
     ${content}
     exit
     "
-    # printf '<div class="gnuplot-container">'
+    printf '<div class="gnuplot-container">'
     # See protect_raw_block in helpers.sh — "mouse standalone" embeds a
     # JS blob that final_transformer's markdown-lite pass would otherwise
-    # mangle (or break outright with a syntax error).
-    local svg_out
-    svg_out=$(/usr/bin/env gnuplot <<<"$gnuplot_command")
-    # gnuplot's mouse-mode boilerplate emits the coordinate-readout <text>
-    # (toggled by clicking the plot) with no fill color, so it defaults to
-    # black — invisible against our dark (#111) plot background. Force it
-    # white. (The hypertext tooltip box is unaffected — it already draws
-    # its own white background rect, see chart.py.)
-    svg_out=${svg_out/'<text id="coord_text" text-anchor="start" pointer-events="none"'/'<text id="coord_text" text-anchor="start" pointer-events="none" fill="white"'}
-    protect_raw_block "$svg_out"
-    # printf '</div>'
+    # mangle (or break outright with a syntax error); the block terminal's
+    # ANSI-converted-to-HTML output goes through the same guard since it's
+    # also raw markup we don't want re-mangled.
+    local plot_out
+    plot_out=$(/usr/bin/env gnuplot <<<"$gnuplot_command")
+    if is_on "$interactive"; then
+        # gnuplot's mouse-mode boilerplate emits the coordinate-readout
+        # <text> (toggled by clicking the plot) with no fill color, so it
+        # defaults to black — invisible against our dark (#111) plot
+        # background. Force it white. (The hypertext tooltip box is
+        # unaffected — it already draws its own white background rect,
+        # see chart.py.)
+        plot_out=${plot_out/'<text id="coord_text" text-anchor="start" pointer-events="none"'/'<text id="coord_text" text-anchor="start" pointer-events="none" fill="white"'}
+    elif ! is_on "$svg"; then
+        plot_out=$(python3 .tooling/gnuplot_block.py <<<"$plot_out")
+    fi
+    protect_raw_block "$plot_out"
+    printf '</div>'
 }
 
 # Static, build-time SVG bar chart with real hover tooltips — data-driven
@@ -290,11 +347,18 @@ chart () {
     [[ -n "${attr_width:-}" ]] && chart_args+=(--width "${attr_width}")
     [[ -n "${attr_height:-}" ]] && chart_args+=(--height "${attr_height}")
     [[ "${attr_ylog:-}" == "true" ]] && chart_args+=(--ylog)
-    [[ "${attr_interactive:-}" == "false" ]] && chart_args+=(--no-interactive)
+    # chart.py now defaults to the (lighter) octant terminal — see the
+    # comment above gnuplot()'s terminal selection for why plain SVG was
+    # dropped as the default. svg=true opts into a plain SVG,
+    # interactive=true into the real SVG with hover tooltips.
+    is_on "${attr_svg:-}" && chart_args+=(--svg)
+    is_on "${attr_interactive:-}" && chart_args+=(--interactive)
 
+    printf '<div class="gnuplot-container">'
     local svg_out
     svg_out=$(python3 .tooling/chart.py "${chart_args[@]}" <<< "$content")
     protect_raw_block "$svg_out"
+    printf '</div>'
 }
 
 # iframeResizer is disabled (see the commented-out want_iframe_resizer

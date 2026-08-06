@@ -1,8 +1,3 @@
-build-3d-viewer: ./ascii-3d-viewer.js
-
-./ascii-3d-viewer.js: ./other/ascii-3d-viewer.ts
-	@bun build ./other/ascii-3d-viewer.ts --outfile ./ascii-3d-viewer.js --bundle --minify
-
 # --- Configuration ---
 
 # Source files are in the 'styles' subdirectory relative to this Makefile.
@@ -25,22 +20,18 @@ $(OUTPUT_CSS): $(CSS_SOURCES)
 
 build-css: $(OUTPUT_CSS)
 
-../out/.assets/ascii-3d-viewer.js: ./other/ascii-3d-viewer.ts
-# 	bun build ./other/ascii-3d-viewer.ts --outfile ../out/.assets/ascii-3d-viewer.tmp.js --no-bundle
-# 	bunx rollup -i ../out/.assets/ascii-3d-viewer.tmp.js -o ../out/.assets/ascii-3d-viewer.bundle.js -p @rollup/plugin-node-resolve --compact
-# 	bun build ../out/.assets/ascii-3d-viewer.bundle.js --outfile ../out/.assets/ascii-3d-viewer.js --minify
-# 	rm ../out/.assets/ascii-3d-viewer.tmp.js ../out/.assets/ascii-3d-viewer.bundle.js
-# Alternative single-step bundling (uncomment if preferred
-	@bun build ./other/ascii-3d-viewer.ts --outfile ../out/.assets/ascii-3d-viewer.js --bundle --minify
-# 	bunx rollup -i ./other/ascii-3d-viewer.ts -o ../out/.assets/ascii-3d-viewer.js --file --format iife --compact --silent --plugin @rollup/plugin-typescript --plugin @rollup/plugin-node-resolve --plugin rollup-plugin-terser
-	
+../out/.assets/wireframe-model-viewer.js: ./other/wireframe-model-viewer.ts
+	@bun build ./other/wireframe-model-viewer.ts --outfile ../out/.assets/wireframe-model-viewer.js --bundle --minify
 
-build-other: ../out/.assets/ascii-3d-viewer.js
+../out/.assets/ascii-model-viewer.js: ./other/ascii-model-viewer.ts
+	@bun build ./other/ascii-model-viewer.ts --outfile ../out/.assets/ascii-model-viewer.js --bundle --minify
+
+build-other: ../out/.assets/wireframe-model-viewer.js ../out/.assets/ascii-model-viewer.js
 
 # Fonts/icons/models/documents/etc. are no longer symlinked or built here —
 # they're picked up as plain source files by `.tooling/assets.py build`
 # (flattened into out/.assets/ with their original filename kept).
 
 build-regen:
-# 	git diff --quiet HEAD -- ./other/ascii-3d-viewer.ts || make build-3d-viewer
+# 	git diff --quiet HEAD -- ./other/wireframe-model-viewer.ts || make build-other
 	@make -s build-css

@@ -7,6 +7,7 @@ package-lock.jsonreseach/fsin
 ./research/fsin
 experiments/tinyc/out
 .tooling/__pycache__
+assets_src/fonts/.tooling/__pycache__
 bun.lockb
 .vercel
 out/.pond-tmp/

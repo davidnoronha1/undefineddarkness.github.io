@@ -56,7 +56,7 @@ SKIP_SUFFIXES = {".ts"}
 
 # Build outputs that live in the same flat output folder but aren't
 # produced by this script (postcss/bun handle these) — never prune them.
-PROTECTED_NAMES = {"styles.css", "ascii-3d-viewer.js"}
+PROTECTED_NAMES = {"styles.css", "wireframe-model-viewer.js", "ascii-model-viewer.js"}
 
 HASH_HEXLEN = 10
 
@@ -348,7 +348,7 @@ def resolve_reference(value: str, manifest: dict[str, str], context_year: str) -
 
     if anchor is not None:
         if subpath in PROTECTED_NAMES:
-            # Fixed-name build output (styles.css, ascii-3d-viewer.js) —
+            # Fixed-name build output (styles.css, model-viewer bundles) —
             # not tracked in the manifest, already correct as-is.
             return None
 

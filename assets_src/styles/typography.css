@@ -8,8 +8,32 @@
    emoji) that generic serif/monospace has no glyph for. */
 :root {
 	--display-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Times New Roman', Times, serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-	--mono-font: 'Courier New', Courier, 'Nimbus Mono PS', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+	--mono-font: 'FairfaxOctant', 'Courier New', Courier, 'Nimbus Mono PS', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 	--article-size: 1em;
+}
+
+/* Block/braille/octant characters (gnuplot's `block` terminal, used for
+   #CHART/#GNUPLOT — see .tooling/gnuplot_block.py) aren't in most system
+   fonts yet, octants especially (Unicode 16, added 2024). LegacySymbols.woff2
+   is FairfaxHD subset down to just these ranges plus Basic Latin (see
+   assets_src/fonts/.tooling/subset_legacy_symbols.py) — the full
+   FairfaxHD.woff2 runs ~730KB, which would make a chart's *font* cost
+   dwarf the markup it's paired with; this subset is ~25KB, small enough
+   that even a cold cache loading it for one chart still comes out lighter
+   than the interactive SVG terminal's embedded JS. Basic Latin has to be
+   in the unicode-range too, not just in the font file: gnuplot's octant
+   output mixes plain ASCII (axis numbers, labels, titles) in with the
+   block glyphs, and unicode-range is what the browser uses to decide
+   which font a given character comes from — leaving Latin out of the
+   range meant the browser used a *different* fallback font for spaces
+   and digits than for the octant glyphs next to them, and that font's
+   metrics didn't match FairfaxOctant's, breaking the monospace character
+   grid the whole rendering depends on being uniform. */
+@font-face {
+	font-family: 'FairfaxOctant';
+	src: url('/assets/LegacySymbols.woff2') format('woff2');
+	unicode-range: U+0000-007F, U+2580-259F, U+1FB00-1FBFF, U+1CC00-1CEBF, U+2800-28FF;
+	font-display: swap;
 }
 
 /* Text fonts have glyphs for scattered symbol/dingbat codepoints (the

@@ -100,7 +100,7 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 
 I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
 
-#GNUPLOT width=950 height=500
+#GNUPLOT width=950 height=500 svg=true
 set boxwidth 0.6
 set style fill solid 0.7
 set key outside right
