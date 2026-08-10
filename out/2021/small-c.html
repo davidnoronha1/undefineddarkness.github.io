@@ -37,7 +37,7 @@
 	<meta name="twitter:title" content="C Compiler Binary Optimization" />
 	<meta name="twitter:description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags" />
 	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"FairfaxOctant","Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.gnuplot-container{font-size:.8em;max-width:100%}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;max-width:100%;overflow-x:auto;white-space:pre!important}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
+	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.gnuplot-container{font-size:.8em;max-width:100%}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;letter-spacing:-.6px;line-height:.99;max-width:100%;overflow-x:auto;white-space:pre!important}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",
@@ -169,515 +169,58 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 <br/>
 I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br/>
 <br/>
-<div class="gnuplot-container"><?xml version="1.0" encoding="utf-8"  standalone="no"?>
-<svg 
- viewBox="0 0 950 500"
- xmlns="http://www.w3.org/2000/svg"
- xmlns:xlink="http://www.w3.org/1999/xlink"
->
-
-<title>Gnuplot</title>
-<desc>Produced by GNUPLOT 6.0 patchlevel 2 </desc>
-
-<g id="gnuplot_canvas">
-
-<rect x="0" y="0" width="950" height="500" fill="#000111"/>
-<defs>
-
-	<circle id='gpDot' r='0.5' stroke-width='0.5' stroke='currentColor'/>
-	<path id='gpPt0' stroke-width='0.267' stroke='currentColor' d='M-1,0 h2 M0,-1 v2'/>
-	<path id='gpPt1' stroke-width='0.267' stroke='currentColor' d='M-1,-1 L1,1 M1,-1 L-1,1'/>
-	<path id='gpPt2' stroke-width='0.267' stroke='currentColor' d='M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1'/>
-	<rect id='gpPt3' stroke-width='0.267' stroke='currentColor' x='-1' y='-1' width='2' height='2'/>
-	<rect id='gpPt4' stroke-width='0.267' stroke='currentColor' fill='currentColor' x='-1' y='-1' width='2' height='2'/>
-	<circle id='gpPt5' stroke-width='0.267' stroke='currentColor' cx='0' cy='0' r='1'/>
-	<use xlink:href='#gpPt5' id='gpPt6' fill='currentColor' stroke='none'/>
-	<path id='gpPt7' stroke-width='0.267' stroke='currentColor' d='M0,-1.33 L-1.33,0.67 L1.33,0.67 z'/>
-	<use xlink:href='#gpPt7' id='gpPt8' fill='currentColor' stroke='none'/>
-	<use xlink:href='#gpPt7' id='gpPt9' stroke='currentColor' transform='rotate(180)'/>
-	<use xlink:href='#gpPt9' id='gpPt10' fill='currentColor' stroke='none'/>
-	<use xlink:href='#gpPt3' id='gpPt11' stroke='currentColor' transform='rotate(45)'/>
-	<use xlink:href='#gpPt11' id='gpPt12' fill='currentColor' stroke='none'/>
-	<path id='gpPt13' stroke-width='0.267' stroke='currentColor' d='M0,1.330 L1.265,0.411 L0.782,-1.067 L-0.782,-1.076 L-1.265,0.411 z'/>
-	<use xlink:href='#gpPt13' id='gpPt14' fill='currentColor' stroke='none'/>
-	<filter id='textbox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
-	  <feFlood flood-color='#000111' flood-opacity='1' result='bgnd'/>
-	  <feComposite in='SourceGraphic' in2='bgnd' operator='atop'/>
-	</filter>
-	<filter id='greybox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
-	  <feFlood flood-color='lightgrey' flood-opacity='1' result='grey'/>
-	  <feComposite in='SourceGraphic' in2='grey' operator='atop'/>
-	</filter>
-</defs>
-<g fill="none" color="#000111" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,452.00 L606.49,452.00  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,452.00 L82.00,452.00 M606.49,452.00 L598.99,452.00  '/>	<g transform="translate(67.50,455.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 10000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,379.17 L606.49,379.17  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,379.17 L82.00,379.17 M606.49,379.17 L598.99,379.17  '/>	<g transform="translate(67.50,382.42)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 20000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,306.34 L606.49,306.34  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,306.34 L82.00,306.34 M606.49,306.34 L598.99,306.34  '/>	<g transform="translate(67.50,309.59)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 30000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,233.50 L606.49,233.50  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,233.50 L82.00,233.50 M606.49,233.50 L598.99,233.50  '/>	<g transform="translate(67.50,236.75)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 40000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,160.67 L606.49,160.67  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,160.67 L82.00,160.67 M606.49,160.67 L598.99,160.67  '/>	<g transform="translate(67.50,163.92)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 50000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,87.84 L606.49,87.84  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,87.84 L82.00,87.84 M606.49,87.84 L598.99,87.84  '/>	<g transform="translate(67.50,91.09)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 60000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="rgb(255, 255, 255)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M74.50,15.01 L606.49,15.01  '/></g>
-<g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,15.01 L82.00,15.01 M606.49,15.01 L598.99,15.01  '/>	<g transform="translate(67.50,18.26)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 70000</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M88.26,452.00 L88.26,444.50  '/>	<g transform="translate(88.26,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >7z</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M134.12,452.00 L134.12,444.50  '/>	<g transform="translate(134.12,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >xz</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M179.98,452.00 L179.98,444.50  '/>	<g transform="translate(179.98,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >zst</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M225.84,452.00 L225.84,444.50  '/>	<g transform="translate(225.84,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >gz</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M271.70,452.00 L271.70,444.50  '/>	<g transform="translate(271.70,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >bz2</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M317.56,452.00 L317.56,444.50  '/>	<g transform="translate(317.56,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >upx</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M363.43,452.00 L363.43,444.50  '/>	<g transform="translate(363.43,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >linker</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M409.29,452.00 L409.29,444.50  '/>	<g transform="translate(409.29,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >-flto</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M455.15,452.00 L455.15,444.50  '/>	<g transform="translate(455.15,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >-s</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M501.01,452.00 L501.01,444.50  '/>	<g transform="translate(501.01,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >-Os</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M546.87,452.00 L546.87,444.50  '/>	<g transform="translate(546.87,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >source</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M592.73,452.00 L592.73,444.50  '/>	<g transform="translate(592.73,470.25)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >basic</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,15.01 L74.50,452.00 L606.49,452.00 L606.49,15.01 L74.50,15.01 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-	<g id="gnuplot_plot_1" ><title>basic-optimized-stripped-lto-linker.7z</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,25.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.7z</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 179, 186)' fill-opacity = '0.700000' points = '900.49,26.26 935.99,26.26 935.99,18.76 900.49,18.76 '/>
-	</g>
-	<path stroke='rgb(255, 179, 186)'  d='M900.49,26.26 L935.99,26.26 L935.99,18.76 L900.49,18.76 L900.49,26.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 179, 186)' fill-opacity = '0.700000' points = '74.50,452.00 102.03,452.00 102.03,417.19 74.50,417.19 '/>
-	</g>
-	<path stroke='rgb(255, 179, 186)'  d='M74.50,452.00 L74.50,417.20 L102.02,417.20 L102.02,452.00 L74.50,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_2"  fill="none"><title>gnuplot_plot_2</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(88.26,405.45)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >14.43kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_3" ><title>basic-optimized-stripped-lto-linker.xz</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,40.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.xz</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 223, 186)' fill-opacity = '0.700000' points = '900.49,41.26 935.99,41.26 935.99,33.76 900.49,33.76 '/>
-	</g>
-	<path stroke='rgb(255, 223, 186)'  d='M900.49,41.26 L935.99,41.26 L935.99,33.76 L900.49,33.76 L900.49,41.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 223, 186)' fill-opacity = '0.700000' points = '120.36,452.00 147.89,452.00 147.89,414.85 120.36,414.85 '/>
-	</g>
-	<path stroke='rgb(255, 223, 186)'  d='M120.36,452.00 L120.36,414.86 L147.88,414.86 L147.88,452.00 L120.36,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_4"  fill="none"><title>gnuplot_plot_4</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(134.12,403.11)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >14.74kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_5" ><title>basic-optimized-stripped-lto-linker.zst</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,55.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.zst</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 255, 186)' fill-opacity = '0.700000' points = '900.49,56.26 935.99,56.26 935.99,48.76 900.49,48.76 '/>
-	</g>
-	<path stroke='rgb(255, 255, 186)'  d='M900.49,56.26 L935.99,56.26 L935.99,48.76 L900.49,48.76 L900.49,56.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 255, 186)' fill-opacity = '0.700000' points = '166.22,452.00 193.75,452.00 193.75,404.67 166.22,404.67 '/>
-	</g>
-	<path stroke='rgb(255, 255, 186)'  d='M166.22,452.00 L166.22,404.68 L193.74,404.68 L193.74,452.00 L166.22,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_6"  fill="none"><title>gnuplot_plot_6</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(179.98,392.93)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >16.11kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_7" ><title>basic-optimized-stripped-lto-linker.gz</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,70.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.gz</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(186, 255, 201)' fill-opacity = '0.700000' points = '900.49,71.26 935.99,71.26 935.99,63.76 900.49,63.76 '/>
-	</g>
-	<path stroke='rgb(186, 255, 201)'  d='M900.49,71.26 L935.99,71.26 L935.99,63.76 L900.49,63.76 L900.49,71.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(186, 255, 201)' fill-opacity = '0.700000' points = '212.08,452.00 239.61,452.00 239.61,397.74 212.08,397.74 '/>
-	</g>
-	<path stroke='rgb(186, 255, 201)'  d='M212.08,452.00 L212.08,397.75 L239.60,397.75 L239.60,452.00 L212.08,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_8"  fill="none"><title>gnuplot_plot_8</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(225.84,386.00)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >17.04kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_9" ><title>basic-optimized-stripped-lto-linker.bz2</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,85.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker.bz2</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(186, 225, 255)' fill-opacity = '0.700000' points = '900.49,86.26 935.99,86.26 935.99,78.76 900.49,78.76 '/>
-	</g>
-	<path stroke='rgb(186, 225, 255)'  d='M900.49,86.26 L935.99,86.26 L935.99,78.76 L900.49,78.76 L900.49,86.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(186, 225, 255)' fill-opacity = '0.700000' points = '257.94,452.00 285.47,452.00 285.47,393.74 257.94,393.74 '/>
-	</g>
-	<path stroke='rgb(186, 225, 255)'  d='M257.94,452.00 L257.94,393.75 L285.46,393.75 L285.46,452.00 L257.94,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_10"  fill="none"><title>gnuplot_plot_10</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(271.70,382.00)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >17.58kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_11" ><title>basic-optimized-stripped-lto-linker-upx</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,100.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker-upx</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(201, 186, 255)' fill-opacity = '0.700000' points = '900.49,101.26 935.99,101.26 935.99,93.76 900.49,93.76 '/>
-	</g>
-	<path stroke='rgb(201, 186, 255)'  d='M900.49,101.26 L935.99,101.26 L935.99,93.76 L900.49,93.76 L900.49,101.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(201, 186, 255)' fill-opacity = '0.700000' points = '303.81,452.00 331.33,452.00 331.33,376.83 303.81,376.83 '/>
-	</g>
-	<path stroke='rgb(201, 186, 255)'  d='M303.81,452.00 L303.81,376.84 L331.32,376.84 L331.32,452.00 L303.81,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_12"  fill="none"><title>gnuplot_plot_12</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(317.56,365.09)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >19.84kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_13" ><title>basic-optimized-stripped-lto-linker</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,115.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto-linker</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 186, 243)' fill-opacity = '0.700000' points = '900.49,116.26 935.99,116.26 935.99,108.76 900.49,108.76 '/>
-	</g>
-	<path stroke='rgb(255, 186, 243)'  d='M900.49,116.26 L935.99,116.26 L935.99,108.76 L900.49,108.76 L900.49,116.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(255, 186, 243)' fill-opacity = '0.700000' points = '349.67,452.00 377.19,452.00 377.19,289.49 349.67,289.49 '/>
-	</g>
-	<path stroke='rgb(255, 186, 243)'  d='M349.67,452.00 L349.67,289.50 L377.18,289.50 L377.18,452.00 L349.67,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_14"  fill="none"><title>gnuplot_plot_14</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(363.43,277.75)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >31.56kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_15" ><title>basic-optimized-stripped-lto</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,130.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped-lto</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(232, 165, 165)' fill-opacity = '0.700000' points = '900.49,131.26 935.99,131.26 935.99,123.76 900.49,123.76 '/>
-	</g>
-	<path stroke='rgb(232, 165, 165)'  d='M900.49,131.26 L935.99,131.26 L935.99,123.76 L900.49,123.76 L900.49,131.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(232, 165, 165)' fill-opacity = '0.700000' points = '395.53,452.00 423.06,452.00 423.06,289.14 395.53,289.14 '/>
-	</g>
-	<path stroke='rgb(232, 165, 165)'  d='M395.53,452.00 L395.53,289.15 L423.05,289.15 L423.05,452.00 L395.53,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_16"  fill="none"><title>gnuplot_plot_16</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(409.29,277.40)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >31.60kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_17" ><title>basic-optimized-stripped</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,145.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized-stripped</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(245, 203, 167)' fill-opacity = '0.700000' points = '900.49,146.26 935.99,146.26 935.99,138.76 900.49,138.76 '/>
-	</g>
-	<path stroke='rgb(245, 203, 167)'  d='M900.49,146.26 L935.99,146.26 L935.99,138.76 L900.49,138.76 L900.49,146.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(245, 203, 167)' fill-opacity = '0.700000' points = '441.39,452.00 468.92,452.00 468.92,237.52 441.39,237.52 '/>
-	</g>
-	<path stroke='rgb(245, 203, 167)'  d='M441.39,452.00 L441.39,237.53 L468.91,237.53 L468.91,452.00 L441.39,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_18"  fill="none"><title>gnuplot_plot_18</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(455.15,225.78)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >38.52kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_19" ><title>basic-optimized</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,160.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic-optimized</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(247, 220, 111)' fill-opacity = '0.700000' points = '900.49,161.26 935.99,161.26 935.99,153.76 900.49,153.76 '/>
-	</g>
-	<path stroke='rgb(247, 220, 111)'  d='M900.49,161.26 L935.99,161.26 L935.99,153.76 L900.49,153.76 L900.49,161.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(247, 220, 111)' fill-opacity = '0.700000' points = '487.25,452.00 514.78,452.00 514.78,167.31 487.25,167.31 '/>
-	</g>
-	<path stroke='rgb(247, 220, 111)'  d='M487.25,452.00 L487.25,167.32 L514.77,167.32 L514.77,452.00 L487.25,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_20"  fill="none"><title>gnuplot_plot_20</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(501.01,155.57)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >47.94kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_21" ><title>source-code.tar.gz</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,175.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >source-code.tar.gz</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(169, 223, 191)' fill-opacity = '0.700000' points = '900.49,176.26 935.99,176.26 935.99,168.76 900.49,168.76 '/>
-	</g>
-	<path stroke='rgb(169, 223, 191)'  d='M900.49,176.26 L935.99,176.26 L935.99,168.76 L900.49,168.76 L900.49,176.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(169, 223, 191)' fill-opacity = '0.700000' points = '533.11,452.00 560.64,452.00 560.64,138.03 533.11,138.03 '/>
-	</g>
-	<path stroke='rgb(169, 223, 191)'  d='M533.11,452.00 L533.11,138.04 L560.63,138.04 L560.63,452.00 L533.11,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_22"  fill="none"><title>gnuplot_plot_22</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(546.87,126.29)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >51.86kB</tspan></text>
-	</g>
-</g>
-	</g>
-	<g id="gnuplot_plot_23" ><title>basic</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(893.49,190.76)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >basic</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(169, 204, 227)' fill-opacity = '0.700000' points = '900.49,191.26 935.99,191.26 935.99,183.76 900.49,183.76 '/>
-	</g>
-	<path stroke='rgb(169, 204, 227)'  d='M900.49,191.26 L935.99,191.26 L935.99,183.76 L900.49,183.76 L900.49,191.26 Z  '/></g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon fill = 'rgb(169, 204, 227)' fill-opacity = '0.700000' points = '578.97,452.00 606.50,452.00 606.50,28.69 578.97,28.69 '/>
-	</g>
-	<path stroke='rgb(169, 204, 227)'  d='M578.97,452.00 L578.97,28.70 L606.49,28.70 L606.49,452.00 L578.97,452.00 Z  '/></g>
-	</g>
-	<g id="gnuplot_plot_24"  fill="none"><title>gnuplot_plot_24</title>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(592.73,16.95)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >66.52kB</tspan></text>
-	</g>
-</g>
-	</g>
-<g fill="none" color="#000111" stroke="rgb(255, 255, 255)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(255, 255, 255)'  d='M74.50,15.01 L74.50,452.00 L606.49,452.00 L606.49,15.01 L74.50,15.01 Z  '/>	<g transform="translate(16.00,233.51) rotate(270.00)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >File Size (bytes)</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(340.49,492.75)" stroke="none" fill="rgb(255,255,255)" font-family="Arial" font-size="10.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >Compression/Build Type</tspan></text>
-	</g>
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-</g>
-</g>
-</svg></div>
+<div class="gnuplot-container"><pre class="gnuplot-block">                                                                                                                                                                                                        
+     <span style="color:#ffffff">70000 𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆66.52kB𜶙                                                  
+           ▐                                                                                                                                  </span><span style="color:#a0c8dc">𜺠▂▂▂▂▂▂</span><span style="color:#f0f0f0">𜷕   </span><span style="color:#ffffff">basic-optimized-stripped-lto-linker.7z </span><span style="color:#ffb4b4">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">   basic-optimized-stripped-lto-linker.xz </span><span style="color:#ffdcb4">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">  basic-optimized-stripped-lto-linker.zst </span><span style="color:#ffffb4">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">   basic-optimized-stripped-lto-linker.gz </span><span style="color:#b4ffc8">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">  basic-optimized-stripped-lto-linker.bz2 </span><span style="color:#b4dcff">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">  basic-optimized-stripped-lto-linker-upx </span><span style="color:#c8b4ff">𜴡🮅🮅🮅🮅𜴍  
+     </span><span style="color:#ffffff">60000 ▐𜺣</span><span style="color:#a0a0a0">𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">      basic-optimized-stripped-lto-linker </span><span style="color:#ffb4f0">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">             basic-optimized-stripped-lto </span><span style="color:#f0a0a0">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                 basic-optimized-stripped </span><span style="color:#f0c8a0">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                          basic-optimized </span><span style="color:#f0dc78">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                       source-code.tar.gz </span><span style="color:#a0dcc8">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                      51.86kB     </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                    basic </span><span style="color:#a0c8dc">𜴡🮅🮅🮅🮅𜴍  
+           </span><span style="color:#ffffff">▐                                                                                                                      </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                                      </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+     50000 ▐𜴉</span><span style="color:#a0a0a0">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘</span><span style="color:#ffffff">47.94kB</span><span style="color:#a0a0a0">𜴘 𜴘 𜴘</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                              38.52kB     </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+     40000 ▐𜺨</span><span style="color:#a0a0a0">𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫</span><span style="color:#f0c8a0">▗𜷜▄𜷜▄𜷜▄𜷜▖</span><span style="color:#a0a0a0">𜺫 𜺫</span><span style="color:#f0dc78">▐███████ </span><span style="color:#a0a0a0">𜺫 𜺫</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜺫 𜺫</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                              </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                              </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                                              </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       31.56kB     31.60kB    </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">▂▂▂▂▂▂▂𜺣    </span><span style="color:#f0a0a0">▂▂▂▂▂▂▂𜺣   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+     30000 ▐𜴉</span><span style="color:#a0a0a0">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span><span style="color:#ffb4f0">███████▌</span><span style="color:#a0a0a0">𜴘 𜴘 </span><span style="color:#f0a0a0">███████▌</span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#f0c8a0">▐███████▌</span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#f0dc78">▐███████ </span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                                                           19.84kB     </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+     20000 ▐𜴀</span><span style="color:#a0a0a0">𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 </span><span style="color:#ffffff">17.58kB </span><span style="color:#a0a0a0">𜴃 𜴃 </span><span style="color:#c8b4ff">███████▌</span><span style="color:#a0a0a0">𜴃 𜴃 </span><span style="color:#ffb4f0">███████▌</span><span style="color:#a0a0a0">𜴃 𜴃 </span><span style="color:#f0a0a0">███████▌</span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#f0c8a0">▐███████▌</span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#f0dc78">▐███████ </span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                       16.11kB     17.04kB     </span><span style="color:#b4dcff">▂▂▂▂▂▂▂𜺣    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐                       </span><span style="color:#ffffb4">𜺠▂▂▂▂▂▂▂    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           14.43kB     14.74kB     </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐</span><span style="color:#ffb4b4">▆▆▆▆▆▆▆    </span><span style="color:#ffdcb4">▐███████    </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐</span><span style="color:#ffb4b4">███████    </span><span style="color:#ffdcb4">▐███████    </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+           ▐</span><span style="color:#ffb4b4">███████    </span><span style="color:#ffdcb4">▐███████    </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
+     10000 ▐</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#fff0dc">𜷕</span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffdc">𜷕</span><span style="color:#ffffdc;background:#ffffff"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#dcf0ff">𜷀</span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#dcdcff">𜷀</span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffdcf0">𜷀</span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0c8c8">𜷀</span><span style="color:#ffffff">▂▂▂</span><span style="color:#f0dcc8">𜷕</span><span style="color:#f0dcc8;background:#ffffff"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0dcc8">𜷀</span><span style="color:#ffffff">▂▂▂</span><span style="color:#f0f0b4">𜷕</span><span style="color:#f0f0b4;background:#ffffff"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#c8f0dc">𜷕</span><span style="color:#c8f0dc;background:#ffffff"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#c8dcf0">𜷕</span><span style="color:#c8dcf0;background:#ffffff"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">𜷕</span><span style="color:#ffffff">                                                  
+              7z          xz         zst          gz         bz2         upx       linker       -flto        -s         -Os        source      basic                                                    
+                                                                                                                                                                                                        
+                                                                     Compression/Build Type                                                                                                             
+</span>
+</pre></div>
 <table class="">
 <thead><tr>
 <th>size</th>
@@ -749,66 +292,66 @@ BASIC_CC = ${CC} ${SOURCES} ${LIBS} -march=native -fuse-ld=lld
 all: build-all
 
 basic:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_CC} -o out/basic
 	
 BASIC_OPTIMIZED_CC = ${BASIC_CC}  -Oz -fno-ident -fno-asynchronous-unwind-tables 
 basic-optimized:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_CC} -o out/basic-optimized
 
 BASIC_OPTIMIZED_STRIPPED_CC = ${BASIC_OPTIMIZED_CC} -s
 basic-optimized-stripped:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_STRIPPED_CC} -o out/basic-optimized-stripped
 
 BASIC_OPTIMIZED_STRIPPED_LTO_CC = ${BASIC_OPTIMIZED_STRIPPED_CC} -flto
 basic-optimized-stripped-lto:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -o out/basic-optimized-stripped-lto
 
 BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC = ${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -z noseparate-code -Wl,--gc-sections -Wl,--strip-all -Wl,--icf=all -Wl,--lto-O3 -Wl,-O2
 basic-optimized-stripped-lto-linker:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	${BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC} -o out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-zstd: basic-optimized-stripped-lto-linker
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	zstd -22 --ultra -f out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker.zst
 
 basic-optimized-stripped-lto-linker-compressed-gz:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.gz
 	gzip --best -f out/basic-optimized-stripped-lto-linker -c &gt; out/basic-optimized-stripped-lto-linker.gz
 
 basic-optimized-stripped-lto-linker-compressed-xz:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.xz
 	xz -e -k -9 out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-bzip2:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.bz2
 	bzip2 -k --best ./out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-7z:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker.7z
 &#35; 	7z a -mx=9 -m0=LZMA2 -mfb=64 -md=64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
 	7z a -mx=9 out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
 
 basic-optimized-stripped-lto-linker-compressed-upx: basic-optimized-stripped-lto-linker
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	rm -f out/basic-optimized-stripped-lto-linker-upx
 	upx --ultra-brute --no-lzma out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker-upx
 
 source-code:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	mkdir -p out
 	cp makefile src.c tigr.c tigr.h out/
 	tar -czf out/source-code.tar.gz -C out makefile src.c tigr.c tigr.h
@@ -825,11 +368,11 @@ build-all: basic \
 			basic-optimized-stripped-lto-linker-compressed-bzip2 \
 			basic-optimized-stripped-lto-linker-compressed-7z \
 			source-code
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	du -b out/&ast;
 
 clean:
-	&&#35;64;echo &quot;\033&lsqb;1m$&&#35;64;:\033&lsqb;0m&quot;
+	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
 	rm -rf out	</code>
 </pre>
 	</p>

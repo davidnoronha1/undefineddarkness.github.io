@@ -252,18 +252,23 @@ gnuplot() {
     # site) — plain SVG had no interactivity to justify the extra weight,
     # so it's no longer the default. Pass svg=true or interactive=true if
     # you actually want an SVG.
+    # noenhanced on both terminals: gnuplot's enhanced text mode treats a
+    # bare "_"/"^" as subscript/superscript markup and swallows the
+    # character instead of printing it (e.g. a title/label with an
+    # underscore loses it entirely, words running together) — content here
+    # isn't written expecting TeX-style markup, so turn it off.
     local size_line text_color
     if is_on "$svg"; then
         local mouse=""
         is_on "$interactive" && mouse="mouse "
-        size_line="set terminal svg ${mouse}standalone size ${width},${height} dynamic enhanced font 'Arial,10' background rgb \"#111\""
+        size_line="set terminal svg ${mouse}standalone size ${width},${height} dynamic noenhanced font 'Arial,10' background rgb \"#111\""
         text_color="white"  # against the svg terminal's own dark (#111) background
     else
         # block terminal `size` is character cells, not pixels — approximate
         # a cell as 8x16px so existing width=/height= attrs carry over.
         local cols=$(( width / 8 )); (( cols < 40 )) && cols=40; (( cols > 200 )) && cols=200
         local char_rows=$(( height / 16 )); (( char_rows < 15 )) && char_rows=15; (( char_rows > 60 )) && char_rows=60
-        size_line="set terminal block octant ansirgb size ${cols},${char_rows}"
+        size_line="set terminal block octant ansirgb noenhanced size ${cols},${char_rows}"
         # The octant path is embedded in .gnuplot-container pre, styled via
         # var(--white-lighter)/var(--black-darker) (see minor.css) — the
         # site is dark-mode only now, so those resolve to a dark background
@@ -321,6 +326,8 @@ gnuplot() {
 #   H.264	8	16
 #   MJPEG	50	100
 #   #END CHART
+# csv=true reads the data as comma-separated instead of tab-separated
+# (passed through to chart.py --csv), for authoring/pasting data as CSV.
 chart () {
     local content="${1//'<br/>'/}"
     shift 2   # drop "CONTENT" and "#CHART"
@@ -353,6 +360,11 @@ chart () {
     # interactive=true into the real SVG with hover tooltips.
     is_on "${attr_svg:-}" && chart_args+=(--svg)
     is_on "${attr_interactive:-}" && chart_args+=(--interactive)
+    is_on "${attr_csv:-}" && chart_args+=(--csv)
+    # labels=true by default (chart.py's own default) — each bar gets its
+    # value printed above it, matching the hand-written small-c.md style.
+    # Set labels=false to opt out.
+    [[ "${attr_labels:-}" == "false" ]] && chart_args+=(--no-labels)
 
     printf '<div class="gnuplot-container">'
     local svg_out

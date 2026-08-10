@@ -15,7 +15,7 @@ Even for something like \(\sin(\pi/12)\),
 
 Fortunatley, many brilliant mathematicians have come with approximations for these functions, Some which we humans can use and some which we cant.
 
-#GNUPLOT
+#GNUPLOT width=1024 height=800
 
 set xrange [-10:10]
 set yrange [-2:2]
@@ -34,7 +34,7 @@ plot f(x)  lc rgb "#FFB3BA" lw 2 title "sin(x)", \
      t5(x) lc rgb "#FFFFBA" lw 2 title "5th order", \
      t7(x) lc rgb "#D7BAFF" lw 2 title "7th order"
 #END GNUPLOT
-#GNUPLOT
+#GNUPLOT width=1024 height=800
 
 set zeroaxis
 
@@ -89,7 +89,7 @@ While taylor series are extremely useful and a variant is used to calculate sin(
 
 There is a wonderful video by 3blue1brown, visually demonstrating this: https://youtu.be/3d6DsjIBzJ4
 
-#GNUPLOT
+#GNUPLOT width=1024 height=800
 set yrange [-1000:1000]
 set zeroaxis
 t9(x) = x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880

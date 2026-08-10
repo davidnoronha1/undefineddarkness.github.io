@@ -81,6 +81,8 @@
        can wrap); that collapses gnuplot's whitespace-art layout and wraps
        it, wrecking the character grid. Force it back to preformatted. */
     white-space: pre !important;
+    line-height: 0.99;
+    letter-spacing: -0.6px;
     overflow-x: auto;         /* enable horizontal scroll if too wide */
     /* 100vw ignores the article's side padding (12vw/16vw, see styles.css),
        so a wide plot (long "outside right" legends especially) would extend
