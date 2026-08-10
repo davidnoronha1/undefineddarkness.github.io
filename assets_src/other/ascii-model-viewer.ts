@@ -3,8 +3,9 @@
 // Custom element packaging the ASCII renderer from experiments/ascii-render.html:
 // renders a .glb/.gltf/.obj model offscreen with three.js, reads the pixels back
 // each frame, and displays them as monospace ASCII art (character ramp, braille,
-// or octant blocks). Drag to rotate, Shift+drag to pan, scroll to zoom. An expand
-// button toggles native fullscreen, and auto-rotation pauses while the user is
+// or octant blocks). Drag to rotate, Shift+drag to pan, scroll to zoom; on touch,
+// one finger rotates and two fingers pinch-zoom/pan. An expand button toggles
+// native fullscreen, and auto-rotation pauses while the user is
 // dragging/zooming, resuming after a few seconds of idle.
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -84,6 +85,14 @@ const OCTANT_GLYPHS = OCTANT_CODEPOINTS.map((cp) => String.fromCodePoint(cp));
 const FONT_STACK =
   '"FairfaxOctant", "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace';
 
+// Inline SVG rather than a Unicode glyph (e.g. ⛶ U+26F6) for the expand
+// button — that glyph's font coverage is inconsistent across platforms and
+// renders as a missing-character box on several of them.
+const EXPAND_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+const COLLAPSE_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+
 export class AsciiModelViewer extends HTMLElement {
   // How long after the user stops dragging/zooming before auto-rotation
   // resumes, in milliseconds.
@@ -138,6 +147,9 @@ export class AsciiModelViewer extends HTMLElement {
   private prevY = 0;
   private rotation = new THREE.Quaternion();
   private targetRotation = new THREE.Quaternion();
+  // Default/reset camera distance, overridable via the `distance` attribute
+  // so individual embeds can start more or less zoomed in.
+  private initialDistance = 6;
   private distance = 6;
   private targetDistance = 6;
   private panX = 0;
@@ -145,7 +157,17 @@ export class AsciiModelViewer extends HTMLElement {
   private animationId?: number;
   private resizeObserver?: ResizeObserver;
   private onPointerMove = (e: PointerEvent) => this.handlePointerMove(e);
-  private onPointerUp = () => this.handlePointerUp();
+  private onPointerUp = (e: PointerEvent) => this.handlePointerUp(e);
+
+  // Multi-touch state: two simultaneous pointers are treated as a
+  // pinch-to-zoom + two-finger pan gesture instead of rotate.
+  private activePointers = new Map<number, { x: number; y: number }>();
+  private pinchStartDist = 0;
+  private pinchStartDistanceValue = 0;
+  private pinchStartMidX = 0;
+  private pinchStartMidY = 0;
+  private pinchStartPanX = 0;
+  private pinchStartPanY = 0;
 
   // True while the user is actively dragging/zooming, or during the idle
   // grace period right after — auto-rotation stays paused for both.
@@ -169,6 +191,7 @@ export class AsciiModelViewer extends HTMLElement {
         cursor: grab;
         overflow: hidden;
         user-select: none;
+        touch-action: none;
       }
       #stage.dragging { cursor: grabbing; }
       #ascii {
@@ -191,16 +214,16 @@ export class AsciiModelViewer extends HTMLElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        border-radius: 4px;
-        background: rgba(0, 0, 0, 0.45);
+        border: none;
+        background: none;
+        padding: 0;
         color: #fff;
-        font-size: 0.9em;
-        line-height: 1;
         cursor: pointer;
         opacity: 0.6;
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
         transition: opacity 0.15s ease;
       }
+      #expand-btn svg { width: 60%; height: 60%; }
       #expand-btn:hover { opacity: 1; }
       :host(:fullscreen) {
         width: 100vw;
@@ -225,7 +248,7 @@ export class AsciiModelViewer extends HTMLElement {
     this.expandBtn = document.createElement("button");
     this.expandBtn.id = "expand-btn";
     this.expandBtn.type = "button";
-    this.expandBtn.textContent = "⛶";
+    this.expandBtn.innerHTML = EXPAND_ICON;
     this.expandBtn.setAttribute("aria-label", "Expand viewer");
     // Fullscreen must be requested from a direct user gesture on this
     // button — stop the pointerdown here so it doesn't also register as
@@ -250,7 +273,8 @@ export class AsciiModelViewer extends HTMLElement {
       "disable-pan",
       "disable-rotate",
       "fg",
-      "bg"
+      "bg",
+      "distance"
     ];
   }
 
@@ -285,6 +309,7 @@ export class AsciiModelViewer extends HTMLElement {
     this.disableRotate = this.hasAttribute("disable-rotate");
     this.fg = this.getAttribute("fg") || "#d8d8d8";
     this.bg = this.getAttribute("bg") || "#0b0b0b";
+    this.initialDistance = parseFloat(this.getAttribute("distance") ?? "6") || 6;
   }
 
   connectedCallback(): void {
@@ -309,6 +334,7 @@ export class AsciiModelViewer extends HTMLElement {
     this.animationId = undefined;
     window.removeEventListener("pointermove", this.onPointerMove);
     window.removeEventListener("pointerup", this.onPointerUp);
+    window.removeEventListener("pointercancel", this.onPointerUp);
     document.removeEventListener("fullscreenchange", this.onFullscreenChange);
     if (this.idleTimer !== undefined) window.clearTimeout(this.idleTimer);
     if (this.resizeObserver) this.resizeObserver.disconnect();
@@ -324,7 +350,7 @@ export class AsciiModelViewer extends HTMLElement {
 
   private syncFullscreenUi(): void {
     const isFullscreen = document.fullscreenElement === this;
-    this.expandBtn.textContent = isFullscreen ? "✕" : "⛶";
+    this.expandBtn.innerHTML = isFullscreen ? COLLAPSE_ICON : EXPAND_ICON;
     this.expandBtn.setAttribute(
       "aria-label",
       isFullscreen ? "Exit fullscreen" : "Expand viewer"
@@ -424,20 +450,29 @@ export class AsciiModelViewer extends HTMLElement {
     this.pivot!.rotation.set(0, 0, 0);
     this.rotation.identity();
     this.targetRotation.identity();
-    this.distance = 6;
-    this.targetDistance = 6;
+    this.distance = this.initialDistance;
+    this.targetDistance = this.initialDistance;
   }
 
   private addInteractions(): void {
     this.container.addEventListener("pointerdown", (e: PointerEvent) => {
-      this.isDragging = true;
-      this.prevX = e.clientX;
-      this.prevY = e.clientY;
-      this.container.classList.add("dragging");
+      this.activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (this.activePointers.size === 1) {
+        this.isDragging = true;
+        this.prevX = e.clientX;
+        this.prevY = e.clientY;
+        this.container.classList.add("dragging");
+      } else if (this.activePointers.size === 2) {
+        // A second finger landed: stop treating this as a rotate-drag and
+        // start a pinch-zoom + two-finger-pan gesture instead.
+        this.isDragging = false;
+        this.beginPinch();
+      }
       this.markInteracting();
     });
     window.addEventListener("pointermove", this.onPointerMove);
     window.addEventListener("pointerup", this.onPointerUp);
+    window.addEventListener("pointercancel", this.onPointerUp);
     this.container.addEventListener(
       "wheel",
       (e: WheelEvent) => {
@@ -452,6 +487,39 @@ export class AsciiModelViewer extends HTMLElement {
       },
       { passive: false }
     );
+  }
+
+  // Captures the starting finger separation/midpoint/pan so subsequent
+  // pinch updates can be computed as deltas from this baseline.
+  private beginPinch(): void {
+    const pts = Array.from(this.activePointers.values());
+    const [a, b] = pts;
+    this.pinchStartDist = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+    this.pinchStartDistanceValue = this.targetDistance;
+    this.pinchStartMidX = (a.x + b.x) / 2;
+    this.pinchStartMidY = (a.y + b.y) / 2;
+    this.pinchStartPanX = this.panX;
+    this.pinchStartPanY = this.panY;
+  }
+
+  private updatePinch(): void {
+    const pts = Array.from(this.activePointers.values());
+    const [a, b] = pts;
+    if (!this.disableZoom) {
+      const dist = Math.hypot(a.x - b.x, a.y - b.y) || 1;
+      const ratio = dist / this.pinchStartDist;
+      this.targetDistance = Math.max(
+        2,
+        Math.min(20, this.pinchStartDistanceValue / ratio)
+      );
+    }
+    if (!this.disablePan) {
+      const midX = (a.x + b.x) / 2;
+      const midY = (a.y + b.y) / 2;
+      const panSpeed = 0.003;
+      this.panX = this.pinchStartPanX + (midX - this.pinchStartMidX) * panSpeed;
+      this.panY = this.pinchStartPanY - (midY - this.pinchStartMidY) * panSpeed;
+    }
   }
 
   // Called the moment the user starts (or continues) dragging/zooming:
@@ -476,6 +544,15 @@ export class AsciiModelViewer extends HTMLElement {
   }
 
   private handlePointerMove(e: PointerEvent): void {
+    if (!this.activePointers.has(e.pointerId)) return;
+    this.activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (this.activePointers.size >= 2) {
+      this.updatePinch();
+      this.markInteracting();
+      return;
+    }
+
     if (!this.isDragging) return;
     const dx = e.clientX - this.prevX;
     const dy = e.clientY - this.prevY;
@@ -495,11 +572,23 @@ export class AsciiModelViewer extends HTMLElement {
     }
   }
 
-  private handlePointerUp(): void {
-    if (!this.isDragging) return;
-    this.isDragging = false;
-    this.container.classList.remove("dragging");
-    this.scheduleIdleResume();
+  private handlePointerUp(e: PointerEvent): void {
+    if (!this.activePointers.has(e.pointerId)) return;
+    this.activePointers.delete(e.pointerId);
+
+    if (this.activePointers.size === 0) {
+      this.isDragging = false;
+      this.container.classList.remove("dragging");
+      this.scheduleIdleResume();
+    } else if (this.activePointers.size === 1) {
+      // Dropped from pinch (two fingers) back to a single finger: resume
+      // rotate-drag from the remaining finger's current position so it
+      // doesn't jump.
+      const [pos] = this.activePointers.values();
+      this.isDragging = true;
+      this.prevX = pos.x;
+      this.prevY = pos.y;
+    }
   }
 
   private computeGrid(): void {
@@ -716,8 +805,8 @@ export class AsciiModelViewer extends HTMLElement {
   public resetView(): void {
     this.rotation.identity();
     this.targetRotation.identity();
-    this.distance = 6;
-    this.targetDistance = 6;
+    this.distance = this.initialDistance;
+    this.targetDistance = this.initialDistance;
     this.panX = 0;
     this.panY = 0;
   }

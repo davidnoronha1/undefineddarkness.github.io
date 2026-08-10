@@ -40,7 +40,12 @@ escape_code_block () {
 escape_highlighted_code_block () {
 	local -n retptr=${1}
 	ptr=$retptr
+	# Protect numeric character references (e.g. `&#39;`) the highlighter
+	# already emitted, so the '#' escape below doesn't double-encode them
+	# into `&&#35;39;`.
+	ptr=${ptr//'&#'/$'\x02AMPHASH\x02'}
 	ptr=${ptr//'#'/'&#35;'}
+	ptr=${ptr//$'\x02AMPHASH\x02'/'&#'}
 	ptr=${ptr//'['/'&lsqb;'}
 	ptr=${ptr//']'/'&rsqb;'}
 	ptr=${ptr//'*'/'&#42;'}

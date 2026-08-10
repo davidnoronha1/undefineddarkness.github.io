@@ -37,16 +37,17 @@ it for now, so only the bar's top is hoverable.) This script generates
 that boilerplate from plain tab-separated data instead of requiring every
 article to hand-write it.
 
-Usage: chart.py --title "..." [--unit Mbps] [--ylog] [--width 700] [--height 400] [--svg | --interactive] < data.tsv
+Usage: chart.py --title "..." [--unit Mbps] [--ylog] [--width 700] [--height 400] [--svg | --interactive] [--csv] < data.tsv
 
-Input format (tab-separated, header row = series names, first column of
-each row = category name):
+Input format (tab-separated by default, or comma-separated with --csv;
+header row = series names, first column of each row = category name):
     category	Series A	Series B
     Row 1	8	16
     Row 2	4	8
 """
 
 import argparse
+import csv
 import subprocess
 import sys
 from pathlib import Path
@@ -61,13 +62,28 @@ def gp_str(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def pixels_to_char_grid(width: int, height: int) -> tuple[int, int]:
+def pixels_to_char_grid(
+    width: int, height: int, categories: list[str] | None = None, has_key: bool = False
+) -> tuple[int, int]:
     """The block terminal's `size` is in character cells, not pixels, but
     #CHART/#GNUPLOT directives are authored with pixel width=/height=
     (shared with the svg terminal) — approximate a terminal cell as 8x16px
     so existing width=/height= attrs carry over without new syntax."""
     cols = max(40, min(200, round(width / 8)))
     rows = max(15, min(60, round(height / 16)))
+    if categories:
+        # The block terminal centers each xtic label under its bar group
+        # with no word-wrap or truncation — if the plot area doesn't have
+        # at least one label-width of room per category, adjacent labels
+        # (e.g. "sixel-256"/"sixel-1024") run together with no separating
+        # space. Reserve columns for the y-axis/unit label on the left and
+        # the key legend on the right (if shown), then make sure what's
+        # left divides evenly enough across categories to fit their labels.
+        y_margin = 9
+        key_margin = 22 if has_key else 0
+        needed_plot_cols = len(categories) * (max(len(c) for c in categories) + 1)
+        needed = y_margin + key_margin + needed_plot_cols
+        cols = max(cols, min(200, needed))
     return cols, rows
 
 
@@ -81,10 +97,19 @@ def main() -> None:
     p.add_argument("--svg", action="store_true", default=False)
     p.add_argument("--interactive", action="store_true", default=False)
     p.add_argument("--no-interactive", dest="interactive", action="store_false")  # explicit synonym for the default
+    p.add_argument("--csv", action="store_true", default=False)
+    # Matches the hand-written grouped-bar style in src/2021/small-c.md
+    # (a companion `with labels offset 0,1` layer per series, printing each
+    # bar's own value above it) — on by default so #CHART authors get it
+    # for free instead of hand-rolling the extra plot layer.
+    p.add_argument("--no-labels", dest="labels", action="store_false", default=True)
     args = p.parse_args()
     args.svg = args.svg or args.interactive  # interactive implies svg
 
-    rows = [line.split("\t") for line in sys.stdin.read().strip("\n").split("\n")]
+    if args.csv:
+        rows = list(csv.reader(sys.stdin.read().strip("\n").split("\n")))
+    else:
+        rows = [line.split("\t") for line in sys.stdin.read().strip("\n").split("\n")]
     header, *data_rows = rows
     series = header[1:]
     categories = [r[0] for r in data_rows]
@@ -96,28 +121,39 @@ def main() -> None:
 
     xtics = ", ".join(f'"{gp_str(c)}" {i + 1}' for i, c in enumerate(categories))
 
+    # noenhanced everywhere: enhanced text treats a bare "_"/"^" as
+    # subscript/superscript markup, silently swallowing the character
+    # instead of printing it (e.g. a "zstd_mb" series name rendered as
+    # "zstdmb", no separator left at all) — none of title/unit/category/
+    # series text here wants TeX-style markup, so just turn it off.
     if args.svg:
         mouse = "mouse " if args.interactive else ""
         terminal_line = (
             f'set terminal svg {mouse}standalone size {args.width},{args.height} '
-            f'dynamic enhanced font "Arial,10" background rgb "#111"'
+            f'dynamic noenhanced font "Arial,10" background rgb "#111"'
         )
         text_color = "white"  # against the svg terminal's own dark (#111) background
     else:
-        cols, char_rows = pixels_to_char_grid(args.width, args.height)
-        terminal_line = f"set terminal block octant ansirgb size {cols},{char_rows}"
+        # The key/legend eats real character columns on the right (block
+        # terminal, no word-wrap) — account for that when sizing the grid
+        # so category labels like "sixel-256"/"sixel-1024" still get room
+        # to not run together.
+        cols, char_rows = pixels_to_char_grid(args.width, args.height, categories=categories, has_key=True)
+        terminal_line = f"set terminal block octant ansirgb noenhanced size {cols},{char_rows}"
         # The octant path is embedded in .gnuplot-container pre, styled via
         # var(--white-lighter)/var(--black-darker) (see minor.css) — the
         # site is dark-mode only now, so those resolve to a dark background
         # and light text, same as the svg path above.
         text_color = "white"
 
+    key_line = f'set key tc rgb "{text_color}" outside right top'
+
     lines = [
         terminal_line,
         "set output '|cat'",
         f'set border lc rgb "{text_color}"',
         f'set tics textcolor rgb "{text_color}"',
-        f'set key tc rgb "{text_color}" outside right top',
+        key_line,
         f'set title tc rgb "{text_color}"',
         f'set ylabel tc rgb "{text_color}"',
         f'set title "{gp_str(args.title)}"' if args.title else "",
@@ -130,7 +166,13 @@ def main() -> None:
         # y-axis; 0.75 leaves a more comfortable ~0.35.
         f"set xrange [{0.5 - 0.25}:{m + 0.5 + 0.25}]",
         f"set boxwidth {box_w:.4f}",
-        "set style fill solid 0.85",
+        # solid 1.0: partial fill alpha has no true blending in the block
+        # terminal (no per-pixel alpha channel) — it dithers instead,
+        # which at octant resolution shows up as a visible checkerboard/
+        # dotted texture inside every bar. Full opacity renders solid
+        # fills as actually solid. The svg terminal blends alpha for real,
+        # so keep 0.85 there for the softer look.
+        "set style fill solid 0.85" if args.svg else "set style fill solid 1.0",
         # Gridlines cost real bytes in the octant path (each crossing is a
         # distinct anti-aliased blend color -> its own <span>) for little
         # benefit — octant text isn't read for precise values the way a
@@ -143,6 +185,13 @@ def main() -> None:
     for i, s in enumerate(series):
         color, off = PALETTE[i % len(PALETTE)], offsets[i]
         plot_specs.append(f"'-' using ($1{off:+.4f}):2 with boxes lc rgb '{color}' title \"{gp_str(s)}\"")
+    if args.labels:
+        for i, s in enumerate(series):
+            off = offsets[i]
+            plot_specs.append(
+                f"'-' using ($1{off:+.4f}):2:(sprintf(\"%g\", $2)) "
+                f"with labels offset 0,1 tc rgb '{text_color}' notitle"
+            )
     if args.interactive:
         # Hypertext tooltips only make sense with the "mouse" terminal —
         # skip this layer entirely for static (non-interactive) output.
@@ -155,10 +204,9 @@ def main() -> None:
             )
     lines.append("plot " + ", \\\n     ".join(plot_specs))
 
-    # Each plot spec above reads its own copy of the data from stdin. The
-    # boxes layer always needs one pass; the hypertext layer (if present)
-    # needs the same data repeated again.
-    passes = 2 if args.interactive else 1
+    # Each plot spec above reads its own copy of the data from stdin — one
+    # pass per layer (boxes always, value-labels/hypertext each add one).
+    passes = 1 + (1 if args.labels else 0) + (1 if args.interactive else 0)
     for _pass in range(passes):
         for i in range(n):
             for row_i, cat in enumerate(categories):

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url><loc>https://nes.is-a.dev/</loc><lastmod>2026-08-06</lastmod></url>
-    <url><loc>https://nes.is-a.dev/about.html</loc><lastmod>2026-08-06</lastmod></url>
-    <url><loc>https://nes.is-a.dev/2021/small-c.html</loc><lastmod>2026-08-06</lastmod></url>
-    <url><loc>https://nes.is-a.dev/2022/approximating-sin.html</loc><lastmod>2026-08-06</lastmod></url>
+    <url><loc>https://nes.is-a.dev/</loc><lastmod>2026-08-10</lastmod></url>
+    <url><loc>https://nes.is-a.dev/about.html</loc><lastmod>2026-08-10</lastmod></url>
+    <url><loc>https://nes.is-a.dev/2021/small-c.html</loc><lastmod>2026-08-07</lastmod></url>
+    <url><loc>https://nes.is-a.dev/2022/approximating-sin.html</loc><lastmod>2026-08-07</lastmod></url>
+    <url><loc>https://nes.is-a.dev/2021/xterm-sixel-nvim.html</loc><lastmod>2026-08-07</lastmod></url>
     <url><loc>https://nes.is-a.dev/2025/camera_streaming.html</loc><lastmod>2026-08-06</lastmod></url>
     <url><loc>https://nes.is-a.dev/2025/robotic-arm-system-design.html</loc><lastmod>2026-08-05</lastmod></url>
     <url><loc>https://nes.is-a.dev/todo/fisr.html</loc><lastmod>2026-08-05</lastmod></url>
@@ -20,7 +21,6 @@
     <url><loc>https://nes.is-a.dev/2022/tierlist.html</loc><lastmod>2026-08-05</lastmod></url>
     <url><loc>https://nes.is-a.dev/2022/nesdown.html</loc><lastmod>2026-08-05</lastmod></url>
     <url><loc>https://nes.is-a.dev/2022/menory.html</loc><lastmod>2026-08-05</lastmod></url>
-    <url><loc>https://nes.is-a.dev/2021/xterm-sixel-nvim.html</loc><lastmod>2026-08-05</lastmod></url>
     <url><loc>https://nes.is-a.dev/2021/wayland.html</loc><lastmod>2026-08-05</lastmod></url>
     <url><loc>https://nes.is-a.dev/2021/vim.html</loc><lastmod>2026-08-05</lastmod></url>
     <url><loc>https://nes.is-a.dev/2021/lorem.html</loc><lastmod>2026-08-05</lastmod></url>

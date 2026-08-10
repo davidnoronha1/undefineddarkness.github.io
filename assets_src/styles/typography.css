@@ -8,7 +8,7 @@
    emoji) that generic serif/monospace has no glyph for. */
 :root {
 	--display-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Times New Roman', Times, serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-	--mono-font: 'FairfaxOctant', 'Courier New', Courier, 'Nimbus Mono PS', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+	--mono-font: 'Courier New', Courier, 'Nimbus Mono PS', monospace, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 	--article-size: 1em;
 }
 

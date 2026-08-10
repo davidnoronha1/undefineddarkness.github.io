@@ -100,9 +100,9 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 
 I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
 
-#GNUPLOT width=950 height=500 svg=true
+#GNUPLOT width=2000 height=800
 set boxwidth 0.6
-set style fill solid 0.7
+set style fill solid 1
 set key outside right
 set xtics nomirror
 set xtics ("7z" 0, "xz" 1, "zst" 2, "gz" 3, "bz2" 4, "upx" 5, "linker" 6, "-flto" 7, "-s" 8, "-Os" 9, "source" 10, "basic" 11)
