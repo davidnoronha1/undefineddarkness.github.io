@@ -23,10 +23,15 @@ build-css: $(OUTPUT_CSS)
 ../out/.assets/wireframe-model-viewer.js: ./other/wireframe-model-viewer.ts
 	@bun build ./other/wireframe-model-viewer.ts --outfile ../out/.assets/wireframe-model-viewer.js --bundle --minify
 
-../out/.assets/ascii-model-viewer.js: ./other/ascii-model-viewer.ts
-	@bun build ./other/ascii-model-viewer.ts --outfile ../out/.assets/ascii-model-viewer.js --bundle --minify
+../out/.assets/ascii-model-viewer.js: ../ascii-model-viewer/ascii-model-viewer.ts
+	@bun build ../ascii-model-viewer/ascii-model-viewer.ts --outfile ../out/.assets/ascii-model-viewer.js --bundle --minify
 
-build-other: ../out/.assets/wireframe-model-viewer.js ../out/.assets/ascii-model-viewer.js
+# Standalone demo — fully bundled (three + OBJLoader inlined, no CDN)
+# Source is canonical in ../../ascii-model-viewer/, output lives with the demo at experiments/ascii-model-viewer/
+../experiments/ascii-model-viewer/ascii-render.js: ../ascii-model-viewer/ascii-render.ts
+	@bun build ../ascii-model-viewer/ascii-render.ts --outfile ../experiments/ascii-model-viewer/ascii-render.js --bundle --minify --target browser
+
+build-other: ../out/.assets/wireframe-model-viewer.js ../out/.assets/ascii-model-viewer.js ../experiments/ascii-model-viewer/ascii-render.js
 
 # Fonts/icons/models/documents/etc. are no longer symlinked or built here —
 # they're picked up as plain source files by `.tooling/assets.py build`

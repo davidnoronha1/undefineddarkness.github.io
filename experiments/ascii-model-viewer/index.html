@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASCII 3D Renderer</title>
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --fg: #d8d8d8;
+    --accent: #6cf27a;
+    --panel: rgba(20, 20, 20, 0.85);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow: hidden;
+  }
+  #stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    cursor: grab;
+  }
+  #stage.dragging { cursor: grabbing; }
+  /* Braille and the octant blocks (Unicode 16, added 2024) aren't in most
+     system fonts yet. LegacySymbols.woff2 is FairfaxHD subset down to just
+     these ranges (assets_src/fonts/.tooling/subset_legacy_symbols.py) — a
+     ~22KB file instead of FairfaxHD's full ~730KB, scoped via unicode-range
+     so it only loads for these symbol codepoints and never touches
+     ordinary Latin text. */
+  @font-face {
+    font-family: "Legacy Symbols";
+    src: url("/assets/LegacySymbols.woff2") format("woff2");
+    unicode-range: U+2580-259F, U+1FB00-1FBFF, U+1CC00-1CEBF, U+2800-28FF;
+    font-display: swap;
+  }
+  #ascii {
+    font-family: "Legacy Symbols", "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    white-space: pre;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--fg);
+    user-select: none;
+    text-align: left;
+  }
+  #ascii-canvas {
+    display: none;
+    user-select: none;
+  }
+
+  a.back {
+    position: fixed;
+    top: 14px;
+    left: 16px;
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 0.85em;
+    opacity: 0.6;
+    z-index: 5;
+  }
+  a.back:hover { opacity: 1; }
+
+  #panel {
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em 1.1em;
+    align-items: center;
+    background: var(--panel);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 0.6em 1em;
+    font-size: 0.78em;
+    backdrop-filter: blur(6px);
+    max-width: 92vw;
+    z-index: 5;
+  }
+  #panel label {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    white-space: nowrap;
+  }
+  #panel input[type="range"] { width: 100px; }
+  #panel button, #panel .file-btn {
+    background: #1c1c1c;
+    color: var(--fg);
+    border: 1px solid #3a3a3a;
+    border-radius: 5px;
+    padding: 0.35em 0.7em;
+    font-size: 1em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  #panel button:hover, #panel .file-btn:hover { border-color: var(--accent); }
+  #panel input[type="file"] { display: none; }
+
+  #hud {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    font-size: 0.75em;
+    opacity: 0.55;
+    z-index: 5;
+    text-align: right;
+  }
+
+  #drop-hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.9em;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  body.dragover #stage { outline: 2px dashed var(--accent); outline-offset: -8px; }
+
+  /* Small viewport / iframe preview (e.g. 300×200 card): the bottom
+     panel + HUD would cover the entire render. Autohide chrome and
+     show only the ASCII output — the full controls are available
+     when opened full-page. */
+  @media (max-width: 480px), (max-height: 360px) {
+    #panel,
+    #hud,
+    #drop-hint,
+    a.back {
+      display: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="../index.html">&larr; experiments</a>
+<div id="hud">
+  <div id="fps">-- fps</div>
+  <div id="grid-size"></div>
+</div>
+<div id="drop-hint">drop a .obj file anywhere, or use the panel below</div>
+
+<div id="stage">
+  <pre id="ascii"></pre>
+  <canvas id="ascii-canvas"></canvas>
+</div>
+
+<div id="panel">
+  <label class="file-btn">
+    load .obj
+    <input id="file-input" type="file" accept=".obj">
+  </label>
+  <label>cols <input id="cols" type="range" min="40" max="220" value="110"></label>
+  <label>style
+    <select id="style">
+      <option value="octant" selected>octant (gray)</option>
+      <option value="braille">braille</option>
+      <option value="text">characters</option>
+    </select>
+  </label>
+  <label id="ramp-label">ramp
+    <select id="ramp">
+      <option value="simple">simple</option>
+      <option value="detailed" selected>detailed</option>
+      <option value="blocks">blocks</option>
+    </select>
+  </label>
+  <label><input id="auto-rotate" type="checkbox" checked> auto-rotate</label>
+  <label><input id="invert" type="checkbox"> invert</label>
+  <button id="reset">reset view</button>
+</div>
+
+<!-- Bundled from ./ascii-render.ts (TypeScript) — `three` is included, no CDN needed.
+     To rebuild: `bun build ./ascii-render.ts --outfile ./ascii-render.js --bundle --minify --target browser` -->
+<script type="module" src="./ascii-render.js"></script>
+</body>
+</html>

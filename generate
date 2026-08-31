@@ -353,6 +353,26 @@ generate_sitemap() {
 		echo "    <url><loc>${page_url}</loc><lastmod>${lastmod}</lastmod></url>" >>$sitemap_file
 	done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
 
+	# experiments/ — hand-written static HTML, not built into out/ but still
+	# public pages (portfolio, FSA, serial, etc.). Add every *.html under
+	# experiments/ so they appear in sitemap.xml.
+	if [ -d "experiments" ]; then
+		while IFS= read -r exp_file; do
+			[ -z "$exp_file" ] && continue
+			# lastmod from git first commit, fallback to mtime
+			local exp_epoch
+			exp_epoch=$(git log --follow --diff-filter=A --format=%at -- "$exp_file" 2>/dev/null | tail -1)
+			[ -z "$exp_epoch" ] && exp_epoch=$(stat -c %Y "$exp_file" 2>/dev/null)
+			[ -z "$exp_epoch" ] && exp_epoch=$(date +%s)
+			local exp_lastmod
+			exp_lastmod=$(date -u -d "@${exp_epoch}" +%Y-%m-%d 2>/dev/null)
+			[ -z "$exp_lastmod" ] && exp_lastmod="$now"
+			local exp_url="$site_url/${exp_file}"
+			# normalize ./experiments/index.html -> /experiments/ and dedupe portfolio
+			echo "    <url><loc>${exp_url}</loc><lastmod>${exp_lastmod}</lastmod></url>" >>$sitemap_file
+		done < <(find experiments -type f -name "*.html" | sort)
+	fi
+
 	echo '</urlset>' >>$sitemap_file
 }
 
