@@ -221,7 +221,7 @@ For 60fps this demands a bandwidth of `2.8 * 60 / 1000 = ~165MB/s = ~1.33Gbps` p
 This becomes better with `image_transport` but this isn't directly supported  in `rclpy` so almost always you end up with the raw stream in my experience.
 (There is support added but not everyone architects their scripts with it / around it) - and then I have found it to be kind of a stop-gap solution that doesn't fully solve the problem every time.
 
-I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less apable from your typical laptop. I should capture a pcap of a system while it is running.
+I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less capable from your typical laptop. I should capture a snapshot of a system while it is running.
 
 Typically also in image pipelines you want to avoid copies and ROS does about 3-4 copies per image. Obviously all these latencies compound with larger images and higher framerates.
 
@@ -262,6 +262,8 @@ Typically you should create a different `mempool` for each kind of message type 
 #CALLOUT note
 ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile & build it from source then use `iox-roudi` from `/usr/local/bin` (which is where the source build installs it) instead of the one included in ROS2.
 #END CALLOUT
+
+My senior did a [good writeup on this](https://medium.com/@kunalawari2709/zero-copy-robotics-breaking-the-ipc-bottleneck-with-ros-2-and-iceoryx-9c67efb443a6) workflow for transferring laser profiler data and camera image frames.
 
 ### motion-jpeg (mjpeg)
 When trying to display the stream you either need a custom viewer script (ROS has this with `rviz` & `image_view`) or the format needs to be one of `mjpeg` or `rtsp`. 
@@ -436,7 +438,7 @@ Another advantage is that some cameras support directly outputting JPEG encoded 
 #END CALLOUT
 
 ## rtsp
-Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the *keyframes* you can fully reconstruct the original video.
+Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the *keyframes* you can fully reconstruct the original video. This also works really well if you have multiple clients for the same stream.
 
 This is a [better explanation of how these modern codecs work](https://sonnati.wordpress.com/2014/06/20/h265-part-i-technical-overview/), this is for h265 but the same general ideas persist for h264, av1 etc.
 
@@ -458,11 +460,11 @@ On my laptop this is available by default (use [this script](https://gist.github
 (I dont have AMF compiled into my ffmpeg)
 
 #CALLOUT note
-This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 2km long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.
+This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 200m long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.
 #END CALLOUT
 
 RTSP doesn't work to send media to the browser since if you are sending video you need WebRTC or HLS. But for any scripts on your local network you can use it and it is understood by OpenCV, ffmpeg and others (they also understand mjpeg), I've found that setting these flags for the reciever stream helps to priotize latency over perfect frames.
 ```
 export OPENCV_FFMPEG_CAPTURE_OPTIONS="fifo_size;500000|overrun_nonfatal;1|fflags;nobuffer|flags;low_delay|framedrop;1|vf;setpts=0"
 ```
-Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame
+Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame, the above line is to set it for opencv when using the ffmpeg backend but the same flags can be replicated for raw ffmpeg.

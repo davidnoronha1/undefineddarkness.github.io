@@ -26,12 +26,12 @@
 	<meta name="author" content="nes" />
 	<title>Why</title>
 	<meta name="description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<link rel="canonical" href="https://nes.is-a.dev/2022/menory.html" />
+	<link rel="canonical" href="out/2022/menory.html" />
 	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
 	<meta property="og:title" content="Why" />
 	<meta property="og:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2022/menory.html" />
+	<meta property="og:url" content="out/2022/menory.html" />
 	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Why" />
@@ -44,7 +44,7 @@
 		"@type": "BlogPosting",
 		"headline": "Why",
 		"description": "A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.",
-		"url": "https://nes.is-a.dev/2022/menory.html",
+		"url": "out/2022/menory.html",
 		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
 		"author": {
 			"@type": "Person",
@@ -64,8 +64,8 @@
 </header>
 An introduction to low-level programming and how to avoid<br/>
 <pre>
-<code class="language-c">$<span style="color:&#35;dcdccc">./</span>a<span style="color:&#35;dcdccc">.</span>out  
-<span style="color:&#35;dca3a3; font-weight:bold">105</span>  
+<code class="language-c">$<span style="color:&#35;dcdccc">./</span>a<span style="color:&#35;dcdccc">.</span>out
+<span style="color:&#35;dca3a3; font-weight:bold">105</span>
 Core Dumped<span style="color:&#35;dcdccc">.</span>	</code>
 </pre>
 <br/>
@@ -76,9 +76,7 @@ This article also has an original handwritten version which this cleaned up docu
 </div>
 </div>
 Note: I've pretty much only covered the kinds of errors you'd encounter in a single threaded program.<br/>
-<br/>
 going over why it happens, how to diagnose compiled (C/C++) programs & how to fix it.<br/>
-<br/>
 I wrote assuming the reader has experience in some garbage collected language like Python or Javascript.<br/>
 <header>
 <h1>Why</h1>
@@ -92,7 +90,6 @@ String x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393
 x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;ORANGE&quot;</span><span style="color:&#35;dcdccc">;</span> → <span style="color:&#35;cc9393">&quot;APPLE&quot;</span> removed <span style="color:&#35;dcdccc">&amp;</span> <span style="color:&#35;cc9393">&quot;ORANGE&quot;</span> allocated
 <span style="color:&#35;dcdccc">}</span>	</code>
 </pre>
-<br/>
 This is a very rough example to give out an idea of its purpose, there are many different ways a garbage collector can function. See the working of the Java or the C# GC if you're interested in the engineering behind them.<br/>
 <br/>
 <ul>
@@ -105,20 +102,17 @@ This is a very rough example to give out an idea of its purpose, there are many 
 </ul><br/>All in all, GCs are fantastic bits of engg. that make the vast majority of coding relatively hassle free by removing the work of the coder to manage memory.<br/>
 <br/>
 But if you're reading this, you already decided you can't use one or for the following use cases might be suboptimal,<br/>
-<br/>
 <ul>
-<li>Byte Wrangling: You're moving around a lot of large buffers around & you can't afford any overhead in copying & in general want to interact with the bytes correctly.<br/>
+<li>Byte Wrangling: You're moving around a lot of large buffers around & you can't afford any overhead in copying & in general want to interact with the bytes directly.<br/>
 </li>
-</ul><br/><ul>
 <li>Latency sensitive code: What you're working on is real-time or cannot handle a GC pause at any time.<br/>
 (GC pause -> microseconds your program's execution could be paused to free() objects.)<br/>
 </li>
-</ul><br/><ul>
 <li>High Performance: This is a bad reason to chase after C, C++, Rust for, you can get fast code in all the languages but it's true that compiled languages tend to be closer to the hardware so can be optimized at a lower level.<br/>
 </li>
 </ul><br/>*: Be careful of choosing a hard lang. simply b/c you think something like C# would be too slow, chances are good C# code can outperform the equivalent code in Rust (e.g.).<br/>
 <br/>
-It all depends on the <i>algorithms</i> & the data structures you employ. <br/>
+It all depends on the <i>algorithms</i> & the data structures you employ.<br/>
 <h2 id="how">How</h2>
 <p>
 <br/>
@@ -143,7 +137,6 @@ Program memory can be thought of as a long (very long) tape where each slot in t
 <br/>
 <figure><img src="/assets/image-9ebafeee10.avif" alt="A pointer simply points to one of these bytes." title="A pointer simply points to one of these bytes." loading="lazy" /><figcaption>A pointer simply points to one of these bytes.</figcaption></figure><br/>
 <br/>
-<br/>
 </p>
 <h3 id="heap-stack">Heap / Stack</h3>
 <p>
@@ -158,14 +151,12 @@ The stack is already managed for you & You manually manage the heap.<br/>
 <p>
 This mostly applies to the heap & not the stack since that one is already managed for you.<br/>
 <br/>
-When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.Allocating / Freeing:<br/>
+When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.<br/>
 <br/>
 This mostly applies to the heap & not the stack since that one is already managed for you.<br/>
 <br/>
 When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.<br/>
-<br/>
-![(./image-1.png)<br/>
-<br/>
+<figure><img src="/assets/image-1-f20f914299.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
 The opposite process, returning the memory to the operating system (ie giving up ownership) is called freeing.<br/>
 <br/>
 <b>Segmentation Fault (SIGSEGV)</b>: When your program tries to access memory it doesnt have access to, the OS kills the process & raises a segfault error.<br/>
@@ -294,8 +285,8 @@ For this reason of often associating the size of our obtained pointer its very c
 <pre>
 <code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">struct</span> slice_t <span style="color:&#35;dcdccc">{</span>
     <span style="color:&#35;dfdfbf; font-weight:bold">void</span><span style="color:&#35;dcdccc">&ast;</span> ptr<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size_t</span> len<span style="color:&#35;dcdccc">;</span> 
-<span style="color:&#35;dcdccc">}</span> 
+    <span style="color:&#35;dfdfbf; font-weight:bold">size_t</span> len<span style="color:&#35;dcdccc">;</span>
+<span style="color:&#35;dcdccc">}</span>
 <span style="color:&#35;7f9f7f; font-style:italic">// The correctly sized int type to hold any possible memory size</span>	</code>
 </pre>
 This is very often used type in Zig or other languages.<br/>
@@ -353,10 +344,9 @@ Even following best practices, you can very easily reach a segfault & it will ma
 Generally mapping a breakpoint to source code requires the program to be compiled w/ debugging information. i.e → it should not be stripped. ( Has 'extra' info removed. )<br/>
 <br/>
 </p>
-<h3 id="faddress-sanitizer">-faddress-sanitizer </h3>
+<h3 id="faddress-sanitizer">-faddress-sanitizer</h3>
 <p>
 This compiler flag enables the address sanitizer or ASAN. How it works isnt exactly relevant but you can think of it like this:<br/>
-<br/>
 <br/>
 <figure><img src="/assets/image-6-95f003c502.avif" alt="without ASAN" title="without ASAN" loading="lazy" /><figcaption>without ASAN</figcaption></figure><br/>
 <figure><img src="/assets/image-5-b3972e8593.avif" alt="with ASAN" title="with ASAN" loading="lazy" /><figcaption>with ASAN</figcaption></figure><br/>

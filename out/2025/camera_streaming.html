@@ -26,12 +26,12 @@
 	<meta name="author" content="nes" />
 	<title>Low Latency Camera Streaming in Robotics</title>
 	<meta name="description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<link rel="canonical" href="https://nes.is-a.dev/2025/camera_streaming.html" />
+	<link rel="canonical" href="out/2025/camera_streaming.html" />
 	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
 	<meta property="og:title" content="Low Latency Camera Streaming in Robotics" />
 	<meta property="og:description" content="Lessons from debugging flaky, laggy camera streams on robots." />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2025/camera_streaming.html" />
+	<meta property="og:url" content="out/2025/camera_streaming.html" />
 	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Low Latency Camera Streaming in Robotics" />
@@ -44,7 +44,7 @@
 		"@type": "BlogPosting",
 		"headline": "Low Latency Camera Streaming in Robotics",
 		"description": "Lessons from debugging flaky, laggy camera streams on robots.",
-		"url": "https://nes.is-a.dev/2025/camera_streaming.html",
+		"url": "out/2025/camera_streaming.html",
 		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
 		"author": {
 			"@type": "Person",
@@ -385,7 +385,7 @@ For 60fps this demands a bandwidth of <code>2.8 &ast; 60 / 1000 = ~165MB/s = ~1.
 This becomes better with <code>image_transport</code> but this isn't directly supported  in <code>rclpy</code> so almost always you end up with the raw stream in my experience.<br/>
 (There is support added but not everyone architects their scripts with it / around it) - and then I have found it to be kind of a stop-gap solution that doesn't fully solve the problem every time.<br/>
 <br/>
-I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less apable from your typical laptop. I should capture a pcap of a system while it is running.<br/>
+I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less capable from your typical laptop. I should capture a snapshot of a system while it is running.<br/>
 <br/>
 Typically also in image pipelines you want to avoid copies and ROS does about 3-4 copies per image. Obviously all these latencies compound with larger images and higher framerates.<br/>
 <br/>
@@ -431,6 +431,8 @@ Typically you should create a different <code>mempool</code> for each kind of me
 ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile & build it from source then use <code>iox-roudi</code> from <code>/usr/local/bin</code> (which is where the source build installs it) instead of the one included in ROS2.<br/>
 </div>
 </div>
+My senior did a <a href="https://medium.com/@kunalawari2709/zero-copy-robotics-breaking-the-ipc-bottleneck-with-ros-2-and-iceoryx-9c67efb443a6">good writeup on this</a> workflow for transferring laser profiler data and camera image frames.<br/>
+<br/>
 </p>
 <h3 id="motion-jpeg-mjpeg">motion-jpeg (mjpeg)</h3>
 <p>
@@ -611,7 +613,7 @@ Another advantage is that some cameras support directly outputting JPEG encoded 
 </p>
 <h2 id="rtsp">rtsp</h2>
 <p>
-Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the <i>keyframes</i> you can fully reconstruct the original video.<br/>
+Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the <i>keyframes</i> you can fully reconstruct the original video. This also works really well if you have multiple clients for the same stream.<br/>
 <br/>
 This is a <a href="https://sonnati.wordpress.com/2014/06/20/h265-part-i-technical-overview/">better explanation of how these modern codecs work</a>, this is for h265 but the same general ideas persist for h264, av1 etc.<br/>
 <br/>
@@ -636,7 +638,7 @@ On my laptop this is available by default (use <a href="https://gist.github.com/
 <div class="callout callout-note">
 <p class="callout-title">📝 Note</p>
 <div class="callout-content">
-This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 2km long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.<br/>
+This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 200m long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.<br/>
 </div>
 </div>
 RTSP doesn't work to send media to the browser since if you are sending video you need WebRTC or HLS. But for any scripts on your local network you can use it and it is understood by OpenCV, ffmpeg and others (they also understand mjpeg), I've found that setting these flags for the reciever stream helps to priotize latency over perfect frames.<br/>
@@ -644,7 +646,7 @@ RTSP doesn't work to send media to the browser since if you are sending video yo
 <code class="language-plaintext">export OPENCV_FFMPEG_CAPTURE_OPTIONS&equals;"fifo_size;500000|overrun_nonfatal;1|fflags;nobuffer|flags;low_delay|framedrop;1|vf;setpts&equals;0"
 </code>
 </pre>
-Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame<br/>
+Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame, the above line is to set it for opencv when using the ffmpeg backend but the same flags can be replicated for raw ffmpeg.<br/>
 		<footer style="margin-bottom: 2em;">
 			<a class="special return-index" href="/index.html">Return To Index</a>
 		</footer>
