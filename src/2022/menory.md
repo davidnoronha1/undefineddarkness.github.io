@@ -4,8 +4,8 @@ A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from 
 An introduction to low-level programming and how to avoid
 
 ```c
-$./a.out  
-105  
+$./a.out
+105
 Core Dumped.
 ```
 
@@ -14,15 +14,12 @@ This article also has an original handwritten version which this cleaned up docu
 #END CALLOUT
 
 Note: I've pretty much only covered the kinds of errors you'd encounter in a single threaded program.
-
 going over why it happens, how to diagnose compiled (C/C++) programs & how to fix it.
-
 I wrote assuming the reader has experience in some garbage collected language like Python or Javascript.
 
 # Why
 
 In many languages deemed high level or easy to use the main thing allowing this easy development without directly caring about the underlying memory & addresses is a garbage collector, on a very high level they work like this:
-
 ```csharp
 int func() {
 String x = "APPLE"; → "APPLE" allocated
@@ -30,7 +27,6 @@ func2(x); → Copy of x made & tracked.
 x = "ORANGE"; → "APPLE" removed & "ORANGE" allocated
 }
 ```
-
 This is a very rough example to give out an idea of its purpose, there are many different ways a garbage collector can function. See the working of the Java or the C# GC if you're interested in the engineering behind them.
 
 - Reference Counter → Increment a counter each time the obj is referenced & decr. later.
@@ -40,17 +36,14 @@ This is a very rough example to give out an idea of its purpose, there are many 
 All in all, GCs are fantastic bits of engg. that make the vast majority of coding relatively hassle free by removing the work of the coder to manage memory.
 
 But if you're reading this, you already decided you can't use one or for the following use cases might be suboptimal,
-
-- Byte Wrangling: You're moving around a lot of large buffers around & you can't afford any overhead in copying & in general want to interact with the bytes correctly.
-
+- Byte Wrangling: You're moving around a lot of large buffers around & you can't afford any overhead in copying & in general want to interact with the bytes directly.
 - Latency sensitive code: What you're working on is real-time or cannot handle a GC pause at any time.
 (GC pause -> microseconds your program's execution could be paused to free() objects.)
-
 - High Performance: This is a bad reason to chase after C, C++, Rust for, you can get fast code in all the languages but it's true that compiled languages tend to be closer to the hardware so can be optimized at a lower level.
 
 *: Be careful of choosing a hard lang. simply b/c you think something like C# would be too slow, chances are good C# code can outperform the equivalent code in Rust (e.g.).
 
-It all depends on the *algorithms* & the data structures you employ. 
+It all depends on the *algorithms* & the data structures you employ.
 
 ## How
 
@@ -73,7 +66,6 @@ Program memory can be thought of as a long (very long) tape where each slot in t
 
 ![A pointer simply points to one of these bytes.](./image.png)
 
-
 ### Heap / Stack
 You can think of this tape as being divided into 2 kinds, A fast tape w/ limited qty & one bulk cheap tape but its slower.
 
@@ -84,14 +76,12 @@ The stack is already managed for you & You manually manage the heap.
 #### Allocating / Freeing:
 This mostly applies to the heap & not the stack since that one is already managed for you.
 
-When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.Allocating / Freeing:
+When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.
 
 This mostly applies to the heap & not the stack since that one is already managed for you.
 
 When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.
-
-![(./image-1.png)
-
+![](./image-1.png)
 The opposite process, returning the memory to the operating system (ie giving up ownership) is called freeing.
 
 **Segmentation Fault (SIGSEGV)**: When your program tries to access memory it doesnt have access to, the OS kills the process & raises a segfault error.
@@ -220,8 +210,8 @@ For this reason of often associating the size of our obtained pointer its very c
 ```c
 struct slice_t {
     void* ptr;
-    size_t len; 
-} 
+    size_t len;
+}
 // The correctly sized int type to hold any possible memory size
 ```
 This is very often used type in Zig or other languages.
@@ -281,9 +271,8 @@ Even following best practices, you can very easily reach a segfault & it will ma
 
 Generally mapping a breakpoint to source code requires the program to be compiled w/ debugging information. i.e → it should not be stripped. ( Has 'extra' info removed. )
 
-### -faddress-sanitizer 
+### -faddress-sanitizer
 This compiler flag enables the address sanitizer or ASAN. How it works isnt exactly relevant but you can think of it like this:
-
 
 ![without ASAN](./image-6.png)
 ![with ASAN](./image-5.png)
