@@ -26,12 +26,12 @@
 	<meta name="author" content="nes" />
 	<title>WSLg with Docker</title>
 	<meta name="description" content="Using WSLg from within Docker with Vulkan support" />
-	<link rel="canonical" href="https://nes.is-a.dev/2025/wslgdocker.html" />
+	<link rel="canonical" href="out/2025/wslgdocker.html" />
 	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
 	<meta property="og:title" content="WSLg with Docker" />
 	<meta property="og:description" content="Using WSLg from within Docker with Vulkan support" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2025/wslgdocker.html" />
+	<meta property="og:url" content="out/2025/wslgdocker.html" />
 	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="WSLg with Docker" />
@@ -44,7 +44,7 @@
 		"@type": "BlogPosting",
 		"headline": "WSLg with Docker",
 		"description": "Using WSLg from within Docker with Vulkan support",
-		"url": "https://nes.is-a.dev/2025/wslgdocker.html",
+		"url": "out/2025/wslgdocker.html",
 		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
 		"author": {
 			"@type": "Person",
@@ -164,7 +164,7 @@ on Arch you need to install <code>mesa</code> & <code>vulkan-dzn</code><br/>
 </p>
 <h3 id="selecting-specific-devices">Selecting specific devices</h3>
 <p>
-<br/>
+You can't currently do this due to limitations in the Nvidia Docker implementation, only <code>--gpus all</code> is supported, so you can only give the docker container access to all the gpus.<br/>
 <br/>
 </p>
 <h2 id="sources">Sources</h2>

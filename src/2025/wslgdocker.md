@@ -94,7 +94,7 @@ on Arch you need to install `mesa` & `vulkan-dzn`
 ⚠ `dzn` unfortunatley isnt fully compliant yet and it is a WIP so some applications (like O3DE 😢) may not work / crash. So you might have to use `llvmpipe` which is basically software rendering but through vulkan.
 
 ### Selecting specific devices
-
+You can't currently do this due to limitations in the Nvidia Docker implementation, only `--gpus all` is supported, so you can only give the docker container access to all the gpus.
 
 ## Sources
 - [WSLg README](https://github.com/microsoft/wslg/tree/main)
