@@ -1,329 +1,373 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NPTEL Remote Sensing & GIS - Quiz Practice</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            brand: {
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <title>NPTEL Remote Sensing & GIS — Quiz Practice</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      user-select: text;
+    /* Quiz uses site fonts/colors: --black #fafafa, --white #181818, etc. Keeps extras minimal. */
+    article { min-width:0; }
+    .quiz-head {
+      display:flex;
+      flex-wrap:wrap;
+      gap:1em 1.5em;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin-bottom:1.2em;
+      padding-bottom:1em;
+      border-bottom:1px solid var(--gray);
     }
-    ::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
+    .quiz-head h1 { margin:0; font-size:1.9em; line-height:1.1; }
+    .quiz-subtitle {
+      margin:0.2em 0 0;
+      color:var(--gray);
+      font-size:0.85em;
+      line-height:1.3;
+      overflow-wrap:break-word;
+      word-break:break-word;
     }
-    ::-webkit-scrollbar-track {
-      background: #090d16;
+    /* Mode switcher & actions */
+    .quiz-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.5em;
+      align-items:center;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 4px;
+    .mode-switch { display:flex; flex-wrap:wrap; gap:0.4em; }
+    button.q-btn {
+      outline:none !important;
+      border:1px solid var(--gray);
+      background:var(--white);
+      color:var(--black);
+      padding:0.4em 0.75em;
+      font-size:0.82em;
+      font-family:inherit;
+      cursor:pointer;
+      line-height:1;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #334155;
+    button.q-btn.active {
+      background:var(--black);
+      color:var(--white);
+      border-color:var(--black);
     }
-
-    /* 3D Flashcard Flip Mechanics with fixed card heights to avoid layout shifts */
-    .perspective-1000 {
-      perspective: 1000px;
+    button.q-btn:hover { border-color:var(--black); }
+    button.q-icon {
+      outline:none !important;
+      border:1px solid var(--gray);
+      background:var(--white);
+      color:var(--black);
+      padding:0.4em 0.55em;
+      font-size:0.82em;
+      cursor:pointer;
+      font-family:inherit;
     }
+    button.q-icon:hover { border-color:var(--black); }
+    /* Tabs */
+    .tabs-wrap {
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.6em;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:1em;
+      padding-bottom:0.9em;
+      border-bottom:1px solid var(--gray);
+    }
+    .tabs { display:flex; flex-wrap:wrap; gap:0.35em; }
+    button.tab {
+      outline:none !important;
+      border:1px solid var(--gray);
+      background:var(--white);
+      color:var(--black);
+      padding:0.3em 0.7em;
+      font-size:0.78em;
+      font-family:inherit;
+      cursor:pointer;
+    }
+    button.tab.active {
+      background:var(--black);
+      color:var(--white);
+      border-color:var(--black);
+    }
+    button.tab:hover { border-color:var(--black); }
+    button.tab span.count {
+      display:inline-block;
+      margin-left:0.3em;
+      padding:0 0.35em;
+      border:1px solid var(--gray);
+      font-size:0.85em;
+    }
+    button.tab.active span.count { border-color:var(--white); color:var(--white); }
+    /* Shuffle toggle */
+    .shuffle-bar {
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.8em;
+      align-items:center;
+      justify-content:space-between;
+      border:1px solid var(--gray);
+      background:var(--white-lighter);
+      padding:0.6em 0.85em;
+      margin-bottom:1em;
+      border-radius:5px;
+    }
+    .shuffle-bar label { display:flex; gap:0.5em; align-items:center; cursor:pointer; font-size:0.88em; }
+    .shuffle-bar input { accent-color:var(--black); }
+    /* Banner / metrics */
+    .banner {
+      border:1px solid var(--gray);
+      background:var(--white-lighter);
+      padding:1em;
+      margin-bottom:1.2em;
+      border-radius:5px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:1em;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .banner h2 { margin:0.15em 0 0; font-size:1.15em; }
+    .banner .meta { display:flex; gap:0.4em; flex-wrap:wrap; font-size:0.78em; color:var(--gray); }
+    .banner .meta span.badge { border:1px solid var(--gray); padding:0.15em 0.45em; color:var(--black); }
+    .metrics { display:flex; gap:0.8em; align-items:center; border:1px solid var(--gray); padding:0.5em 0.8em; font-size:0.82em; }
+    .metrics > div { text-align:center; min-width:4.5em; }
+    .metrics .k { color:var(--gray); font-size:0.78em; }
+    .metrics .v { font-family:var(--mono-font); font-weight:bold; }
+    /* Question cards */
+    .q-card {
+      border:1px solid var(--gray);
+      background:var(--white-lighter);
+      padding:1em;
+      margin-bottom:1em;
+      border-radius:5px;
+    }
+    .q-card-head {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid var(--gray);
+      padding-bottom:0.6em;
+      margin-bottom:0.8em;
+      gap:0.6em;
+    }
+    .q-num {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:1.6em;
+      height:1.6em;
+      border:1px solid var(--gray);
+      font-family:var(--mono-font);
+      font-size:0.8em;
+      padding:0 0.3em;
+    }
+    .q-week { color:var(--gray); font-size:0.8em; }
+    button.star {
+      outline:none !important;
+      border:1px solid var(--gray);
+      background:var(--white);
+      padding:0.25em 0.45em;
+      cursor:pointer;
+      font-size:0.9em;
+      line-height:1;
+    }
+    button.star.active { border-color:#d6a72b; color:#d6a72b; }
+    .q-title { margin:0 0 0.8em; font-size:1em; line-height:1.45; overflow-wrap:break-word; }
+    .q-options { display:flex; flex-direction:column; gap:0.5em; }
+    button.q-option {
+      outline:none !important;
+      display:flex;
+      gap:0.6em;
+      align-items:flex-start;
+      width:100%;
+      text-align:left;
+      border:1px solid var(--gray);
+      background:var(--white);
+      color:var(--black);
+      padding:0.6em 0.75em;
+      font-family:inherit;
+      font-size:0.88em;
+      cursor:pointer;
+      line-height:1.35;
+    }
+    button.q-option:hover { border-color:var(--black); }
+    button.q-option.correct { border-color:#5fb87a; background:color-mix(in srgb, #5fb87a 14%, var(--white)); }
+    button.q-option.incorrect { border-color:#e0605c; background:color-mix(in srgb, #e0605c 12%, var(--white)); }
+    button.q-option.muted { opacity:0.6; }
+    button.q-option.selected { border-color:var(--black); }
+    .opt-badge { font-family:var(--mono-font); font-size:0.85em; border:1px solid var(--gray); min-width:1.5em; text-align:center; padding:0.05em 0.25em; flex-shrink:0; }
+    button.q-option.correct .opt-badge { background:#5fb87a; color:white; border-color:#5fb87a; }
+    button.q-option.incorrect .opt-badge { background:#e0605c; color:white; border-color:#e0605c; }
+    .solution {
+      margin-top:0.9em;
+      padding-top:0.8em;
+      border-top:1px solid var(--gray);
+      font-size:0.88em;
+    }
+    .solution .ans { border:1px solid #5fb87a; background:color-mix(in srgb, #5fb87a 12%, var(--white)); padding:0.25em 0.5em; font-family:var(--mono-font); font-size:0.9em; }
+    /* Flashcards */
+    .flash-wrap { display:flex; flex-direction:column; align-items:center; gap:1em; }
+    .perspective-1000 { perspective:1000px; width:100%; max-width:36em; }
     .flashcard-inner {
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
+      transition:transform 0.45s ease;
+      transform-style:preserve-3d;
+      position:relative;
+      min-height:22em;
     }
-    .flashcard-inner.flipped {
-      transform: rotateY(180deg);
-    }
+    .flashcard-inner.flipped { transform:rotateY(180deg); }
     .flashcard-front, .flashcard-back {
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+      position:absolute;
+      inset:0;
+      border:1px solid var(--gray);
+      background:var(--white-lighter);
+      padding:1em;
+      border-radius:5px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
-    .flashcard-back {
-      transform: rotateY(180deg);
+    .flashcard-back { transform:rotateY(180deg); background:var(--white-darker); }
+    /* Modal & toast */
+    .modal-backdrop {
+      position:fixed; inset:0; background:rgba(0,0,0,0.65);
+      display:flex; align-items:center; justify-content:center; padding:1em; z-index:50;
     }
-
-    .select-text-preserve {
-      user-select: text !important;
-      -webkit-user-select: text !important;
+    .modal-backdrop.hidden { display:none; }
+    .modal { background:var(--white-lighter); border:1px solid var(--gray); padding:1.1em; max-width:32em; width:100%; max-height:90vh; overflow:auto; border-radius:5px; }
+    .toast {
+      position:fixed; right:1em; bottom:1em; z-index:60;
+      border:1px solid var(--gray); background:var(--white-lighter); padding:0.6em 0.85em; font-size:0.85em;
+      transform:translateY(8em); opacity:0; transition:all 0.3s ease;
+    }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .hidden { display:none !important; }
+    @media (max-width:600px){
+      .quiz-head h1{font-size:1.5em;}
+      .metrics{width:100%; justify-content:space-between;}
+      .banner h2{font-size:1em;}
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 antialiased min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
-
-  <!-- Top Navigation Bar -->
-  <header class="bg-slate-900/95 border-b border-slate-800/80 sticky top-0 z-40 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 sm:py-0 sm:h-16 sm:gap-4">
-        
-        <!-- Logo / Title -->
-        <div class="flex items-center space-x-3 min-w-0 w-full sm:w-auto">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0">
-            <i class="fa-solid fa-satellite text-base"></i>
-          </div>
-          <div class="min-w-0 flex-1">
-            <h1 class="font-bold text-base sm:text-lg text-white leading-tight truncate">Remote Sensing & GIS</h1>
-            <p class="text-[10px] sm:text-[11px] text-slate-400 truncate whitespace-nowrap">NPTEL IIT Guwahati • 87 Question Bank</p>
-          </div>
-        </div>
-
-        <!-- Mode Switcher & Global Actions -->
-        <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end shrink-0">
-          <div class="flex bg-slate-950 p-1 rounded-xl text-xs font-medium border border-slate-800 shrink-0">
-            <button id="modePracticeBtn" onclick="setMode('practice')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs">
-              <i class="fa-solid fa-layer-group"></i>
-              <span>Practice<span class="hidden sm:inline"> (Vertical)</span></span>
-            </button>
-            <button id="modeFlashcardBtn" onclick="setMode('flashcard')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-slate-400 hover:text-white">
-              <i class="fa-solid fa-clone"></i>
-              <span class="hidden sm:inline">Flashcards (All)</span>
-            </button>
-            <button id="modeExamBtn" onclick="setMode('exam')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-slate-400 hover:text-white">
-              <i class="fa-solid fa-stopwatch"></i>
-              <span class="hidden sm:inline">Mock Exam (All)</span>
-            </button>
-          </div>
-
-          <div class="flex items-center gap-1 shrink-0">
-            <!-- Quick Stats Modal Button -->
-            <button onclick="openStatsModal()" class="p-2 text-slate-400 hover:text-indigo-400 rounded-xl hover:bg-slate-800 transition" title="View Detailed Progress & Statistics">
-              <i class="fa-solid fa-chart-pie text-base"></i>
-            </button>
-            
-            <!-- Reset Progress Button -->
-            <button onclick="promptResetProgress()" class="p-2 text-slate-400 hover:text-rose-400 rounded-xl hover:bg-slate-800 transition" title="Reset All Answers">
-              <i class="fa-solid fa-rotate-right text-base"></i>
-            </button>
-          </div>
-        </div>
-
+<body>
+  <article>
+    <p><a href="/experiments/" class="special">← experiments</a></p>
+    <div class="quiz-head">
+      <div style="min-width:0; flex:1;">
+        <h1>Remote Sensing & GIS</h1>
+        <p class="quiz-subtitle">NPTEL IIT Guwahati • 87 Question Bank</p>
       </div>
-    </div>
-  </header>
-
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 flex flex-col">
-    
-    <!-- Week Navigation Tabs (Active in Practice mode) -->
-    <div id="weekTabsWrapper" class="flex items-center justify-between gap-2 overflow-x-auto pb-3 mb-6 border-b border-slate-800/80">
-      <div class="flex items-center gap-2 flex-nowrap" id="weekTabsContainer">
-        <!-- Injected via JavaScript -->
-      </div>
-      <div class="shrink-0 flex items-center gap-2">
-        <button onclick="toggleBookmarkView()" id="bookmarkTabBtn" class="px-3 py-2 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 transition flex items-center gap-1.5 text-amber-400">
-          <i class="fa-solid fa-star"></i>
-          <span>Starred (<span id="savedCountBadge">0</span>)</span>
-        </button>
+      <div class="quiz-actions">
+        <div class="mode-switch">
+          <button id="modePracticeBtn" onclick="setMode('practice')" class="q-btn active">Practice</button>
+          <button id="modeFlashcardBtn" onclick="setMode('flashcard')" class="q-btn">Flashcards</button>
+          <button id="modeExamBtn" onclick="setMode('exam')" class="q-btn">Mock Exam</button>
+        </div>
+        <button onclick="openStatsModal()" class="q-icon" title="View stats">◉</button>
+        <button onclick="promptResetProgress()" class="q-icon" title="Reset">↺</button>
       </div>
     </div>
 
-    <!-- Shuffle Controls -->
-    <div id="shuffleControlsWrapper" class="flex flex-wrap items-center justify-between gap-3 mb-4 -mt-1 bg-slate-900/60 border border-slate-800/60 rounded-xl px-3 py-2.5">
-      <label for="shuffleToggle" class="flex items-center gap-2.5 cursor-pointer select-none group">
-        <span class="text-xs font-semibold text-slate-300 group-hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-shuffle text-indigo-400"></i> Shuffle</span>
-        <span class="relative inline-flex items-center">
-          <input type="checkbox" id="shuffleToggle" onchange="toggleShuffle()" class="sr-only peer">
-          <span class="w-9 h-5 bg-slate-800 border border-slate-700 rounded-full peer-checked:bg-indigo-600 peer-checked:border-indigo-500 transition-colors block"></span>
-          <span class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4 block"></span>
-        </span>
-        <span class="text-[11px] text-slate-400 hidden sm:inline">Randomize questions & options</span>
-        <span class="text-[11px] text-slate-400 sm:hidden">Qns & options</span>
-      </label>
-      <button id="reshuffleBtn" onclick="reshuffleNow()" class="hidden px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition">
-        <i class="fa-solid fa-shuffle"></i> Reshuffle
-      </button>
+    <div id="weekTabsWrapper" class="tabs-wrap">
+      <div class="tabs" id="weekTabsContainer"></div>
+      <button onclick="toggleBookmarkView()" id="bookmarkTabBtn" class="q-btn">★ Starred (<span id="savedCountBadge">0</span>)</button>
     </div>
 
-    <!-- Active Banner & Quick Progress Metrics -->
-    <div class="bg-slate-900/90 rounded-2xl p-4 sm:p-5 border border-slate-800/80 shadow-md mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-          <span id="activeWeekBadge" class="bg-indigo-950/80 text-indigo-300 text-xs font-bold px-2.5 py-0.5 rounded-md border border-indigo-800/60 uppercase tracking-wide">Week 1</span>
-          <span id="activeModeBadge" class="bg-slate-800/80 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-md border border-slate-700/60 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Vertical Stream Practice
-          </span>
-          <span id="totalPoolBadge" class="text-xs text-slate-400 font-mono">15 Questions</span>
-        </div>
-        <h2 id="activeWeekTitle" class="text-lg sm:text-xl font-bold text-white">Assignment 1: Fundamentals & EM Radiation</h2>
-        <p id="activeWeekDesc" class="text-xs text-slate-400 mt-1">Practice without clicking next — scroll down to answer all questions sequentially.</p>
-      </div>
+    <div id="shuffleControlsWrapper" class="shuffle-bar">
+      <label for="shuffleToggle"><input type="checkbox" id="shuffleToggle" onchange="toggleShuffle()" /> Shuffle — randomize questions & options</label>
+      <button id="reshuffleBtn" onclick="reshuffleNow()" class="q-btn hidden">Reshuffle</button>
+    </div>
 
-      <!-- Quick Metrics Bar -->
-      <div class="flex items-center gap-4 sm:gap-6 self-stretch md:self-auto justify-between bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-800 text-center">
-        <div>
-          <div class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Attempted</div>
-          <div class="font-bold text-white text-sm sm:text-base font-mono" id="statAnsweredRatio">0 / 15</div>
+    <div class="banner">
+      <div style="min-width:0; flex:1;">
+        <div class="meta">
+          <span class="badge" id="activeWeekBadge">Week 1</span>
+          <span class="badge" id="activeModeBadge">Practice</span>
+          <span id="totalPoolBadge">15 Questions</span>
         </div>
-        <div class="h-8 w-px bg-slate-800"></div>
-        <div>
-          <div class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Accuracy</div>
-          <div class="font-bold text-emerald-400 text-sm sm:text-base font-mono" id="statAccuracy">0%</div>
-        </div>
-        <div class="h-8 w-px bg-slate-800"></div>
-        <div>
-          <div class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Score</div>
-          <div class="font-bold text-indigo-400 text-sm sm:text-base font-mono" id="statScore">0 pts</div>
-        </div>
+        <h2 id="activeWeekTitle">Assignment 1: Fundamentals & EM Radiation</h2>
+        <p id="activeWeekDesc" style="margin:0; color:var(--gray); font-size:0.88em;">Practice without clicking next — scroll to answer all.</p>
+      </div>
+      <div class="metrics">
+        <div><div class="k">Attempted</div><div class="v" id="statAnsweredRatio">0 / 15</div></div>
+        <div style="width:1px; background:var(--gray); align-self:stretch;"></div>
+        <div><div class="k">Accuracy</div><div class="v" id="statAccuracy">0%</div></div>
+        <div style="width:1px; background:var(--gray); align-self:stretch;"></div>
+        <div><div class="k">Score</div><div class="v" id="statScore">0 pts</div></div>
       </div>
     </div>
 
-    <!-- Exam Timer & Submission Header (Visible in Mock Exam mode) -->
-    <div id="examControlsBar" class="hidden bg-slate-900 border border-amber-500/30 rounded-2xl p-4 mb-6 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold text-lg">
-          <i class="fa-solid fa-clock"></i>
-        </div>
-        <div>
-          <div class="text-[11px] font-semibold uppercase tracking-wider text-amber-400">Grand Mock Exam (All 87 Questions)</div>
-          <div class="text-lg font-mono font-bold text-white" id="examTimerDisplay">00:00:00</div>
-        </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <button onclick="submitExam()" id="submitExamBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition flex items-center gap-2">
-          <i class="fa-solid fa-check-double"></i> Submit & Grade
-        </button>
-      </div>
+    <div id="examControlsBar" class="hidden" style="border:1px dashed var(--gray); padding:0.8em; margin-bottom:1em; display:flex; justify-content:space-between; gap:1em; align-items:center; flex-wrap:wrap;">
+      <div>⏱ <span id="examTimerDisplay" style="font-family:var(--mono-font); font-weight:bold;">00:00:00</span> — Grand Mock Exam (All 87)</div>
+      <button onclick="submitExam()" id="submitExamBtn" class="q-btn active">Submit & Grade</button>
     </div>
 
-    <!-- FLASHCARD VIEW: All 87 questions combined -->
-    <div id="flashcardViewContainer" class="hidden flex-1 flex flex-col items-center justify-center py-4">
-      
-      <!-- Top fixed flashcard controls (fixed height to prevent layout jumps) -->
-      <div class="w-full max-w-2xl flex items-center justify-between mb-4 px-2">
-        <span class="text-xs text-slate-400 flex items-center gap-1.5">
-          <i class="fa-solid fa-shuffle text-indigo-400"></i> All 87 Questions Combined
-        </span>
-        <span class="text-xs font-mono text-indigo-400 font-semibold" id="fcCounter">1 / 87</span>
+    <div id="flashcardViewContainer" class="hidden flash-wrap">
+      <div style="width:100%; max-width:36em; display:flex; justify-content:space-between; font-size:0.85em; color:var(--gray);">
+        <span>All 87 Questions Combined</span>
+        <span id="fcCounter" style="font-family:var(--mono-font);">1 / 87</span>
       </div>
-
-      <div class="w-full max-w-2xl perspective-1000 min-h-[440px]">
-        <div id="flashcardElement" onclick="flipFlashcard()" class="flashcard-inner relative w-full h-full min-h-[440px] cursor-pointer">
-          
-          <!-- Front Face -->
-          <div class="flashcard-front absolute inset-0 w-full h-full bg-slate-900 border border-slate-800 shadow-xl rounded-3xl p-6 sm:p-8 flex flex-col justify-between select-text-preserve">
+      <div class="perspective-1000">
+        <div id="flashcardElement" onclick="flipFlashcard()" class="flashcard-inner">
+          <div class="flashcard-front">
             <div>
-              <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-                <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-800/50" id="fcFrontBadge">Week 1 • Question 1</span>
-                <span class="text-xs text-slate-400 flex items-center gap-1.5">
-                  <i class="fa-solid fa-rotate"></i> Click or press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300">Space</kbd> to flip
-                </span>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--gray); padding-bottom:0.5em; margin-bottom:0.7em; font-size:0.8em;">
+                <span id="fcFrontBadge" style="border:1px solid var(--gray); padding:0.15em 0.4em;">Week 1 • Question 1</span>
+                <span>Click to flip — Space</span>
               </div>
-              <h3 class="text-base sm:text-lg font-medium text-slate-100 leading-relaxed" id="fcFrontQuestion"></h3>
+              <div id="fcFrontQuestion" style="font-size:0.95em; line-height:1.45;"></div>
             </div>
-            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-              <span>Test your recall before checking the solution</span>
-              <span class="font-mono text-slate-500" id="fcFrontIndex">1 / 87</span>
+            <div style="border-top:1px solid var(--gray); padding-top:0.6em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
+              <span>Test recall before checking</span>
+              <span id="fcFrontIndex">1 / 87</span>
             </div>
           </div>
-
-          <!-- Back Face -->
-          <div class="flashcard-back absolute inset-0 w-full h-full bg-gradient-to-b from-slate-900 to-indigo-950/90 border border-indigo-800/50 shadow-2xl rounded-3xl p-6 sm:p-8 flex flex-col justify-between select-text-preserve">
+          <div class="flashcard-back">
             <div>
-              <div class="flex items-center justify-between border-b border-indigo-900/60 pb-3 mb-4">
-                <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-900 text-indigo-200 border border-indigo-700">Official Solution</span>
-                <span class="text-xs text-indigo-300 flex items-center gap-1.5"><i class="fa-solid fa-rotate"></i> Flip back</span>
+              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--gray); padding-bottom:0.5em; margin-bottom:0.7em; font-size:0.8em;">
+                <span style="border:1px solid var(--gray); padding:0.15em 0.4em;">Official Solution</span>
+                <span>Flip back</span>
               </div>
-              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-semibold text-sm mb-4" id="fcBackAnswer">
-                Correct Answer: ...
-              </div>
-              <div class="text-slate-300 text-xs sm:text-sm leading-relaxed max-h-56 overflow-y-auto pr-2" id="fcBackExplanation"></div>
+              <div id="fcBackAnswer" style="border:1px solid #5fb87a; padding:0.5em; font-size:0.9em; margin-bottom:0.7em;"></div>
+              <div id="fcBackExplanation" style="font-size:0.88em; line-height:1.45; max-height:14em; overflow:auto;"></div>
             </div>
-            <div class="pt-4 border-t border-indigo-900/60 flex items-center justify-between text-xs text-indigo-300/80">
+            <div style="border-top:1px solid var(--gray); padding-top:0.6em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
               <span>Verified NPTEL IIT Guwahati Key</span>
-              <span class="font-mono" id="fcBackIndex">1 / 87</span>
+              <span id="fcBackIndex">1 / 87</span>
             </div>
           </div>
-
         </div>
       </div>
-
-      <!-- Flashcard Navigation Buttons -->
-      <div class="flex items-center gap-3 mt-6">
-        <button onclick="navigateFlashcard(-1)" class="px-4 py-2 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-2 transition">
-          <i class="fa-solid fa-arrow-left"></i> Previous
-        </button>
-        <button onclick="flipFlashcard()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-2 shadow-md shadow-indigo-600/20 transition">
-          <i class="fa-solid fa-rotate"></i> Flip Card
-        </button>
-        <button onclick="navigateFlashcard(1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-2 transition">
-          Next <i class="fa-solid fa-arrow-right"></i>
-        </button>
+      <div style="display:flex; gap:0.5em;">
+        <button onclick="navigateFlashcard(-1)" class="q-btn">← Previous</button>
+        <button onclick="flipFlashcard()" class="q-btn active">Flip Card</button>
+        <button onclick="navigateFlashcard(1)" class="q-btn">Next →</button>
       </div>
-
     </div>
 
-    <!-- VERTICAL PRACTICE STREAM & EXAM CONTAINER -->
-    <div id="verticalPracticeContainer" class="flex-1 space-y-6">
-      <!-- Individual questions will be injected here vertically as cards -->
-    </div>
+    <div id="verticalPracticeContainer"></div>
 
-  </main>
+  </article>
 
-  <!-- Performance Statistics Modal -->
-  <div id="modalBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-800 transform transition-all max-h-[90vh] overflow-y-auto">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-5">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-indigo-950 text-indigo-400 border border-indigo-800 flex items-center justify-center text-lg font-bold">
-            <i class="fa-solid fa-chart-line"></i>
-          </div>
-          <div>
-            <h3 class="font-bold text-base sm:text-lg text-white" id="modalTitle">Performance Progress</h3>
-            <p class="text-xs text-slate-400" id="modalSubtitle">Saved in your local storage</p>
-          </div>
+  <div id="modalBackdrop" class="modal-backdrop hidden">
+    <div class="modal">
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--gray); padding-bottom:0.7em; margin-bottom:0.8em;">
+        <div>
+          <h3 id="modalTitle" style="margin:0;">Performance Progress</h3>
+          <p id="modalSubtitle" style="margin:0; color:var(--gray); font-size:0.85em;">Saved in local storage</p>
         </div>
-        <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+        <button onclick="closeModal()" class="q-btn">✕</button>
       </div>
-
-      <div id="modalBody" class="space-y-4"></div>
-
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-        <button onclick="closeModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold transition">
-          Close
-        </button>
-      </div>
+      <div id="modalBody"></div>
+      <div style="margin-top:1em; text-align:right;"><button onclick="closeModal()" class="q-btn">Close</button></div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 border border-slate-800 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-medium translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
-    <i class="fa-solid fa-circle-check text-emerald-400 text-sm" id="toastIcon"></i>
-    <span id="toastMsg">Notification</span>
-  </div>
+  <div id="toast" class="toast"><span id="toastMsg">Notification</span></div>
 
   <script>
-    /*
-     * Comprehensive Question Bank (87 questions, Weeks 1, 2, 3, 4, 5, 7)
-     * All math subscripts rendered directly with clean HTML typography.
-     */
     const QUIZ_DATABASE = [
       // ==========================================
       // WEEK 1: FUNDAMENTALS & EM RADIATION (15 Qs)
@@ -1480,28 +1524,20 @@
       { id: '7', label: 'Week 7', short: 'Week 7', count: 12, title: 'Assignment 7: Hyperspectral & GIS', desc: 'SVM margin & slack variables, ASTER library, CRISM 544 bands, TIN, GIS Erase overlays.' }
     ];
 
+
     // Application state
-    let currentMode = 'practice'; // 'practice', 'flashcard', 'exam'
+    let currentMode = 'practice';
     let currentWeekFilter = '1';
     let isBookmarkOnly = false;
-    
-    // Persistent user state: { [qId]: { selected: 'A', isCorrect: true, flagged: false, locked: true } }
     let userState = {};
-
-    // Flashcard state (always operates across all 87 questions)
     let flashcardList = [];
     let flashcardIndex = 0;
     let isCardFlipped = false;
-
-    // Exam state (always operates across all 87 questions)
     let examTimerInterval = null;
     let examSeconds = 0;
     let examSubmitted = false;
-
-    // Shuffle state
     let isShuffleEnabled = false;
     let shuffleCache = { questionOrder: null, optionsMap: {} };
-
     const STORAGE_KEY = 'nptel_rs_gis_quiz_dark_v3';
 
     function loadPersistedState() {
@@ -1514,731 +1550,281 @@
           examSeconds = parsed.examSeconds || 0;
           isShuffleEnabled = !!parsed.isShuffleEnabled;
         }
-      } catch (e) {
-        console.warn("Could not read localStorage:", e);
-      }
+      } catch (e) { console.warn(e); }
       if (isShuffleEnabled) buildShuffleCache();
     }
-
     function persistState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          userState,
-          currentWeekFilter,
-          examSeconds,
-          isShuffleEnabled
-        }));
-      } catch (e) {
-        console.warn("Could not write to localStorage:", e);
-      }
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ userState, currentWeekFilter, examSeconds, isShuffleEnabled })); } catch(e){}
       updateSavedBadge();
     }
+    function shuffleArray(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+    function buildShuffleCache(){ shuffleCache.questionOrder=shuffleArray([...QUIZ_DATABASE]); shuffleCache.optionsMap={}; QUIZ_DATABASE.forEach(q=>{ const s=shuffleArray([...q.options]); shuffleCache.optionsMap[q.id]=s.map((opt,i)=>({...opt,displayKey:String.fromCharCode(65+i),originalKey:opt.key}))});}
+    function clearShuffleCache(){ shuffleCache.questionOrder=null; shuffleCache.optionsMap={};}
+    function getDisplayOptions(q){ if(!isShuffleEnabled) return q.options.map(o=>({...o,displayKey:o.key,originalKey:o.key})); return shuffleCache.optionsMap[q.id]||q.options.map(o=>({...o,displayKey:o.key,originalKey:o.key}));}
+    function getShuffledQuestionList(list){ if(!isShuffleEnabled||!shuffleCache.questionOrder) return list; const idSet=new Set(list.map(q=>q.id)); return shuffleCache.questionOrder.filter(q=>idSet.has(q.id));}
+    function toggleShuffle(){ const t=document.getElementById('shuffleToggle'); isShuffleEnabled=!!t.checked; if(isShuffleEnabled){ buildShuffleCache(); showToast("Shuffle ON — questions & options randomized"); } else { clearShuffleCache(); showToast("Shuffle OFF — original order restored"); } persistState(); syncShuffleUI(); renderAppView();}
+    function reshuffleNow(){ if(!isShuffleEnabled){ document.getElementById('shuffleToggle').checked=true; isShuffleEnabled=true; } buildShuffleCache(); persistState(); syncShuffleUI(); renderAppView(); showToast("Questions reshuffled!");}
+    function syncShuffleUI(){ const t=document.getElementById('shuffleToggle'); const b=document.getElementById('reshuffleBtn'); if(t) t.checked=isShuffleEnabled; if(b){ if(isShuffleEnabled) b.classList.remove('hidden'); else b.classList.add('hidden'); } }
 
-    // --- Shuffle helpers ---
-    function shuffleArray(arr) {
-      const a = [...arr];
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
+    function updateSavedBadge(){ const c=Object.values(userState).filter(s=>s.flagged).length; document.getElementById('savedCountBadge').textContent=c; }
 
-    function buildShuffleCache() {
-      // Shuffle global question order
-      shuffleCache.questionOrder = shuffleArray([...QUIZ_DATABASE]);
-      // Build per-question option shuffle map: displayKey (A,B,C...) -> originalKey mapping
-      shuffleCache.optionsMap = {};
-      QUIZ_DATABASE.forEach(q => {
-        const shuffled = shuffleArray([...q.options]);
-        const mapped = shuffled.map((opt, idx) => ({
-          ...opt,
-          displayKey: String.fromCharCode(65 + idx),
-          originalKey: opt.key
-        }));
-        shuffleCache.optionsMap[q.id] = mapped;
-      });
-    }
-
-    function clearShuffleCache() {
-      shuffleCache.questionOrder = null;
-      shuffleCache.optionsMap = {};
-    }
-
-    function getDisplayOptions(q) {
-      if (!isShuffleEnabled) {
-        return q.options.map(o => ({ ...o, displayKey: o.key, originalKey: o.key }));
-      }
-      if (shuffleCache.optionsMap[q.id]) return shuffleCache.optionsMap[q.id];
-      // fallback if cache missed (should not happen)
-      return q.options.map(o => ({ ...o, displayKey: o.key, originalKey: o.key }));
-    }
-
-    function getShuffledQuestionList(list) {
-      if (!isShuffleEnabled || !shuffleCache.questionOrder) return list;
-      const orderIds = new Set(shuffleCache.questionOrder.map(q => q.id));
-      // Preserve global shuffled order but filter to only ids in the input list
-      const idSet = new Set(list.map(q => q.id));
-      return shuffleCache.questionOrder.filter(q => idSet.has(q.id));
-    }
-
-    function toggleShuffle() {
-      const toggle = document.getElementById('shuffleToggle');
-      isShuffleEnabled = !!toggle.checked;
-      if (isShuffleEnabled) {
-        buildShuffleCache();
-        showToast("Shuffle ON — questions & options randomized");
-      } else {
-        clearShuffleCache();
-        showToast("Shuffle OFF — original order restored", "info");
-      }
-      persistState();
-      syncShuffleUI();
-      renderAppView();
-    }
-
-    function reshuffleNow() {
-      if (!isShuffleEnabled) {
-        const t = document.getElementById('shuffleToggle');
-        t.checked = true;
-        isShuffleEnabled = true;
-      }
-      buildShuffleCache();
-      persistState();
-      syncShuffleUI();
-      renderAppView();
-      showToast("Questions reshuffled!");
-    }
-
-    function syncShuffleUI() {
-      const toggle = document.getElementById('shuffleToggle');
-      const btn = document.getElementById('reshuffleBtn');
-      if (toggle) toggle.checked = isShuffleEnabled;
-      if (btn) {
-        if (isShuffleEnabled) btn.classList.remove('hidden');
-        else btn.classList.add('hidden');
-      }
-    }
-
-    function updateSavedBadge() {
-      const count = Object.values(userState).filter(s => s.flagged).length;
-      document.getElementById('savedCountBadge').textContent = count;
-    }
-
-    function renderTabs() {
-      const container = document.getElementById('weekTabsContainer');
-      container.innerHTML = '';
-
-      WEEKS_META.forEach(w => {
-        const isActive = (w.id === currentWeekFilter) && !isBookmarkOnly;
-        const btn = document.createElement('button');
-        btn.className = `px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 ${
-          isActive 
-            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30' 
-            : 'bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:text-white'
-        }`;
-        btn.innerHTML = `<span>${w.short}</span> <span class="px-1.5 py-0.5 rounded-md text-[10px] ${isActive ? 'bg-indigo-700 text-white' : 'bg-slate-800 text-slate-400'}">${w.count}</span>`;
-        btn.onclick = () => selectWeek(w.id);
+    function renderTabs(){
+      const container=document.getElementById('weekTabsContainer'); container.innerHTML='';
+      WEEKS_META.forEach(w=>{
+        const isActive=(w.id===currentWeekFilter)&&!isBookmarkOnly;
+        const btn=document.createElement('button');
+        btn.className=isActive?'tab active':'tab';
+        btn.innerHTML=`${w.short} <span class="count">${w.count}</span>`;
+        btn.onclick=()=>selectWeek(w.id);
         container.appendChild(btn);
       });
-
-      const savedBtn = document.getElementById('bookmarkTabBtn');
-      if (isBookmarkOnly) {
-        savedBtn.className = "px-3 py-2 text-xs font-semibold rounded-xl border border-amber-500/40 bg-amber-950/40 text-amber-400 flex items-center gap-1.5 shadow-sm";
-      } else {
-        savedBtn.className = "px-3 py-2 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 transition flex items-center gap-1.5 text-slate-400 hover:text-amber-400";
-      }
+      const savedBtn=document.getElementById('bookmarkTabBtn');
+      savedBtn.className=isBookmarkOnly?'q-btn active':'q-btn';
+    }
+    function selectWeek(weekId){ isBookmarkOnly=false; currentWeekFilter=weekId; persistState(); renderAppView(); showToast(`Switched to Week ${weekId}`);}
+    function toggleBookmarkView(){
+      const savedCount=Object.values(userState).filter(s=>s.flagged).length;
+      if(!isBookmarkOnly && savedCount===0){ showToast("No starred questions yet!","info"); return; }
+      isBookmarkOnly=!isBookmarkOnly; renderAppView();
     }
 
-    function selectWeek(weekId) {
-      isBookmarkOnly = false;
-      currentWeekFilter = weekId;
-      persistState();
-      renderAppView();
-      showToast(`Switched to Week ${weekId}`);
-    }
+    function renderAppView(){
+      renderTabs(); updateSavedBadge(); syncShuffleUI();
+      const weekTabsWrapper=document.getElementById('weekTabsWrapper');
+      const activeWeekBadge=document.getElementById('activeWeekBadge');
+      const activeModeBadge=document.getElementById('activeModeBadge');
+      const totalPoolBadge=document.getElementById('totalPoolBadge');
+      const activeWeekTitle=document.getElementById('activeWeekTitle');
+      const activeWeekDesc=document.getElementById('activeWeekDesc');
+      const practiceContainer=document.getElementById('verticalPracticeContainer');
+      const flashcardContainer=document.getElementById('flashcardViewContainer');
+      const examBar=document.getElementById('examControlsBar');
+      // mode buttons
+      document.getElementById('modePracticeBtn').className=currentMode==='practice'?'q-btn active':'q-btn';
+      document.getElementById('modeFlashcardBtn').className=currentMode==='flashcard'?'q-btn active':'q-btn';
+      document.getElementById('modeExamBtn').className=currentMode==='exam'?'q-btn active':'q-btn';
 
-    function toggleBookmarkView() {
-      const savedCount = Object.values(userState).filter(s => s.flagged).length;
-      if (!isBookmarkOnly && savedCount === 0) {
-        showToast("No starred questions yet! Star any question for rapid review.", "info");
-        return;
-      }
-      isBookmarkOnly = !isBookmarkOnly;
-      renderAppView();
-    }
-
-    function renderAppView() {
-      renderTabs();
-      updateSavedBadge();
-      syncShuffleUI();
-
-      const weekTabsWrapper = document.getElementById('weekTabsWrapper');
-      const activeWeekBadge = document.getElementById('activeWeekBadge');
-      const activeModeBadge = document.getElementById('activeModeBadge');
-      const totalPoolBadge = document.getElementById('totalPoolBadge');
-      const activeWeekTitle = document.getElementById('activeWeekTitle');
-      const activeWeekDesc = document.getElementById('activeWeekDesc');
-
-      const practiceContainer = document.getElementById('verticalPracticeContainer');
-      const flashcardContainer = document.getElementById('flashcardViewContainer');
-      const examBar = document.getElementById('examControlsBar');
-
-      if (currentMode === 'practice') {
+      if(currentMode==='practice'){
         weekTabsWrapper.classList.remove('hidden');
         flashcardContainer.classList.add('hidden');
         examBar.classList.add('hidden');
         practiceContainer.classList.remove('hidden');
-
-        let qList = QUIZ_DATABASE.filter(q => q.week.toString() === currentWeekFilter);
-        if (isBookmarkOnly) {
-          qList = QUIZ_DATABASE.filter(q => userState[q.id]?.flagged);
-          qList = getShuffledQuestionList(qList);
-          activeWeekBadge.textContent = "Starred Vault";
-          activeWeekTitle.textContent = "Bookmarked Questions";
-          activeWeekDesc.textContent = `${qList.length} saved questions ready for rapid revision across all assignments.`;
-          totalPoolBadge.textContent = `${qList.length} Questions`;
+        let qList=QUIZ_DATABASE.filter(q=>q.week.toString()===currentWeekFilter);
+        if(isBookmarkOnly){
+          qList=QUIZ_DATABASE.filter(q=>userState[q.id]?.flagged);
+          qList=getShuffledQuestionList(qList);
+          activeWeekBadge.textContent="Starred Vault";
+          activeWeekTitle.textContent="Bookmarked Questions";
+          activeWeekDesc.textContent=`${qList.length} saved questions ready for rapid revision.`;
+          totalPoolBadge.textContent=`${qList.length} Questions`;
         } else {
-          const meta = WEEKS_META.find(m => m.id === currentWeekFilter) || WEEKS_META[0];
-          activeWeekBadge.textContent = `Week ${meta.id}`;
-          activeWeekTitle.textContent = meta.title;
-          activeWeekDesc.textContent = meta.desc;
-          qList = getShuffledQuestionList(qList);
-          totalPoolBadge.textContent = `${qList.length} Questions`;
+          const meta=WEEKS_META.find(m=>m.id===currentWeekFilter)||WEEKS_META[0];
+          activeWeekBadge.textContent=`Week ${meta.id}`;
+          activeWeekTitle.textContent=meta.title;
+          activeWeekDesc.textContent=meta.desc;
+          qList=getShuffledQuestionList(qList);
+          totalPoolBadge.textContent=`${qList.length} Questions`;
         }
-
-        activeModeBadge.className = "bg-slate-800/80 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-md border border-slate-700/60 flex items-center gap-1.5";
-        activeModeBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Vertical Stream Practice`;
-
-        renderVerticalQuestions(qList);
-        updateMetrics(qList);
-
-      } else if (currentMode === 'exam') {
+        activeModeBadge.textContent="Practice";
+        renderVerticalQuestions(qList); updateMetrics(qList);
+      } else if(currentMode==='exam'){
         weekTabsWrapper.classList.add('hidden');
         flashcardContainer.classList.add('hidden');
         examBar.classList.remove('hidden');
         practiceContainer.classList.remove('hidden');
-
-        activeWeekBadge.textContent = "Grand Mock Exam";
-        activeModeBadge.className = "bg-amber-950/60 text-amber-400 text-xs font-medium px-2.5 py-0.5 rounded-md border border-amber-800/50 flex items-center gap-1.5";
-        activeModeBadge.innerHTML = `<i class="fa-solid fa-stopwatch"></i> Exam Mode (All 87 Combined)`;
-        totalPoolBadge.textContent = "87 Total Questions";
-        activeWeekTitle.textContent = "Complete Course Assessment";
-        activeWeekDesc.textContent = "All 87 questions from Weeks 1 through 7 combined. Review your grade and explanations upon clicking Submit.";
-
-        const examList = getShuffledQuestionList(QUIZ_DATABASE);
-        renderVerticalQuestions(examList);
-        updateMetrics(QUIZ_DATABASE);
-
-      } else if (currentMode === 'flashcard') {
+        activeWeekBadge.textContent="Grand Mock Exam";
+        activeModeBadge.textContent="Exam Mode";
+        totalPoolBadge.textContent="87 Total";
+        activeWeekTitle.textContent="Complete Course Assessment";
+        activeWeekDesc.textContent="All 87 questions from Weeks 1-7 combined. Review grade upon Submit.";
+        const examList=getShuffledQuestionList(QUIZ_DATABASE);
+        renderVerticalQuestions(examList); updateMetrics(QUIZ_DATABASE);
+      } else if(currentMode==='flashcard'){
         weekTabsWrapper.classList.add('hidden');
         practiceContainer.classList.add('hidden');
         examBar.classList.add('hidden');
         flashcardContainer.classList.remove('hidden');
-
-        activeWeekBadge.textContent = "All 87 Questions";
-        activeModeBadge.className = "bg-indigo-950/80 text-indigo-300 text-xs font-medium px-2.5 py-0.5 rounded-md border border-indigo-800/50 flex items-center gap-1.5";
-        activeModeBadge.innerHTML = `<i class="fa-solid fa-clone"></i> Flashcards Combined`;
-        totalPoolBadge.textContent = "87 Cards";
-        activeWeekTitle.textContent = "Active Recall Flashcard Deck";
-        activeWeekDesc.textContent = "All questions combined across the entire course. Tap card or press space to flip.";
-
-        flashcardList = getShuffledQuestionList(QUIZ_DATABASE);
-        // clamp index if list changed
-        if (flashcardIndex >= flashcardList.length) flashcardIndex = 0;
-        renderFlashcard();
-        updateMetrics(QUIZ_DATABASE);
+        activeWeekBadge.textContent="All 87";
+        activeModeBadge.textContent="Flashcards";
+        totalPoolBadge.textContent="87 Cards";
+        activeWeekTitle.textContent="Active Recall Flashcard Deck";
+        activeWeekDesc.textContent="All questions combined. Tap card or press space to flip.";
+        flashcardList=getShuffledQuestionList(QUIZ_DATABASE);
+        if(flashcardIndex>=flashcardList.length) flashcardIndex=0;
+        renderFlashcard(); updateMetrics(QUIZ_DATABASE);
       }
     }
 
-    function renderVerticalQuestions(questionList) {
-      const container = document.getElementById('verticalPracticeContainer');
-      container.innerHTML = '';
-
-      if (questionList.length === 0) {
-        container.innerHTML = `
-          <div class="p-12 text-center bg-slate-900 border border-slate-800 rounded-3xl">
-            <i class="fa-solid fa-folder-open text-3xl text-slate-600 mb-3"></i>
-            <p class="text-sm text-slate-400 font-medium">No questions found in this selection.</p>
-          </div>
-        `;
+    function renderVerticalQuestions(questionList){
+      const container=document.getElementById('verticalPracticeContainer');
+      container.innerHTML='';
+      if(questionList.length===0){
+        container.innerHTML=`<div class="q-card" style="text-align:center; color:var(--gray);">No questions in this selection.</div>`;
         return;
       }
-
-      questionList.forEach((q, index) => {
-        const state = userState[q.id] || {};
-        const isAnswered = !!state.selected;
-        const isLocked = state.locked === true;
-        const isExamActive = (currentMode === 'exam' && !examSubmitted);
-
-        const card = document.createElement('div');
-        card.id = `qCard_${q.id}`;
-        card.className = "bg-slate-900 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-sm transition-all";
-
-        // Card header
-        const cardHeader = document.createElement('div');
-        cardHeader.className = "flex items-center justify-between border-b border-slate-800/80 pb-3 mb-4";
-
-        const leftHeader = document.createElement('div');
-        leftHeader.className = "flex items-center gap-2.5";
-        leftHeader.innerHTML = `
-          <span class="w-7 h-7 rounded-lg bg-indigo-950 text-indigo-400 border border-indigo-800/60 font-mono font-bold text-xs flex items-center justify-center">
-            ${index + 1}
-          </span>
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Week ${q.week}</span>
-        `;
-
-        const rightHeader = document.createElement('div');
-        rightHeader.className = "flex items-center gap-2";
-
-        // Star Bookmark Button
-        const bookmarkBtn = document.createElement('button');
-        bookmarkBtn.className = `p-1.5 rounded-lg border transition text-xs flex items-center gap-1.5 ${
-          state.flagged 
-            ? 'border-amber-500/40 bg-amber-950/40 text-amber-400' 
-            : 'border-slate-800 text-slate-400 hover:text-amber-400 hover:bg-slate-800'
-        }`;
-        bookmarkBtn.innerHTML = `<i class="${state.flagged ? 'fa-solid' : 'fa-regular'} fa-star"></i>`;
-        bookmarkBtn.title = state.flagged ? "Remove star" : "Star for revision";
-        bookmarkBtn.onclick = () => toggleBookmark(q.id);
-
-        rightHeader.appendChild(bookmarkBtn);
-
-        cardHeader.appendChild(leftHeader);
-        cardHeader.appendChild(rightHeader);
-        card.appendChild(cardHeader);
-
-        // Question text
-        const qTitle = document.createElement('h3');
-        qTitle.className = "text-sm sm:text-base font-medium text-slate-100 leading-relaxed mb-4 select-text-preserve";
-        qTitle.innerHTML = q.question;
-        card.appendChild(qTitle);
-
-        // Options List (supports shuffled display keys while preserving original correctness)
-        const optionsList = document.createElement('div');
-        optionsList.className = "space-y-2.5";
-
-        const displayOpts = getDisplayOptions(q);
-        displayOpts.forEach(opt => {
-          const isSelected = (state.selected === opt.originalKey);
-          const isCorrect = (opt.originalKey === q.correct);
-
-          let optClasses = "w-full p-3.5 rounded-xl border text-left text-xs sm:text-sm font-normal transition flex items-start gap-3 relative select-text-preserve ";
-          let badgeClasses = "w-6 h-6 rounded-md text-xs font-bold flex items-center justify-center shrink-0 font-mono ";
-          let iconHtml = "";
-
-          if (currentMode === 'practice') {
-            if (isLocked) {
-              if (isCorrect) {
-                optClasses += "border-emerald-500/60 bg-emerald-950/30 text-emerald-200 font-medium ";
-                badgeClasses += "bg-emerald-600 text-white ";
-                iconHtml = `<i class="fa-solid fa-circle-check text-emerald-400 ml-auto self-center text-sm"></i>`;
-              } else if (isSelected && !isCorrect) {
-                optClasses += "border-rose-500/50 bg-rose-950/30 text-rose-200 font-medium ";
-                badgeClasses += "bg-rose-600 text-white ";
-                iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-400 ml-auto self-center text-sm"></i>`;
-              } else {
-                optClasses += "border-slate-800/80 bg-slate-950/40 text-slate-500 opacity-60 ";
-                badgeClasses += "bg-slate-900 text-slate-500 ";
-              }
-            } else {
-              optClasses += "cursor-pointer border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900 text-slate-300 ";
-              badgeClasses += "bg-slate-800 text-slate-400 ";
-            }
-          } else if (currentMode === 'exam') {
-            if (examSubmitted) {
-              if (isCorrect) {
-                optClasses += "border-emerald-500/60 bg-emerald-950/30 text-emerald-200 font-medium ";
-                badgeClasses += "bg-emerald-600 text-white ";
-                iconHtml = `<i class="fa-solid fa-circle-check text-emerald-400 ml-auto self-center text-sm"></i>`;
-              } else if (isSelected && !isCorrect) {
-                optClasses += "border-rose-500/50 bg-rose-950/30 text-rose-200 font-medium ";
-                badgeClasses += "bg-rose-600 text-white ";
-                iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-400 ml-auto self-center text-sm"></i>`;
-              } else {
-                optClasses += "border-slate-800/80 bg-slate-950/40 text-slate-500 opacity-60 ";
-                badgeClasses += "bg-slate-900 text-slate-500 ";
-              }
-            } else {
-              if (isSelected) {
-                optClasses += "border-indigo-500 bg-indigo-950/40 text-indigo-200 font-medium ring-1 ring-indigo-500/50 ";
-                badgeClasses += "bg-indigo-600 text-white ";
-              } else {
-                optClasses += "cursor-pointer border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900 text-slate-300 ";
-                badgeClasses += "bg-slate-800 text-slate-400 ";
-              }
-            }
+      questionList.forEach((q,index)=>{
+        const state=userState[q.id]||{};
+        const isLocked=state.locked===true;
+        const card=document.createElement('div');
+        card.id=`qCard_${q.id}`;
+        card.className="q-card";
+        const head=document.createElement('div');
+        head.className="q-card-head";
+        head.innerHTML=`<span style="display:flex; gap:0.5em; align-items:center;"><span class="q-num">${index+1}</span><span class="q-week">Week ${q.week}</span></span>`;
+        const star=document.createElement('button');
+        star.className=state.flagged?'star active':'star';
+        star.textContent=state.flagged?'★':'☆';
+        star.title=state.flagged?"Remove star":"Star for revision";
+        star.onclick=()=>toggleBookmark(q.id);
+        head.appendChild(star);
+        card.appendChild(head);
+        const title=document.createElement('div');
+        title.className="q-title";
+        title.innerHTML=q.question;
+        card.appendChild(title);
+        const optsWrap=document.createElement('div');
+        optsWrap.className="q-options";
+        const displayOpts=getDisplayOptions(q);
+        displayOpts.forEach(opt=>{
+          const isSelected=(state.selected===opt.originalKey);
+          const isCorrect=(opt.originalKey===q.correct);
+          let cls="q-option";
+          if(currentMode==='practice'){
+            if(isLocked){
+              if(isCorrect) cls+=" correct";
+              else if(isSelected && !isCorrect) cls+=" incorrect";
+              else cls+=" muted";
+            } else if(isSelected) cls+=" selected";
+          } else if(currentMode==='exam'){
+            if(examSubmitted){
+              if(isCorrect) cls+=" correct";
+              else if(isSelected && !isCorrect) cls+=" incorrect";
+              else cls+=" muted";
+            } else if(isSelected) cls+=" selected";
           }
-
-          const optBtn = document.createElement('button');
-          optBtn.className = optClasses;
-          optBtn.onclick = (e) => {
-            if (window.getSelection().toString().length > 0) return;
-            handleOptionSelect(q.id, opt.originalKey);
-          };
-          optBtn.innerHTML = `
-            <span class="${badgeClasses}">${opt.displayKey}</span>
-            <span class="flex-1 pt-0.5 leading-snug">${opt.text}</span>
-            ${iconHtml}
-          `;
-          optionsList.appendChild(optBtn);
+          const btn=document.createElement('button');
+          btn.className=cls;
+          btn.onclick=(e)=>{ if(window.getSelection().toString().length>0) return; handleOptionSelect(q.id, opt.originalKey); };
+          const badgeClass="opt-badge";
+          let icon="";
+          if(isLocked || (currentMode==='exam' && examSubmitted)){
+            if(isCorrect) icon=" ✓";
+            else if(isSelected && !isCorrect) icon=" ✕";
+          } else if(isSelected && currentMode==='exam' && !examSubmitted){
+            icon=" •";
+          }
+          btn.innerHTML=`<span class="${badgeClass}">${opt.displayKey}</span><span style="flex:1;">${opt.text}</span><span>${icon}</span>`;
+          optsWrap.appendChild(btn);
         });
-
-        card.appendChild(optionsList);
-
-        // Solution / Explanation Banner
-        const showSolution = (currentMode === 'practice' && isLocked) || (currentMode === 'exam' && examSubmitted);
-        if (showSolution) {
-          const correctOpt = q.options.find(o => o.key === q.correct);
-          const displayOptsForSolution = getDisplayOptions(q);
-          const correctDisplay = displayOptsForSolution.find(o => o.originalKey === q.correct);
-          const correctDisplayKey = correctDisplay ? correctDisplay.displayKey : q.correct;
-          const expBox = document.createElement('div');
-          expBox.className = "mt-4 pt-4 border-t border-slate-800/80 text-xs sm:text-sm select-text-preserve";
-
-          let tryAgainHtml = "";
-          if (currentMode === 'practice') {
-            tryAgainHtml = `
-              <button onclick="unlockQuestion('${q.id}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition">
-                <i class="fa-solid fa-rotate-left mr-1"></i> Try Again
-              </button>
-            `;
+        card.appendChild(optsWrap);
+        const showSolution=(currentMode==='practice' && isLocked) || (currentMode==='exam' && examSubmitted);
+        if(showSolution){
+          const correctOpt=q.options.find(o=>o.key===q.correct);
+          const displayOptsForSolution=getDisplayOptions(q);
+          const correctDisplay=displayOptsForSolution.find(o=>o.originalKey===q.correct);
+          const correctDisplayKey=correctDisplay?correctDisplay.displayKey:q.correct;
+          const exp=document.createElement('div');
+          exp.className="solution";
+          let tryAgain="";
+          if(currentMode==='practice'){
+            tryAgain=`<button onclick="unlockQuestion('${q.id}')" class="q-btn" style="font-size:0.85em;">↺ Try Again</button>`;
           }
-
-          expBox.innerHTML = `
-            <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800/90">
-              <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
-                <div class="flex items-center gap-2">
-                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Correct Answer:</span>
-                  <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 font-semibold border border-emerald-800/60 font-mono">
-                    (${correctDisplayKey}) ${correctOpt ? correctOpt.text : ''}
-                  </span>
-                </div>
-                ${tryAgainHtml}
-              </div>
-              <div class="text-slate-300 leading-relaxed">
-                <span class="font-semibold text-indigo-400 block mb-1">Derivation & Solution:</span>
-                ${q.explanation}
-              </div>
-            </div>
-          `;
-          card.appendChild(expBox);
+          exp.innerHTML=`<div style="display:flex; justify-content:space-between; gap:0.6em; flex-wrap:wrap; align-items:center; margin-bottom:0.5em;"><span>Correct Answer: <span class="ans">(${correctDisplayKey}) ${correctOpt?correctOpt.text:''}</span></span>${tryAgain}</div><div style="color:var(--black);"><strong>Derivation & Solution:</strong><br>${q.explanation}</div>`;
+          card.appendChild(exp);
         }
-
         container.appendChild(card);
       });
     }
 
-    function handleOptionSelect(qId, selectedKey) {
-      const q = QUIZ_DATABASE.find(item => item.id === qId);
-      if (!q) return;
+    function handleOptionSelect(qId, selectedKey){
+      const q=QUIZ_DATABASE.find(x=>x.id===qId); if(!q) return;
+      const currentState=userState[qId]||{};
+      if(currentMode==='practice' && currentState.locked){ showToast("Answer locked. Click 'Try Again' to re-attempt."); return; }
+      if(currentMode==='exam' && examSubmitted) return;
+      const isCorrect=(selectedKey===q.correct);
+      userState[qId]={...currentState, selected:selectedKey, isCorrect, week:q.week, locked:(currentMode==='practice')};
+      persistState(); renderAppView();
+    }
+    function unlockQuestion(qId){ if(userState[qId]){ userState[qId].locked=false; userState[qId].selected=null; userState[qId].isCorrect=null; } persistState(); renderAppView(); showToast("Question reset. Pick again!");}
+    function toggleBookmark(qId){ const isFlagged=!userState[qId]?.flagged; userState[qId]={...(userState[qId]||{}), flagged:isFlagged}; persistState(); renderAppView(); showToast(isFlagged?"Starred for revision":"Removed from Starred");}
 
-      const currentState = userState[qId] || {};
+    function renderFlashcard(){
+      if(flashcardList.length===0) return;
+      const q=flashcardList[flashcardIndex];
+      const correctOpt=q.options.find(o=>o.key===q.correct);
+      const displayOpts=getDisplayOptions(q);
+      const correctDisplay=displayOpts.find(o=>o.originalKey===q.correct);
+      const correctDisplayKey=correctDisplay?correctDisplay.displayKey:q.correct;
+      document.getElementById('fcCounter').textContent=`${flashcardIndex+1} / ${flashcardList.length}`;
+      document.getElementById('fcFrontBadge').textContent=`Week ${q.week} • Question ${flashcardIndex+1}`;
+      document.getElementById('fcFrontIndex').textContent=`${flashcardIndex+1} / ${flashcardList.length}`;
+      document.getElementById('fcBackIndex').textContent=`${flashcardIndex+1} / ${flashcardList.length}`;
+      let optPreview=`<div style="margin-top:0.8em; display:flex; flex-direction:column; gap:0.35em;">`;
+      displayOpts.forEach(opt=>{ optPreview+=`<div style="border:1px solid var(--gray); padding:0.35em 0.5em; display:flex; gap:0.4em; font-size:0.88em;"><span style="font-family:var(--mono-font);">${opt.displayKey})</span><span>${opt.text}</span></div>`;});
+      optPreview+=`</div>`;
+      document.getElementById('fcFrontQuestion').innerHTML=`<div>${q.question}</div>${optPreview}`;
+      document.getElementById('fcBackAnswer').innerHTML=`Correct Choice: (${correctDisplayKey}) ${correctOpt?correctOpt.text:''}`;
+      document.getElementById('fcBackExplanation').innerHTML=q.explanation;
+      const inner=document.getElementById('flashcardElement');
+      if(isCardFlipped) inner.classList.add('flipped'); else inner.classList.remove('flipped');
+    }
+    function flipFlashcard(){ const el=document.getElementById('flashcardElement'); isCardFlipped=!isCardFlipped; if(isCardFlipped) el.classList.add('flipped'); else el.classList.remove('flipped');}
+    function navigateFlashcard(delta){ const n=flashcardIndex+delta; if(n>=0 && n<flashcardList.length){ flashcardIndex=n; isCardFlipped=false; renderFlashcard(); }}
 
-      // If in practice mode and question is already locked, prevent clicking answers without clicking "Try Again"
-      if (currentMode === 'practice' && currentState.locked) {
-        showToast("Answer locked. Click 'Try Again' on this card to re-attempt.", "info");
-        return;
-      }
-
-      if (currentMode === 'exam' && examSubmitted) return;
-
-      const isCorrect = (selectedKey === q.correct);
-
-      userState[qId] = {
-        ...currentState,
-        selected: selectedKey,
-        isCorrect: isCorrect,
-        week: q.week,
-        locked: (currentMode === 'practice') // Immediately lock in practice mode
-      };
-
-      persistState();
+    function setMode(mode){
+      currentMode=mode;
+      if(mode==='practice') stopExamTimer();
+      else if(mode==='flashcard'){ stopExamTimer(); isCardFlipped=false; }
+      else if(mode==='exam'){ examSubmitted=false; startExamTimer(); }
       renderAppView();
     }
-
-    function unlockQuestion(qId) {
-      if (userState[qId]) {
-        userState[qId].locked = false;
-        userState[qId].selected = null;
-        userState[qId].isCorrect = null;
-      }
-      persistState();
-      renderAppView();
-      showToast("Question reset. Pick an option again!", "info");
+    function startExamTimer(){ stopExamTimer(); updateTimerDisplay(); examTimerInterval=setInterval(()=>{ examSeconds++; updateTimerDisplay(); },1000); }
+    function stopExamTimer(){ if(examTimerInterval){ clearInterval(examTimerInterval); examTimerInterval=null; } }
+    function updateTimerDisplay(){ const h=String(Math.floor(examSeconds/3600)).padStart(2,'0'); const m=String(Math.floor((examSeconds%3600)/60)).padStart(2,'0'); const s=String(examSeconds%60).padStart(2,'0'); document.getElementById('examTimerDisplay').textContent=`${h}:${m}:${s}`; }
+    function submitExam(){ stopExamTimer(); examSubmitted=true; renderAppView(); openStatsModal("Mock Exam Completed!"); showToast("Mock Exam submitted and graded!");}
+    function updateMetrics(questionList){
+      const total=questionList.length; let answered=0, correct=0;
+      questionList.forEach(q=>{ const s=userState[q.id]; if(s && s.selected){ answered++; if(s.isCorrect) correct++; }});
+      const acc=answered>0?Math.round((correct/answered)*100):0;
+      document.getElementById('statAnsweredRatio').textContent=`${answered} / ${total}`;
+      document.getElementById('statAccuracy').textContent=`${acc}%`;
+      document.getElementById('statScore').textContent=`${correct} pts`;
     }
-
-    function toggleBookmark(qId) {
-      const isFlagged = !userState[qId]?.flagged;
-      userState[qId] = {
-        ...(userState[qId] || {}),
-        flagged: isFlagged
-      };
-      persistState();
-      renderAppView();
-      showToast(isFlagged ? "Starred for revision" : "Removed from Starred", "info");
-    }
-
-    function renderFlashcard() {
-      if (flashcardList.length === 0) return;
-      const cardInner = document.getElementById('flashcardElement');
-      const fcCounter = document.getElementById('fcCounter');
-      const fcFrontQ = document.getElementById('fcFrontQuestion');
-      const fcFrontBadge = document.getElementById('fcFrontBadge');
-      const fcFrontIndex = document.getElementById('fcFrontIndex');
-      const fcBackAnswer = document.getElementById('fcBackAnswer');
-      const fcBackExplanation = document.getElementById('fcBackExplanation');
-      const fcBackIndex = document.getElementById('fcBackIndex');
-
-      const q = flashcardList[flashcardIndex];
-      const correctOpt = q.options.find(o => o.key === q.correct);
-      const displayOpts = getDisplayOptions(q);
-      const correctDisplay = displayOpts.find(o => o.originalKey === q.correct);
-      const correctDisplayKey = correctDisplay ? correctDisplay.displayKey : q.correct;
-
-      fcCounter.textContent = `${flashcardIndex + 1} / ${flashcardList.length}`;
-      fcFrontBadge.textContent = `Week ${q.week} • Question ${flashcardIndex + 1}`;
-      fcFrontIndex.textContent = `${flashcardIndex + 1} / ${flashcardList.length}`;
-      fcBackIndex.textContent = `${flashcardIndex + 1} / ${flashcardList.length}`;
-
-      // Options preview inside the front of the flashcard (respects shuffle)
-      let optPreview = `<div class="mt-4 space-y-2 text-xs text-slate-300">`;
-      displayOpts.forEach(opt => {
-        optPreview += `
-          <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 flex items-start gap-2">
-            <span class="font-mono font-bold text-indigo-400">${opt.displayKey})</span>
-            <span>${opt.text}</span>
-          </div>
-        `;
+    function openStatsModal(customTitle){
+      const modal=document.getElementById('modalBackdrop');
+      const modalTitle=document.getElementById('modalTitle');
+      const modalBody=document.getElementById('modalBody');
+      modalTitle.textContent=customTitle||"Overall Practice Progress";
+      let totalAttempted=0, totalCorrect=0;
+      QUIZ_DATABASE.forEach(q=>{ if(userState[q.id]?.selected){ totalAttempted++; if(userState[q.id]?.isCorrect) totalCorrect++; }});
+      const totalAcc=totalAttempted>0?Math.round((totalCorrect/totalAttempted)*100):0;
+      let html=`<div style="display:flex; gap:0.6em; margin-bottom:1em;">
+        <div style="flex:1; border:1px solid var(--gray); padding:0.6em; text-align:center;"><div style="color:var(--gray); font-size:0.8em;">Total</div><div style="font-family:var(--mono-font); font-weight:bold;">${QUIZ_DATABASE.length}</div></div>
+        <div style="flex:1; border:1px solid var(--gray); padding:0.6em; text-align:center;"><div style="color:var(--gray); font-size:0.8em;">Attempted</div><div style="font-family:var(--mono-font); font-weight:bold;">${totalAttempted}</div></div>
+        <div style="flex:1; border:1px solid var(--gray); padding:0.6em; text-align:center;"><div style="color:var(--gray); font-size:0.8em;">Accuracy</div><div style="font-family:var(--mono-font); font-weight:bold;">${totalAcc}%</div></div>
+      </div><h4 style="margin:0 0 0.5em; color:var(--gray); font-size:0.85em;">Weekly Breakdown</h4><div style="display:flex; flex-direction:column; gap:0.5em;">`;
+      [1,2,3,4,5,7].forEach(wNum=>{
+        const weekQs=QUIZ_DATABASE.filter(q=>q.week===wNum);
+        let wAns=0,wCorr=0; weekQs.forEach(q=>{ if(userState[q.id]?.selected){ wAns++; if(userState[q.id]?.isCorrect) wCorr++; }});
+        const pct=weekQs.length>0?Math.round((wCorr/weekQs.length)*100):0;
+        html+=`<div style="border:1px solid var(--gray); padding:0.6em;"><div style="display:flex; justify-content:space-between; font-size:0.85em; margin-bottom:0.3em;"><span>Week ${wNum}</span><span style="font-family:var(--mono-font);">${wCorr} / ${weekQs.length} (${pct}%)</span></div><div style="height:6px; background:var(--white-darker);"><div style="height:100%; background:var(--black); width:${pct}%;"></div></div></div>`;
       });
-      optPreview += `</div>`;
-
-      fcFrontQ.innerHTML = `<div>${q.question}</div>${optPreview}`;
-      fcBackAnswer.innerHTML = `Correct Choice: (${correctDisplayKey}) ${correctOpt ? correctOpt.text : ''}`;
-      fcBackExplanation.innerHTML = q.explanation;
-
-      if (isCardFlipped) {
-        cardInner.classList.add('flipped');
-      } else {
-        cardInner.classList.remove('flipped');
-      }
+      html+=`</div>`; modalBody.innerHTML=html; modal.classList.remove('hidden');
     }
-
-    function flipFlashcard() {
-      const cardInner = document.getElementById('flashcardElement');
-      isCardFlipped = !isCardFlipped;
-      if (isCardFlipped) {
-        cardInner.classList.add('flipped');
-      } else {
-        cardInner.classList.remove('flipped');
-      }
+    function closeModal(){ document.getElementById('modalBackdrop').classList.add('hidden'); }
+    function promptResetProgress(){ userState={}; examSeconds=0; examSubmitted=false; persistState(); renderAppView(); showToast("All progress reset"); }
+    function showToast(msg){
+      const t=document.getElementById('toast'); document.getElementById('toastMsg').textContent=msg;
+      t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400);
     }
-
-    function navigateFlashcard(delta) {
-      const nextIdx = flashcardIndex + delta;
-      if (nextIdx >= 0 && nextIdx < flashcardList.length) {
-        flashcardIndex = nextIdx;
-        isCardFlipped = false;
-        renderFlashcard();
-      }
-    }
-
-    function setMode(mode) {
-      currentMode = mode;
-      const practiceBtn = document.getElementById('modePracticeBtn');
-      const flashcardBtn = document.getElementById('modeFlashcardBtn');
-      const examBtn = document.getElementById('modeExamBtn');
-
-      [practiceBtn, flashcardBtn, examBtn].forEach(btn => {
-        btn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-slate-400 hover:text-white";
-      });
-
-      if (mode === 'practice') {
-        practiceBtn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs";
-        stopExamTimer();
-      } else if (mode === 'flashcard') {
-        flashcardBtn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs";
-        stopExamTimer();
-        isCardFlipped = false;
-      } else if (mode === 'exam') {
-        examBtn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs";
-        examSubmitted = false;
-        startExamTimer();
-      }
-
-      renderAppView();
-    }
-
-    function startExamTimer() {
-      stopExamTimer();
-      updateTimerDisplay();
-      examTimerInterval = setInterval(() => {
-        examSeconds++;
-        updateTimerDisplay();
-      }, 1000);
-    }
-
-    function stopExamTimer() {
-      if (examTimerInterval) {
-        clearInterval(examTimerInterval);
-        examTimerInterval = null;
-      }
-    }
-
-    function updateTimerDisplay() {
-      const h = String(Math.floor(examSeconds / 3600)).padStart(2, '0');
-      const m = String(Math.floor((examSeconds % 3600) / 60)).padStart(2, '0');
-      const s = String(examSeconds % 60).padStart(2, '0');
-      document.getElementById('examTimerDisplay').textContent = `${h}:${m}:${s}`;
-    }
-
-    function submitExam() {
-      stopExamTimer();
-      examSubmitted = true;
-      renderAppView();
-      openStatsModal("Mock Exam Completed!");
-      showToast("Mock Exam submitted and graded!");
-    }
-
-    function updateMetrics(questionList) {
-      const total = questionList.length;
-      let answered = 0;
-      let correct = 0;
-
-      questionList.forEach(q => {
-        const state = userState[q.id];
-        if (state && state.selected) {
-          answered++;
-          if (state.isCorrect) correct++;
-        }
-      });
-
-      const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-      document.getElementById('statAnsweredRatio').textContent = `${answered} / ${total}`;
-      document.getElementById('statAccuracy').textContent = `${accuracy}%`;
-      document.getElementById('statScore').textContent = `${correct} pts`;
-    }
-
-    function openStatsModal(customTitle) {
-      const modal = document.getElementById('modalBackdrop');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalSubtitle = document.getElementById('modalSubtitle');
-      const modalBody = document.getElementById('modalBody');
-
-      modalTitle.textContent = customTitle || "Overall Practice Progress";
-      modalSubtitle.textContent = "Detailed breakdown by assignment week";
-
-      let totalAttempted = 0;
-      let totalCorrect = 0;
-
-      QUIZ_DATABASE.forEach(q => {
-        if (userState[q.id]?.selected) {
-          totalAttempted++;
-          if (userState[q.id]?.isCorrect) totalCorrect++;
-        }
-      });
-
-      const totalAccuracy = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
-
-      let html = `
-        <div class="grid grid-cols-3 gap-3 mb-5">
-          <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl text-center">
-            <div class="text-[10px] text-slate-400 font-semibold uppercase">Total Questions</div>
-            <div class="text-xl font-bold font-mono text-white">${QUIZ_DATABASE.length}</div>
-          </div>
-          <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl text-center">
-            <div class="text-[10px] text-emerald-400 font-semibold uppercase">Attempted</div>
-            <div class="text-xl font-bold font-mono text-emerald-400">${totalAttempted}</div>
-          </div>
-          <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl text-center">
-            <div class="text-[10px] text-indigo-400 font-semibold uppercase">Accuracy</div>
-            <div class="text-xl font-bold font-mono text-indigo-400">${totalAccuracy}%</div>
-          </div>
-        </div>
-
-        <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400 mb-3">Weekly Performance Breakdown</h4>
-        <div class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-      `;
-
-      [1, 2, 3, 4, 5, 7].forEach(wNum => {
-        const weekQs = QUIZ_DATABASE.filter(q => q.week === wNum);
-        let wAns = 0;
-        let wCorr = 0;
-        weekQs.forEach(q => {
-          if (userState[q.id]?.selected) {
-            wAns++;
-            if (userState[q.id]?.isCorrect) wCorr++;
-          }
-        });
-        const pct = weekQs.length > 0 ? Math.round((wCorr / weekQs.length) * 100) : 0;
-
-        html += `
-          <div class="p-3 rounded-xl border border-slate-800 bg-slate-950/70">
-            <div class="flex justify-between text-xs font-semibold mb-1.5">
-              <span class="text-slate-300">Week ${wNum} Assignment</span>
-              <span class="text-indigo-400 font-mono">${wCorr} / ${weekQs.length} (${pct}%)</span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
-            </div>
-          </div>
-        `;
-      });
-
-      html += `</div>`;
-      modalBody.innerHTML = html;
-      modal.classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('modalBackdrop').classList.add('hidden');
-    }
-
-    function promptResetProgress() {
-      userState = {};
-      examSeconds = 0;
-      examSubmitted = false;
-      persistState();
-      renderAppView();
-      showToast("All progress and answers reset successfully", "info");
-    }
-
-    function showToast(msg, type = "success") {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMsg');
-      const toastIcon = document.getElementById('toastIcon');
-
-      toastMsg.textContent = msg;
-      if (type === "info") {
-        toastIcon.className = "fa-solid fa-circle-info text-sky-400 text-sm";
-      } else {
-        toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-sm";
-      }
-
-      toast.classList.remove('translate-y-24', 'opacity-0');
-      setTimeout(() => {
-        toast.classList.add('translate-y-24', 'opacity-0');
-      }, 2400);
-    }
-
-    // Keyboard shortcuts for Flashcard review
-    window.addEventListener('keydown', (e) => {
-      if (currentMode === 'flashcard') {
-        if (e.key === 'ArrowLeft') {
-          navigateFlashcard(-1);
-        } else if (e.key === 'ArrowRight') {
-          navigateFlashcard(1);
-        } else if (e.key === ' ') {
-          e.preventDefault();
-          flipFlashcard();
-        }
+    window.addEventListener('keydown',(e)=>{
+      if(currentMode==='flashcard'){
+        if(e.key==='ArrowLeft') navigateFlashcard(-1);
+        else if(e.key==='ArrowRight') navigateFlashcard(1);
+        else if(e.key===' '){ e.preventDefault(); flipFlashcard(); }
       }
     });
-
-    window.onload = function () {
-      loadPersistedState();
-      renderAppView();
-    };
+    window.onload=function(){ loadPersistedState(); renderAppView(); };
   </script>
 </body>
 </html>
