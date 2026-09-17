@@ -39,10 +39,11 @@
       line-height:1;
     }
     button.q-btn.active {
-      background:var(--black);
+      background:coral;
       color:var(--white);
+      border-color:coral;
     }
-    button.q-btn:hover { opacity:0.9; }
+    button.q-btn:hover { opacity:0.92; }
     button.q-icon {
       outline:none !important;
       border:none;
@@ -75,8 +76,8 @@
       border-bottom:2px solid transparent;
     }
     button.tab.active {
-      color:var(--black);
-      border-bottom-color:var(--black);
+      color:coral;
+      border-bottom-color:coral;
     }
     button.tab:hover { color:var(--black); }
     button.tab span.count {
@@ -84,21 +85,20 @@
       color:var(--gray);
       font-size:0.9em;
     }
-    button.tab.active span.count { color:var(--black); }
+    button.tab.active span.count { color:coral; }
     .shuffle-bar {
       display:flex;
       flex-wrap:wrap;
       gap:0.8em;
       align-items:center;
       justify-content:space-between;
-      padding:0.2em 0 0.8em;
-      margin-bottom:0.8em;
-      border-bottom:1px solid var(--white-darker);
-      font-size:0.88em;
+      padding:0;
+      margin:0;
+      font-size:0.86em;
       color:var(--gray);
     }
-    .shuffle-bar label { display:flex; gap:0.5em; align-items:center; cursor:pointer; }
-    .shuffle-bar input { accent-color:var(--black); }
+    .shuffle-bar label { display:flex; gap:0.45em; align-items:center; cursor:pointer; }
+    .shuffle-bar input { accent-color:coral; }
     .banner {
       display:flex;
       flex-wrap:wrap;
@@ -249,12 +249,13 @@
 
     <div id="weekTabsWrapper" class="tabs-wrap">
       <div class="tabs" id="weekTabsContainer"></div>
-      <button onclick="toggleBookmarkView()" id="bookmarkTabBtn" class="q-btn">★ Starred (<span id="savedCountBadge">0</span>)</button>
-    </div>
-
-    <div id="shuffleControlsWrapper" class="shuffle-bar">
-      <label for="shuffleToggle"><input type="checkbox" id="shuffleToggle" onchange="toggleShuffle()" /> Shuffle — randomize questions & options</label>
-      <button id="reshuffleBtn" onclick="reshuffleNow()" class="q-btn hidden">Reshuffle</button>
+      <div style="display:flex; gap:0.6em; align-items:center; flex-wrap:wrap;">
+        <div id="shuffleControlsWrapper" class="shuffle-bar">
+          <label for="shuffleToggle"><input type="checkbox" id="shuffleToggle" onchange="toggleShuffle()" /> Shuffle</label>
+          <button id="reshuffleBtn" onclick="reshuffleNow()" class="q-btn hidden" style="padding:0.25em 0.5em; font-size:0.75em;">Reshuffle</button>
+        </div>
+        <button onclick="toggleBookmarkView()" id="bookmarkTabBtn" class="q-btn">★ Starred (<span id="savedCountBadge">0</span>)</button>
+      </div>
     </div>
 
     <div class="banner">
@@ -265,14 +266,14 @@
           <span id="totalPoolBadge">15 Questions</span>
         </div>
         <h2 id="activeWeekTitle">Assignment 1: Fundamentals & EM Radiation</h2>
-        <p id="activeWeekDesc" style="margin:0; color:var(--gray); font-size:0.88em;">Practice without clicking next — scroll to answer all.</p>
+        <p id="activeWeekDesc" style="margin:0.15em 0 0; color:var(--gray); font-size:0.86em;">Scroll to answer — no “next” needed.</p>
       </div>
-      <div class="metrics">
-        <div><div class="k">Attempted</div><div class="v" id="statAnsweredRatio">0 / 15</div></div>
-        <div style="width:1px; background:var(--gray); align-self:stretch;"></div>
-        <div><div class="k">Accuracy</div><div class="v" id="statAccuracy">0%</div></div>
-        <div style="width:1px; background:var(--gray); align-self:stretch;"></div>
-        <div><div class="k">Score</div><div class="v" id="statScore">0 pts</div></div>
+      <div class="metrics" style="gap:0.9em;">
+        <div><span class="k">Attempted</span> <span class="v" id="statAnsweredRatio">0 / 15</span></div>
+        <span style="color:var(--white-darker);">·</span>
+        <div><span class="k">Accuracy</span> <span class="v" id="statAccuracy" style="color:coral;">0%</span></div>
+        <span style="color:var(--white-darker);">·</span>
+        <div><span class="k">Score</span> <span class="v" id="statScore" style="color:coral;">0 pts</span></div>
       </div>
     </div>
 
