@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPTEL Remote Sensing & GIS - Quiz Practice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      user-select: text;
+    }
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* 3D Flashcard Flip Mechanics with fixed card heights to avoid layout shifts */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .flashcard-inner {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flashcard-inner.flipped {
+      transform: rotateY(180deg);
+    }
+    .flashcard-front, .flashcard-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flashcard-back {
+      transform: rotateY(180deg);
+    }
+
+    .select-text-preserve {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-slate-900/95 border-b border-slate-800/80 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 sm:py-0 sm:h-16 sm:gap-4">
+        
+        <!-- Logo / Title -->
+        <div class="flex items-center space-x-3 min-w-0 w-full sm:w-auto">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0">
+            <i class="fa-solid fa-satellite text-base"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h1 class="font-bold text-base sm:text-lg text-white leading-tight truncate">Remote Sensing & GIS</h1>
+            <p class="text-[10px] sm:text-[11px] text-slate-400 truncate whitespace-nowrap">NPTEL IIT Guwahati • 87 Question Bank</p>
+          </div>
+        </div>
+
+        <!-- Mode Switcher & Global Actions -->
+        <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end shrink-0">
+          <div class="flex bg-slate-950 p-1 rounded-xl text-xs font-medium border border-slate-800 shrink-0">
+            <button id="modePracticeBtn" onclick="setMode('practice')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs">
+              <i class="fa-solid fa-layer-group"></i>
+              <span>Practice<span class="hidden sm:inline"> (Vertical)</span></span>
+            </button>
+            <button id="modeFlashcardBtn" onclick="setMode('flashcard')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-slate-400 hover:text-white">
+              <i class="fa-solid fa-clone"></i>
+              <span class="hidden sm:inline">Flashcards (All)</span>
+            </button>
+            <button id="modeExamBtn" onclick="setMode('exam')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-slate-400 hover:text-white">
+              <i class="fa-solid fa-stopwatch"></i>
+              <span class="hidden sm:inline">Mock Exam (All)</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1 shrink-0">
+            <!-- Quick Stats Modal Button -->
+            <button onclick="openStatsModal()" class="p-2 text-slate-400 hover:text-indigo-400 rounded-xl hover:bg-slate-800 transition" title="View Detailed Progress & Statistics">
+              <i class="fa-solid fa-chart-pie text-base"></i>
+            </button>
+            
+            <!-- Reset Progress Button -->
+            <button onclick="promptResetProgress()" class="p-2 text-slate-400 hover:text-rose-400 rounded-xl hover:bg-slate-800 transition" title="Reset All Answers">
+              <i class="fa-solid fa-rotate-right text-base"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 flex flex-col">
+    
+    <!-- Week Navigation Tabs (Active in Practice mode) -->
+    <div id="weekTabsWrapper" class="flex items-center justify-between gap-2 overflow-x-auto pb-3 mb-6 border-b border-slate-800/80">
+      <div class="flex items-center gap-2 flex-nowrap" id="weekTabsContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="shrink-0 flex items-center gap-2">
+        <button onclick="toggleBookmarkView()" id="bookmarkTabBtn" class="px-3 py-2 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 transition flex items-center gap-1.5 text-amber-400">
+          <i class="fa-solid fa-star"></i>
+          <span>Starred (<span id="savedCountBadge">0</span>)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Shuffle Controls -->
+    <div id="shuffleControlsWrapper" class="flex flex-wrap items-center justify-between gap-3 mb-4 -mt-1 bg-slate-900/60 border border-slate-800/60 rounded-xl px-3 py-2.5">
+      <label for="shuffleToggle" class="flex items-center gap-2.5 cursor-pointer select-none group">
+        <span class="text-xs font-semibold text-slate-300 group-hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-shuffle text-indigo-400"></i> Shuffle</span>
+        <span class="relative inline-flex items-center">
+          <input type="checkbox" id="shuffleToggle" onchange="toggleShuffle()" class="sr-only peer">
+          <span class="w-9 h-5 bg-slate-800 border border-slate-700 rounded-full peer-checked:bg-indigo-600 peer-checked:border-indigo-500 transition-colors block"></span>
+          <span class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4 block"></span>
+        </span>
+        <span class="text-[11px] text-slate-400 hidden sm:inline">Randomize questions & options</span>
+        <span class="text-[11px] text-slate-400 sm:hidden">Qns & options</span>
+      </label>
+      <button id="reshuffleBtn" onclick="reshuffleNow()" class="hidden px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition">
+        <i class="fa-solid fa-shuffle"></i> Reshuffle
+      </button>
+    </div>
+
+    <!-- Active Banner & Quick Progress Metrics -->
+    <div class="bg-slate-900/90 rounded-2xl p-4 sm:p-5 border border-slate-800/80 shadow-md mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+          <span id="activeWeekBadge" class="bg-indigo-950/80 text-indigo-300 text-xs font-bold px-2.5 py-0.5 rounded-md border border-indigo-800/60 uppercase tracking-wide">Week 1</span>
+          <span id="activeModeBadge" class="bg-slate-800/80 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-md border border-slate-700/60 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Vertical Stream Practice
+          </span>
+          <span id="totalPoolBadge" class="text-xs text-slate-400 font-mono">15 Questions</span>
+        </div>
+        <h2 id="activeWeekTitle" class="text-lg sm:text-xl font-bold text-white">Assignment 1: Fundamentals & EM Radiation</h2>
+        <p id="activeWeekDesc" class="text-xs text-slate-400 mt-1">Practice without clicking next — scroll down to answer all questions sequentially.</p>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="flex items-center gap-4 sm:gap-6 self-stretch md:self-auto justify-between bg-slate-950/80 px-4 py-2.5 rounded-xl border border-slate-800 text-center">
+        <div>
+          <div class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Attempted</div>
+          <div class="font-bold text-white text-sm sm:text-base font-mono" id="statAnsweredRatio">0 / 15</div>
+        </div>
+        <div class="h-8 w-px bg-slate-800"></div>
+        <div>
+          <div class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Accuracy</div>
+          <div class="font-bold text-emerald-400 text-sm sm:text-base font-mono" id="statAccuracy">0%</div>
+        </div>
+        <div class="h-8 w-px bg-slate-800"></div>
+        <div>
+          <div class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Score</div>
+          <div class="font-bold text-indigo-400 text-sm sm:text-base font-mono" id="statScore">0 pts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam Timer & Submission Header (Visible in Mock Exam mode) -->
+    <div id="examControlsBar" class="hidden bg-slate-900 border border-amber-500/30 rounded-2xl p-4 mb-6 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold text-lg">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+        <div>
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-amber-400">Grand Mock Exam (All 87 Questions)</div>
+          <div class="text-lg font-mono font-bold text-white" id="examTimerDisplay">00:00:00</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="submitExam()" id="submitExamBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-600/20 transition flex items-center gap-2">
+          <i class="fa-solid fa-check-double"></i> Submit & Grade
+        </button>
+      </div>
+    </div>
+
+    <!-- FLASHCARD VIEW: All 87 questions combined -->
+    <div id="flashcardViewContainer" class="hidden flex-1 flex flex-col items-center justify-center py-4">
+      
+      <!-- Top fixed flashcard controls (fixed height to prevent layout jumps) -->
+      <div class="w-full max-w-2xl flex items-center justify-between mb-4 px-2">
+        <span class="text-xs text-slate-400 flex items-center gap-1.5">
+          <i class="fa-solid fa-shuffle text-indigo-400"></i> All 87 Questions Combined
+        </span>
+        <span class="text-xs font-mono text-indigo-400 font-semibold" id="fcCounter">1 / 87</span>
+      </div>
+
+      <div class="w-full max-w-2xl perspective-1000 min-h-[440px]">
+        <div id="flashcardElement" onclick="flipFlashcard()" class="flashcard-inner relative w-full h-full min-h-[440px] cursor-pointer">
+          
+          <!-- Front Face -->
+          <div class="flashcard-front absolute inset-0 w-full h-full bg-slate-900 border border-slate-800 shadow-xl rounded-3xl p-6 sm:p-8 flex flex-col justify-between select-text-preserve">
+            <div>
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-950/80 text-indigo-300 border border-indigo-800/50" id="fcFrontBadge">Week 1 • Question 1</span>
+                <span class="text-xs text-slate-400 flex items-center gap-1.5">
+                  <i class="fa-solid fa-rotate"></i> Click or press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300">Space</kbd> to flip
+                </span>
+              </div>
+              <h3 class="text-base sm:text-lg font-medium text-slate-100 leading-relaxed" id="fcFrontQuestion"></h3>
+            </div>
+            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+              <span>Test your recall before checking the solution</span>
+              <span class="font-mono text-slate-500" id="fcFrontIndex">1 / 87</span>
+            </div>
+          </div>
+
+          <!-- Back Face -->
+          <div class="flashcard-back absolute inset-0 w-full h-full bg-gradient-to-b from-slate-900 to-indigo-950/90 border border-indigo-800/50 shadow-2xl rounded-3xl p-6 sm:p-8 flex flex-col justify-between select-text-preserve">
+            <div>
+              <div class="flex items-center justify-between border-b border-indigo-900/60 pb-3 mb-4">
+                <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-900 text-indigo-200 border border-indigo-700">Official Solution</span>
+                <span class="text-xs text-indigo-300 flex items-center gap-1.5"><i class="fa-solid fa-rotate"></i> Flip back</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-semibold text-sm mb-4" id="fcBackAnswer">
+                Correct Answer: ...
+              </div>
+              <div class="text-slate-300 text-xs sm:text-sm leading-relaxed max-h-56 overflow-y-auto pr-2" id="fcBackExplanation"></div>
+            </div>
+            <div class="pt-4 border-t border-indigo-900/60 flex items-center justify-between text-xs text-indigo-300/80">
+              <span>Verified NPTEL IIT Guwahati Key</span>
+              <span class="font-mono" id="fcBackIndex">1 / 87</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Flashcard Navigation Buttons -->
+      <div class="flex items-center gap-3 mt-6">
+        <button onclick="navigateFlashcard(-1)" class="px-4 py-2 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-2 transition">
+          <i class="fa-solid fa-arrow-left"></i> Previous
+        </button>
+        <button onclick="flipFlashcard()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-2 shadow-md shadow-indigo-600/20 transition">
+          <i class="fa-solid fa-rotate"></i> Flip Card
+        </button>
+        <button onclick="navigateFlashcard(1)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center gap-2 transition">
+          Next <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- VERTICAL PRACTICE STREAM & EXAM CONTAINER -->
+    <div id="verticalPracticeContainer" class="flex-1 space-y-6">
+      <!-- Individual questions will be injected here vertically as cards -->
+    </div>
+
+  </main>
+
+  <!-- Performance Statistics Modal -->
+  <div id="modalBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-800 transform transition-all max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-950 text-indigo-400 border border-indigo-800 flex items-center justify-center text-lg font-bold">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base sm:text-lg text-white" id="modalTitle">Performance Progress</h3>
+            <p class="text-xs text-slate-400" id="modalSubtitle">Saved in your local storage</p>
+          </div>
+        </div>
+        <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="modalBody" class="space-y-4"></div>
+
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+        <button onclick="closeModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold transition">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 border border-slate-800 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-medium translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <i class="fa-solid fa-circle-check text-emerald-400 text-sm" id="toastIcon"></i>
+    <span id="toastMsg">Notification</span>
+  </div>
+
+  <script>
+    /*
+     * Comprehensive Question Bank (87 questions, Weeks 1, 2, 3, 4, 5, 7)
+     * All math subscripts rendered directly with clean HTML typography.
+     */
+    const QUIZ_DATABASE = [
+      // ==========================================
+      // WEEK 1: FUNDAMENTALS & EM RADIATION (15 Qs)
+      // ==========================================
+      {
+        id: "w1_q1",
+        week: 1,
+        question: "In Analog image, variations in scene characteristics are represented as variation in:",
+        options: [
+          { key: "A", text: "Color" },
+          { key: "B", text: "Gray shades" },
+          { key: "C", text: "Both (a) & (b)" },
+          { key: "D", text: "None" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: In analog imagery (such as hardcopy photographs or film prints), variations in the scene characteristics are represented continuously through variations in color as well as continuous gray tone shades."
+      },
+      {
+        id: "w1_q2",
+        week: 1,
+        question: "Distribution of electromagnetic radiation emitted or absorbed by that particular object is a function of:",
+        options: [
+          { key: "A", text: "Temperature" },
+          { key: "B", text: "Wavelength" },
+          { key: "C", text: "Pressure" },
+          { key: "D", text: "Density" }
+        ],
+        correct: "B",
+        explanation: "Official NPTEL Assignment Key: (B) Wavelength. The spectral distribution/spectral signature of electromagnetic radiation is mathematically defined and plotted as a continuous distribution function across wavelength (λ)."
+      },
+      {
+        id: "w1_q3",
+        week: 1,
+        question: "________ defines the sensitivity of a detector to differences in signal strength reflected or emitted from the object.",
+        options: [
+          { key: "A", text: "Radiometric Correction" },
+          { key: "B", text: "Spectral Correction" },
+          { key: "C", text: "Geometric Correction" },
+          { key: "D", text: "Topographic Correction" }
+        ],
+        correct: "A",
+        explanation: "As per the NPTEL assignment key, (a.) Radiometric Correction relates to calibrating the sensitivity of the detector to variations in signal strength."
+      },
+      {
+        id: "w1_q4",
+        week: 1,
+        question: "If an image has a radiometric resolution of 16 bits, the maximum possible grey level value of a pixel will be:",
+        options: [
+          { key: "A", text: "255" },
+          { key: "B", text: "1023" },
+          { key: "C", text: "4095" },
+          { key: "D", text: "65535" }
+        ],
+        correct: "D",
+        explanation: "An n-bit radiometric resolution yields 2ⁿ grey levels (0 to 2ⁿ - 1). For n = 16 bits, 2¹⁶ = 65,536 discrete levels, so the maximum grey level is 65,535."
+      },
+      {
+        id: "w1_q5",
+        week: 1,
+        question: "Which of the following types of radiation has the highest frequency?",
+        options: [
+          { key: "A", text: "Visible" },
+          { key: "B", text: "UV (Ultraviolet)" },
+          { key: "C", text: "Radio" },
+          { key: "D", text: "Microwave" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: Frequency is inversely proportional to wavelength (c = f · λ). Ultraviolet has the shortest wavelength among the options, hence the highest frequency."
+      },
+      {
+        id: "w1_q6",
+        week: 1,
+        question: "As per Planck's radiance curve, as the temperature of an object increases, its λ<sub>max</sub> shifts toward longer wavelengths of the spectrum.",
+        options: [
+          { key: "A", text: "True" },
+          { key: "B", text: "False" }
+        ],
+        correct: "B",
+        explanation: "False. According to Wien's Displacement Law (λ<sub>max</sub> = b / T), as the temperature of an object increases, its peak wavelength λ<sub>max</sub> shifts towards SHORTER wavelengths."
+      },
+      {
+        id: "w1_q7",
+        week: 1,
+        question: "________ of electromagnetic radiation is the process where the energy of incident light is taken up by matter.",
+        options: [
+          { key: "A", text: "Reflection" },
+          { key: "B", text: "Transmission" },
+          { key: "C", text: "Adsorption" },
+          { key: "D", text: "Absorption" }
+        ],
+        correct: "D",
+        explanation: "Direct Question: Absorption is the process where radiant energy is transformed into internal molecular or thermal energy upon entering matter."
+      },
+      {
+        id: "w1_q8",
+        week: 1,
+        question: "Which of the following does not significantly contribute to absorption in the Earth's atmosphere?",
+        options: [
+          { key: "A", text: "Water vapor (H₂O)" },
+          { key: "B", text: "Carbon dioxide (CO₂)" },
+          { key: "C", text: "Ozone (O₃)" },
+          { key: "D", text: "Nitrogen (N₂)" }
+        ],
+        correct: "D",
+        explanation: "Direct Question: Nitrogen gas (N₂) is a homonuclear diatomic molecule with no dipole moment, making it largely non-absorbing in the optical remote sensing regions."
+      },
+      {
+        id: "w1_q9",
+        week: 1,
+        question: "The total reflected power for a given direction of incident radiation is less than or equal to the energy of the incident light. This describes the law of conservation of ________.",
+        options: [
+          { key: "A", text: "Power" },
+          { key: "B", text: "Energy" },
+          { key: "C", text: "Momentum" },
+          { key: "D", text: "Charge" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: By the Law of Conservation of Energy: E<sub>incident</sub> = E<sub>reflected</sub> + E<sub>absorbed</sub> + E<sub>transmitted</sub>."
+      },
+      {
+        id: "w1_q10",
+        week: 1,
+        question: "Which of the following is a digital image file format?",
+        options: [
+          { key: "A", text: "PDF" },
+          { key: "B", text: "BMPX" },
+          { key: "C", text: "MrSID" },
+          { key: "D", text: "RasterBand" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: MrSID (Multi-resolution Seamless Image Database) is a widely used geospatial raster image compression format."
+      },
+      {
+        id: "w1_q11",
+        week: 1,
+        question: "In BSQ (Band Sequential) format, data are:",
+        options: [
+          { key: "A", text: "Data for a single band for the entire scene is written in one file" },
+          { key: "B", text: "Data for all the bands are written line by line in the same file" },
+          { key: "C", text: "Data for the pixels in all bands are written together" },
+          { key: "D", text: "None" }
+        ],
+        correct: "A",
+        explanation: "Direct Question: In Band Sequential (BSQ) format, all data for one complete band across the scene is stored together before the next band begins."
+      },
+      {
+        id: "w1_q12",
+        week: 1,
+        question: "Pushbroom sensors are more stable than whiskbroom sensors because:",
+        options: [
+          { key: "A", text: "They use a rotating mirror for scanning" },
+          { key: "B", text: "They consist of a linear array of detectors equal to the number of pixels in a row" },
+          { key: "C", text: "They scan one pixel at a time" },
+          { key: "D", text: "They require mechanical movement across the flight track" }
+        ],
+        correct: "B",
+        explanation: "Pushbroom sensors have a linear array of CCD detectors spanning the cross-track width without moving oscillating mirrors, providing longer dwell time and higher geometric stability."
+      },
+      {
+        id: "w1_q13",
+        week: 1,
+        question: "If the radiance observed over sloped terrain L<sub>T</sub> = 120, solar zenith angle θ<sub>z</sub> = 60° and incidence angle i = 30°, what is the corrected radiance L<sub>H</sub>?",
+        options: [
+          { key: "A", text: "60.36" },
+          { key: "B", text: "69.24" },
+          { key: "C", text: "80.51" },
+          { key: "D", text: "103.93" }
+        ],
+        correct: "B",
+        explanation: "Using cosine correction: L<sub>H</sub> = L<sub>T</sub> · (cos θ<sub>z</sub> / cos θ<sub>i</sub>) = 120 · (cos 60° / cos 30°) = 120 · (0.5000 / 0.8660) = 69.24."
+      },
+      {
+        id: "w1_q14",
+        week: 1,
+        question: "Mie scattering occurs under specific conditions. If the particle size is approximately 0.5 µm, the wavelength of the incident radiation would be:",
+        options: [
+          { key: "A", text: "Less than 0.5 µm" },
+          { key: "B", text: "Greater than 0.5 µm" },
+          { key: "C", text: "Approximately equal to 0.5 µm" },
+          { key: "D", text: "Cannot be determined" }
+        ],
+        correct: "C",
+        explanation: "Mie scattering takes place when atmospheric particle diameter is comparable to the wavelength of incident radiation (d ≈ λ ≈ 0.5 µm)."
+      },
+      {
+        id: "w1_q15",
+        week: 1,
+        question: "In the formula for Top of Atmosphere Reflectance (RTOA): ρ<sub>TOA</sub> = (π · L<sub>λ</sub> · d²) / (ESUN<sub>λ</sub> · cos(z)), what does z represent?",
+        options: [
+          { key: "A", text: "Solar zenith angle in degrees" },
+          { key: "B", text: "Solar elevation angle in degrees" },
+          { key: "C", text: "Solar zenith angle in radians" },
+          { key: "D", text: "Solar elevation angle in radians" }
+        ],
+        correct: "C",
+        explanation: "In the mathematical expression, trigonometric computation of the cosine requires the solar zenith angle z to be supplied in radians."
+      },
+
+      // ====================================================
+      // WEEK 2: CORRECTIONS & GEOMETRIC RESAMPLING (15 Qs)
+      // ====================================================
+      {
+        id: "w2_q1",
+        week: 2,
+        question: "What are the three most efficient absorbers of electromagnetic energy in the atmosphere?",
+        options: [
+          { key: "A", text: "Nitrogen, Oxygen, and Argon" },
+          { key: "B", text: "Ozone, Carbon dioxide, and Water vapor" },
+          { key: "C", text: "Aerosols, Haze, and Fog" },
+          { key: "D", text: "Methane, Nitrous oxide, and Helium" }
+        ],
+        correct: "B",
+        explanation: "Ozone (O₃), Carbon dioxide (CO₂), and Water vapor (H₂O) are the three most dominant natural absorption gases across the optical remote sensing windows."
+      },
+      {
+        id: "w2_q2",
+        week: 2,
+        question: "Atmospheric correction methods can be broadly grouped into which two major categories?",
+        options: [
+          { key: "A", text: "Spectral and Temporal correction" },
+          { key: "B", text: "Radiometric and Geometric correction" },
+          { key: "C", text: "Scene-based and Ground-based correction only" },
+          { key: "D", text: "Relative Atmospheric Correction and Absolute Atmospheric Correction" }
+        ],
+        correct: "D",
+        explanation: "Atmospheric correction methods fall into: (1) Relative Atmospheric Correction (empirical, scene-based), and (2) Absolute Atmospheric Correction (physics-based radiative transfer models)."
+      },
+      {
+        id: "w2_q3",
+        week: 2,
+        question: "The Dark Target method for atmospheric correction is commonly used for which sensor?",
+        options: [
+          { key: "A", text: "Landsat 7 ETM+ and SPOT" },
+          { key: "B", text: "Sentinel-2 and Cartosat" },
+          { key: "C", text: "MODIS and MERIS data" },
+          { key: "D", text: "IKONOS and WorldView" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: The Dark Target algorithm is widely adopted for aerosol optical depth retrieval and atmospheric correction of MODIS and MERIS data."
+      },
+      {
+        id: "w2_q4",
+        week: 2,
+        question: "What is 'path radiance' in the context of remote sensing errors?",
+        options: [
+          { key: "A", text: "Additional radiance recorded by the sensor due to atmospheric scattering" },
+          { key: "B", text: "Energy emitted by the target surface itself" },
+          { key: "C", text: "Radiance from reflected solar energy only" },
+          { key: "D", text: "Thermal emission from the sensor" }
+        ],
+        correct: "A",
+        explanation: "Path radiance is solar radiation scattered directly into the sensor's field of view by the atmospheric path without ever reaching the ground."
+      },
+      {
+        id: "w2_q5",
+        week: 2,
+        question: "The FLAASH atmospheric correction model is based on which radiation transfer model?",
+        options: [
+          { key: "A", text: "LOWTRAN" },
+          { key: "B", text: "MODTRAN-based radiation transfer model" },
+          { key: "C", text: "6S (Second Simulation of the Satellite Signal)" },
+          { key: "D", text: "SBDART" }
+        ],
+        correct: "B",
+        explanation: "FLAASH (Fast Line-of-sight Atmospheric Analysis of Spectral Hypercubes) is powered by the MODTRAN code."
+      },
+      {
+        id: "w2_q6",
+        week: 2,
+        question: "ATCOR3 sub-module is specifically designed for mountainous terrain and considers terrain height with 3 degrees of freedom.",
+        options: [
+          { key: "A", text: "True" },
+          { key: "B", text: "False" }
+        ],
+        correct: "A",
+        explanation: "True: ATCOR3 combines DEM data to compensate for rugged terrain illumination and shadow effects."
+      },
+      {
+        id: "w2_q7",
+        week: 2,
+        question: "Which pixel resampling technique is most recommended for quantitative spectral analysis after geometric correction?",
+        options: [
+          { key: "A", text: "Bilinear interpolation" },
+          { key: "B", text: "Cubic convolution" },
+          { key: "C", text: "Nearest neighbor" },
+          { key: "D", text: "Kriging" }
+        ],
+        correct: "C",
+        explanation: "Nearest neighbor assigns the exact measured DN of the nearest pixel without spatial averaging, preserving authentic radiometric and spectral values."
+      },
+      {
+        id: "w2_q8",
+        week: 2,
+        question: "What is the minimum number of Ground Control Points (GCPs) required for a 2nd-order polynomial geometric correction?",
+        options: [
+          { key: "A", text: "3" },
+          { key: "B", text: "6" },
+          { key: "C", text: "9" },
+          { key: "D", text: "12" }
+        ],
+        correct: "B",
+        explanation: "Formula: N = (P + 1)(P + 2) / 2. For P = 2: N = (3 · 4) / 2 = 6 GCPs minimum."
+      },
+      {
+        id: "w2_q9",
+        week: 2,
+        question: "In random bad pixel (shot noise) correction, the replacement value for a bad pixel is calculated as:",
+        options: [
+          { key: "A", text: "The average of the surrounding 8 pixels" },
+          { key: "B", text: "255 minus the bad pixel value" },
+          { key: "C", text: "The maximum value in the entire image" },
+          { key: "D", text: "The average of the preceding and succeeding line pixel values" }
+        ],
+        correct: "A",
+        explanation: "Isolated bad pixels (shot noise) are replaced by the spatial mean of the surrounding 8 neighbor pixels in a 3×3 window."
+      },
+      {
+        id: "w2_q10",
+        week: 2,
+        question: "In the context of line or column dropout correction, the 'Replacement' method is mainly used for which type of topography?",
+        options: [
+          { key: "A", text: "Coastal areas with water-land boundaries" },
+          { key: "B", text: "Urban areas with mixed land use" },
+          { key: "C", text: "Mountainous terrain with high relief" },
+          { key: "D", text: "Homogeneous topography" }
+        ],
+        correct: "D",
+        explanation: "Replacement from neighboring scanlines is acceptable only in homogeneous terrain where adjacent scanline variance is negligible."
+      },
+      {
+        id: "w2_q11",
+        week: 2,
+        question: "A sensor at altitude H = 800 km has an IFOV (β) of 25 microradians. What is the ground pixel size at nadir (in meters)?",
+        options: [
+          { key: "A", text: "10 m" },
+          { key: "B", text: "20 m" },
+          { key: "C", text: "25 m" },
+          { key: "D", text: "32 m" }
+        ],
+        correct: "B",
+        explanation: "Ground pixel size D = β · H = (25 · 10⁻⁶ rad) · (800,000 m) = 20 meters."
+      },
+      {
+        id: "w2_q12",
+        week: 2,
+        question: "An across-track scanner flies at a height of 5000 m with a Field of View (FOV) of 90°. Calculate the ground swath width.",
+        options: [
+          { key: "A", text: "5000 m" },
+          { key: "B", text: "7071 m" },
+          { key: "C", text: "10000 m" },
+          { key: "D", text: "14142 m" }
+        ],
+        correct: "C",
+        explanation: "Swath Width W = 2 · H · tan(FOV / 2) = 2 · 5000 · tan(45°) = 10,000 meters."
+      },
+      {
+        id: "w2_q13",
+        week: 2,
+        question: "A pixel has 8 surrounding values: 55, 58, 60, 62, 57, 59, 61, 56. The central pixel has a bad value of 0. What is the corrected value for the bad pixel?",
+        options: [
+          { key: "A", text: "57.00" },
+          { key: "B", text: "58.00" },
+          { key: "C", text: "58.25" },
+          { key: "D", text: "58.50" }
+        ],
+        correct: "D",
+        explanation: "Mean = (55 + 58 + 60 + 62 + 57 + 59 + 61 + 56) / 8 = 468 / 8 = 58.50."
+      },
+      {
+        id: "w2_q14",
+        week: 2,
+        question: "Band-4 of LANDSAT-7 ETM+, DN = 210, RADIANCE_MULT_BAND_4 = 0.9692, RADIANCE_ADD_BAND_4 = -6.06929. Calculate the radiance.",
+        options: [
+          { key: "A", text: "192.46 W/m²/µm/sr" },
+          { key: "B", text: "197.46 W/m²/µm/sr" },
+          { key: "C", text: "3.12 W/m²/µm/sr" },
+          { key: "D", text: "205.50 W/m²/µm/sr" }
+        ],
+        correct: "B",
+        explanation: "Radiance L = (DN · Gain) + Offset = (210 · 0.9692) + (-6.06929) = 203.532 - 6.06929 = 197.46 W/m²/µm/sr."
+      },
+      {
+        id: "w2_q15",
+        week: 2,
+        question: "For Band-4 of LANDSAT-7 ETM+, radiance L = 197.46 W/m²/µm/sr, Earth-Sun distance d² = 0.9927205 AU², ESUN = 1044 W/m²/µm, cos(solar zenith) = 0.9457. Calculate the Top-of-Atmosphere Reflectance (RTOA).",
+        options: [
+          { key: "A", text: "0.445" },
+          { key: "B", text: "0.555" },
+          { key: "C", text: "0.615" },
+          { key: "D", text: "0.725" }
+        ],
+        correct: "C",
+        explanation: "ρ<sub>TOA</sub> = (π · L · d²) / (ESUN · cos(θ<sub>z</sub>)) = (3.14159 · 197.46 · 0.99272) / (1044 · 0.9457) ≈ 0.615."
+      },
+
+      // ====================================================
+      // WEEK 3: ENHANCEMENT, FILTERS & HISTOGRAMS (15 Qs)
+      // ====================================================
+      {
+        id: "w3_q1",
+        week: 3,
+        question: "In a Standard False Color Composite (FCC), which wavelength band is assigned to the Red color gun of the display system?",
+        options: [
+          { key: "A", text: "Blue wavelength band" },
+          { key: "B", text: "Green wavelength band" },
+          { key: "C", text: "Red wavelength band" },
+          { key: "D", text: "Near Infrared (NIR) wavelength band" }
+        ],
+        correct: "D",
+        explanation: "In a standard FCC (NIR, Red, Green as RGB), the NIR band is routed to the Red gun, displaying vigorous vegetation in vibrant red."
+      },
+      {
+        id: "w3_q2",
+        week: 3,
+        question: "In Natural Color Composite (NCC), which of the following assignments is correct?",
+        options: [
+          { key: "A", text: "Blue → Red, Green → Blue, Red → Green" },
+          { key: "B", text: "Blue → Blue, Green → Green, Red → Red" },
+          { key: "C", text: "NIR → Red, Red → Green, Green → Blue" },
+          { key: "D", text: "SWIR → Red, NIR → Green, Red → Blue" }
+        ],
+        correct: "B",
+        explanation: "Natural Color Composite maps true spectral colors directly to the matching display guns (Red→Red, Green→Green, Blue→Blue)."
+      },
+      {
+        id: "w3_q3",
+        week: 3,
+        question: "The Laplacian operator used in edge enhancement is based on:",
+        options: [
+          { key: "A", text: "First derivative along the x-direction only" },
+          { key: "B", text: "Second derivative along x and y directions" },
+          { key: "C", text: "Diagonal gradient of DN values" },
+          { key: "D", text: "Moving average of neighboring pixels" }
+        ],
+        correct: "B",
+        explanation: "The Laplacian is a second-order derivative operator: ∇²f = ∂²f/∂x² + ∂²f/∂y²."
+      },
+      {
+        id: "w3_q4",
+        week: 3,
+        question: "In Principal Component Analysis (PCA), what does data redundancy refer to?",
+        options: [
+          { key: "A", text: "Same or similar information appearing in multiple spectral bands" },
+          { key: "B", text: "Missing data in certain bands" },
+          { key: "C", text: "Excess pixels in the image" },
+          { key: "D", text: "Repeated scanning of the same area" }
+        ],
+        correct: "A",
+        explanation: "Data redundancy refers to high inter-band correlation where adjacent bands register redundant information."
+      },
+      {
+        id: "w3_q5",
+        week: 3,
+        question: "What is the key advantage of using a Lookup Table (LUT) in contrast enhancement operations?",
+        options: [
+          { key: "A", text: "It increases image resolution" },
+          { key: "B", text: "It permanently alters the original image for faster processing" },
+          { key: "C", text: "It preserves the original image information while computing enhanced values" },
+          { key: "D", text: "It reduces the file size of the image" }
+        ],
+        correct: "C",
+        explanation: "A Lookup Table maps pixel intensities for display without altering or overwriting original DN numbers in the file."
+      },
+      {
+        id: "w3_q6",
+        week: 3,
+        question: "The Logarithmic stretch is useful for enhancing features in the darker portions of an image.",
+        options: [
+          { key: "A", text: "True" },
+          { key: "B", text: "False" }
+        ],
+        correct: "A",
+        explanation: "True: The logarithmic curve expands low DN values (dark regions) while compressing brighter values."
+      },
+      {
+        id: "w3_q7",
+        week: 3,
+        question: "Which of the following spatial filtering operations considers only the gray level of the pixel and not its spatial location?",
+        options: [
+          { key: "A", text: "Local operation" },
+          { key: "B", text: "Global operation" },
+          { key: "C", text: "Point operation" },
+          { key: "D", text: "Neighborhood operation" }
+        ],
+        correct: "B",
+        explanation: "Official NPTEL Assignment Key: (B) Global operation."
+      },
+      {
+        id: "w3_q8",
+        week: 3,
+        question: "Why is the blue band typically excluded when creating a Standard False Color Composite?",
+        options: [
+          { key: "A", text: "Blue band has no information" },
+          { key: "B", text: "Blue band has less energy" },
+          { key: "C", text: "Blue band resolution is too low" },
+          { key: "D", text: "Blue band has more atmospheric scattering" }
+        ],
+        correct: "D",
+        explanation: "Rayleigh scattering is proportional to 1/λ⁴, making shorter wavelengths (blue) suffer the most severe haze and scattering."
+      },
+      {
+        id: "w3_q9",
+        week: 3,
+        question: "The goal of the transformation in histogram equalization is to produce an output image where:",
+        options: [
+          { key: "A", text: "High-frequency pixels are suppressed" },
+          { key: "B", text: "Only edge pixels are enhanced" },
+          { key: "C", text: "All gray levels have equal likelihood of occurrence" },
+          { key: "D", text: "All pixels have a zero DN value" }
+        ],
+        correct: "C",
+        explanation: "Histogram equalization flattens the histogram so that all gray levels have an approximately uniform probability distribution."
+      },
+      {
+        id: "w3_q10",
+        week: 3,
+        question: "The Laplacian operator used in edge enhancement is based on:",
+        options: [
+          { key: "A", text: "First derivative along the x-direction" },
+          { key: "B", text: "Second derivative along x and y directions" },
+          { key: "C", text: "Diagonal gradient of DN values" },
+          { key: "D", text: "Moving average of neighboring pixels" }
+        ],
+        correct: "B",
+        explanation: "Second spatial derivative across orthogonal directions (x and y)."
+      },
+      {
+        id: "w3_q11",
+        week: 3,
+        question: "Which gradient operator uses a 2×2 neighborhood size & detects edges in diagonal directions?",
+        options: [
+          { key: "A", text: "Prewitt operator" },
+          { key: "B", text: "Sobel operator" },
+          { key: "C", text: "Roberts operator" },
+          { key: "D", text: "Laplacian operator" }
+        ],
+        correct: "C",
+        explanation: "Roberts Cross operator uses a 2×2 kernel to evaluate diagonal gradient differences."
+      },
+      {
+        id: "w3_q12",
+        week: 3,
+        question: "In linear contrast stretching, if O<sub>max</sub> = 255, O<sub>min</sub> = 0, I<sub>max</sub> = 200, I<sub>min</sub> = 0, what is the output value (Y) for an input pixel value of X = 100?",
+        options: [
+          { key: "A", text: "100" },
+          { key: "B", text: "132.5" },
+          { key: "C", text: "150" },
+          { key: "D", text: "127.5" }
+        ],
+        correct: "D",
+        explanation: "Y = [(255 - 0) / (200 - 0)] · (100 - 0) = (255 / 200) · 100 = 127.5."
+      },
+      {
+        id: "w3_q13",
+        week: 3,
+        question: "For a negative image transformation with 8-bit data, if the input pixel value X = 80, what is the output value Y?",
+        options: [
+          { key: "A", text: "80" },
+          { key: "B", text: "175" },
+          { key: "C", text: "200" },
+          { key: "D", text: "255" }
+        ],
+        correct: "B",
+        explanation: "For 8-bit data (max 255): Y = 255 - X = 255 - 80 = 175."
+      },
+      {
+        id: "w3_q14",
+        week: 3,
+        question: "In a linear contrast stretch, if the slope m = (O<sub>max</sub> - O<sub>min</sub>) / (I<sub>max</sub> - I<sub>min</sub>) = 1.8, what does this indicate about the transformation?",
+        options: [
+          { key: "A", text: "Compression; output range is smaller than input range" },
+          { key: "B", text: "No change; output equals input" },
+          { key: "C", text: "Stretching; output range is larger than input range" },
+          { key: "D", text: "Inversion; output is the negative of the input" }
+        ],
+        correct: "C",
+        explanation: "A slope m > 1 expands (stretches) the output contrast range compared to the input."
+      },
+      {
+        id: "w3_q15",
+        week: 3,
+        question: "During Histogram Equalization, if CDF of DN value v is 120, total image pixels (M×N) = 500, CDF<sub>min</sub> = 10, and quantization level L = 256, what is the equalized value h(v)?",
+        options: [
+          { key: "A", text: "56" },
+          { key: "B", text: "57" },
+          { key: "C", text: "113" },
+          { key: "D", text: "226" }
+        ],
+        correct: "B",
+        explanation: "h(v) = round([(120 - 10) / (500 - 10)] · 255) = round((110 / 490) · 255) = round(57.24) = 57."
+      },
+
+      // ====================================================
+      // WEEK 4: PCA, INDICES & CLASSIFICATION (15 Qs)
+      // ====================================================
+      {
+        id: "w4_q1",
+        week: 4,
+        question: "What is the primary purpose of Principal Component Analysis (PCA) in remote sensing?",
+        options: [
+          { key: "A", text: "To reduce data dimensionality and decorrelate multi-band imagery" },
+          { key: "B", text: "To classify pixels into land use categories" },
+          { key: "C", text: "To correct atmospheric distortion in satellite images" },
+          { key: "D", text: "To enhance the spatial resolution of low-resolution imagery" }
+        ],
+        correct: "A",
+        explanation: "PCA decorrelates spectral bands and compresses multidimensional satellite data into orthogonal principal components."
+      },
+      {
+        id: "w4_q2",
+        week: 4,
+        question: "Spectral Enhancement operates on:",
+        options: [
+          { key: "A", text: "Averaged DN values across the entire image" },
+          { key: "B", text: "Individual pixels using multiple band values" },
+          { key: "C", text: "Spatial neighborhoods (kernel-based operations)" },
+          { key: "D", text: "A single band histogram" }
+        ],
+        correct: "B",
+        explanation: "Spectral enhancement (indices, ratios, PCA) operates on individual multi-band pixel vectors."
+      },
+      {
+        id: "w4_q3",
+        week: 4,
+        question: "Why is a constant value (>0) added to both numerator and denominator bands during band ratioing?",
+        options: [
+          { key: "A", text: "To normalize the resulting ratio between 0 and 1" },
+          { key: "B", text: "To remove atmospheric haze from the image" },
+          { key: "C", text: "To prevent division by zero when the denominator band pixel equals 0" },
+          { key: "D", text: "To amplify the contrast between different spectral classes" }
+        ],
+        correct: "C",
+        explanation: "A positive offset prevents computational division-by-zero errors when denominator pixels have a DN of 0."
+      },
+      {
+        id: "w4_q4",
+        week: 4,
+        question: "A pixel with NDVI close to +1 most likely represents:",
+        options: [
+          { key: "A", text: "Open water body" },
+          { key: "B", text: "Bare soil with low moisture" },
+          { key: "C", text: "Dense, healthy green vegetation" },
+          { key: "D", text: "Urban concrete surface" }
+        ],
+        correct: "C",
+        explanation: "NDVI = (NIR - Red) / (NIR + Red). Vigorous chlorophyll absorbs Red and strongly reflects NIR, producing values approaching +1."
+      },
+      {
+        id: "w4_q5",
+        week: 4,
+        question: "The Normalized Difference Water Index (NDWI) is computed using which two spectral bands?",
+        options: [
+          { key: "A", text: "NIR and Red" },
+          { key: "B", text: "Green and NIR" },
+          { key: "C", text: "Blue and NIR" },
+          { key: "D", text: "Red and SWIR" }
+        ],
+        correct: "B",
+        explanation: "McFeeters NDWI = (Green - NIR) / (Green + NIR)."
+      },
+      {
+        id: "w4_q6",
+        week: 4,
+        question: "ISODATA merges cluster C<sub>k</sub> with another cluster if its pixel count is below the specified minimum size, and also if they are not separated by the specified minimum distance.",
+        options: [
+          { key: "A", text: "True" },
+          { key: "B", text: "False" }
+        ],
+        correct: "A",
+        explanation: "True: ISODATA iteratively splits high-variance clusters and merges clusters that are close together or below the size threshold."
+      },
+      {
+        id: "w4_q7",
+        week: 4,
+        question: "What is the key advantage of the Parallelepiped Classifier over the Minimum Distance to Mean Classifier?",
+        options: [
+          { key: "A", text: "It assigns every pixel to a class regardless of spectral distance" },
+          { key: "B", text: "It uses Gaussian distribution assumptions for better accuracy" },
+          { key: "C", text: "It can leave pixels unclassified, helping to identify inappropriate class choices" },
+          { key: "D", text: "It accounts for topographic effects on reflectance" }
+        ],
+        correct: "C",
+        explanation: "Parallelepiped uses bounded spectral boxes; pixels falling outside all decision boundaries are left unclassified."
+      },
+      {
+        id: "w4_q8",
+        week: 4,
+        question: "In Maximum Likelihood Classification, what does P(C<sub>i</sub>) represent in Bayes' theorem?",
+        options: [
+          { key: "A", text: "The prior probability of class C<sub>i</sub> occurring in the image" },
+          { key: "B", text: "The Euclidean distance from pixel X to the class mean" },
+          { key: "C", text: "The covariance matrix of class C<sub>i</sub>" },
+          { key: "D", text: "The conditional probability of feature X given class C<sub>i</sub>" }
+        ],
+        correct: "A",
+        explanation: "P(C<sub>i</sub>) is the prior probability that an arbitrary pixel belongs to class C<sub>i</sub>."
+      },
+      {
+        id: "w4_q9",
+        week: 4,
+        question: "Which of the following is NOT a valid source of bias in classification accuracy estimation?",
+        options: [
+          { key: "A", text: "Using training pixels as ground truth (test pixels)" },
+          { key: "B", text: "Restricting ground truth sampling to homogeneous areas" },
+          { key: "C", text: "Using stratified random sampling for test pixel selection" },
+          { key: "D", text: "Sampling ground truth that is not independent" }
+        ],
+        correct: "C",
+        explanation: "Stratified random sampling is the scientifically accepted, unbiased sampling design."
+      },
+      {
+        id: "w4_q10",
+        week: 4,
+        question: "The Normalized Difference Snow Index (NDSI) is calculated using which spectral band combination?",
+        options: [
+          { key: "A", text: "NIR and SWIR" },
+          { key: "B", text: "Red and NIR" },
+          { key: "C", text: "Green and SWIR" },
+          { key: "D", text: "Blue and Red" }
+        ],
+        correct: "C",
+        explanation: "NDSI = (Green - SWIR) / (Green + SWIR). Snow reflects brightly in Green and absorbs strongly in SWIR."
+      },
+      {
+        id: "w4_q11",
+        week: 4,
+        question: "For a pixel in a satellite image: NIR band DN = 120, Red band DN = 40. What is the NDVI value?",
+        options: [
+          { key: "A", text: "0.50" },
+          { key: "B", text: "0.33" },
+          { key: "C", text: "0.67" },
+          { key: "D", text: "0.75" }
+        ],
+        correct: "A",
+        explanation: "NDVI = (120 - 40) / (120 + 40) = 80 / 160 = 0.50."
+      },
+      {
+        id: "w4_q12",
+        week: 4,
+        question: "For a confusion matrix with N = 74 total pixels, A (correctly classified) = 60, and B = 1840. What is the Kappa Coefficient?",
+        options: [
+          { key: "A", text: "0.81" },
+          { key: "B", text: "0.72" },
+          { key: "C", text: "0.68" },
+          { key: "D", text: "0.55" }
+        ],
+        correct: "B",
+        explanation: "Kappa = (74 · 60 - 1840) / (74² - 1840) = (4440 - 1840) / (5476 - 1840) = 2600 / 3636 ≈ 0.72."
+      },
+      {
+        id: "w4_q13",
+        week: 4,
+        question: "For a Decision Tree Classifier with N = 4 stages and p = 0.10 (10% error at each stage), what is the overall probability of error?",
+        options: [
+          { key: "A", text: "40%" },
+          { key: "B", text: "34.39%" },
+          { key: "C", text: "10%" },
+          { key: "D", text: "25%" }
+        ],
+        correct: "B",
+        explanation: "P<sub>error</sub> = 1 - (1 - p)ᴺ = 1 - (0.90)⁴ = 1 - 0.6561 = 0.3439 = 34.39%."
+      },
+      {
+        id: "w4_q14",
+        week: 4,
+        question: "Calculate Producer's and User's accuracy of Class III from the given confusion matrix (Diagonal = 9, Row total = 11, Column total = 14):",
+        options: [
+          { key: "A", text: "81.82% and 64.29%" },
+          { key: "B", text: "75.00% and 69.23%" },
+          { key: "C", text: "69.23% and 75.00%" },
+          { key: "D", text: "64.29% and 81.82%" }
+        ],
+        correct: "D",
+        explanation: "Producer's Accuracy = 9 / 14 = 64.29%. User's Accuracy = 9 / 11 = 81.82%."
+      },
+      {
+        id: "w4_q15",
+        week: 4,
+        question: "The class statistics of a classified image (Landsat 8) are: River (455032 px), Lakes (25550 px), Dams (3850 px). Estimate the total area occupied by water (pixel size = 30m × 30m).",
+        options: [
+          { key: "A", text: "322 km²" },
+          { key: "B", text: "215 km²" },
+          { key: "C", text: "289 km²" },
+          { key: "D", text: "436 km²" }
+        ],
+        correct: "D",
+        explanation: "Total water pixels = 455,032 + 25,550 + 3,850 = 484,432. Area = 484,432 · (900 m² / 1,000,000 m²/km²) = 435.99 km² ≈ 436 km²."
+      },
+
+      // ============================================================
+      // WEEK 5: PHOTOGRAMMETRY, THERMAL & MICROWAVE (15 Qs)
+      // ============================================================
+      {
+        id: "w5_q1",
+        week: 5,
+        question: "Which type of aerial photograph includes the horizon in the image?",
+        options: [
+          { key: "A", text: "Vertical photograph" },
+          { key: "B", text: "High oblique photograph" },
+          { key: "C", text: "Low oblique photograph" },
+          { key: "D", text: "Nadir photograph" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: High oblique aerial photographs are intentionally tilted so that the apparent horizon is visible."
+      },
+      {
+        id: "w5_q2",
+        week: 5,
+        question: "In aerial photogrammetry, what is the standard endlap percentage for stereo overlap between consecutive images?",
+        options: [
+          { key: "A", text: "20%" },
+          { key: "B", text: "40%" },
+          { key: "C", text: "60%" },
+          { key: "D", text: "80%" }
+        ],
+        correct: "C",
+        explanation: "Standard stereoscopic flight design requires ~60% forward endlap to ensure 3D stereoscopic viewing."
+      },
+      {
+        id: "w5_q3",
+        week: 5,
+        question: "Fiducial marks in an aerial photograph serve which primary purpose?",
+        options: [
+          { key: "A", text: "They indicate the flying altitude of the aircraft" },
+          { key: "B", text: "They define the coordinate axes and geometric center of the photograph" },
+          { key: "C", text: "They show the scale of the photograph" },
+          { key: "D", text: "They indicate the direction of the Sun" }
+        ],
+        correct: "B",
+        explanation: "Fiducial marks define the photo coordinate axes whose intersection identifies the Principal Point (PP)."
+      },
+      {
+        id: "w5_q4",
+        week: 5,
+        question: "Which type of displacement in aerial photography radiates from the Isocenter?",
+        options: [
+          { key: "A", text: "Tilt displacement" },
+          { key: "B", text: "Lens distortion" },
+          { key: "C", text: "Topographic displacement" },
+          { key: "D", text: "Curvature of Earth displacement" }
+        ],
+        correct: "A",
+        explanation: "Tilt displacement radiates directly from the isocenter, whereas topographic/relief displacement radiates from the nadir point."
+      },
+      {
+        id: "w5_q5",
+        week: 5,
+        question: "The Conjugate Principal Point (CPP) in a stereopair is defined as:",
+        options: [
+          { key: "A", text: "The midpoint between two Principal Points in the same photograph" },
+          { key: "B", text: "The intersection of fiducial marks in a single photograph" },
+          { key: "C", text: "The Nadir point transferred to the adjacent photograph" },
+          { key: "D", text: "The Principal Point of one photograph as located in the adjacent overlapping photograph" }
+        ],
+        correct: "D",
+        explanation: "The Conjugate Principal Point is the ground position of one photo's principal point imaged on its overlapping adjacent frame."
+      },
+      {
+        id: "w5_q6",
+        week: 5,
+        question: "According to Kirchhoff's radiation law, spectral emissivity equals spectral reflectance.",
+        options: [
+          { key: "A", text: "True" },
+          { key: "B", text: "False" }
+        ],
+        correct: "B",
+        explanation: "False: Kirchhoff's law states that at thermal equilibrium, spectral emissivity equals spectral absorptivity (ε<sub>λ</sub> = α<sub>λ</sub>)."
+      },
+      {
+        id: "w5_q7",
+        week: 5,
+        question: "What does Thermal Inertia (P) measure in remote sensing?",
+        options: [
+          { key: "A", text: "The rate of heat transfer through a material at steady state" },
+          { key: "B", text: "The resistance offered by a material to temperature change" },
+          { key: "C", text: "The amount of heat required to raise the temperature by 1 K" },
+          { key: "D", text: "The temperature at which a material changes phase" }
+        ],
+        correct: "B",
+        explanation: "Thermal inertia P = √(K · ρ · c) quantifies the resistance of a material to temperature variations."
+      },
+      {
+        id: "w5_q8",
+        week: 5,
+        question: "In RADAR polarimetry, what does 'HV polarization' mean?",
+        options: [
+          { key: "A", text: "Horizontal transmit and horizontal receive" },
+          { key: "B", text: "Vertical transmit and vertical receive" },
+          { key: "C", text: "Horizontal transmit and vertical receive" },
+          { key: "D", text: "Vertical transmit and horizontal receive" }
+        ],
+        correct: "C",
+        explanation: "HV: Horizontal transmit (H) and Vertical receive (V)."
+      },
+      {
+        id: "w5_q9",
+        week: 5,
+        question: "What does Interferometric SAR (InSAR) primarily use to generate Digital Elevation Models?",
+        options: [
+          { key: "A", text: "Amplitude differences between two SAR images" },
+          { key: "B", text: "Phase differences between two SAR acquisitions from different positions" },
+          { key: "C", text: "Backscattering coefficient variations" },
+          { key: "D", text: "Polarimetric decomposition of radar signals" }
+        ],
+        correct: "B",
+        explanation: "InSAR derives ground height from the interferometric phase difference (Δφ) between two coherent radar passes."
+      },
+      {
+        id: "w5_q10",
+        week: 5,
+        question: "Which of the following is a key advantage of microwave remote sensing over optical remote sensing?",
+        options: [
+          { key: "A", text: "Higher spatial resolution" },
+          { key: "B", text: "Ability to detect exact chemical composition" },
+          { key: "C", text: "All-weather capability and independence from solar illumination" },
+          { key: "D", text: "Lower cost of instruments" }
+        ],
+        correct: "C",
+        explanation: "Microwaves penetrate clouds and rain, and active sensors supply their own illumination 24/7."
+      },
+      {
+        id: "w5_q11",
+        week: 5,
+        question: "According to Wien's Displacement Law, the Earth (approximated as a 300 K blackbody) emits peak radiation at approximately:",
+        options: [
+          { key: "A", text: "0.48 µm" },
+          { key: "B", text: "4.83 µm" },
+          { key: "C", text: "9.66 µm" },
+          { key: "D", text: "14.5 µm" }
+        ],
+        correct: "C",
+        explanation: "λ<sub>max</sub> = 2897.9 / T = 2897.9 / 300 K ≈ 9.66 µm."
+      },
+      {
+        id: "w5_q12",
+        week: 5,
+        question: "On a vertical aerial photograph, the photo distance between two points is 4 cm, and the actual ground distance is 2 km. What is the Photo Scale Reciprocal (PSR)?",
+        options: [
+          { key: "A", text: "10,000" },
+          { key: "B", text: "25,000" },
+          { key: "C", text: "5,000" },
+          { key: "D", text: "50,000" }
+        ],
+        correct: "D",
+        explanation: "PSR = Ground / Photo = 200,000 cm / 4 cm = 50,000."
+      },
+      {
+        id: "w5_q13",
+        week: 5,
+        question: "Estimate the height of a tree using stereo parallax: Flying height H = 1,500 m, differential parallax dP = 2.0 mm, average photo base length P = 92 mm.",
+        options: [
+          { key: "A", text: "29.5 m" },
+          { key: "B", text: "31.9 m" },
+          { key: "C", text: "36.0 m" },
+          { key: "D", text: "28.6 m" }
+        ],
+        correct: "B",
+        explanation: "h = (H · dP) / (P + dP) = (1500 · 2.0) / (92 + 2.0) = 3000 / 94 ≈ 31.91 m."
+      },
+      {
+        id: "w5_q14",
+        week: 5,
+        question: "Estimate azimuth resolution for: Flying height H = 10 km, Look angle = 23°, Wavelength λ = 5.66 cm, Antenna length L = 10 m.",
+        options: [
+          { key: "A", text: "61.5 m" },
+          { key: "B", text: "56.6 m" },
+          { key: "C", text: "48.2 m" },
+          { key: "D", text: "72.1 m" }
+        ],
+        correct: "A",
+        explanation: "Slant range R = 10,000 / cos(23°) = 10,863 m. R<sub>a</sub> = R · (λ / L) = 10,863 · (0.0566 / 10) = 61.48 m ≈ 61.5 m."
+      },
+      {
+        id: "w5_q15",
+        week: 5,
+        question: "An aircraft flies at 6,000 m above MSL. The terrain elevation is 500 m above MSL. The camera focal length is 150 mm. What is the Representative Fraction (RF)?",
+        options: [
+          { key: "A", text: "1/36,667" },
+          { key: "B", text: "1/37,333" },
+          { key: "C", text: "1/40,000" },
+          { key: "D", text: "1/36,000" }
+        ],
+        correct: "A",
+        explanation: "Height h = 6000 - 500 = 5500 m = 5,500,000 mm. RF = 150 / 5,500,000 = 1 / 36,666.67 ≈ 1/36,667."
+      },
+
+      // ====================================================
+      // WEEK 7: HYPERSPECTRAL, SVM & GIS OVERLAYS (12 Qs)
+      // ====================================================
+      {
+        id: "w7_q1",
+        week: 7,
+        question: "What is the primary objective of the Support Vector Machine (SVM) classification algorithm?",
+        options: [
+          { key: "A", text: "To minimize the number of training data points used" },
+          { key: "B", text: "To find a hyperplane that maximizes the margin between two classes" },
+          { key: "C", text: "To cluster data into groups based on density" },
+          { key: "D", text: "To perform dimensionality reduction on hyperspectral data" }
+        ],
+        correct: "B",
+        explanation: "SVM is a maximum-margin classifier that constructs a separating hyperplane maximizing the margin to the nearest support vectors."
+      },
+      {
+        id: "w7_q2",
+        week: 7,
+        question: "What is the role of Slack variables (ξ<sub>i</sub>) in SVM?",
+        options: [
+          { key: "A", text: "To increase the number of support vectors" },
+          { key: "B", text: "To handle linearly non-separable classes by allowing some misclassification" },
+          { key: "C", text: "To transform data into a higher-dimensional feature space" },
+          { key: "D", text: "To reduce the margin between classes" }
+        ],
+        correct: "B",
+        explanation: "Slack variables allow soft-margin optimization in linearly non-separable datasets by permitting bounded constraint violations."
+      },
+      {
+        id: "w7_q3",
+        week: 7,
+        question: "What does a large value of the penalty parameter C in SVM indicate?",
+        options: [
+          { key: "A", text: "The model will have a large margin with more misclassifications" },
+          { key: "B", text: "The model will tend to over-fit the training data" },
+          { key: "C", text: "The model ignores all support vectors" },
+          { key: "D", text: "The slack variables are set to zero" }
+        ],
+        correct: "B",
+        explanation: "A high C strictly penalizes errors, producing narrow margins that conform closely to the training points, increasing the risk of overfitting."
+      },
+      {
+        id: "w7_q4",
+        week: 7,
+        question: "In field spectroscopy, why is a standard protocol of spectral acquisition necessary?",
+        options: [
+          { key: "A", text: "To increase the number of spectral bands captured" },
+          { key: "B", text: "To avoid the need for atmospheric correction" },
+          { key: "C", text: "To reduce the cost of spectral equipment" },
+          { key: "D", text: "To match field spectra with spectra measured from space, and ensure reliability" }
+        ],
+        correct: "D",
+        explanation: "Standard protocols ensure field measurements accurately calibrate and match satellite/airborne imaging spectrometer observations."
+      },
+      {
+        id: "w7_q5",
+        week: 7,
+        question: "Which of the following factors does NOT directly influence reflectance measured in the field?",
+        options: [
+          { key: "A", text: "Source-sensor geometry" },
+          { key: "B", text: "Grain size of the surface material" },
+          { key: "C", text: "Color of the spectroradiometer casing" },
+          { key: "D", text: "Anisotropy of the investigating surface" }
+        ],
+        correct: "C",
+        explanation: "The color of the external instrument housing does not impact target surface reflectance."
+      },
+      {
+        id: "w7_q6",
+        week: 7,
+        question: "The ASTER spectral library is best described as:",
+        options: [
+          { key: "A", text: "A compendium of data from JPL, JHU, and USGS libraries in a standard format" },
+          { key: "B", text: "A library exclusive to atmospheric spectra" },
+          { key: "C", text: "A library developed solely for planetary exploration missions" },
+          { key: "D", text: "A database of hyperspectral satellite imagery" }
+        ],
+        correct: "A",
+        explanation: "The ASTER Spectral Library compiles spectral measurements from NASA JPL, Johns Hopkins University, and USGS."
+      },
+      {
+        id: "w7_q7",
+        week: 7,
+        question: "Beyond the 2 µm wavelength range in lunar M³ data, the pixel spectra may show an increased signal because:",
+        options: [
+          { key: "A", text: "Atmospheric water vapor absorbs energy below 2 µm" },
+          { key: "B", text: "Reflectance spectra become a mixture of both reflected light and thermal emission" },
+          { key: "C", text: "Solar irradiance peaks at 2 µm" },
+          { key: "D", text: "The instrument sensitivity increases beyond 2 µm" }
+        ],
+        correct: "B",
+        explanation: "On airless planetary bodies, recorded radiance beyond 2 µm combines reflected solar flux with surface blackbody thermal emission."
+      },
+      {
+        id: "w7_q8",
+        week: 7,
+        question: "Which GIS data type is best suited for representing continuous variation in phenomena such as elevation or temperature?",
+        options: [
+          { key: "A", text: "Vector (Polygon)" },
+          { key: "B", text: "Vector (Line)" },
+          { key: "C", text: "Raster" },
+          { key: "D", text: "Triangulated Irregular Network (TIN)" }
+        ],
+        correct: "C",
+        explanation: "Raster grid arrays represent spatially continuous field surfaces like elevation (DEM), temperature, or slope."
+      },
+      {
+        id: "w7_q9",
+        week: 7,
+        question: "A Triangulated Irregular Network (TIN) is primarily used to represent:",
+        options: [
+          { key: "A", text: "Demographic data distributions" },
+          { key: "B", text: "Satellite image pixel values" },
+          { key: "C", text: "Linear transportation networks" },
+          { key: "D", text: "Three-dimensional surface elevations (x, y, z)" }
+        ],
+        correct: "D",
+        explanation: "A TIN represents 3D terrain topography (x, y, z) using contiguous irregular triangular facets."
+      },
+      {
+        id: "w7_q10",
+        week: 7,
+        question: "Which spatial overlay operation in GIS is used to remove undesirable features from the input data?",
+        options: [
+          { key: "A", text: "Union Overlay" },
+          { key: "B", text: "Intersect Overlay" },
+          { key: "C", text: "Erase Overlay" },
+          { key: "D", text: "Identity Overlay" }
+        ],
+        correct: "C",
+        explanation: "Erase overlay acts like a cookie cutter in reverse, removing input features that fall inside the erase polygon boundaries."
+      },
+      {
+        id: "w7_q11",
+        week: 7,
+        question: "CRISM (Compact Reconnaissance Imaging Spectrometer for Mars) in its Hyperspectral Targeted Mode acquires data with:",
+        options: [
+          { key: "A", text: "72 spectral bands at 100-200 m spatial resolution" },
+          { key: "B", text: "544 spectral bands at 15-19 m spatial resolution" },
+          { key: "C", text: "85 spectral bands at 140 m spatial resolution" },
+          { key: "D", text: "242 spectral bands at 30 m spatial resolution" }
+        ],
+        correct: "B",
+        explanation: "In targeted mode, CRISM records 544 contiguous spectral bands at 15 to 19 meters per pixel resolution."
+      },
+      {
+        id: "w7_q12",
+        week: 7,
+        question: "In the Linear Mixing Model (LMM) for mineral abundance estimation, the actual abundance of Quartz (Q) is 50% and the estimated abundance is 63.6%, what is the error percentage?",
+        options: [
+          { key: "A", text: "13.6%" },
+          { key: "B", text: "6.8%" },
+          { key: "C", text: "50%" },
+          { key: "D", text: "36.4%" }
+        ],
+        correct: "A",
+        explanation: "Absolute Error = |Estimated - Actual| = |63.6% - 50.0%| = 13.6%."
+      }
+    ];
+
+    const WEEKS_META = [
+      { id: '1', label: 'Week 1', short: 'Week 1', count: 15, title: 'Assignment 1: Fundamentals & EM Radiation', desc: 'EM spectrum, Planck curve, Wien displacement, BSQ format, pushbroom sensors, cosine correction.' },
+      { id: '2', label: 'Week 2', short: 'Week 2', count: 15, title: 'Assignment 2: Atmospheric & Geometric Corrections', desc: 'Ozone/CO2/H2O absorption, FLAASH, nearest neighbor resampling, GCPs, swath width, RTOA.' },
+      { id: '3', label: 'Week 3', short: 'Week 3', count: 15, title: 'Assignment 3: Enhancements & Histograms', desc: 'FCC & NCC color guns, LUT tables, Laplacian 2nd derivative, Roberts gradient, histogram equalization.' },
+      { id: '4', label: 'Week 4', short: 'Week 4', count: 15, title: 'Assignment 4: Indices & Classifiers', desc: 'PCA, NDVI, NDWI, NDSI, Parallelepiped, Maximum Likelihood, Kappa coefficient, error matrices.' },
+      { id: '5', label: 'Week 5', short: 'Week 5', count: 15, title: 'Assignment 5: Photogrammetry & Microwaves', desc: 'High oblique, stereo endlap, fiducial marks, InSAR, RADAR polarimetry, photo scale reciprocal.' },
+      { id: '7', label: 'Week 7', short: 'Week 7', count: 12, title: 'Assignment 7: Hyperspectral & GIS', desc: 'SVM margin & slack variables, ASTER library, CRISM 544 bands, TIN, GIS Erase overlays.' }
+    ];
+
+    // Application state
+    let currentMode = 'practice'; // 'practice', 'flashcard', 'exam'
+    let currentWeekFilter = '1';
+    let isBookmarkOnly = false;
+    
+    // Persistent user state: { [qId]: { selected: 'A', isCorrect: true, flagged: false, locked: true } }
+    let userState = {};
+
+    // Flashcard state (always operates across all 87 questions)
+    let flashcardList = [];
+    let flashcardIndex = 0;
+    let isCardFlipped = false;
+
+    // Exam state (always operates across all 87 questions)
+    let examTimerInterval = null;
+    let examSeconds = 0;
+    let examSubmitted = false;
+
+    // Shuffle state
+    let isShuffleEnabled = false;
+    let shuffleCache = { questionOrder: null, optionsMap: {} };
+
+    const STORAGE_KEY = 'nptel_rs_gis_quiz_dark_v3';
+
+    function loadPersistedState() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) {
+          const parsed = JSON.parse(data);
+          userState = parsed.userState || {};
+          currentWeekFilter = parsed.currentWeekFilter || '1';
+          examSeconds = parsed.examSeconds || 0;
+          isShuffleEnabled = !!parsed.isShuffleEnabled;
+        }
+      } catch (e) {
+        console.warn("Could not read localStorage:", e);
+      }
+      if (isShuffleEnabled) buildShuffleCache();
+    }
+
+    function persistState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          userState,
+          currentWeekFilter,
+          examSeconds,
+          isShuffleEnabled
+        }));
+      } catch (e) {
+        console.warn("Could not write to localStorage:", e);
+      }
+      updateSavedBadge();
+    }
+
+    // --- Shuffle helpers ---
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function buildShuffleCache() {
+      // Shuffle global question order
+      shuffleCache.questionOrder = shuffleArray([...QUIZ_DATABASE]);
+      // Build per-question option shuffle map: displayKey (A,B,C...) -> originalKey mapping
+      shuffleCache.optionsMap = {};
+      QUIZ_DATABASE.forEach(q => {
+        const shuffled = shuffleArray([...q.options]);
+        const mapped = shuffled.map((opt, idx) => ({
+          ...opt,
+          displayKey: String.fromCharCode(65 + idx),
+          originalKey: opt.key
+        }));
+        shuffleCache.optionsMap[q.id] = mapped;
+      });
+    }
+
+    function clearShuffleCache() {
+      shuffleCache.questionOrder = null;
+      shuffleCache.optionsMap = {};
+    }
+
+    function getDisplayOptions(q) {
+      if (!isShuffleEnabled) {
+        return q.options.map(o => ({ ...o, displayKey: o.key, originalKey: o.key }));
+      }
+      if (shuffleCache.optionsMap[q.id]) return shuffleCache.optionsMap[q.id];
+      // fallback if cache missed (should not happen)
+      return q.options.map(o => ({ ...o, displayKey: o.key, originalKey: o.key }));
+    }
+
+    function getShuffledQuestionList(list) {
+      if (!isShuffleEnabled || !shuffleCache.questionOrder) return list;
+      const orderIds = new Set(shuffleCache.questionOrder.map(q => q.id));
+      // Preserve global shuffled order but filter to only ids in the input list
+      const idSet = new Set(list.map(q => q.id));
+      return shuffleCache.questionOrder.filter(q => idSet.has(q.id));
+    }
+
+    function toggleShuffle() {
+      const toggle = document.getElementById('shuffleToggle');
+      isShuffleEnabled = !!toggle.checked;
+      if (isShuffleEnabled) {
+        buildShuffleCache();
+        showToast("Shuffle ON — questions & options randomized");
+      } else {
+        clearShuffleCache();
+        showToast("Shuffle OFF — original order restored", "info");
+      }
+      persistState();
+      syncShuffleUI();
+      renderAppView();
+    }
+
+    function reshuffleNow() {
+      if (!isShuffleEnabled) {
+        const t = document.getElementById('shuffleToggle');
+        t.checked = true;
+        isShuffleEnabled = true;
+      }
+      buildShuffleCache();
+      persistState();
+      syncShuffleUI();
+      renderAppView();
+      showToast("Questions reshuffled!");
+    }
+
+    function syncShuffleUI() {
+      const toggle = document.getElementById('shuffleToggle');
+      const btn = document.getElementById('reshuffleBtn');
+      if (toggle) toggle.checked = isShuffleEnabled;
+      if (btn) {
+        if (isShuffleEnabled) btn.classList.remove('hidden');
+        else btn.classList.add('hidden');
+      }
+    }
+
+    function updateSavedBadge() {
+      const count = Object.values(userState).filter(s => s.flagged).length;
+      document.getElementById('savedCountBadge').textContent = count;
+    }
+
+    function renderTabs() {
+      const container = document.getElementById('weekTabsContainer');
+      container.innerHTML = '';
+
+      WEEKS_META.forEach(w => {
+        const isActive = (w.id === currentWeekFilter) && !isBookmarkOnly;
+        const btn = document.createElement('button');
+        btn.className = `px-3 py-1.5 text-xs font-semibold rounded-xl whitespace-nowrap transition-all flex items-center gap-1.5 ${
+          isActive 
+            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30' 
+            : 'bg-slate-900 text-slate-400 border border-slate-800 hover:bg-slate-800 hover:text-white'
+        }`;
+        btn.innerHTML = `<span>${w.short}</span> <span class="px-1.5 py-0.5 rounded-md text-[10px] ${isActive ? 'bg-indigo-700 text-white' : 'bg-slate-800 text-slate-400'}">${w.count}</span>`;
+        btn.onclick = () => selectWeek(w.id);
+        container.appendChild(btn);
+      });
+
+      const savedBtn = document.getElementById('bookmarkTabBtn');
+      if (isBookmarkOnly) {
+        savedBtn.className = "px-3 py-2 text-xs font-semibold rounded-xl border border-amber-500/40 bg-amber-950/40 text-amber-400 flex items-center gap-1.5 shadow-sm";
+      } else {
+        savedBtn.className = "px-3 py-2 text-xs font-semibold rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 transition flex items-center gap-1.5 text-slate-400 hover:text-amber-400";
+      }
+    }
+
+    function selectWeek(weekId) {
+      isBookmarkOnly = false;
+      currentWeekFilter = weekId;
+      persistState();
+      renderAppView();
+      showToast(`Switched to Week ${weekId}`);
+    }
+
+    function toggleBookmarkView() {
+      const savedCount = Object.values(userState).filter(s => s.flagged).length;
+      if (!isBookmarkOnly && savedCount === 0) {
+        showToast("No starred questions yet! Star any question for rapid review.", "info");
+        return;
+      }
+      isBookmarkOnly = !isBookmarkOnly;
+      renderAppView();
+    }
+
+    function renderAppView() {
+      renderTabs();
+      updateSavedBadge();
+      syncShuffleUI();
+
+      const weekTabsWrapper = document.getElementById('weekTabsWrapper');
+      const activeWeekBadge = document.getElementById('activeWeekBadge');
+      const activeModeBadge = document.getElementById('activeModeBadge');
+      const totalPoolBadge = document.getElementById('totalPoolBadge');
+      const activeWeekTitle = document.getElementById('activeWeekTitle');
+      const activeWeekDesc = document.getElementById('activeWeekDesc');
+
+      const practiceContainer = document.getElementById('verticalPracticeContainer');
+      const flashcardContainer = document.getElementById('flashcardViewContainer');
+      const examBar = document.getElementById('examControlsBar');
+
+      if (currentMode === 'practice') {
+        weekTabsWrapper.classList.remove('hidden');
+        flashcardContainer.classList.add('hidden');
+        examBar.classList.add('hidden');
+        practiceContainer.classList.remove('hidden');
+
+        let qList = QUIZ_DATABASE.filter(q => q.week.toString() === currentWeekFilter);
+        if (isBookmarkOnly) {
+          qList = QUIZ_DATABASE.filter(q => userState[q.id]?.flagged);
+          qList = getShuffledQuestionList(qList);
+          activeWeekBadge.textContent = "Starred Vault";
+          activeWeekTitle.textContent = "Bookmarked Questions";
+          activeWeekDesc.textContent = `${qList.length} saved questions ready for rapid revision across all assignments.`;
+          totalPoolBadge.textContent = `${qList.length} Questions`;
+        } else {
+          const meta = WEEKS_META.find(m => m.id === currentWeekFilter) || WEEKS_META[0];
+          activeWeekBadge.textContent = `Week ${meta.id}`;
+          activeWeekTitle.textContent = meta.title;
+          activeWeekDesc.textContent = meta.desc;
+          qList = getShuffledQuestionList(qList);
+          totalPoolBadge.textContent = `${qList.length} Questions`;
+        }
+
+        activeModeBadge.className = "bg-slate-800/80 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-md border border-slate-700/60 flex items-center gap-1.5";
+        activeModeBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Vertical Stream Practice`;
+
+        renderVerticalQuestions(qList);
+        updateMetrics(qList);
+
+      } else if (currentMode === 'exam') {
+        weekTabsWrapper.classList.add('hidden');
+        flashcardContainer.classList.add('hidden');
+        examBar.classList.remove('hidden');
+        practiceContainer.classList.remove('hidden');
+
+        activeWeekBadge.textContent = "Grand Mock Exam";
+        activeModeBadge.className = "bg-amber-950/60 text-amber-400 text-xs font-medium px-2.5 py-0.5 rounded-md border border-amber-800/50 flex items-center gap-1.5";
+        activeModeBadge.innerHTML = `<i class="fa-solid fa-stopwatch"></i> Exam Mode (All 87 Combined)`;
+        totalPoolBadge.textContent = "87 Total Questions";
+        activeWeekTitle.textContent = "Complete Course Assessment";
+        activeWeekDesc.textContent = "All 87 questions from Weeks 1 through 7 combined. Review your grade and explanations upon clicking Submit.";
+
+        const examList = getShuffledQuestionList(QUIZ_DATABASE);
+        renderVerticalQuestions(examList);
+        updateMetrics(QUIZ_DATABASE);
+
+      } else if (currentMode === 'flashcard') {
+        weekTabsWrapper.classList.add('hidden');
+        practiceContainer.classList.add('hidden');
+        examBar.classList.add('hidden');
+        flashcardContainer.classList.remove('hidden');
+
+        activeWeekBadge.textContent = "All 87 Questions";
+        activeModeBadge.className = "bg-indigo-950/80 text-indigo-300 text-xs font-medium px-2.5 py-0.5 rounded-md border border-indigo-800/50 flex items-center gap-1.5";
+        activeModeBadge.innerHTML = `<i class="fa-solid fa-clone"></i> Flashcards Combined`;
+        totalPoolBadge.textContent = "87 Cards";
+        activeWeekTitle.textContent = "Active Recall Flashcard Deck";
+        activeWeekDesc.textContent = "All questions combined across the entire course. Tap card or press space to flip.";
+
+        flashcardList = getShuffledQuestionList(QUIZ_DATABASE);
+        // clamp index if list changed
+        if (flashcardIndex >= flashcardList.length) flashcardIndex = 0;
+        renderFlashcard();
+        updateMetrics(QUIZ_DATABASE);
+      }
+    }
+
+    function renderVerticalQuestions(questionList) {
+      const container = document.getElementById('verticalPracticeContainer');
+      container.innerHTML = '';
+
+      if (questionList.length === 0) {
+        container.innerHTML = `
+          <div class="p-12 text-center bg-slate-900 border border-slate-800 rounded-3xl">
+            <i class="fa-solid fa-folder-open text-3xl text-slate-600 mb-3"></i>
+            <p class="text-sm text-slate-400 font-medium">No questions found in this selection.</p>
+          </div>
+        `;
+        return;
+      }
+
+      questionList.forEach((q, index) => {
+        const state = userState[q.id] || {};
+        const isAnswered = !!state.selected;
+        const isLocked = state.locked === true;
+        const isExamActive = (currentMode === 'exam' && !examSubmitted);
+
+        const card = document.createElement('div');
+        card.id = `qCard_${q.id}`;
+        card.className = "bg-slate-900 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-sm transition-all";
+
+        // Card header
+        const cardHeader = document.createElement('div');
+        cardHeader.className = "flex items-center justify-between border-b border-slate-800/80 pb-3 mb-4";
+
+        const leftHeader = document.createElement('div');
+        leftHeader.className = "flex items-center gap-2.5";
+        leftHeader.innerHTML = `
+          <span class="w-7 h-7 rounded-lg bg-indigo-950 text-indigo-400 border border-indigo-800/60 font-mono font-bold text-xs flex items-center justify-center">
+            ${index + 1}
+          </span>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Week ${q.week}</span>
+        `;
+
+        const rightHeader = document.createElement('div');
+        rightHeader.className = "flex items-center gap-2";
+
+        // Star Bookmark Button
+        const bookmarkBtn = document.createElement('button');
+        bookmarkBtn.className = `p-1.5 rounded-lg border transition text-xs flex items-center gap-1.5 ${
+          state.flagged 
+            ? 'border-amber-500/40 bg-amber-950/40 text-amber-400' 
+            : 'border-slate-800 text-slate-400 hover:text-amber-400 hover:bg-slate-800'
+        }`;
+        bookmarkBtn.innerHTML = `<i class="${state.flagged ? 'fa-solid' : 'fa-regular'} fa-star"></i>`;
+        bookmarkBtn.title = state.flagged ? "Remove star" : "Star for revision";
+        bookmarkBtn.onclick = () => toggleBookmark(q.id);
+
+        rightHeader.appendChild(bookmarkBtn);
+
+        cardHeader.appendChild(leftHeader);
+        cardHeader.appendChild(rightHeader);
+        card.appendChild(cardHeader);
+
+        // Question text
+        const qTitle = document.createElement('h3');
+        qTitle.className = "text-sm sm:text-base font-medium text-slate-100 leading-relaxed mb-4 select-text-preserve";
+        qTitle.innerHTML = q.question;
+        card.appendChild(qTitle);
+
+        // Options List (supports shuffled display keys while preserving original correctness)
+        const optionsList = document.createElement('div');
+        optionsList.className = "space-y-2.5";
+
+        const displayOpts = getDisplayOptions(q);
+        displayOpts.forEach(opt => {
+          const isSelected = (state.selected === opt.originalKey);
+          const isCorrect = (opt.originalKey === q.correct);
+
+          let optClasses = "w-full p-3.5 rounded-xl border text-left text-xs sm:text-sm font-normal transition flex items-start gap-3 relative select-text-preserve ";
+          let badgeClasses = "w-6 h-6 rounded-md text-xs font-bold flex items-center justify-center shrink-0 font-mono ";
+          let iconHtml = "";
+
+          if (currentMode === 'practice') {
+            if (isLocked) {
+              if (isCorrect) {
+                optClasses += "border-emerald-500/60 bg-emerald-950/30 text-emerald-200 font-medium ";
+                badgeClasses += "bg-emerald-600 text-white ";
+                iconHtml = `<i class="fa-solid fa-circle-check text-emerald-400 ml-auto self-center text-sm"></i>`;
+              } else if (isSelected && !isCorrect) {
+                optClasses += "border-rose-500/50 bg-rose-950/30 text-rose-200 font-medium ";
+                badgeClasses += "bg-rose-600 text-white ";
+                iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-400 ml-auto self-center text-sm"></i>`;
+              } else {
+                optClasses += "border-slate-800/80 bg-slate-950/40 text-slate-500 opacity-60 ";
+                badgeClasses += "bg-slate-900 text-slate-500 ";
+              }
+            } else {
+              optClasses += "cursor-pointer border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900 text-slate-300 ";
+              badgeClasses += "bg-slate-800 text-slate-400 ";
+            }
+          } else if (currentMode === 'exam') {
+            if (examSubmitted) {
+              if (isCorrect) {
+                optClasses += "border-emerald-500/60 bg-emerald-950/30 text-emerald-200 font-medium ";
+                badgeClasses += "bg-emerald-600 text-white ";
+                iconHtml = `<i class="fa-solid fa-circle-check text-emerald-400 ml-auto self-center text-sm"></i>`;
+              } else if (isSelected && !isCorrect) {
+                optClasses += "border-rose-500/50 bg-rose-950/30 text-rose-200 font-medium ";
+                badgeClasses += "bg-rose-600 text-white ";
+                iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-400 ml-auto self-center text-sm"></i>`;
+              } else {
+                optClasses += "border-slate-800/80 bg-slate-950/40 text-slate-500 opacity-60 ";
+                badgeClasses += "bg-slate-900 text-slate-500 ";
+              }
+            } else {
+              if (isSelected) {
+                optClasses += "border-indigo-500 bg-indigo-950/40 text-indigo-200 font-medium ring-1 ring-indigo-500/50 ";
+                badgeClasses += "bg-indigo-600 text-white ";
+              } else {
+                optClasses += "cursor-pointer border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900 text-slate-300 ";
+                badgeClasses += "bg-slate-800 text-slate-400 ";
+              }
+            }
+          }
+
+          const optBtn = document.createElement('button');
+          optBtn.className = optClasses;
+          optBtn.onclick = (e) => {
+            if (window.getSelection().toString().length > 0) return;
+            handleOptionSelect(q.id, opt.originalKey);
+          };
+          optBtn.innerHTML = `
+            <span class="${badgeClasses}">${opt.displayKey}</span>
+            <span class="flex-1 pt-0.5 leading-snug">${opt.text}</span>
+            ${iconHtml}
+          `;
+          optionsList.appendChild(optBtn);
+        });
+
+        card.appendChild(optionsList);
+
+        // Solution / Explanation Banner
+        const showSolution = (currentMode === 'practice' && isLocked) || (currentMode === 'exam' && examSubmitted);
+        if (showSolution) {
+          const correctOpt = q.options.find(o => o.key === q.correct);
+          const displayOptsForSolution = getDisplayOptions(q);
+          const correctDisplay = displayOptsForSolution.find(o => o.originalKey === q.correct);
+          const correctDisplayKey = correctDisplay ? correctDisplay.displayKey : q.correct;
+          const expBox = document.createElement('div');
+          expBox.className = "mt-4 pt-4 border-t border-slate-800/80 text-xs sm:text-sm select-text-preserve";
+
+          let tryAgainHtml = "";
+          if (currentMode === 'practice') {
+            tryAgainHtml = `
+              <button onclick="unlockQuestion('${q.id}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Try Again
+              </button>
+            `;
+          }
+
+          expBox.innerHTML = `
+            <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800/90">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Correct Answer:</span>
+                  <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 font-semibold border border-emerald-800/60 font-mono">
+                    (${correctDisplayKey}) ${correctOpt ? correctOpt.text : ''}
+                  </span>
+                </div>
+                ${tryAgainHtml}
+              </div>
+              <div class="text-slate-300 leading-relaxed">
+                <span class="font-semibold text-indigo-400 block mb-1">Derivation & Solution:</span>
+                ${q.explanation}
+              </div>
+            </div>
+          `;
+          card.appendChild(expBox);
+        }
+
+        container.appendChild(card);
+      });
+    }
+
+    function handleOptionSelect(qId, selectedKey) {
+      const q = QUIZ_DATABASE.find(item => item.id === qId);
+      if (!q) return;
+
+      const currentState = userState[qId] || {};
+
+      // If in practice mode and question is already locked, prevent clicking answers without clicking "Try Again"
+      if (currentMode === 'practice' && currentState.locked) {
+        showToast("Answer locked. Click 'Try Again' on this card to re-attempt.", "info");
+        return;
+      }
+
+      if (currentMode === 'exam' && examSubmitted) return;
+
+      const isCorrect = (selectedKey === q.correct);
+
+      userState[qId] = {
+        ...currentState,
+        selected: selectedKey,
+        isCorrect: isCorrect,
+        week: q.week,
+        locked: (currentMode === 'practice') // Immediately lock in practice mode
+      };
+
+      persistState();
+      renderAppView();
+    }
+
+    function unlockQuestion(qId) {
+      if (userState[qId]) {
+        userState[qId].locked = false;
+        userState[qId].selected = null;
+        userState[qId].isCorrect = null;
+      }
+      persistState();
+      renderAppView();
+      showToast("Question reset. Pick an option again!", "info");
+    }
+
+    function toggleBookmark(qId) {
+      const isFlagged = !userState[qId]?.flagged;
+      userState[qId] = {
+        ...(userState[qId] || {}),
+        flagged: isFlagged
+      };
+      persistState();
+      renderAppView();
+      showToast(isFlagged ? "Starred for revision" : "Removed from Starred", "info");
+    }
+
+    function renderFlashcard() {
+      if (flashcardList.length === 0) return;
+      const cardInner = document.getElementById('flashcardElement');
+      const fcCounter = document.getElementById('fcCounter');
+      const fcFrontQ = document.getElementById('fcFrontQuestion');
+      const fcFrontBadge = document.getElementById('fcFrontBadge');
+      const fcFrontIndex = document.getElementById('fcFrontIndex');
+      const fcBackAnswer = document.getElementById('fcBackAnswer');
+      const fcBackExplanation = document.getElementById('fcBackExplanation');
+      const fcBackIndex = document.getElementById('fcBackIndex');
+
+      const q = flashcardList[flashcardIndex];
+      const correctOpt = q.options.find(o => o.key === q.correct);
+      const displayOpts = getDisplayOptions(q);
+      const correctDisplay = displayOpts.find(o => o.originalKey === q.correct);
+      const correctDisplayKey = correctDisplay ? correctDisplay.displayKey : q.correct;
+
+      fcCounter.textContent = `${flashcardIndex + 1} / ${flashcardList.length}`;
+      fcFrontBadge.textContent = `Week ${q.week} • Question ${flashcardIndex + 1}`;
+      fcFrontIndex.textContent = `${flashcardIndex + 1} / ${flashcardList.length}`;
+      fcBackIndex.textContent = `${flashcardIndex + 1} / ${flashcardList.length}`;
+
+      // Options preview inside the front of the flashcard (respects shuffle)
+      let optPreview = `<div class="mt-4 space-y-2 text-xs text-slate-300">`;
+      displayOpts.forEach(opt => {
+        optPreview += `
+          <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 flex items-start gap-2">
+            <span class="font-mono font-bold text-indigo-400">${opt.displayKey})</span>
+            <span>${opt.text}</span>
+          </div>
+        `;
+      });
+      optPreview += `</div>`;
+
+      fcFrontQ.innerHTML = `<div>${q.question}</div>${optPreview}`;
+      fcBackAnswer.innerHTML = `Correct Choice: (${correctDisplayKey}) ${correctOpt ? correctOpt.text : ''}`;
+      fcBackExplanation.innerHTML = q.explanation;
+
+      if (isCardFlipped) {
+        cardInner.classList.add('flipped');
+      } else {
+        cardInner.classList.remove('flipped');
+      }
+    }
+
+    function flipFlashcard() {
+      const cardInner = document.getElementById('flashcardElement');
+      isCardFlipped = !isCardFlipped;
+      if (isCardFlipped) {
+        cardInner.classList.add('flipped');
+      } else {
+        cardInner.classList.remove('flipped');
+      }
+    }
+
+    function navigateFlashcard(delta) {
+      const nextIdx = flashcardIndex + delta;
+      if (nextIdx >= 0 && nextIdx < flashcardList.length) {
+        flashcardIndex = nextIdx;
+        isCardFlipped = false;
+        renderFlashcard();
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      const practiceBtn = document.getElementById('modePracticeBtn');
+      const flashcardBtn = document.getElementById('modeFlashcardBtn');
+      const examBtn = document.getElementById('modeExamBtn');
+
+      [practiceBtn, flashcardBtn, examBtn].forEach(btn => {
+        btn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-slate-400 hover:text-white";
+      });
+
+      if (mode === 'practice') {
+        practiceBtn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs";
+        stopExamTimer();
+      } else if (mode === 'flashcard') {
+        flashcardBtn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs";
+        stopExamTimer();
+        isCardFlipped = false;
+      } else if (mode === 'exam') {
+        examBtn.className = "px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 bg-indigo-600 text-white font-semibold shadow-xs";
+        examSubmitted = false;
+        startExamTimer();
+      }
+
+      renderAppView();
+    }
+
+    function startExamTimer() {
+      stopExamTimer();
+      updateTimerDisplay();
+      examTimerInterval = setInterval(() => {
+        examSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function stopExamTimer() {
+      if (examTimerInterval) {
+        clearInterval(examTimerInterval);
+        examTimerInterval = null;
+      }
+    }
+
+    function updateTimerDisplay() {
+      const h = String(Math.floor(examSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((examSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(examSeconds % 60).padStart(2, '0');
+      document.getElementById('examTimerDisplay').textContent = `${h}:${m}:${s}`;
+    }
+
+    function submitExam() {
+      stopExamTimer();
+      examSubmitted = true;
+      renderAppView();
+      openStatsModal("Mock Exam Completed!");
+      showToast("Mock Exam submitted and graded!");
+    }
+
+    function updateMetrics(questionList) {
+      const total = questionList.length;
+      let answered = 0;
+      let correct = 0;
+
+      questionList.forEach(q => {
+        const state = userState[q.id];
+        if (state && state.selected) {
+          answered++;
+          if (state.isCorrect) correct++;
+        }
+      });
+
+      const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+      document.getElementById('statAnsweredRatio').textContent = `${answered} / ${total}`;
+      document.getElementById('statAccuracy').textContent = `${accuracy}%`;
+      document.getElementById('statScore').textContent = `${correct} pts`;
+    }
+
+    function openStatsModal(customTitle) {
+      const modal = document.getElementById('modalBackdrop');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalSubtitle = document.getElementById('modalSubtitle');
+      const modalBody = document.getElementById('modalBody');
+
+      modalTitle.textContent = customTitle || "Overall Practice Progress";
+      modalSubtitle.textContent = "Detailed breakdown by assignment week";
+
+      let totalAttempted = 0;
+      let totalCorrect = 0;
+
+      QUIZ_DATABASE.forEach(q => {
+        if (userState[q.id]?.selected) {
+          totalAttempted++;
+          if (userState[q.id]?.isCorrect) totalCorrect++;
+        }
+      });
+
+      const totalAccuracy = totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0;
+
+      let html = `
+        <div class="grid grid-cols-3 gap-3 mb-5">
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl text-center">
+            <div class="text-[10px] text-slate-400 font-semibold uppercase">Total Questions</div>
+            <div class="text-xl font-bold font-mono text-white">${QUIZ_DATABASE.length}</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl text-center">
+            <div class="text-[10px] text-emerald-400 font-semibold uppercase">Attempted</div>
+            <div class="text-xl font-bold font-mono text-emerald-400">${totalAttempted}</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl text-center">
+            <div class="text-[10px] text-indigo-400 font-semibold uppercase">Accuracy</div>
+            <div class="text-xl font-bold font-mono text-indigo-400">${totalAccuracy}%</div>
+          </div>
+        </div>
+
+        <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400 mb-3">Weekly Performance Breakdown</h4>
+        <div class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+      `;
+
+      [1, 2, 3, 4, 5, 7].forEach(wNum => {
+        const weekQs = QUIZ_DATABASE.filter(q => q.week === wNum);
+        let wAns = 0;
+        let wCorr = 0;
+        weekQs.forEach(q => {
+          if (userState[q.id]?.selected) {
+            wAns++;
+            if (userState[q.id]?.isCorrect) wCorr++;
+          }
+        });
+        const pct = weekQs.length > 0 ? Math.round((wCorr / weekQs.length) * 100) : 0;
+
+        html += `
+          <div class="p-3 rounded-xl border border-slate-800 bg-slate-950/70">
+            <div class="flex justify-between text-xs font-semibold mb-1.5">
+              <span class="text-slate-300">Week ${wNum} Assignment</span>
+              <span class="text-indigo-400 font-mono">${wCorr} / ${weekQs.length} (${pct}%)</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      modalBody.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.add('hidden');
+    }
+
+    function promptResetProgress() {
+      userState = {};
+      examSeconds = 0;
+      examSubmitted = false;
+      persistState();
+      renderAppView();
+      showToast("All progress and answers reset successfully", "info");
+    }
+
+    function showToast(msg, type = "success") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = msg;
+      if (type === "info") {
+        toastIcon.className = "fa-solid fa-circle-info text-sky-400 text-sm";
+      } else {
+        toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-sm";
+      }
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 2400);
+    }
+
+    // Keyboard shortcuts for Flashcard review
+    window.addEventListener('keydown', (e) => {
+      if (currentMode === 'flashcard') {
+        if (e.key === 'ArrowLeft') {
+          navigateFlashcard(-1);
+        } else if (e.key === 'ArrowRight') {
+          navigateFlashcard(1);
+        } else if (e.key === ' ') {
+          e.preventDefault();
+          flipFlashcard();
+        }
+      }
+    });
+
+    window.onload = function () {
+      loadPersistedState();
+      renderAppView();
+    };
+  </script>
+</body>
+</html>
