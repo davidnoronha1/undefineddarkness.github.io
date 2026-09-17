@@ -6,7 +6,7 @@
   <title>NPTEL Remote Sensing & GIS — Quiz Practice</title>
   <link rel="stylesheet" href="/assets/styles.css" />
   <style>
-    /* Quiz uses site fonts/colors: --black #fafafa, --white #181818, etc. Keeps extras minimal. */
+    /* Quiz — minimal, matches site's quiet palette. No white-box overload. */
     article { min-width:0; }
     .quiz-head {
       display:flex;
@@ -15,8 +15,6 @@
       align-items:flex-start;
       justify-content:space-between;
       margin-bottom:1.2em;
-      padding-bottom:1em;
-      border-bottom:1px solid var(--gray);
     }
     .quiz-head h1 { margin:0; font-size:1.9em; line-height:1.1; }
     .quiz-subtitle {
@@ -27,18 +25,12 @@
       overflow-wrap:break-word;
       word-break:break-word;
     }
-    /* Mode switcher & actions */
-    .quiz-actions {
-      display:flex;
-      flex-wrap:wrap;
-      gap:0.5em;
-      align-items:center;
-    }
+    .quiz-actions { display:flex; flex-wrap:wrap; gap:0.5em; align-items:center; }
     .mode-switch { display:flex; flex-wrap:wrap; gap:0.4em; }
     button.q-btn {
       outline:none !important;
-      border:1px solid var(--gray);
-      background:var(--white);
+      border:1px solid transparent;
+      background:var(--white-darker);
       color:var(--black);
       padding:0.4em 0.75em;
       font-size:0.82em;
@@ -49,21 +41,19 @@
     button.q-btn.active {
       background:var(--black);
       color:var(--white);
-      border-color:var(--black);
     }
-    button.q-btn:hover { border-color:var(--black); }
+    button.q-btn:hover { opacity:0.9; }
     button.q-icon {
       outline:none !important;
-      border:1px solid var(--gray);
-      background:var(--white);
-      color:var(--black);
-      padding:0.4em 0.55em;
-      font-size:0.82em;
+      border:none;
+      background:none;
+      color:var(--gray);
+      padding:0.4em 0.35em;
+      font-size:0.9em;
       cursor:pointer;
       font-family:inherit;
     }
-    button.q-icon:hover { border-color:var(--black); }
-    /* Tabs */
+    button.q-icon:hover { color:var(--black); }
     .tabs-wrap {
       display:flex;
       flex-wrap:wrap;
@@ -71,110 +61,97 @@
       align-items:center;
       justify-content:space-between;
       margin-bottom:1em;
-      padding-bottom:0.9em;
-      border-bottom:1px solid var(--gray);
     }
     .tabs { display:flex; flex-wrap:wrap; gap:0.35em; }
     button.tab {
       outline:none !important;
-      border:1px solid var(--gray);
-      background:var(--white);
-      color:var(--black);
-      padding:0.3em 0.7em;
+      border:none;
+      background:none;
+      color:var(--gray);
+      padding:0.3em 0.1em 0.35em;
       font-size:0.78em;
       font-family:inherit;
       cursor:pointer;
+      border-bottom:2px solid transparent;
     }
     button.tab.active {
-      background:var(--black);
-      color:var(--white);
-      border-color:var(--black);
+      color:var(--black);
+      border-bottom-color:var(--black);
     }
-    button.tab:hover { border-color:var(--black); }
+    button.tab:hover { color:var(--black); }
     button.tab span.count {
-      display:inline-block;
-      margin-left:0.3em;
-      padding:0 0.35em;
-      border:1px solid var(--gray);
-      font-size:0.85em;
+      margin-left:0.25em;
+      color:var(--gray);
+      font-size:0.9em;
     }
-    button.tab.active span.count { border-color:var(--white); color:var(--white); }
-    /* Shuffle toggle */
+    button.tab.active span.count { color:var(--black); }
     .shuffle-bar {
       display:flex;
       flex-wrap:wrap;
       gap:0.8em;
       align-items:center;
       justify-content:space-between;
-      border:1px solid var(--gray);
-      background:var(--white-lighter);
-      padding:0.6em 0.85em;
-      margin-bottom:1em;
-      border-radius:5px;
+      padding:0.2em 0 0.8em;
+      margin-bottom:0.8em;
+      border-bottom:1px solid var(--white-darker);
+      font-size:0.88em;
+      color:var(--gray);
     }
-    .shuffle-bar label { display:flex; gap:0.5em; align-items:center; cursor:pointer; font-size:0.88em; }
+    .shuffle-bar label { display:flex; gap:0.5em; align-items:center; cursor:pointer; }
     .shuffle-bar input { accent-color:var(--black); }
-    /* Banner / metrics */
     .banner {
-      border:1px solid var(--gray);
-      background:var(--white-lighter);
-      padding:1em;
-      margin-bottom:1.2em;
-      border-radius:5px;
       display:flex;
       flex-wrap:wrap;
       gap:1em;
       justify-content:space-between;
       align-items:center;
+      margin-bottom:1.2em;
+      padding:0;
+      border:none;
+      background:none;
     }
     .banner h2 { margin:0.15em 0 0; font-size:1.15em; }
-    .banner .meta { display:flex; gap:0.4em; flex-wrap:wrap; font-size:0.78em; color:var(--gray); }
-    .banner .meta span.badge { border:1px solid var(--gray); padding:0.15em 0.45em; color:var(--black); }
-    .metrics { display:flex; gap:0.8em; align-items:center; border:1px solid var(--gray); padding:0.5em 0.8em; font-size:0.82em; }
-    .metrics > div { text-align:center; min-width:4.5em; }
+    .banner .meta { display:flex; gap:0.5em; flex-wrap:wrap; font-size:0.78em; color:var(--gray); }
+    .banner .meta span.badge { color:var(--gray); }
+    .banner .meta span.badge:not(:last-child)::after { content:"·"; margin-left:0.5em; }
+    .metrics { display:flex; gap:1.2em; align-items:center; font-size:0.82em; }
+    .metrics > div { text-align:left; min-width:0; }
     .metrics .k { color:var(--gray); font-size:0.78em; }
     .metrics .v { font-family:var(--mono-font); font-weight:bold; }
-    /* Question cards */
     .q-card {
-      border:1px solid var(--gray);
-      background:var(--white-lighter);
-      padding:1em;
-      margin-bottom:1em;
-      border-radius:5px;
+      padding:1.1em 0;
+      margin-bottom:0;
+      border:none;
+      border-top:1px solid var(--white-darker);
+      background:none;
+      border-radius:0;
     }
+    .q-card:first-child { border-top:none; }
     .q-card-head {
       display:flex;
       justify-content:space-between;
       align-items:center;
-      border-bottom:1px solid var(--gray);
-      padding-bottom:0.6em;
-      margin-bottom:0.8em;
+      padding-bottom:0.5em;
+      margin-bottom:0.6em;
       gap:0.6em;
+      border:none;
     }
-    .q-num {
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:1.6em;
-      height:1.6em;
-      border:1px solid var(--gray);
-      font-family:var(--mono-font);
-      font-size:0.8em;
-      padding:0 0.3em;
-    }
+    .q-num { color:var(--gray); font-family:var(--mono-font); font-size:0.8em; }
     .q-week { color:var(--gray); font-size:0.8em; }
     button.star {
       outline:none !important;
-      border:1px solid var(--gray);
-      background:var(--white);
-      padding:0.25em 0.45em;
+      border:none;
+      background:none;
+      padding:0;
       cursor:pointer;
-      font-size:0.9em;
+      font-size:1em;
       line-height:1;
+      color:var(--gray);
     }
-    button.star.active { border-color:#d6a72b; color:#d6a72b; }
+    button.star.active { color:#d6a72b; }
+    button.star:hover { color:var(--black); }
     .q-title { margin:0 0 0.8em; font-size:1em; line-height:1.45; overflow-wrap:break-word; }
-    .q-options { display:flex; flex-direction:column; gap:0.5em; }
+    .q-options { display:flex; flex-direction:column; gap:0.4em; }
     button.q-option {
       outline:none !important;
       display:flex;
@@ -182,31 +159,32 @@
       align-items:flex-start;
       width:100%;
       text-align:left;
-      border:1px solid var(--gray);
-      background:var(--white);
+      border:none;
+      border-left:3px solid transparent;
+      background:var(--white-darker);
       color:var(--black);
-      padding:0.6em 0.75em;
+      padding:0.55em 0.7em;
       font-family:inherit;
       font-size:0.88em;
       cursor:pointer;
       line-height:1.35;
     }
-    button.q-option:hover { border-color:var(--black); }
-    button.q-option.correct { border-color:#5fb87a; background:color-mix(in srgb, #5fb87a 14%, var(--white)); }
-    button.q-option.incorrect { border-color:#e0605c; background:color-mix(in srgb, #e0605c 12%, var(--white)); }
-    button.q-option.muted { opacity:0.6; }
-    button.q-option.selected { border-color:var(--black); }
-    .opt-badge { font-family:var(--mono-font); font-size:0.85em; border:1px solid var(--gray); min-width:1.5em; text-align:center; padding:0.05em 0.25em; flex-shrink:0; }
-    button.q-option.correct .opt-badge { background:#5fb87a; color:white; border-color:#5fb87a; }
-    button.q-option.incorrect .opt-badge { background:#e0605c; color:white; border-color:#e0605c; }
+    button.q-option:hover { background:color-mix(in srgb, var(--white-darker) 85%, var(--black) 15%); }
+    button.q-option.correct { border-left-color:#5fb87a; background:color-mix(in srgb, #5fb87a 10%, var(--white-darker)); }
+    button.q-option.incorrect { border-left-color:#e0605c; background:color-mix(in srgb, #e0605c 10%, var(--white-darker)); }
+    button.q-option.muted { opacity:0.55; }
+    button.q-option.selected { border-left-color:var(--black); }
+    .opt-badge { font-family:var(--mono-font); font-size:0.85em; color:var(--gray); min-width:1.2em; flex-shrink:0; }
+    button.q-option.correct .opt-badge { color:#5fb87a; }
+    button.q-option.incorrect .opt-badge { color:#e0605c; }
     .solution {
       margin-top:0.9em;
-      padding-top:0.8em;
-      border-top:1px solid var(--gray);
+      padding-top:0.7em;
+      border-top:1px solid var(--white-darker);
       font-size:0.88em;
+      color:var(--gray);
     }
-    .solution .ans { border:1px solid #5fb87a; background:color-mix(in srgb, #5fb87a 12%, var(--white)); padding:0.25em 0.5em; font-family:var(--mono-font); font-size:0.9em; }
-    /* Flashcards */
+    .solution .ans { font-family:var(--mono-font); color:var(--black); }
     .flash-wrap { display:flex; flex-direction:column; align-items:center; gap:1em; }
     .perspective-1000 { perspective:1000px; width:100%; max-width:36em; }
     .flashcard-inner {
@@ -221,32 +199,31 @@
       -webkit-backface-visibility:hidden;
       position:absolute;
       inset:0;
-      border:1px solid var(--gray);
-      background:var(--white-lighter);
+      border:none;
+      background:var(--white-darker);
       padding:1em;
-      border-radius:5px;
+      border-radius:0;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
     }
-    .flashcard-back { transform:rotateY(180deg); background:var(--white-darker); }
-    /* Modal & toast */
+    .flashcard-back { transform:rotateY(180deg); }
     .modal-backdrop {
       position:fixed; inset:0; background:rgba(0,0,0,0.65);
       display:flex; align-items:center; justify-content:center; padding:1em; z-index:50;
     }
     .modal-backdrop.hidden { display:none; }
-    .modal { background:var(--white-lighter); border:1px solid var(--gray); padding:1.1em; max-width:32em; width:100%; max-height:90vh; overflow:auto; border-radius:5px; }
+    .modal { background:var(--white-lighter); border:none; padding:1.1em; max-width:32em; width:100%; max-height:90vh; overflow:auto; }
     .toast {
       position:fixed; right:1em; bottom:1em; z-index:60;
-      border:1px solid var(--gray); background:var(--white-lighter); padding:0.6em 0.85em; font-size:0.85em;
+      background:var(--black); color:var(--white); padding:0.6em 0.85em; font-size:0.85em;
       transform:translateY(8em); opacity:0; transition:all 0.3s ease;
     }
     .toast.show { transform:translateY(0); opacity:1; }
     .hidden { display:none !important; }
     @media (max-width:600px){
       .quiz-head h1{font-size:1.5em;}
-      .metrics{width:100%; justify-content:space-between;}
+      .metrics{width:100%; justify-content:flex-start;}
       .banner h2{font-size:1em;}
     }
   </style>
@@ -299,7 +276,7 @@
       </div>
     </div>
 
-    <div id="examControlsBar" class="hidden" style="border:1px dashed var(--gray); padding:0.8em; margin-bottom:1em; display:flex; justify-content:space-between; gap:1em; align-items:center; flex-wrap:wrap;">
+    <div id="examControlsBar" class="hidden" style="padding:0.6em 0; margin-bottom:1em; display:flex; justify-content:space-between; gap:1em; align-items:center; flex-wrap:wrap; border-top:1px solid var(--white-darker); border-bottom:1px solid var(--white-darker);">
       <div>⏱ <span id="examTimerDisplay" style="font-family:var(--mono-font); font-weight:bold;">00:00:00</span> — Grand Mock Exam (All 87)</div>
       <button onclick="submitExam()" id="submitExamBtn" class="q-btn active">Submit & Grade</button>
     </div>
@@ -313,24 +290,24 @@
         <div id="flashcardElement" onclick="flipFlashcard()" class="flashcard-inner">
           <div class="flashcard-front">
             <div>
-              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--gray); padding-bottom:0.5em; margin-bottom:0.7em; font-size:0.8em;">
-                <span id="fcFrontBadge" style="border:1px solid var(--gray); padding:0.15em 0.4em;">Week 1 • Question 1</span>
+              <div style="display:flex; justify-content:space-between; padding-bottom:0.4em; margin-bottom:0.6em; font-size:0.8em; color:var(--gray);">
+                <span id="fcFrontBadge">Week 1 • Question 1</span>
                 <span>Click to flip — Space</span>
               </div>
               <div id="fcFrontQuestion" style="font-size:0.95em; line-height:1.45;"></div>
             </div>
-            <div style="border-top:1px solid var(--gray); padding-top:0.6em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
+            <div style="padding-top:0.5em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
               <span>Test recall before checking</span>
               <span id="fcFrontIndex">1 / 87</span>
             </div>
           </div>
           <div class="flashcard-back">
             <div>
-              <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--gray); padding-bottom:0.5em; margin-bottom:0.7em; font-size:0.8em;">
-                <span style="border:1px solid var(--gray); padding:0.15em 0.4em;">Official Solution</span>
+              <div style="display:flex; justify-content:space-between; padding-bottom:0.4em; margin-bottom:0.6em; font-size:0.8em; color:var(--gray);">
+                <span>Official Solution</span>
                 <span>Flip back</span>
               </div>
-              <div id="fcBackAnswer" style="border:1px solid #5fb87a; padding:0.5em; font-size:0.9em; margin-bottom:0.7em;"></div>
+              <div id="fcBackAnswer" style="padding:0; font-size:0.9em; margin-bottom:0.7em; color:var(--black);"></div>
               <div id="fcBackExplanation" style="font-size:0.88em; line-height:1.45; max-height:14em; overflow:auto;"></div>
             </div>
             <div style="border-top:1px solid var(--gray); padding-top:0.6em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
@@ -353,7 +330,7 @@
 
   <div id="modalBackdrop" class="modal-backdrop hidden">
     <div class="modal">
-      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--gray); padding-bottom:0.7em; margin-bottom:0.8em;">
+      <div style="display:flex; justify-content:space-between; padding-bottom:0.6em; margin-bottom:0.7em; border-bottom:1px solid var(--white-darker);">
         <div>
           <h3 id="modalTitle" style="margin:0;">Performance Progress</h3>
           <p id="modalSubtitle" style="margin:0; color:var(--gray); font-size:0.85em;">Saved in local storage</p>
@@ -1760,7 +1737,7 @@
       document.getElementById('fcFrontIndex').textContent=`${flashcardIndex+1} / ${flashcardList.length}`;
       document.getElementById('fcBackIndex').textContent=`${flashcardIndex+1} / ${flashcardList.length}`;
       let optPreview=`<div style="margin-top:0.8em; display:flex; flex-direction:column; gap:0.35em;">`;
-      displayOpts.forEach(opt=>{ optPreview+=`<div style="border:1px solid var(--gray); padding:0.35em 0.5em; display:flex; gap:0.4em; font-size:0.88em;"><span style="font-family:var(--mono-font);">${opt.displayKey})</span><span>${opt.text}</span></div>`;});
+      displayOpts.forEach(opt=>{ optPreview+=`<div style="padding:0.25em 0; display:flex; gap:0.4em; font-size:0.88em;"><span style="font-family:var(--mono-font); color:var(--gray);">${opt.displayKey})</span><span>${opt.text}</span></div>`;});
       optPreview+=`</div>`;
       document.getElementById('fcFrontQuestion').innerHTML=`<div>${q.question}</div>${optPreview}`;
       document.getElementById('fcBackAnswer').innerHTML=`Correct Choice: (${correctDisplayKey}) ${correctOpt?correctOpt.text:''}`;
@@ -1798,16 +1775,16 @@
       let totalAttempted=0, totalCorrect=0;
       QUIZ_DATABASE.forEach(q=>{ if(userState[q.id]?.selected){ totalAttempted++; if(userState[q.id]?.isCorrect) totalCorrect++; }});
       const totalAcc=totalAttempted>0?Math.round((totalCorrect/totalAttempted)*100):0;
-      let html=`<div style="display:flex; gap:0.6em; margin-bottom:1em;">
-        <div style="flex:1; border:1px solid var(--gray); padding:0.6em; text-align:center;"><div style="color:var(--gray); font-size:0.8em;">Total</div><div style="font-family:var(--mono-font); font-weight:bold;">${QUIZ_DATABASE.length}</div></div>
-        <div style="flex:1; border:1px solid var(--gray); padding:0.6em; text-align:center;"><div style="color:var(--gray); font-size:0.8em;">Attempted</div><div style="font-family:var(--mono-font); font-weight:bold;">${totalAttempted}</div></div>
-        <div style="flex:1; border:1px solid var(--gray); padding:0.6em; text-align:center;"><div style="color:var(--gray); font-size:0.8em;">Accuracy</div><div style="font-family:var(--mono-font); font-weight:bold;">${totalAcc}%</div></div>
-      </div><h4 style="margin:0 0 0.5em; color:var(--gray); font-size:0.85em;">Weekly Breakdown</h4><div style="display:flex; flex-direction:column; gap:0.5em;">`;
+      let html=`<div style="display:flex; gap:1.2em; margin-bottom:1em; padding-bottom:0.8em; border-bottom:1px solid var(--white-darker);">
+        <div style="flex:1;"><div style="color:var(--gray); font-size:0.8em;">Total</div><div style="font-family:var(--mono-font); font-weight:bold; font-size:1.1em;">${QUIZ_DATABASE.length}</div></div>
+        <div style="flex:1;"><div style="color:var(--gray); font-size:0.8em;">Attempted</div><div style="font-family:var(--mono-font); font-weight:bold; font-size:1.1em;">${totalAttempted}</div></div>
+        <div style="flex:1;"><div style="color:var(--gray); font-size:0.8em;">Accuracy</div><div style="font-family:var(--mono-font); font-weight:bold; font-size:1.1em;">${totalAcc}%</div></div>
+      </div><h4 style="margin:0 0 0.5em; color:var(--gray); font-size:0.85em;">Weekly Breakdown</h4><div style="display:flex; flex-direction:column; gap:0.6em;">`;
       [1,2,3,4,5,7].forEach(wNum=>{
         const weekQs=QUIZ_DATABASE.filter(q=>q.week===wNum);
         let wAns=0,wCorr=0; weekQs.forEach(q=>{ if(userState[q.id]?.selected){ wAns++; if(userState[q.id]?.isCorrect) wCorr++; }});
         const pct=weekQs.length>0?Math.round((wCorr/weekQs.length)*100):0;
-        html+=`<div style="border:1px solid var(--gray); padding:0.6em;"><div style="display:flex; justify-content:space-between; font-size:0.85em; margin-bottom:0.3em;"><span>Week ${wNum}</span><span style="font-family:var(--mono-font);">${wCorr} / ${weekQs.length} (${pct}%)</span></div><div style="height:6px; background:var(--white-darker);"><div style="height:100%; background:var(--black); width:${pct}%;"></div></div></div>`;
+        html+=`<div style="padding:0.3em 0;"><div style="display:flex; justify-content:space-between; font-size:0.85em; margin-bottom:0.25em;"><span>Week ${wNum}</span><span style="font-family:var(--mono-font);">${wCorr} / ${weekQs.length} (${pct}%)</span></div><div style="height:4px; background:var(--white-darker);"><div style="height:100%; background:var(--black); width:${pct}%;"></div></div></div>`;
       });
       html+=`</div>`; modalBody.innerHTML=html; modal.classList.remove('hidden');
     }

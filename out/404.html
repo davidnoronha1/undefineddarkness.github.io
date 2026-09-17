@@ -37,20 +37,7 @@
 	<meta name="twitter:image" content="https://nes.is-a.dev/assets/images/nes-export.avif" />
 	<link rel="stylesheet" href="/assets/styles.css" />
 	<style>
-		/* 404-specific: keep extras minimal, reuse site vars */
 		.mono { font-family: var(--mono-font); }
-		.nf-grid {
-			display:grid;
-			gap:1.2em;
-			margin-top:1.5em;
-		}
-		.nf-card {
-			border:1px solid var(--gray);
-			background:var(--white-lighter);
-			padding:1em;
-			border-radius:5px;
-		}
-		.nf-card h2 { margin-top:0; font-size:1.15em; }
 		.nf-404 {
 			font-family:var(--mono-font);
 			font-size:clamp(3em, 12vw, 7em);
@@ -64,29 +51,33 @@
 			display:flex;
 			flex-wrap:wrap;
 			gap:0.6em;
-			margin-top:1em;
+			margin-top:1.2em;
 		}
 		.nf-actions a {
-			border:1px solid var(--gray);
-			padding:0.45em 0.8em;
-			text-decoration:none;
-			color:var(--black);
+			padding:0.35em 0;
+			text-decoration:underline;
+			text-underline-offset:3px;
+			color:var(--gray);
 			font-size:0.9em;
 		}
 		.nf-actions a.primary {
-			background:var(--black);
-			color:var(--white);
-			border-color:var(--black);
+			background:none;
+			color:var(--black);
+			text-decoration:none;
+			border-bottom:2px solid var(--black);
+			padding-bottom:0.15em;
 		}
-		.nf-actions a:hover { border-color:var(--black); }
+		.nf-actions a:hover { color:var(--black); }
 		pre.nf-art {
 			font-family:var(--mono-font);
 			font-size:0.75em;
 			line-height:1.1;
 			overflow-x:auto;
-			background:var(--white-lighter);
-			border:1px solid var(--gray);
-			padding:0.8em;
+			background:none;
+			border:none;
+			padding:0;
+			margin:0.8em 0 0;
+			color:var(--gray);
 			white-space:pre;
 		}
 		@media (max-width:600px){
@@ -114,22 +105,7 @@
 			<a href="https://github.com/davidnoronha1">GitHub</a>
 		</div>
 
-		<div class="nf-grid">
-			<div class="nf-card">
-				<h2>Try these</h2>
-				<ul style="margin:0; padding-left:1.2em;">
-					<li>Check the URL for typos — GitHub Pages paths are case-sensitive.</li>
-					<li>Head back to the <a href="/">full index</a> and browse from there.</li>
-					<li>If you followed a link here, let me know via <a href="/out/about.html">contact</a> and I’ll fix it.</li>
-				</ul>
-			</div>
-			<div class="nf-card" style="border-style:dashed;">
-				<h2>Reach me</h2>
-				<p style="margin:0;"><span class="mono">davidnoronha AT outlook DOT in</span> — or open an issue on <a href="https://github.com/davidnoronha1/undefineddarkness.github.io">the site repo</a>.</p>
-			</div>
-		</div>
-
-		<footer style="margin-bottom:2em; margin-top:2em;">
+		<footer style="margin-bottom:2em; margin-top:2.5em;">
 			<a class="special return-index" href="/index.html">Return To Index</a>
 		</footer>
 	</article>
