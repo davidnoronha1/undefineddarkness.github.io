@@ -26,25 +26,25 @@
 	<meta name="author" content="nes" />
 	<title>Robotic Arm System Design</title>
 	<meta name="description" content="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm" />
-	<link rel="canonical" href="https://nes.is-a.dev/2025/robotic-arm-system-design.html" />
+	<link rel="canonical" href="out/2025/robotic-arm-system-design.html" />
 	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
 	<meta property="og:title" content="Robotic Arm System Design" />
 	<meta property="og:description" content="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2025/robotic-arm-system-design.html" />
+	<meta property="og:url" content="out/2025/robotic-arm-system-design.html" />
 	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Robotic Arm System Design" />
 	<meta name="twitter:description" content="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm" />
 	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption{font-style:italic}h1{font-family:var(--display-font)}h1{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1{margin-top:0}h1{hyphens:auto;overflow-wrap:break-word}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}figure{display:inline-block}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}article video{max-height:60vh;object-fit:contain;object-position:left;width:100%}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}}</style>
+	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}table.table-full{width:100%}table.initial-conditions{margin:1.5em 0;width:100%}table.initial-conditions td{padding:.8em 1em;vertical-align:middle}table.initial-conditions img{display:block;margin:0 auto;object-fit:contain}table.table-prose{margin:1.5em 0;table-layout:auto;width:100%}table.table-prose th{background:var(--white-lighter);font-weight:700;padding:.5em .8em;text-align:left}table.table-prose td{line-height:1.45;padding:.5em .8em;text-align:left;vertical-align:top}table.action-matrix td:nth-child(2),table.action-matrix th:nth-child(2),table.core-allocation td:first-child,table.core-allocation td:nth-child(3),table.core-allocation td:nth-child(4),table.core-allocation th:first-child,table.core-allocation th:nth-child(3),table.core-allocation th:nth-child(4){text-align:center}@media (max-width:768px){table.initial-conditions,table.table-prose{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,article video,main img,main video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",
 		"@type": "BlogPosting",
 		"headline": "Robotic Arm System Design",
 		"description": "Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm",
-		"url": "https://nes.is-a.dev/2025/robotic-arm-system-design.html",
+		"url": "out/2025/robotic-arm-system-design.html",
 		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
 		"author": {
 			"@type": "Person",
@@ -62,7 +62,7 @@
   <h1>Robotic Arm System Design</h1>
   <!-- post_description="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm" -->
 </header>
-This is based on a interview assignment I did for Origin Robotics, (no reply :< ), There are 2 versions, <a href="/assets/origin-assignment.pdf">my original handwritten version</a> and a <a href="/assets/origin-assignment-clean.pdf">cleaned up version in word</a>.<br/>
+This is based on a interview assignment I did for Origin Robotics, (no reply :< ) — here is <a href="/assets/origin-assignment.pdf">my original handwritten version</a>, with the <a href="/assets/origin-assignment-clean.pdf">cleaned up version in Word</a> as well. The whole writeup is reproduced below.<br/>
 <br/>
 I later got to work on a SO-101 arm for Reinforcement Learning training while at Muks Robotics<br/>
 <br/>
@@ -71,6 +71,469 @@ I later got to work on a SO-101 arm for Reinforcement Learning training while at
     Your browser does not support the video tag. <a href="/assets/nc-20260805-103007-6da368dd6a.webm">Download the video</a> instead.
   </video>
   <figcaption>teleop demo with SO101 arms</figcaption>
+</figure>
+<hr>
+
+<div style="text-align: center; margin: 2.5em 0 1.5em 0;">
+  <h2 style="margin-bottom: 0.25em;">Embedded Software &amp; Controls Assignment</h2>
+  <p style="margin-top: 0; font-size: 1.05em;">David Noronha &mdash; <a href="mailto:davidnoronha@outlook.in">davidnoronha@outlook.in</a></p>
+</div>
+<h3 id="initial-conditions">Initial Conditions</h3>
+<p>
+<table class=" table-full initial-conditions">
+<tbody><tr>
+<td><b>Jetson AGX Orin</b></td>
+<td><img src="/assets/origin-jetson-e81f0481ec.avif" alt="Jetson AGX Orin" style="max-height: 80px;" /></td>
+<td><a href="https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf">Datasheet</a><br/></td>
+</tr>
+<tr>
+<td><b>Livox Mid 360 Lidar</b></td>
+<td><img src="/assets/origin-livox-4a6a5af24a.avif" alt="Livox Mid 360 Lidar" style="max-height: 80px;" /></td>
+<td><a href="https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf">Datasheet</a><br/></td>
+</tr>
+<tr>
+<td><b>ECon Systems<br/>STURDeCAM25</b></td>
+<td><img src="/assets/origin-sturdacam-a66371b936.avif" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" /></td>
+<td><a href="https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M">Datasheet</a><br/></td>
+</tr>
+<tr>
+<td><b>Universal Robots UR7e</b></td>
+<td><img src="/assets/origin-ur7e-c5f9496298.avif" alt="Universal Robots UR7e" style="max-height: 80px;" /></td>
+<td><a href="https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf">Datasheet</a><br/></td>
+</tr>
+</tbody></table>
+</p>
+<h2 id="data-pipeline">Data Pipeline</h2>
+<h3 id="vision">Vision</h3>
+<p>
+<figure>
+  <img src="/assets/origin-camera-stack-5b7b3c2694.avif" alt="Kernel / Userspace drivers for camera in Jetson" loading="lazy" />
+  <figcaption>Kernel / Userspace drivers for camera in Jetson – <a href="https://docs.nvidia.com/jetson/archives/r38.2/DeveloperGuide/SD/CameraDevelopment/SensorSoftwareDriverProgramming.html">Jetson Developer Guide</a></figcaption>
+</figure>
+<figure>
+  <img src="/assets/origin-gmsl2-0293901b7b.avif" alt="Camera pipeline in hardware" loading="lazy" />
+  <figcaption>Camera pipeline in hardware</figcaption>
+</figure>
+<figure>
+  <img src="/assets/origin-nitros-aee7975d3d.avif" alt="NVIDIA Isaac Transport for ROS (NITROS)" loading="lazy" />
+</figure>
+NITROS (<a href="https://nvidia-isaac-ros.github.io/v/release-3.2/concepts/nitros/index.html">NVIDIA Isaac Transport for ROS</a>) nodes that are next to each other in a graph, they apply type negotiation & type adaption which removes memory copies.<br/>
+Over ROS each node simply publishes a small header w/ the location to the message/data in GPU memory<br/>
+Location internally contains GPU side pointers / NvBufSurface internally backed by NVMM<br/>
+Also need to compose the nodes using <code>component_container_mt</code> to ensure intra process communication.<br/>
+Since if you need to do interprocess communication, you need to use DDS/RMW which brings copies.<br/>
+<br/>
+<a href="https://nvidia-isaac-ros.github.io/v/release-3.2/index.html">Isaac ROS Documentation</a><br/>
+<br/>
+</p>
+<h3 id="point-cloud">Point Cloud</h3>
+<p>
+<br/>
+Similar flow only, using NITROS to enable zero copy transfer across our stack.<br/>
+<br/>
+<figure>
+  <img src="/assets/origin-livox-driver-cbfb459b52.avif" alt="Isaac ROS Livox Driver Pipeline" loading="lazy" />
+</figure>
+<br/>
+There exists no Isaac ROS Livox Driver so a custom one utilizing <a href="https://docs.nvidia.com/holoscan/sdk-user-guide/gxf/doc/index.html">GXF</a> & the base <a href="https://github.com/Livox-SDK/Livox-SDK2">Livox SDK</a> would have to be made.<br/>
+We can either make a bridge node that consumes the PointCloud message & republishes into NITROS or modify the Livox Driver to work similarly to Isaac ROS <a href="https://github.com/nvidia-isaac/nvblox">Nvblox</a> / <a href="https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nova/tree/main/isaac_ros_hesai">Isaac ROS Hesai</a> which is a NITROS accelerated driver for the Hesai LIDAR.<br/>
+<br/>
+But this only makes sense if our computation using the pointcloud is GPU accel. & can make use of the data being available in the GPU to reduce copies.<br/>
+If the processing is mostly CPU bound then ROS2 intra process communication (sharing memory within process) should be sufficient.<br/>
+<br/>
+</p>
+<h2 id="notes">Notes</h2>
+<p>
+<br/>
+<ul>
+<li>Modern Isaac ROS for the Jetson host, recommends Nvidia SIPL for the camera but doesn't seem to be stable / reliable for the Orin, using older version of Isaac ROS (v3.3)<br/>
+</li>
+<li>If using ROS, a 1080p raw image at 65 f/s is:<br/>
+    1920 × 1080 × 3 × 65 bytes/s ⇒ 404.352 Megabytes/s<br/>
+    This data is copied multiple times during serialization & deserialization.<br/>
+    This eats up memory bandwidth.<br/>
+</li>
+<li>The TensorRT inference node can automatically use the NITROS image handles w/o any copies, removing need for copy from host to device.<br/>
+</li>
+<li>Can run inference on the Jetson's DLA to offload processing from the GPU.<br/>
+</li>
+<li>In the LIDAR driver, could use remote DMA if available to directly write the received sensor data to the Orin's memory (accessible by the CPU & GPU).<br/>
+</li>
+<li>Can test with using Cyclone DDS with shared memory to reduce latency in the pipeline, especially between 2 regular ROS nodes.<br/>
+</li>
+</ul><br/></p>
+<h2 id="system-architecture-synchronization">System Architecture / Synchronization</h2>
+<p>
+<br/>
+<figure>
+  <img src="/assets/origin-clock-rates-db64fda667.avif" alt="Device Clock Rates" loading="lazy" />
+  <figcaption>All devices functioning at different clock speeds, Continuous, 30Hz, 500Hz</figcaption>
+</figure>
+<br/>
+Using the Orin's Timestamp Clock (TSC) as the reference to all other clocks, we can synchronize the LIDAR & Camera timestamps to the TSC and can estimate the drift between the motor controller clock and synchronized TSC clock, We can also propagate this clock to the network using PTP (Precision Time Protocol) which is responsible for synchronizing any connected ethernet devices using the following logic:<br/>
+<br/>
+<figure>
+  <img src="/assets/origin-ptp-b5184ebb35.avif" alt="Precision Time Protocol (PTP) synchronization logic" loading="lazy" />
+</figure>
+⠀<br/>
+<mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -1.552ex;" xmlns="http://www.w3.org/2000/svg" width="46.963ex" height="4.855ex" role="img" focusable="false" viewBox="0 -1460 20757.7 2146"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z"></path></g><g data-mml-node="mo" transform="translate(1105.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mfrac" transform="translate(2161.6,0)"><g data-mml-node="mrow" transform="translate(220,710)"><g data-mml-node="mo"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(389,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g><g data-mml-node="mo" transform="translate(1408.8,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="msub" transform="translate(2409,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><g data-mml-node="mo" transform="translate(3206.6,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(3817.8,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mo" transform="translate(4818,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(5207,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g></g><g data-mml-node="mo" transform="translate(6226.8,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="msub" transform="translate(7227,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g><g data-mml-node="mo" transform="translate(8024.5,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g><g data-mml-node="mn" transform="translate(4176.8,-686)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><rect width="8613.5" height="60" x="120" y="220"></rect></g><g data-mml-node="mstyle" transform="translate(11015.1,0)"><g data-mml-node="mspace"></g></g><g data-mml-node="mi" transform="translate(13015.1,0)"><path data-c="1D442" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path></g><g data-mml-node="mo" transform="translate(14055.9,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mo" transform="translate(15111.7,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(15500.7,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g><g data-mml-node="mo" transform="translate(16520.4,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="msub" transform="translate(17520.7,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><g data-mml-node="mo" transform="translate(18318.2,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(18929.4,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mi" transform="translate(19929.7,0)"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z"></path></g></g></g></svg></mjx-container>
+<br/>
+Where D is the transmission delay between the slave & master clock and O is the clock offset<br/>
+<br/>
+Using ptp4l, we can configure the Jetson to be the grandmaster & synchronize the LIDAR to its own clock & other PTP slaves.<br/>
+<br/>
+Taking advantage of Jetson hardware features, it has a feature to sync the PTP clock with the TSC using PPS from the network card.<br/>
+<br/>
+This is very useful for applications like this one (sensor fusion & camera frame timestamping).<br/>
+<br/>
+The Orin also includes the Generic Timestamp Engine, which provides hardware timestamping for state changes of specific interrupt lines.<br/>
+<br/>
+This is used by LibArgus (the Linux API for cameras on Tegra) to obtain SOF / EOF timestamps that are synchronized to TSC.<br/>
+<br/>
+In this way, all the sensors are synchronized to the same clock domain.<br/>
+<br/>
+Alternatively, you could trigger camera frames using FSYNC / PPS based on the TSC clock, but you must handle finite timeouts in the Argus driver & connect to the Jetson's GPIO pins.*<br/>
+<br/>
+<i>I couldn't find good documentation for the e-con camera, so I'm just going over keywords I've found.</i><br/>
+<br/>
+<table class=" table-full">
+<thead><tr>
+<th>Device</th>
+<th>Clock</th>
+<th>Method</th>
+<th>Accuracy</th>
+</tr>
+</thead><tbody><tr>
+<td><b>Jetson</b></td>
+<td>TSC / PTP grandmaster</td>
+<td>phc2sys</td>
+<td>reference<br/></td>
+</tr>
+<tr>
+<td><b>Livox Mid-360</b></td>
+<td>PTP slave</td>
+<td><a href="https://livox-wiki-en.readthedocs.io/en/latest/tutorials/new_product/common/time_sync.html">Native PTP client</a></td>
+<td>±500ns<br/></td>
+</tr>
+<tr>
+<td><b>STURDeCAM25</b></td>
+<td>TSC</td>
+<td><a href="https://docs.nvidia.com/jetson/l4t-multimedia/classArgus_1_1Ext_1_1ISensorTimestampTsc.html">LibArgus Hardware Timestamps</a></td>
+<td>&lt;10µs<br/></td>
+</tr>
+<tr>
+<td><b>UR7e joints</b></td>
+<td>UR internal clock</td>
+<td>RTDE round-trip correlation + drift tracking</td>
+<td>~1ms<br/></td>
+</tr>
+</tbody></table>
+<ul>
+<li><a href="https://developer.nvidia.com/docs/drive/drive-os/6.0.8/public/drive-os-linux-sdk/common/topics/network_stub/time_sync_details.html">Orin Time Sync | NVIDIA Docs</a><br/>
+</li>
+<li><a href="https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/SD/Kernel/GenericTimestampEngine.html">Generic Timestamp Engine — Jetson Linux Developer Guide documentation</a><br/>
+</li>
+</ul><br/></p>
+<h2 id="clock-synchronization-architecture">Clock Synchronization Architecture</h2>
+<p>
+<br/>
+<figure>
+  <img src="/assets/origin-clock-sync-ab323d763c.avif" alt="Clock Synchronization Architecture" loading="lazy" />
+  <figcaption>Clock Synchronization Architecture</figcaption>
+</figure>
+<br/>
+</p>
+<h3 id="ur7e-motor-controller-rtde">UR7e Motor Controller (RTDE)</h3>
+<p>
+<br/>
+The UR7e uses its own clock that I can't figure out how to synchronize, so what I'd compromise with is taking the timestamp from RTDE & using that to convert time from the robot to PTP time domain & vice versa, kind of like this:<br/>
+<pre>
+<code class="language-plaintext">t1 &equals; getTime
+ur &equals; RTDETime
+t2 &equals; getTime
+
+&#35; Assume RTDE timestamp taken at (t1 + t2) / 2 &equals; e
+
+offset &equals; (e / 1e9) - ur
+          └── convert from ns to s
+</code>
+</pre>
+<br/>
+You can use a no-lock ring buffer to store history of the UR7e joint states so you can remember the joint state from when a particular image frame was taken, & since the controller can respond faster than the camera. Otherwise, if a state is not discretely stored, you can interpolate from the 2 nearest states.<br/>
+<br/>
+Occasionally you'll have to re-run this "manual" synchronization.<br/>
+<br/>
+</p>
+<h2 id="camera-hardware-synchronization">Camera Hardware Synchronization</h2>
+<p>
+<br/>
+<b>Finding camera time offset</b><br/>
+<pre>
+<code class="language-python">t1 <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">SystemTime</span><span style="color:&#35;dcdccc">()</span>
+tc <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">getCameraFrame</span><span style="color:&#35;dcdccc">().</span>ts <span style="color:&#35;7f9f7f; font-style:italic">&#35; → Get the next available camera frame</span>
+t2 <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">SystemTime</span><span style="color:&#35;dcdccc">()</span>
+
+offset <span style="color:&#35;dcdccc">= ((</span>t1 <span style="color:&#35;dcdccc">+</span> t2<span style="color:&#35;dcdccc">) /</span> <span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">) -</span> tc	</code>
+</pre>
+<br/>
+<b>Delay compensating trigger generator</b><br/>
+<pre>
+<code class="language-cpp">ts <span style="color:&#35;dcdccc">=</span> offset <span style="color:&#35;dcdccc">/</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span>e3 <span style="color:&#35;dcdccc">;</span> nTs <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span>e3
+
+<span style="color:&#35;e3ceab">while</span> <span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">true</span><span style="color:&#35;dcdccc">) {</span>
+    <span style="color:&#35;aabfe3">emitPulse</span><span style="color:&#35;dcdccc">(</span>FSYNC_PIN<span style="color:&#35;dcdccc">);</span>
+    period <span style="color:&#35;dcdccc">+=</span> ts <span style="color:&#35;dcdccc">&ast; (</span>nTs<span style="color:&#35;dcdccc">--);</span>
+    <span style="color:&#35;aabfe3">sleep</span><span style="color:&#35;dcdccc">(</span>period<span style="color:&#35;dcdccc">);</span>
+<span style="color:&#35;dcdccc">}</span>	</code>
+</pre>
+<br/>
+Very rough idea to spread out the offset over 1000 frames (@ ~16 s at 30 fps), assuming the camera clocks have some clock drift in a few minutes.<br/>
+<br/>
+</p>
+<h2 id="compute-resource-monitoring">Compute Resource Monitoring</h2>
+<p>
+<br/>
+</p>
+<h3 id="system-health-struct">System Health Struct</h3>
+<p>
+<pre>
+<code class="language-cpp"><span style="color:&#35;dfdfbf; font-weight:bold">struct</span> SystemHealth <span style="color:&#35;dcdccc">{</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── Timing &amp; Synchronization</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">int64_t</span>   lidar_ptp_offset_ns<span style="color:&#35;dcdccc">;</span>     <span style="color:&#35;7f9f7f; font-style:italic">// from ptp4l — target: &lt; 500&#39;000 ns</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">int64_t</span>   camera_tsc_corr_error_ns<span style="color:&#35;dcdccc">;</span><span style="color:&#35;7f9f7f; font-style:italic">// from correlated_timestamp_driver</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">int64_t</span>   ur_clock_drift_ppm<span style="color:&#35;dcdccc">;</span>      <span style="color:&#35;7f9f7f; font-style:italic">// from URClockTracker</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span>  last_trigger_jitter_ns<span style="color:&#35;dcdccc">;</span>  <span style="color:&#35;7f9f7f; font-style:italic">// actual vs intended FSYNC fire time</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint32_t</span>  camera_frames_dropped<span style="color:&#35;dcdccc">;</span>   <span style="color:&#35;7f9f7f; font-style:italic">// rolling 1s window</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint32_t</span>  lidar_packets_missed<span style="color:&#35;dcdccc">;</span>    <span style="color:&#35;7f9f7f; font-style:italic">// rolling 1s window</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── AI Inference</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     inference_latency_ms<span style="color:&#35;dcdccc">;</span>    <span style="color:&#35;7f9f7f; font-style:italic">// latest TensorRT forward pass</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     inference_latency_p99_ms<span style="color:&#35;dcdccc">;</span><span style="color:&#35;7f9f7f; font-style:italic">// 99th percentile over 10s window</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint32_t</span>  trajectory_buffer_depth<span style="color:&#35;dcdccc">;</span><span style="color:&#35;7f9f7f; font-style:italic">// waypoints ahead of current time</span>
+                                       <span style="color:&#35;7f9f7f; font-style:italic">// &lt; 3 = AI struggling</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span>  last_ai_trajectory_ns<span style="color:&#35;dcdccc">;</span>   <span style="color:&#35;7f9f7f; font-style:italic">// age of most recent trajectory</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">bool</span>      ai_timeout<span style="color:&#35;dcdccc">;</span>              <span style="color:&#35;7f9f7f; font-style:italic">// set if &gt; 80ms since last trajectory</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── Control Loop</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     control_loop_jitter_us<span style="color:&#35;dcdccc">;</span>  <span style="color:&#35;7f9f7f; font-style:italic">// 500Hz loop period deviation</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint32_t</span>  rtde_write_failures<span style="color:&#35;dcdccc">;</span>     <span style="color:&#35;7f9f7f; font-style:italic">// failed RTDE packets (rolling 1s)</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">bool</span>      deceleration_active<span style="color:&#35;dcdccc">;</span>     <span style="color:&#35;7f9f7f; font-style:italic">// true = AI timeout engaged</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── Thermal &amp; Power</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     gpu_temp_celsius<span style="color:&#35;dcdccc">;</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     cpu_temp_celsius<span style="color:&#35;dcdccc">;</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     gpu_power_watts<span style="color:&#35;dcdccc">;</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint32_t</span>  gpu_throttle_events<span style="color:&#35;dcdccc">;</span>    <span style="color:&#35;7f9f7f; font-style:italic">// non-zero = thermal throttle occurred</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── Robot Safety</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">bool</span>      estop_engaged<span style="color:&#35;dcdccc">;</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     tcp_velocity_m_s<span style="color:&#35;dcdccc">;</span>        <span style="color:&#35;7f9f7f; font-style:italic">// must remain &lt; safety_limit</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     joint_torque_max_nm<span style="color:&#35;dcdccc">;</span>     <span style="color:&#35;7f9f7f; font-style:italic">// highest torque across all joints</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">bool</span>      protective_stop_active<span style="color:&#35;dcdccc">;</span>  <span style="color:&#35;7f9f7f; font-style:italic">// UR internal safety violation</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── System-Level</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">float</span>     cpu_load_1s<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">12</span><span style="color:&#35;dcdccc">&rsqb;;</span>         <span style="color:&#35;7f9f7f; font-style:italic">// per-core load</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span>  core2_max_latency_ns<span style="color:&#35;dcdccc">;</span>    <span style="color:&#35;7f9f7f; font-style:italic">// worst RT wakeup latency on isolcpus</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">uint32_t</span>  watchdog_misses<span style="color:&#35;dcdccc">;</span>         <span style="color:&#35;7f9f7f; font-style:italic">// health monitor heartbeat misses</span>
+
+    <span style="color:&#35;7f9f7f; font-style:italic">// ── Derived Status</span>
+    <span style="color:&#35;dfdfbf; font-weight:bold">enum</span> <span style="color:&#35;aabfe3">class</span> Status <span style="color:&#35;dcdccc">{</span> GREEN<span style="color:&#35;dcdccc">,</span> YELLOW<span style="color:&#35;dcdccc">,</span> RED<span style="color:&#35;dcdccc">,</span> ESTOP <span style="color:&#35;dcdccc">}</span> overall_status<span style="color:&#35;dcdccc">;</span>
+<span style="color:&#35;dcdccc">};</span>	</code>
+</pre>
+<br/>
+</p>
+<h3 id="action-matrix">Action Matrix</h3>
+<p>
+<br/>
+<table class=" table-prose action-matrix">
+<thead><tr>
+<th>Fault Condition</th>
+<th>Severity</th>
+<th>Action / Mitigation Strategy</th>
+</tr>
+</thead><tbody><tr>
+<td><b>Camera Frame Dropped</b></td>
+<td>Warning</td>
+<td>Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner.<br/></td>
+</tr>
+<tr>
+<td><b>Lidar PTP Offset > 5ms</b></td>
+<td>Error</td>
+<td>Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL & command robot to [stop].<br/></td>
+</tr>
+<tr>
+<td><b>Inference Latency > 100ms</b></td>
+<td>Critical</td>
+<td>Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming.<br/></td>
+</tr>
+<tr>
+<td><b>GPU Temp > 85°C</b></td>
+<td>Critical</td>
+<td>Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp < 75°C for 30s.<br/></td>
+</tr>
+</tbody></table>
+</p>
+<h2 id="core-control-logic">Core Control Logic</h2>
+<p>
+<figure>
+  <img src="/assets/origin-control-loop-1cab85fb4e.avif" alt="Core Control Loop" loading="lazy" />
+</figure>
+</p>
+<h3 id="trajectory-estimation-pseudocode">Trajectory Estimation Pseudocode</h3>
+<p>
+<pre>
+<code class="language-python">MAX_WAYPOINTS <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">64</span>
+front <span style="color:&#35;dcdccc">= &lsqb;&rsqb;</span>
+back <span style="color:&#35;dcdccc">= &lsqb;&rsqb;</span>
+f_c <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span>
+b_c <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span>
+
+atomic<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">bool</span><span style="color:&#35;dcdccc">&gt;</span> new_trajectory_ready <span style="color:&#35;dcdccc">=</span> false<span style="color:&#35;dcdccc">;</span>
+atomic<span style="color:&#35;dcdccc">&lt;</span>uint64<span style="color:&#35;dcdccc">&gt;</span> last_ai_update_ns <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">;</span>
+
+
+<span style="color:&#35;e3ceab">def</span> <span style="color:&#35;aabfe3">pus</span><span style="color:&#35;dcdccc">(</span>waypts<span style="color:&#35;dcdccc">):</span>
+    b_c <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dfdfbf; font-weight:bold">min</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">len</span><span style="color:&#35;dcdccc">(</span>waypts<span style="color:&#35;dcdccc">),</span> MAX_WPTS<span style="color:&#35;dcdccc">)</span>
+    back <span style="color:&#35;dcdccc">= &lsqb;...</span>waypts<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">:</span>b_c<span style="color:&#35;dcdccc">&rsqb;&rsqb;</span>
+    last_ai_update_ns <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">now</span><span style="color:&#35;dcdccc">();</span>
+    new_trajectory_ready <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;e3ceab">True</span><span style="color:&#35;dcdccc">;</span>
+
+
+<span style="color:&#35;7f9f7f; font-style:italic">&#35; Called by controller loop</span>
+<span style="color:&#35;e3ceab">def</span> <span style="color:&#35;aabfe3">maybe_swap</span><span style="color:&#35;dcdccc">():</span>
+    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>new_trajectory_ready <span style="color:&#35;dcdccc">==</span> <span style="color:&#35;e3ceab">False</span><span style="color:&#35;dcdccc">):</span>
+        <span style="color:&#35;aabfe3">swap</span><span style="color:&#35;dcdccc">(</span>front<span style="color:&#35;dcdccc">,</span> back<span style="color:&#35;dcdccc">);</span>
+        f_c <span style="color:&#35;dcdccc">=</span> b_c
+
+
+<span style="color:&#35;e3ceab">def</span> <span style="color:&#35;aabfe3">interpolate_at</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">):</span>
+    <span style="color:&#35;e3ceab">for</span> i <span style="color:&#35;e3ceab">in</span> <span style="color:&#35;dfdfbf; font-weight:bold">range</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">,</span> f_c<span style="color:&#35;dcdccc">):</span>
+        <span style="color:&#35;e3ceab">if</span> front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">&rsqb;.</span>ts <span style="color:&#35;dcdccc">&lt;=</span> ts <span style="color:&#35;dcdccc">&amp;&amp;</span> front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">+</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">&rsqb;.</span>ts <span style="color:&#35;dcdccc">&gt;=</span> ts<span style="color:&#35;dcdccc">:</span>
+            α <span style="color:&#35;dcdccc">= (</span>ts <span style="color:&#35;dcdccc">-</span> front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">&rsqb;.</span>ts<span style="color:&#35;dcdccc">) / (</span>front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">+</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">&rsqb;.</span>ts <span style="color:&#35;dcdccc">-</span> front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">&rsqb;.</span>ts<span style="color:&#35;dcdccc">)</span>
+            <span style="color:&#35;e3ceab">return</span> <span style="color:&#35;aabfe3">lerp</span><span style="color:&#35;dcdccc">(</span>front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">&rsqb;,</span> front<span style="color:&#35;dcdccc">&lsqb;</span>i<span style="color:&#35;dcdccc">+</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">&rsqb;,</span> α<span style="color:&#35;dcdccc">)</span>
+
+    <span style="color:&#35;e3ceab">return</span> front<span style="color:&#35;dcdccc">&lsqb;</span>f_c<span style="color:&#35;dcdccc">+</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">&rsqb;</span>	</code>
+</pre>
+Very basic interpolation, for longer time periods, could use an Extended Kalman Filter that handles non linear data.<br/>
+<br/>
+</p>
+<h3 id="core-allocation">Core Allocation</h3>
+<p>
+<br/>
+<table class=" table-prose core-allocation">
+<thead><tr>
+<th>Core(s)</th>
+<th>Task / Responsibility</th>
+<th>Priority</th>
+<th>Scheduling Policy</th>
+</tr>
+</thead><tbody><tr>
+<td>0</td>
+<td>Linux OS, ROS 2 middleware, logging, non-RT housekeeping</td>
+<td>Default</td>
+<td>SCHED_OTHER<br/></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Lidar driver (UDP rx), Camera driver (GMSL2/Argus), PTP trigger thread (30Hz FSYNC)</td>
+<td>70–80</td>
+<td>SCHED_FIFO<br/></td>
+</tr>
+<tr>
+<td>2</td>
+<td><b>500Hz RTDE Control Loop, URHardwareInterface plugin</b><br/><i>(ISOLATED — isolcpus=2)</i></td>
+<td>99</td>
+<td>SCHED_FIFO<br/></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Health monitor watchdog, UR clock drift tracker, Trajectory buffer manager</td>
+<td>50–60</td>
+<td>SCHED_FIFO<br/></td>
+</tr>
+<tr>
+<td>4–7</td>
+<td>ROS 2 executor threads, Mission planner, API services, Correlated timestamp driver</td>
+<td>Default</td>
+<td>SCHED_OTHER<br/></td>
+</tr>
+<tr>
+<td>8–11</td>
+<td>TensorRT inference (CPU side), Point cloud preprocessing, nvblox / scene reconstruction</td>
+<td>Default</td>
+<td>SCHED_OTHER<br/></td>
+</tr>
+</tbody></table>
+<ul>
+<li>GPU (CUDA Cores): TensorRT inference graph, point cloud voxelization<br/>
+</li>
+<li>GPU (DLA Core 0): Primary TensorRT engine (routed via Isaac ROS)<br/>
+</li>
+<li>GPU (DLA Core 1): Fallback / secondary model<br/>
+</li>
+<li>Kernel boot params: <code>isolcpus=2 nohz_full=2 rcu_nocbs=2</code><br/>
+</li>
+<li>RT thread startup: <code>mlockall(MCL_CURRENT | MCL_FUTURE)</code> + stack prefault<br/>
+</li>
+</ul><br/></p>
+<h2 id="robot-arm-interface">Robot Arm Interface</h2>
+<p>
+<br/>
+</p>
+<h3 id="actions">Actions</h3>
+<p>
+<br/>
+<table class=" table-prose">
+<thead><tr>
+<th>Action Name</th>
+<th>Goal (Inputs)</th>
+<th>Feedback (Progress)</th>
+<th>Result (Final Output)</th>
+</tr>
+</thead><tbody><tr>
+<td><b>TriggerScan</b></td>
+<td>quality_level (0-2)<br/>require_lidar (bool)</td>
+<td>percent_complete<br/>stage (MOVING, etc.)</td>
+<td>point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason<br/></td>
+</tr>
+<tr>
+<td><b>ExecuteTrajectory</b></td>
+<td>trajectory<br/>max_velocity_scale<br/>safety_mode (0-2)</td>
+<td>percent_complete<br/>tcp_velocity_m_s</td>
+<td>success, failure_reason<br/>final_joint_state<br/></td>
+</tr>
+</tbody></table>
+</p>
+<h3 id="services">Services</h3>
+<p>
+<table class=" table-prose">
+<thead><tr>
+<th>Service Name</th>
+<th>Request Parameters</th>
+<th>Response Fields</th>
+</tr>
+</thead><tbody><tr>
+<td><b>GetSystemHealth</b></td>
+<td><i>(None)</i></td>
+<td>health, ready_for_command<br/>active_faults<br/></td>
+</tr>
+<tr>
+<td><b>RequestEStop</b></td>
+<td>reason (string)</td>
+<td>acknowledged (bool)<br/>robot_state (0-2)<br/></td>
+</tr>
+<tr>
+<td><b>ClearEStop</b></td>
+<td>cleared_by (string)</td>
+<td>acknowledged (bool)<br/>robot_state (0-2)<br/></td>
+</tr>
+</tbody></table>
+</p>
+<h3 id="safety-handshake">Safety Handshake</h3>
+<p>
+<figure>
+  <img src="/assets/origin-safety-sequence-3f599343fb.avif" alt="UR7e Control System Operation &amp; Fault Handling Sequence Diagram" loading="lazy" />
 </figure>
 		<footer style="margin-bottom: 2em;">
 			<a class="special return-index" href="/index.html">Return To Index</a>
