@@ -234,7 +234,7 @@
     <div class="quiz-head">
       <div style="min-width:0; flex:1;">
         <h1>Remote Sensing & GIS</h1>
-        <p class="quiz-subtitle">NPTEL IIT Guwahati • 87 Question Bank</p>
+        <p class="quiz-subtitle">NPTEL IIT Guwahati • 102 Question Bank</p>
       </div>
       <div class="quiz-actions">
         <div class="mode-switch">
@@ -278,14 +278,14 @@
     </div>
 
     <div id="examControlsBar" class="hidden" style="padding:0.6em 0; margin-bottom:1em; display:flex; justify-content:space-between; gap:1em; align-items:center; flex-wrap:wrap; border-top:1px solid var(--white-darker); border-bottom:1px solid var(--white-darker);">
-      <div>⏱ <span id="examTimerDisplay" style="font-family:var(--mono-font); font-weight:bold;">00:00:00</span> — Grand Mock Exam (All 87)</div>
+      <div>⏱ <span id="examTimerDisplay" style="font-family:var(--mono-font); font-weight:bold;">00:00:00</span> — Grand Mock Exam (All 102)</div>
       <button onclick="submitExam()" id="submitExamBtn" class="q-btn active">Submit & Grade</button>
     </div>
 
     <div id="flashcardViewContainer" class="hidden flash-wrap">
       <div style="width:100%; max-width:36em; display:flex; justify-content:space-between; font-size:0.85em; color:var(--gray);">
-        <span>All 87 Questions Combined</span>
-        <span id="fcCounter" style="font-family:var(--mono-font);">1 / 87</span>
+        <span>All 102 Questions Combined</span>
+        <span id="fcCounter" style="font-family:var(--mono-font);">1 / 102</span>
       </div>
       <div class="perspective-1000">
         <div id="flashcardElement" onclick="flipFlashcard()" class="flashcard-inner">
@@ -299,7 +299,7 @@
             </div>
             <div style="padding-top:0.5em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
               <span>Test recall before checking</span>
-              <span id="fcFrontIndex">1 / 87</span>
+                <span id="fcFrontIndex">1 / 102</span>
             </div>
           </div>
           <div class="flashcard-back">
@@ -313,7 +313,7 @@
             </div>
             <div style="border-top:1px solid var(--gray); padding-top:0.6em; display:flex; justify-content:space-between; font-size:0.8em; color:var(--gray);">
               <span>Verified NPTEL IIT Guwahati Key</span>
-              <span id="fcBackIndex">1 / 87</span>
+              <span id="fcBackIndex">1 / 102</span>
             </div>
           </div>
         </div>
@@ -1490,6 +1490,203 @@
         ],
         correct: "A",
         explanation: "Absolute Error = |Estimated - Actual| = |63.6% - 50.0%| = 13.6%."
+      },
+
+      // ====================================================
+      // WEEK 8: GIS INTERPOLATION, GEODESY & MAP PROJECTIONS (15 Qs) — NPTEL Assignment 8
+      // ====================================================
+      {
+        id: "w8_q1",
+        week: 8,
+        question: "The Inverse Distance Weighted (IDW) interpolation method is based on which principle?",
+        options: [
+          { key: "A", text: "Farther points have more influence on the estimated value" },
+          { key: "B", text: "All points have equal weight regardless of distance" },
+          { key: "C", text: "Nearby known points have more influence than distant ones" },
+          { key: "D", text: "Only one nearest neighbor point is used" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: IDW is based on Tobler's First Law — nearer sample points exert greater weight on the interpolated value than distant points, with weight decaying as 1/d<sup>k</sup>."
+      },
+      {
+        id: "w8_q2",
+        week: 8,
+        question: "Which interpolation method is a geostatistical approach that uses semi-variance to measure spatially correlated components?",
+        options: [
+          { key: "A", text: "Thiessen Polygon" },
+          { key: "B", text: "Inverse Distance Weighted (IDW)" },
+          { key: "C", text: "Trend Surface Model" },
+          { key: "D", text: "Kriging" }
+        ],
+        correct: "D",
+        explanation: "Direct Question: Kriging is the geostatistical interpolator that models spatial autocorrelation via the semi-variogram (semi-variance γ(h)) to derive optimal unbiased weights."
+      },
+      {
+        id: "w8_q3",
+        week: 8,
+        question: "The Universal Transverse Mercator (UTM) system divides the globe into how many zones?",
+        options: [
+          { key: "A", text: "30 zones" },
+          { key: "B", text: "45 zones" },
+          { key: "C", text: "60 zones" },
+          { key: "D", text: "72 zones" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: UTM divides the Earth longitudinally into 60 zones, each 6° of longitude wide (numbered 1–60 eastward from 180°W)."
+      },
+      {
+        id: "w8_q4",
+        week: 8,
+        question: "Which of the following describes the Geoid?",
+        options: [
+          { key: "A", text: "A perfect sphere representing the Earth" },
+          { key: "B", text: "The equipotential surface of Earth's gravitational field coinciding with the mean ocean surface" },
+          { key: "C", text: "A 3-D figure obtained by directional scaling of a sphere" },
+          { key: "D", text: "A flat 2-D representation of the Earth's surface" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: The Geoid is the equipotential surface of Earth's gravity field that coincides with global mean sea level and is extended through the continents."
+      },
+      {
+        id: "w8_q5",
+        week: 8,
+        question: "What is the WGS84 value for the Semi-Major Axis (Equatorial Radius) of the Earth?",
+        options: [
+          { key: "A", text: "6356752.3142 meters" },
+          { key: "B", text: "6378137.0 meters" },
+          { key: "C", text: "6400000.0 meters" },
+          { key: "D", text: "6371000.0 meters" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: WGS84 defines the semi-major axis a = 6,378,137.0 m (semi-minor axis b ≈ 6,356,752.3142 m)."
+      },
+      {
+        id: "w8_q6",
+        week: 8,
+        question: "In map representation, color value is best suited for showing quantitative differences.",
+        options: [
+          { key: "A", text: "True" },
+          { key: "B", text: "False" }
+        ],
+        correct: "A",
+        explanation: "Direct Question: True — in cartographic symbology, variations in color value (lightness/darkness) effectively encode ordered quantitative differences."
+      },
+      {
+        id: "w8_q7",
+        week: 8,
+        question: "Which DEM generation technique involves using two slightly different images of the same area taken from different angles to derive elevation?",
+        options: [
+          { key: "A", text: "Laser altimetry" },
+          { key: "B", text: "Contour lines" },
+          { key: "C", text: "Satellite stereo pair" },
+          { key: "D", text: "Radar interferometry" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: Satellite stereo pairs exploit parallax between two convergent viewing angles to stereoscopically derive elevation (photogrammetric DEM)."
+      },
+      {
+        id: "w8_q8",
+        week: 8,
+        question: "When snow is metamorphosed to glacial ice, what happens to spectral reflectance in the visible range?",
+        options: [
+          { key: "A", text: "Increases from 60% to 95%" },
+          { key: "B", text: "Remains constant at around 80%" },
+          { key: "C", text: "Falls from 95% to 60%" },
+          { key: "D", text: "Falls from 95% to 20%" }
+        ],
+        correct: "C",
+        explanation: "Direct Question: Fresh snow reflects ~95% in the visible; progressive densification and grain growth during firn-to-glacial-ice metamorphism lowers visible reflectance to ~60%."
+      },
+      {
+        id: "w8_q9",
+        week: 8,
+        question: "Which type of map projection preserves area with NO distortion?",
+        options: [
+          { key: "A", text: "Orthographic Projection" },
+          { key: "B", text: "Cylindrical Equal-Area Projection" },
+          { key: "C", text: "Gnomonic Projection" },
+          { key: "D", text: "Stereographic Projection" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: Cylindrical Equal-Area (e.g., Lambert/Behrmann) is an equivalent projection — area is preserved everywhere (at the cost of shape distortion)."
+      },
+      {
+        id: "w8_q10",
+        week: 8,
+        question: "In the Terrestrial Water Storage (TWS) equation used with GRACE data (TWS = SM + SR + SWE + GWS), what does 'SWE' stand for?",
+        options: [
+          { key: "A", text: "Shallow Water Extent" },
+          { key: "B", text: "Snow Water Equivalent" },
+          { key: "C", text: "Soil Water Evapotranspiration" },
+          { key: "D", text: "Surface Water Exchange" }
+        ],
+        correct: "B",
+        explanation: "Direct Question: TWS = Soil Moisture (SM) + Surface Runoff/Reservoir (SR) + Snow Water Equivalent (SWE) + Groundwater Storage (GWS)."
+      },
+      {
+        id: "w8_q11",
+        week: 8,
+        question: "A map with scale 1:5,000 is classified as a _______ scale map, where 1 cm on the map equals _______ on the ground.",
+        options: [
+          { key: "A", text: "Small-scale; 50 km" },
+          { key: "B", text: "Large-scale; 50 m" },
+          { key: "C", text: "Medium-scale; 5 km" },
+          { key: "D", text: "Large-scale; 5 km" }
+        ],
+        correct: "B",
+        explanation: "A 1:5,000 map is a Large-Scale map where 1 cm on the map = 50 meters on the ground (1:100,000 would be 1 cm = 1 km, Small Scale)."
+      },
+      {
+        id: "w8_q12",
+        week: 8,
+        question: "For Urban Land Use mapping at Level-3 (Zonal Planning), which spatial resolution and RS data are most appropriate?",
+        options: [
+          { key: "A", text: "Low resolution (50–360 m); AWiFS" },
+          { key: "B", text: "Medium resolution (6–30 m); Landsat/LISS-3" },
+          { key: "C", text: "High resolution (0.5–4 m); IKONOS/WorldView" },
+          { key: "D", text: "Very High resolution (0.1–1 m); UAV/LiDAR" }
+        ],
+        correct: "C",
+        explanation: "Urban Level-3 (zonal) planning requires high-resolution data of 0.5–4 m, such as IKONOS and WorldView, used for mapping high/low-rise areas, slums, and arterial roads."
+      },
+      {
+        id: "w8_q13",
+        week: 8,
+        question: "For the Orthometric Height calculation using GPS, if the Ellipsoidal Height (h) from GPS is 250 m and the Geoid Height (N) is 35 m, what is the Orthometric Height (H)?",
+        options: [
+          { key: "A", text: "285 m" },
+          { key: "B", text: "250 m" },
+          { key: "C", text: "35 m" },
+          { key: "D", text: "215 m" }
+        ],
+        correct: "D",
+        explanation: "Orthometric Height H = h − N = 250 − 35 = 215 m."
+      },
+      {
+        id: "w8_q14",
+        week: 8,
+        question: "In the IDW interpolation, if a known point has a value of 100 at a distance of 2 units from the estimation point, and another point has a value of 200 at a distance of 4 units (k=1), what is the estimated value?",
+        options: [
+          { key: "A", text: "150.00" },
+          { key: "B", text: "125.00" },
+          { key: "C", text: "133.33" },
+          { key: "D", text: "166.67" }
+        ],
+        correct: "C",
+        explanation: "Using IDW with k=1: ẑ = (z₁/d₁ + z₂/d₂) / (1/d₁ + 1/d₂) = (100/2 + 200/4) / (1/2 + 1/4) = (50 + 50) / 0.75 = 100 / 0.75 = 133.33."
+      },
+      {
+        id: "w8_q15",
+        week: 8,
+        question: "Given two points A (value = 87) and B (value = 129) separated by 45 units, what is the interpolated value at point C located 20 units from A using linear interpolation?",
+        options: [
+          { key: "A", text: "98.67" },
+          { key: "B", text: "105.67" },
+          { key: "C", text: "110.00" },
+          { key: "D", text: "100.00" }
+        ],
+        correct: "B",
+        explanation: "Value at C = 87 + ((129−87)/45 × 20) = 87 + (42/45 × 20) = 87 + 18.67 = 105.67."
       }
     ];
 
@@ -1499,7 +1696,8 @@
       { id: '3', label: 'Week 3', short: 'Week 3', count: 15, title: 'Assignment 3: Enhancements & Histograms', desc: 'FCC & NCC color guns, LUT tables, Laplacian 2nd derivative, Roberts gradient, histogram equalization.' },
       { id: '4', label: 'Week 4', short: 'Week 4', count: 15, title: 'Assignment 4: Indices & Classifiers', desc: 'PCA, NDVI, NDWI, NDSI, Parallelepiped, Maximum Likelihood, Kappa coefficient, error matrices.' },
       { id: '5', label: 'Week 5', short: 'Week 5', count: 15, title: 'Assignment 5: Photogrammetry & Microwaves', desc: 'High oblique, stereo endlap, fiducial marks, InSAR, RADAR polarimetry, photo scale reciprocal.' },
-      { id: '7', label: 'Week 7', short: 'Week 7', count: 12, title: 'Assignment 7: Hyperspectral & GIS', desc: 'SVM margin & slack variables, ASTER library, CRISM 544 bands, TIN, GIS Erase overlays.' }
+      { id: '7', label: 'Week 7', short: 'Week 7', count: 12, title: 'Assignment 7: Hyperspectral & GIS', desc: 'SVM margin & slack variables, ASTER library, CRISM 544 bands, TIN, GIS Erase overlays.' },
+      { id: '8', label: 'Week 8', short: 'Week 8', count: 15, title: 'Assignment 8: GIS, Geodesy & Map Projections', desc: 'IDW & Kriging interpolation, UTM 60 zones, Geoid & WGS84, DEM stereo pairs, map scale, GRACE TWS.' }
     ];
 
 
@@ -1612,9 +1810,9 @@
         practiceContainer.classList.remove('hidden');
         activeWeekBadge.textContent="Grand Mock Exam";
         activeModeBadge.textContent="Exam Mode";
-        totalPoolBadge.textContent="87 Total";
+        totalPoolBadge.textContent="102 Total";
         activeWeekTitle.textContent="Complete Course Assessment";
-        activeWeekDesc.textContent="All 87 questions from Weeks 1-7 combined. Review grade upon Submit.";
+        activeWeekDesc.textContent="All 102 questions from Weeks 1-8 combined. Review grade upon Submit.";
         const examList=getShuffledQuestionList(QUIZ_DATABASE);
         renderVerticalQuestions(examList); updateMetrics(QUIZ_DATABASE);
       } else if(currentMode==='flashcard'){
@@ -1622,9 +1820,9 @@
         practiceContainer.classList.add('hidden');
         examBar.classList.add('hidden');
         flashcardContainer.classList.remove('hidden');
-        activeWeekBadge.textContent="All 87";
+        activeWeekBadge.textContent="All 102";
         activeModeBadge.textContent="Flashcards";
-        totalPoolBadge.textContent="87 Cards";
+        totalPoolBadge.textContent="102 Cards";
         activeWeekTitle.textContent="Active Recall Flashcard Deck";
         activeWeekDesc.textContent="All questions combined. Tap card or press space to flip.";
         flashcardList=getShuffledQuestionList(QUIZ_DATABASE);
@@ -1781,7 +1979,7 @@
         <div style="flex:1;"><div style="color:var(--gray); font-size:0.8em;">Attempted</div><div style="font-family:var(--mono-font); font-weight:bold; font-size:1.1em;">${totalAttempted}</div></div>
         <div style="flex:1;"><div style="color:var(--gray); font-size:0.8em;">Accuracy</div><div style="font-family:var(--mono-font); font-weight:bold; font-size:1.1em;">${totalAcc}%</div></div>
       </div><h4 style="margin:0 0 0.5em; color:var(--gray); font-size:0.85em;">Weekly Breakdown</h4><div style="display:flex; flex-direction:column; gap:0.6em;">`;
-      [1,2,3,4,5,7].forEach(wNum=>{
+      [1,2,3,4,5,7,8].forEach(wNum=>{
         const weekQs=QUIZ_DATABASE.filter(q=>q.week===wNum);
         let wAns=0,wCorr=0; weekQs.forEach(q=>{ if(userState[q.id]?.selected){ wAns++; if(userState[q.id]?.isCorrect) wCorr++; }});
         const pct=weekQs.length>0?Math.round((wCorr/weekQs.length)*100):0;
