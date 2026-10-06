@@ -2,9 +2,17 @@
 
 # When invoked outside a container, delegate to the long-running Docker container.
 if [ ! -f /.dockerenv ]; then
-    docker compose up -d --no-recreate generate
+    docker compose up -d generate || { echo "Failed to start docker container" >&2; exit 1; }
     # Wait for bun install (first start only — instant on subsequent calls)
-    until docker compose exec generate test -d node_modules 2>/dev/null; do sleep 0.5; done
+    timeout=30
+    while ! docker compose exec generate test -d node_modules 2>/dev/null; do
+        sleep 0.5
+        timeout=$((timeout - 1))
+        if [ "$timeout" -le 0 ]; then
+            echo "Timed out waiting for container to initialize" >&2
+            exit 1
+        fi
+    done
     exec docker compose exec generate ./generate "$@"
 fi
 
@@ -330,6 +338,7 @@ generate_sitemap() {
 		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
 		echo "    <url><loc>${site_url}/</loc><lastmod>${now}</lastmod></url>"
 		echo "    <url><loc>${site_url}/about.html</loc><lastmod>${now}</lastmod></url>"
+		echo "    <url><loc>${site_url}/portfolio.html</loc><lastmod>${now}</lastmod></url>"
 	} >$sitemap_file
 
 	local article_lines=""
@@ -354,8 +363,10 @@ generate_sitemap() {
 	done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
 
 	# experiments/ — hand-written static HTML, not built into out/ but still
-	# public pages (portfolio, FSA, serial, etc.). Add every *.html under
-	# experiments/ so they appear in sitemap.xml.
+	# public pages (FSA, serial, etc.). Add every *.html under experiments/
+	# so they appear in sitemap.xml. experiments/index.html is just a
+	# redirect stub to /portfolio.html — skip it (portfolio is hardcoded
+	# above).
 	if [ -d "experiments" ]; then
 		while IFS= read -r exp_file; do
 			[ -z "$exp_file" ] && continue
@@ -368,9 +379,8 @@ generate_sitemap() {
 			exp_lastmod=$(date -u -d "@${exp_epoch}" +%Y-%m-%d 2>/dev/null)
 			[ -z "$exp_lastmod" ] && exp_lastmod="$now"
 			local exp_url="$site_url/${exp_file}"
-			# normalize ./experiments/index.html -> /experiments/ and dedupe portfolio
 			echo "    <url><loc>${exp_url}</loc><lastmod>${exp_lastmod}</lastmod></url>" >>$sitemap_file
-		done < <(find experiments -type f -name "*.html" | sort)
+		done < <(find experiments -type f -name "*.html" ! -path "experiments/index.html" | sort)
 	fi
 
 	echo '</urlset>' >>$sitemap_file

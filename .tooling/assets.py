@@ -343,6 +343,8 @@ def resolve_reference(value: str, manifest: dict[str, str], context_year: str) -
     anchor = None
     if value.startswith("/assets/"):
         anchor, subpath = "/assets/", value[len("/assets/"):]
+    elif value.startswith("/assets_src/"):
+        anchor, subpath = "/assets/", value[len("/assets_src/"):]
     elif rel_match:
         anchor, subpath = f"{rel_match.group(1)}assets/", rel_match.group(2)
 
@@ -412,10 +414,10 @@ def rewrite_html(text: str, manifest: dict[str, str], context_year: str) -> tupl
 
 def rewrite_tree(root: Path, manifest: dict[str, str]) -> int:
     """Rewrite every asset reference found under `root` (plus rss.xml and
-    a root-level index.html, if present) to match `manifest`. Returns the
-    number of references rewritten."""
+    root-level index.html/portfolio.html, if present) to match `manifest`.
+    Returns the number of references rewritten."""
     targets = list(root.rglob("*.html"))
-    extra = [Path("rss.xml"), Path("index.html")]
+    extra = [Path("rss.xml"), Path("index.html"), Path("portfolio.html")]
     for extra_path in extra:
         if extra_path.exists() and extra_path not in targets:
             targets.append(extra_path)
