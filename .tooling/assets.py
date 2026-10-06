@@ -254,7 +254,9 @@ def build_assets(source: str, posts: str, output: str) -> dict[str, str]:
         rel = path.relative_to(source_root).as_posix()
         ext = path.suffix.lower()
 
+        raw_rel = None
         if ext in RAW_VIDEO_EXTS:
+            raw_rel = rel
             transcoded = transcode_to_webm(path)
             if transcoded is None:
                 failures.append(rel)
@@ -266,6 +268,8 @@ def build_assets(source: str, posts: str, output: str) -> dict[str, str]:
         if ext in MEDIA_EXTS:
             if not process_media_file(path, rel, output_root, manifest):
                 failures.append(rel)
+            elif raw_rel:
+                manifest[raw_rel] = manifest[rel]
         else:
             process_passthrough_file(path, rel, output_root, manifest)
 
@@ -305,7 +309,7 @@ def build_assets(source: str, posts: str, output: str) -> dict[str, str]:
 
 
 ASSET_ATTR_RE = re.compile(
-    r"""(?P<prefix>\b(?:src|href|content)=)(?P<quote>["'])(?P<value>[^"']+)(?P=quote)"""
+    r"""(?P<prefix>\b(?:src|href|content|poster)=)(?P<quote>["'])(?P<value>[^"']+)(?P=quote)"""
 )
 CSS_URL_RE = re.compile(r"""url\((?P<quote>['"]?)(?P<value>[^'")]+)(?P=quote)\)""")
 IMPORT_RE = re.compile(r"""(?P<prefix>\bimport\s+)(?P<quote>["'])(?P<value>[^"']+)(?P=quote)""")
@@ -363,6 +367,11 @@ def resolve_reference(value: str, manifest: dict[str, str], context_year: str) -
             basename = Path(subpath).name
             if basename in manifest.values():
                 new_name = basename
+            else:
+                for k, v in manifest.items():
+                    if Path(k).name == basename or Path(k).name == Path(basename).with_suffix(".webm").name:
+                        new_name = v
+                        break
 
         if new_name is None:
             print(f"warning: no manifest entry for {anchor}{subpath}", file=sys.stderr)

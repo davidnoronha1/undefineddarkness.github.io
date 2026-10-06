@@ -73,6 +73,14 @@
 			pointer-events: none;
 			overflow: hidden;
 		}
+
+		.experiment-preview img,
+		.experiment-preview video {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
 		
 		.experiment-preview::-webkit-scrollbar {
 			display: none;
@@ -335,7 +343,7 @@
 
 			<div class="flagship-card">
 				<div class="experiment-preview">
-					<img src="/assets/screenshot-spaceo-linkage-viz-20260928-170827-0266eaba8e.avif" />
+					<video src="/assets/standing-ccc18a61b3.webm" autoplay loop muted playsinline poster="/assets/screenshot-spaceo-linkage-viz-20260928-170827-0266eaba8e.avif"></video>
 				</div>
 				<div class="experiment-info">
 					<h3>Spaceo Prime</h3>
