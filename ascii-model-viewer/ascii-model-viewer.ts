@@ -436,6 +436,11 @@ export class AsciiModelViewer extends HTMLElement {
     root.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (mesh.isMesh && this.material) mesh.material = this.material;
+      // Position-only meshes (e.g. stripped/Draco-compressed exports) have no
+      // normals, which leaves the Lambert shading black and the model invisible.
+      if (mesh.isMesh && !mesh.geometry.getAttribute("normal")) {
+        mesh.geometry.computeVertexNormals();
+      }
     });
 
     const box = new THREE.Box3().setFromObject(root);
