@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="dark">
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
+	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
+	<meta name="msapplication-config" content="/assets/browserconfig.xml">
+	<meta name="author" content="nes" />
+	<title>Mira: Autonomous Underwater Vehicle for SAUVC &amp; TAC</title>
+	<meta name="description" content="Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC." />
+	<link rel="canonical" href="https://nes.is-a.dev/2025/mira.html" />
+	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
+	<meta property="og:title" content="Mira: Autonomous Underwater Vehicle for SAUVC &amp; TAC" />
+	<meta property="og:description" content="Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC." />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://nes.is-a.dev/2025/mira.html" />
+	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Mira: Autonomous Underwater Vehicle for SAUVC &amp; TAC" />
+	<meta name="twitter:description" content="Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC." />
+	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
+	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i{font-style:italic}code{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}aside{background:var(--white-darker);border-left:3px solid var(--gray);margin:1em 0;padding:.7em 1em}.split>*{width:100%}.split{grid-template-columns:1fr 1fr}.split{display:grid;grid-column-gap:1em;grid-row-gap:1em}.stack{flex-direction:column;gap:1em}.stack{display:flex}.horizontal,.horizontal:not(p)>p{column-gap:1em;display:flex;flex-wrap:wrap;row-gap:1em}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}figure{display:inline-block}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}article img,article video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BlogPosting",
+		"headline": "Mira: Autonomous Underwater Vehicle for SAUVC &amp; TAC",
+		"description": "Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC.",
+		"url": "https://nes.is-a.dev/2025/mira.html",
+		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
+		"author": {
+			"@type": "Person",
+			"name": "nes",
+			"url": "https://nes.is-a.dev/about.html"
+		}
+	}
+	</script>
+</head>
+
+<body>
+	<article>
+
+<header>
+  <!-- post_date="2026-10-09" -->
+  <h1>Mira: Autonomous Underwater Vehicle for SAUVC &amp; TAC</h1>
+  <!-- post_description="Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC." -->
+</header>
+<h2 id="introduction">Introduction</h2>
+<p>
+In my 2nd year of college, I joined Dreadnought Robotics, an underwater robotics team that had just returned from competing in the Tau Autonomy Center Challenge (TAC) 2024 and had managed to secure 2nd place.<br/>
+<br/>
+Not long after I joined, development started for the Singapore Autonomous Underwater Vehicle Challenge (SAUVC). As a member of the programming department I was working on both the system integration of the various software subsystems and developing the routines for each of the SAUVC tasks.<br/>
+<br/>
+After an unsuccessful competition in Singapore due to electrical failures, our seniors passed the mantle on to us and we earnestly began preparing for the TAC competition the next year, with the help of our juniors.<br/>
+<br/>
+Around this time we also had our official board transfer and I was made Programming Head, in charge of the entire software stack for the competitions and of the knowledge transfer and holistic development of myself and my juniors. The goal was to ensure we had a reliable software stack, one that is pleasant to work on (Developer Experience), and that once we left there would be people with sufficient knowledge and know-how to take over without needing to re-learn anything.<br/>
+<br/>
+</p>
+<h2 id="architecture">Architecture</h2>
+<p>
+<br/>
+</p>
+<h3 id="mechanical">Mechanical</h3>
+<p>
+<br/>
+<div class="split">
+<figure><img src="/assets/mira-bluerov2-13a9144e51.avif" alt="BlueROV2 Heavy" title="BlueROV2 Heavy" loading="lazy" /><figcaption>BlueROV2 Heavy</figcaption></figure>
+<figure><img src="/assets/mira-v1-64de162cd2.avif" alt="Mira V1" title="Mira V1" loading="lazy" /><figcaption>Mira V1</figcaption></figure>
+</div>
+<br/>
+Mira v1 initially followed a design based on the BlueROV2 Heavy design and it was reliable and gave us smooth 6DOF control. Wanting to improve speed and reduce bulkiness, we eventually attempted converting it into a VTC configuration.<br/>
+<br/>
+<figure><img src="/assets/mira-vtc-ec8f7eb98e.avif" alt="BotsOverkill AUV was the inspiration for the VTC change" title="BotsOverkill AUV was the inspiration for the VTC change" loading="lazy" /><figcaption>BotsOverkill AUV was the inspiration for the VTC change</figcaption></figure><br/>
+<br/>
+Unfortunately this didn't work out well for us. By the time we were able to get the rods and the mounts manufactured out of metal at a reasonable cost, we could not control the AUV. No matter what we did, the ArduSub controller would always apply some drift, rendering the STABILIZE mode unusable. Besides this and other issues, the configuration was generally difficult to work with, so the bot was reverted to the original BlueROV2 Heavy configuration for greater stability and an easier working environment.<br/>
+<br/>
+</p>
+<h3 id="electrical">Electrical</h3>
+<p>
+<br/>
+Electrically, the configuration of our AUV never changed much. We only faced an issue when trying to implement a kill switch for the thrusters to comply with competition regulations: due to the high peak current draw from the T200 thrusters, we had to settle for a software-based kill switch.<br/>
+<br/>
+<figure><img src="/assets/mira-electrical-architecture-fc423ed8ae.avif" alt="(idealized) electrical architecture of mira" title="(idealized) electrical architecture of mira" loading="lazy" /><figcaption>(idealized) electrical architecture of mira</figcaption></figure><br/>
+<br/>
+We had attempted using Solid State Relays for the kill switch, but those caused intermittent lockup issues, possibly due to the high EMF generated by the thrusters, and ultimately cost us the SAUVC competition.<br/>
+<br/>
+</p>
+<h3 id="programming">Programming</h3>
+<p>
+<br/>
+Initially the stack was a clusterfuck of random scripts that talked over ROS and was generally really fragile, so a large amount of my tenure was invested in making it more reliable and easier to work on. I Dockerized the entire stack to remove system-specific dependencies, got the cameras streaming with low latency even over less-than-ideal connections, and changed much of the internal code architecture to allow easier modification and easier hardware optimization (to take advantage of the Jetson hardware).<br/>
+<br/>
+<figure><img src="/assets/mira-software-architecture-fe9d11b709.avif" alt="(idealized) software architecture" title="(idealized) software architecture" loading="lazy" /><figcaption>(idealized) software architecture</figcaption></figure><br/>
+<br/>
+In the diagrams the arrows just show the unidirectional flow of data, since the exact data being transferred and how it was transferred were things we iterated on a lot.<br/>
+<br/>
+Sources:<br/>
+<ul>
+<li><a href="https://github.com/Dreadnought-Robotics/mira">Dreadnought-Robotics/mira</a><br/>
+</li>
+<li><a href="https://github.com/davidnoronha1/zed-jetson">davidnoronha1/zed-jetson</a><br/>
+</li>
+</ul><br/></p>
+<h2 id="task-primer">Task Primer</h2>
+<p>
+<br/>
+Mostly I want to go over the various problems / difficult situations we faced and the workarounds / alternative solutions we came up with for each, but I should first do a quick primer on all the tasks in both competitions.<br/>
+<br/>
+</p>
+<h3 id="sauvc">SAUVC</h3>
+<p>
+<br/>
+<figure><img src="/assets/mira-sauvc-pool-layout-f40ff91972.avif" alt="SAUVC Competition Arena (Top View & Side View)" title="SAUVC Competition Arena (Top View & Side View)" loading="lazy" /><figcaption>SAUVC Competition Arena (Top View & Side View)</figcaption></figure><br/>
+<br/>
+There are 4 tasks in SAUVC (labels are our own):<br/>
+<br/>
+<div class="split">
+<div class="stack">
+<figure><img src="/assets/mira-sauvc-gate-d926da95e7.avif" alt="Gate (Front View)" title="Gate (Front View)" loading="lazy" /><figcaption>Gate (Front View)</figcaption></figure>
+<figure><img src="/assets/mira-sauvc-gate-angle-668ea03fc3.avif" alt="Gate (Angled View)" title="Gate (Angled View)" loading="lazy" /><figcaption>Gate (Angled View)</figcaption></figure>
+</div>
+<div>
+<figure><img src="/assets/mira-sauvc-flare-59c075a0fa.avif" alt="Orange Flare" title="Orange Flare" loading="lazy" /><figcaption>Orange Flare</figcaption></figure>
+</div>
+</div>
+<br/>
+<b>Flare Task</b><br/>
+<br/>
+The bot must successfully avoid the orange flare that can be anywhere within the initial pool zone before the gate.<br/>
+<br/>
+<b>Gate Task</b><br/>
+<br/>
+The bot must find the gate and pass through it without touching any of the gate borders.<br/>
+<br/>
+<br/>
+<figure><img src="/assets/mira-sauvc-bucket-b2c29848b2.avif" alt="Bucket (+Hydrophone) Task" title="Bucket (+Hydrophone) Task" loading="lazy" /><figcaption>Bucket (+Hydrophone) Task</figcaption></figure><br/>
+<br/>
+<b>Bucket (+Hydrophone) Task</b><br/>
+<br/>
+The bot must navigate to the buckets at the end of the pool, successfully detect the color of each of them, and then correctly place a ball within the blue bucket or, preferably, within the red bucket that has the acoustic pinger (45kHz).<br/>
+<br/>
+<figure><img src="/assets/mira-sauvc-poles-70b5e54cea.avif" alt="Poles Task" title="Poles Task" loading="lazy" /><figcaption>Poles Task</figcaption></figure><br/>
+<br/>
+<b>Poles Task</b><br/>
+<br/>
+The bot must find and bump the three coloured poles (red, yellow and blue) so that the ball on each one drops. For the bonus points this must be done in a given order, which is randomized for every attempt and only told to the team after the gate, so the bot must have some kind of tetherless communication with the surface to receive it.<br/>
+<br/>
+<br/>
+Source: <a href="https://sauvc.org/rulebook/">SAUVC Rulebook</a><br/>
+<br/>
+</p>
+<h3 id="tac">TAC</h3>
+<p>
+<br/>
+There are 4 tasks in TAC as well:<br/>
+<br/>
+<figure><img src="/assets/mira-tac-pipeline-1b6bf43f8a.avif" alt="TAC Seabed Pipeline with ArUco Markers" title="TAC Seabed Pipeline with ArUco Markers" loading="lazy" /><figcaption>TAC Seabed Pipeline with ArUco Markers</figcaption></figure><br/>
+<br/>
+<b>Pipeline Task</b><br/>
+<br/>
+The pipeline (yellow, 200mm diameter, no longer than 10m, with an unknown path) is placed on the seabed with an acoustic pinger (30kHz) at its start. The bot must find the pinger, follow the pipeline and report the list of ArUco marker IDs (4-10 of them) in the order they appear from the pinger end. For a full point run the bot must <i>autonomously</i> locate the pipeline, track it, detect the markers and return to the launch and recovery site.<br/>
+<br/>
+<br/>
+<figure><img src="/assets/mira-tac-subsea-structure-97e4a2de99.avif" alt="Underwater Structure Task" title="Underwater Structure Task" loading="lazy" /><figcaption>Underwater Structure Task</figcaption></figure><br/>
+<br/>
+<b>Underwater Structure Task</b><br/>
+<br/>
+The bot must find the underwater structure on the seabed and inspect it by identifying the 5-10 ArUco markers positioned all over it (some harder to see than others) and report them as a list of marker IDs. This task and the valve task are performed in the same run.<br/>
+<br/>
+<figure><img src="/assets/mira-tac-valve-66074437fd.avif" alt="Valve Task" title="Valve Task" loading="lazy" /><figcaption>Valve Task</figcaption></figure><br/>
+<br/>
+<b>Valve Task</b><br/>
+<br/>
+There are two valves on the underwater structure, one on the vertical surface and one on the horizontal surface. The bot must autonomously find each valve, properly align itself and its gripper and rotate the handle through its 90 degree range to the shut (S) or open (O) position given by the judges before the run. The starting position of the handle is not guaranteed.<br/>
+<br/>
+<br/>
+<figure><img src="/assets/mira-tac-docking-ce3ca76ee0.avif" alt="Docking Station in Training Pool" title="Docking Station in Training Pool" loading="lazy" /><figcaption>Docking Station in Training Pool</figcaption></figure><br/>
+<br/>
+<b>Docking Task</b><br/>
+<br/>
+The docking station sits on the bottom of an indoor training pool. The bot must find it and autonomously dock on the indicated landing area and stay there for at least 10 seconds, docking precisely enough that the inductive power pucks make contact, and demonstrate power transfer using a light that is powered only by the secondary puck.<br/>
+<br/>
+Source: <a href="https://tacchallenge.com/wp-content/uploads/2024/02/Rules-and-Regulations-2024-rev.1.pdf">TAC Rulebook</a><br/>
+<br/>
+</p>
+<h2 id="task-solutions-software">Task Solutions / Software</h2>
+<p>
+<br/>
+<figure><img src="/assets/mira-zed-slam-pipeline-8bfa8fdcfd.avif" alt="ZED 2i to ArduSub SLAM Pipeline" title="ZED 2i to ArduSub SLAM Pipeline" loading="lazy" /><figcaption>ZED 2i to ArduSub SLAM Pipeline</figcaption></figure><br/>
+<br/>
+</p>
+<h3 id="sauvc">SAUVC</h3>
+<p>
+<br/>
+This may not be the best way to approach the tasks, but it was my train of thought when trying to think of the cleanest way to solve them. Most of the tasks involve finding out <b>where</b> objects are in your scene and <b>what</b> objects those are so essentially you need to have a good map of your surroundings and know your own location within this map, so you can <i>very easily</i> navigate to known waypoints in the environment and aren’t relying on dead reckoning from the IMUs for your own position within the map. So essentially the AUV needs to function as a SLAM (simultaneous localization and mapping) bot.<br/>
+<br/>
+Doing this underwater is kind of a struggle. In air, this can be done fairly easily with LiDAR, but this doesn’t work underwater (the light waves scatter too quickly). So essentially your options for <i>mapping</i> are limited to side-scan sonar and depth cameras. Due to the prohibitive cost of side-scan sonars, we decided to experiment with a ZED 2i stereo depth camera.<br/>
+<br/>
+The plan is to use this with its ZED SDK to get the clean Neural Depth and then feed this to ArduPilot as an external pose estimate. We can also fuse this with the IMUs from the camera and the Pixhawk to have a clean self-pose within the map.<br/>
+<br/>
+Once ardusub had the local map we could easily use <i>GUIDED</i> mode to navigate us to different waypoints locations around the competition arena and also handle things like collision avoidance.<br/>
+<br/>
+Using the bounding box of any detected object, we can take the points that lie within that bounding box to be the points of the object itself so we can then use the pose from those points, using the pose we can easily target that object during navigation.<br/>
+<br/>
+Initially all our task solutions were written as a single routine script, we have since started moving towards representing every task as a behaviour tree, this lets us <i>very easily</i> re-use components / primitives across multiple tasks like GoToBoundingBox, AngularSweep etc.<br/>
+<br/>
+</p>
+<h3 id="tac">TAC</h3>
+<p>
+<br/>
+Many of the same things are useful here as well, though for this competition instead of a generic approach that worked for most of the tasks, we had to focus on custom CV routines for each task since the water environment could vary a lot and if it was muddy / dirty would kind of ruin the stereo depth.<br/>
+<br/>
+Generally for both competitions, we trained YOLOv11 models (so they were small enough to run on the jetson orin nano) to take care of object detection, we also spent a lot of time trying to get FoundationPose and DOPE working but we didnt have access to the hardware to run Foundation Pose and DOPE we faced issues importing custom objects easily and rendering the scenes to train it was also problematic.<br/>
+<br/>
+I genuinely still dont have a great idea of how you would attempt the subsea structure task fully autonomously.<br/>
+<br/>
+</p>
+<h2 id="challenges">Challenges</h2>
+<p>
+<br/>
+This section is going to be very subjective 🙂<br/>
+<br/>
+</p>
+<h3 id="lack-of-university-support">Lack of University Support</h3>
+<p>
+<br/>
+This is going to be a rant but it really was the sort of source of most of our problems, for one thing VIT university has a very strict 75% attendance policy and you only get an exception if your CGPA is &ge;9.0/10.0, This if you can imagine is quite… detrimental for club work that must be fit within this busy schedule of classes, assignments and if you attend placements then placement pre-placement talk etc. So despite us technically having “2 weeks” for a competition, it comes out to more like 12hrs per person or even less.<br/>
+<br/>
+Also since our university makes it very difficult to leave the campus for hostellers (you need to apply for a leave before hand and that needs to be approved with a mail from your parents and that also only <i>if</i> your proctor decides to allow it) so we pretty much only had access to the campus swimming pool which is open to people pretty much from 7am till 6:30pm so we could only either go very early morning for a couple hours (6:30am till 7am) and from 6:30pm till 8:30 so usually only the evening testing would happen and even then many people aren’t able to attend due to conflicting time tables.<br/>
+<br/>
+So we are stuck with having very few man hours and very little pool testing time, this sort of forced us into a workflow of often going to a pool testing even without much to test simply to “not waste” the pool time.<br/>
+<br/>
+And due to the limited time, our best option was to typically record data / datasets and then work on these at home which is fine but we then struggled to get the right kind of data and to verify / reproduce any work / results we derived from data we collected maybe a week ago.<br/>
+<br/>
+</p>
+<h3 id="mechanical-instability">Mechanical Instability</h3>
+<p>
+<br/>
+My batch was very ambitious when we entered so we often came up with things to try in order to improve the bot and we also decided to switch to <a href="#mechanical">VTC</a> so throughout our tenure there was always something either broken or being worked on mechanically on the bot.<br/>
+<br/>
+This while fine on its own presents a problem, our bot utilizes a cascaded PID control for depth yaw and pitch, we could offload this entirely to the ardusub but we kept having issues with depth hold and stabilize mode, granted we didnt spend a lot of time trying to debug these issues (ardusub is really a pain to debug) but they happened consistently enough that we resorted to the basic PIDs for the autonomous routines,<br/>
+<br/>
+This is fine on its own the problem is that we need to manually tune the PID coefficients whenever something on the bot changes a lot like if weight is removed shifted or added so the end result was that for a majority of the time, the bot was either not in a state to be used, or if it was we had to retune it before we could get data back.<br/>
+<br/>
+</p>
+<h3 id="pool-cloudiness">Pool Cloudiness</h3>
+<p>
+<br/>
+This is kind of a very specific complaint but for all our competitions, the water environment is very clear visually, so you can see to a far distance.<br/>
+<br/>
+<figure class="video-figure">
+  <video src="/assets/mira-cloudy-pool-0fb985b7d0.webm" controls preload="metadata" playsinline aria-label="">
+    Your browser does not support the video tag. <a href="/assets/mira-cloudy-pool-0fb985b7d0.webm">Download the video</a> instead.
+  </video>
+  <figcaption></figcaption>
+</figure>
+Meanwhile this is what we were dealing with…, this is due to a combination of factors, bad lighting conditions in pool itself (it was best only during early morning with sunlight) and the chlorine / cleaning chemical they used that always clouded up the water visually. Meanwhile the SAUVC pools looked like <a href="#sauvc">this</a>.<br/>
+<br/>
+Not only did this cause <b>all</b> our perception problems to become much harder, it also meant we couldnt adapt any scripts from this “badpool” to a “goodpool” and essentially would have to retrain everything based on the <i>very</i> <i>very</i> limited amount of photos and videos that we had from SAUVC.<br/>
+<br/>
+</p>
+<h2 id="solutions">Solutions</h2>
+<p>
+<br/>
+</p>
+<h3 id="simulator">Simulator</h3>
+<p>
+<br/>
+So considering our limited pool testing time and the state of the pool itself, We decided to focus our efforts on developing an accurate enough simulator for these tasks so that routines and perception codes could be tested without the need of the pool and once things were working within simulator, we could invest time purely in bridging the sim2real gap.<br/>
+<br/>
+So after surveying the fairly <i>sparse</i> environment of underwater capable simulators, we ended up with 2 options that were feasible under our hardware constraints (best case: a laptop with a 4050, worst case: an old thinkpad with bad integrated graphics):<br/>
+<br/>
+<ul>
+<li>Gazebo with Bouyancy and systems from project DAVE<br/>
+</li>
+<li>Stonefish<br/>
+</li>
+</ul><br/>Initially we decided on Stonefish since it was more dedicated for underwater work and had good visuals which was good for perception but despite a long time of trying to get it to work on everyone’s machines, we found that it was just too unstable on many systems and otherwise was very slow.<br/>
+<br/>
+We also needed to maintain a bridge between stonefish &harr; ardupilot that went through ROS and introduced a mess of coordinate systems since stonefish, ros and ardupilot all use different coordinate systems. One major point of contention was we could never get the ardupilot depth hold to work.<br/>
+<br/>
+Eventually we thought to experiment with gazebo (this was the time when claude etc got competent) and that had much better results and was also easier to setup since there was more support for it online, eventually we were able to build it out to have our entire competition arenas for both SAUVC and TAC and to test out new ideas we had.<br/>
+<br/>
+This is the depth map based SLAM navigation we wanted to do for SAUVC / TAC:<br/>
+<br/>
+<figure class="video-figure">
+  <video src="/assets/mira-slam-sim-5d178f3db3.webm" controls preload="metadata" playsinline aria-label="">
+    Your browser does not support the video tag. <a href="/assets/mira-slam-sim-5d178f3db3.webm">Download the video</a> instead.
+  </video>
+  <figcaption></figcaption>
+</figure>
+Source: <a href="https://github.com/davidnoronha1/mira_sim">mira_sim</a><br/>
+<br/>
+We even tried getting access to some of our universities GPU machines to run Issac Sim with OceanSim to get really nice artificial data for our competition environments but the process to get access to lab resources for a student (ie: not a PHD student) is incredibly painful so after 2 months of trying, we kind of gave up since it was too much work and we didn’t have hardware that could run IssacSim comfortably.<br/>
+<br/>
+</p>
+<h3 id="differential-pressure-speed-sensor-dpss">Differential Pressure Speed Sensor (DPSS)</h3>
+<p>
+<br/>
+We spent a lot of time researching solutions to our localization & mapping issue, one of things we did was get a ZED 2i stereo camera and the other thing was to create a DPSS based on some papers we have, on a very high level:<br/>
+<br/>
+We take pressure at 3 points of a hemisphere and compute the difference between the pressure at the extreme points and the center point which is at the zero velocity point (stagnation point), then using some math based on Bernoulli’s principle (the relation of pressure to velocity), we can find the bot’s velocity very accurately in one direction.<br/>
+<br/>
+So this can help us the localize since it can be combined with the IMU for angular changes (rotation).<br/>
+<br/>
+I know the explanation isn’t very good, I got lazy, read the papers if you want the exact physics of it.<br/>
+<br/>
+<figure><img src="/assets/mira-dpss-sensor-9c62242b5a.avif" alt="Differential Pressure Sensor Speedometer" title="Differential Pressure Sensor Speedometer" loading="lazy" /><figcaption>Differential Pressure Sensor Speedometer</figcaption></figure><br/>
+<br/>
+Sources:<br/>
+<br/>
+1. <b>Fuentes-Pérez, Meurer, Tuhtan, Kruusmaa</b>, “Differential Pressure Sensors for Underwater Speedometry in Variable Velocity and Acceleration Conditions.” IEEE Journal of Oceanic Engineering (2018) Vol. 43, 2, p. 418-426.<a href="https://doi.org/10.1109/JOE.2017.2767786"><a href="https://doi.org/10.1109/JOE.2017.2767786">https://doi.org/10.1109/JOE.2017.2767786</a></a> <a href="https://ws.lib.ttu.ee/digibase/en/Publ/Register/Item/155294">ttu</a><br/>
+2. <b>Meurer et al.</b>, “Differential Pressure Sensor Speedometer for Autonomous Underwater Vehicle Velocity Estimation.” IEEE Journal of Oceanic Engineering.<a href="https://doi.org/10.1109/JOE.2019.2907822"><a href="https://doi.org/10.1109/JOE.2019.2907822">https://doi.org/10.1109/JOE.2019.2907822</a></a> <a href="https://ws.lib.ttu.ee/publikatsioonid/en/Publ/Register/Item/142171">ttu</a><br/>
+3. <b>Meurer, Fuentes-Pérez, Schwarzwälder, Ludvigsen, Sørensen, Kruusmaa</b>, “2D Estimation of Velocity Relative to Water and Tidal Currents Based on Differential Pressure for Autonomous Underwater Vehicles.” IEEE Robotics and Automation Letters (2020) vol. 5, 2, p. 3444−3451. This paper presents the DPSSv2, a low-cost, lightweight and energy efficient sensor to estimate fluid relative velocity in 2D based on differential pressure, validated in field trials on-board an AUV in the presence of tidal currents.<a href="https://doi.org/10.1109/LRA.2020.2976318"><a href="https://doi.org/10.1109/LRA.2020.2976318">https://doi.org/10.1109/LRA.2020.2976318</a></a><br/>
+<br/>
+<aside>
+💡
+
+Work In Progress
+
+</aside>
+<br/>
+<a href="https://excalidraw.com/#json=RUzJmOxhKQD105-lvm3aR,IUyTBoduecWU85e1ujW5DQ">Excalidraw Whiteboard</a><br/>
+		<footer style="margin-bottom: 2em;">
+			<a class="special return-index" href="/index.html">Return To Index</a>
+		</footer>
+	</article>
+</body>
