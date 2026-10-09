@@ -20,6 +20,7 @@
 
 /* Callout / admonition boxes, see the #CALLOUT transformer in
    .tooling/transformers.sh */
+aside,
 .callout {
     margin: 1em 0;
     padding: 0.7em 1em;
@@ -126,6 +127,19 @@
     grid-row-gap: 1em;
 }
 
+.split-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
 .split-f {
     display: flex;
 }
@@ -200,7 +214,8 @@ header .img-sml, .img-pxl {
         grid-template-columns: 1fr 1fr;
     }
 
-    .force-break {
+    .force-break,
+    .split-3 {
         grid-template-columns: 1fr !important;
     }
 
