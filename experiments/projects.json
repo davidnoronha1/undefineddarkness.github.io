@@ -1,0 +1,462 @@
+{
+  "projects": [
+    {
+      "name": "androidino",
+      "description": "Android app for USB-connected microcontrollers, combining serial communication, Lua scripting, and sensor and camera input.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/androidino",
+      "language": "Kotlin",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/androidino/master/README.md"
+      ]
+    },
+    {
+      "name": "camera_driver",
+      "description": "Configurable C++20 GStreamer camera framework with hardware encoding, recording, streaming, and optional ROS 2 integration.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/camera_driver",
+      "language": "C++",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/camera_driver/master/README.md"
+      ]
+    },
+    {
+      "name": "gate-detection",
+      "description": "Multithreaded C++ gate detection and pose estimation for the SAUVC underwater navigation task.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/gate-detection",
+      "language": "C++",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/gate-detection/main/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/gate-detection/main/image.png",
+      "image_alt": "Multithreaded underwater gate-detection pipeline diagram",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/gate-detection/main/README.md",
+      "image_width": 903,
+      "image_height": 473
+    },
+    {
+      "name": "meshmerize",
+      "description": "A C and Raylib simulator for testing maze-solving line followers, with competition notes from MeshMerize 2024.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/meshmerize",
+      "language": "C",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/meshmerize/main/README.md"
+      ]
+    },
+    {
+      "name": "mira",
+      "description": "Dreadnought Robotics’ Mira AUV software stack, with ROS 2 control, perception, navigation, and vehicle telemetry.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/mira",
+      "language": "Python",
+      "fork": true,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/mira/master/README.md",
+        "https://github.com/davidnoronha1/mira/commit/5f384dd98648f8fa817657c6f0b64d26c4f4f53a",
+        "https://github.com/davidnoronha1/mira/commit/0ea23a7779e90d340fc6c031f1013a782a0ff7da",
+        "https://github.com/davidnoronha1/mira/commit/55f6cb6559f52279c060c46f59432eed0e04261b"
+      ],
+      "image": "https://github.com/user-attachments/assets/1f643f54-825b-4657-b129-be1897e39837",
+      "image_alt": "Mira underwater robot beside a swimming pool",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/mira/master/README.md",
+      "image_width": 960,
+      "image_height": 1280
+    },
+    {
+      "name": "mira-control-a1",
+      "description": "Go ROS 2 MAVLink controller for Mira, handling Pixhawk commands, telemetry, and emergency controls with concurrent workers.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/mira-control-a1",
+      "language": "Go",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/mira-control-a1/main/README.md"
+      ],
+      "image": "https://github.com/user-attachments/assets/e4dc372e-b92d-4a27-974f-8fb3b3c09561",
+      "image_alt": "Diagram of Mira controller workers, MAVLink messages, and serial communication",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/mira-control-a1/main/README.md",
+      "image_width": 1396,
+      "image_height": 554
+    },
+    {
+      "name": "mira_sim",
+      "description": "Containerized underwater simulation combining Gazebo Harmonic, ArduPilot SITL, competition worlds, and QGroundControl.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/mira_sim",
+      "language": "Makefile",
+      "fork": true,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/mira_sim/master/README.md",
+        "https://github.com/davidnoronha1/mira_sim/commit/7676665f2d378d90fff3a4e73e61cf5df840bf61",
+        "https://github.com/davidnoronha1/mira_sim/commit/c18c338fdcc8300f5a72d93fcd8b5b054756866a",
+        "https://github.com/davidnoronha1/mira_sim/commit/a5c6b10f4ad32e9c9b3abe18100220b7271472d4"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/mira_sim/master/Screenshot%20from%202026-08-31%2017-43-31.png",
+      "image_alt": "Mira simulation in Gazebo with QGroundControl telemetry",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/mira_sim/master/README.md",
+      "image_width": 1853,
+      "image_height": 965
+    },
+    {
+      "name": "robotics-demos",
+      "description": "Browser-based IMU sensor fusion, webcam feature tracking, and an interactive map of NVIDIA robotics projects.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/robotics-demos",
+      "language": "TypeScript",
+      "fork": false,
+      "homepage": "https://robotics-demos.pages.dev/",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/robotics-demos/main/README.md"
+      ]
+    },
+    {
+      "name": "zed-jetson",
+      "description": "Docker environment for running ZED cameras and custom object detection on NVIDIA Jetson with ROS 2 Jazzy.",
+      "category": "Robotics",
+      "url": "https://github.com/davidnoronha1/zed-jetson",
+      "language": "Shell",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/zed-jetson/master/README.md"
+      ]
+    },
+    {
+      "name": "av1pack",
+      "description": "Compress photo albums into WebM using browser video codecs, with embedded image metadata, slideshow playback, and ZIP extraction.",
+      "category": "Web Apps",
+      "url": "https://github.com/davidnoronha1/av1pack",
+      "language": "TypeScript",
+      "fork": false,
+      "homepage": "https://av1pack.neswk.workers.dev",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/av1pack/master/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/av1pack/master/chart.png",
+      "image_alt": "av1pack compression benchmark comparing a photo album with ZIP and WebM output",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/av1pack/master/README.md",
+      "image_width": 600,
+      "image_height": 371
+    },
+    {
+      "name": "mem",
+      "description": "A local-first browser workspace combining an infinite canvas, local files, bookmarks, PDF viewing, and rich-text notes.",
+      "category": "Web Apps",
+      "url": "https://github.com/davidnoronha1/mem",
+      "language": "JavaScript",
+      "fork": false,
+      "homepage": "https://mem-bay.vercel.app",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/mem/master/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/mem/master/public/screenshot.png",
+      "image_alt": "mem canvas with handwritten notes, bookmarks, and document cards",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/mem/master/README.md",
+      "image_width": 1853,
+      "image_height": 965
+    },
+    {
+      "name": "nhai-road-viz",
+      "description": "A responsive road-survey dashboard with route maps, chainage information, lane analysis, and synchronized video views.",
+      "category": "Web Apps",
+      "url": "https://github.com/davidnoronha1/nhai-road-viz",
+      "language": "TypeScript",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/nhai-road-viz/main/README.md",
+        "https://raw.githubusercontent.com/davidnoronha1/nhai-road-viz/main/src/App.tsx",
+        "https://raw.githubusercontent.com/davidnoronha1/nhai-road-viz/main/src/components/InfoText.tsx"
+      ]
+    },
+    {
+      "name": "notein-export",
+      "description": "Local browser viewer for Notein and Nebo handwriting files, with WebAssembly parsing, media extraction, and PNG, PDF, and SVG export.",
+      "category": "Web Apps",
+      "url": "https://github.com/davidnoronha1/notein-export",
+      "language": "Zig",
+      "fork": false,
+      "homepage": "https://noteinexport.neswk.workers.dev",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/notein-export/master/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/notein-export/master/assets/screenshot.png",
+      "image_alt": "Notein handwriting viewer displaying annotated engineering notes",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/notein-export/master/README.md",
+      "image_width": 1847,
+      "image_height": 965
+    },
+    {
+      "name": "bcd-table",
+      "description": "Cloudflare Worker that turns MDN browser compatibility data into embeddable HTML tables for web documentation.",
+      "category": "Developer Tools",
+      "url": "https://github.com/davidnoronha1/bcd-table",
+      "language": "TypeScript",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/bcd-table/master/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/bcd-table/master/docs/image.png",
+      "image_alt": "Browser compatibility table showing API support across desktop and mobile browsers",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/bcd-table/master/README.md",
+      "image_width": 734,
+      "image_height": 600
+    },
+    {
+      "name": "bootstrap",
+      "description": "Interactive Linux workstation setup for development tools, shells, terminal configuration, Docker, and optional screen recording tools.",
+      "category": "Developer Tools",
+      "url": "https://github.com/davidnoronha1/bootstrap",
+      "language": "Shell",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/bootstrap/main/bootstrap.sh",
+        "https://raw.githubusercontent.com/davidnoronha1/bootstrap/main/tools/rec/README.md"
+      ]
+    },
+    {
+      "name": "crawly",
+      "description": "Browser extension that crawls page links and visualizes connections between websites as an interactive graph.",
+      "category": "Developer Tools",
+      "url": "https://github.com/davidnoronha1/crawly",
+      "language": "CSS",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/crawly/master/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/crawly/master/image.png",
+      "image_alt": "Crawly browser extension displaying a graph of linked websites",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/crawly/master/README.md",
+      "image_width": 1826,
+      "image_height": 1068
+    },
+    {
+      "name": "dockercpp",
+      "description": "A Windows C/C++ development environment that installs VS Code and Docker, then opens a Linux dev container with clangd and LLDB.",
+      "category": "Developer Tools",
+      "url": "https://github.com/davidnoronha1/dockercpp",
+      "language": "PowerShell",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/dockercpp/master/README.md"
+      ],
+      "image": "https://github.com/user-attachments/assets/500f18ea-a971-4175-ac35-6bc971f80bb8",
+      "image_alt": "VS Code running C++ code in the DockerCPP development environment",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/dockercpp/master/README.md",
+      "image_width": 1825,
+      "image_height": 1051
+    },
+    {
+      "name": "scpt",
+      "description": "A tmux connection manager for SSH hosts, Docker containers, and local shells, with smart pane controls and companion file transfers.",
+      "category": "Developer Tools",
+      "url": "https://github.com/davidnoronha1/scpt",
+      "language": "Shell",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/scpt/main/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/scpt/main/assets/Screenshot%20from%202026-08-25%2014-24-59.png",
+      "image_alt": "scpt terminal connection menu alongside tmux shell panes",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/scpt/main/README.md",
+      "image_width": 1850,
+      "image_height": 1053
+    },
+    {
+      "name": "undefineddarkness.github.io",
+      "description": "A personal publishing site with a custom shell-based static-site generator, document markup, and live rebuilding.",
+      "category": "Developer Tools",
+      "url": "https://github.com/davidnoronha1/undefineddarkness.github.io",
+      "language": "HTML",
+      "fork": false,
+      "homepage": "https://nes.is-a.dev",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/undefineddarkness.github.io/master/README.md",
+        "https://raw.githubusercontent.com/davidnoronha1/undefineddarkness.github.io/master/generate"
+      ]
+    },
+    {
+      "name": "awesome-firefox-integration",
+      "description": "Firefox extension and Python bridge that expose browser tabs to AwesomeWM titlebars and window switching.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/awesome-firefox-integration",
+      "language": "Python",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/awesome-firefox-integration/master/README.md"
+      ],
+      "image": "https://preview.redd.it/l42wrxgw59n71.png?width=1080&crop=smart&auto=webp&s=d122bc3eee9a5bb7a2167a61e3480cb80a1a7d64",
+      "image_alt": "Firefox tabs integrated into a customized AwesomeWM desktop",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/awesome-firefox-integration/master/README.md",
+      "image_width": 1080,
+      "image_height": 1120
+    },
+    {
+      "name": "cello",
+      "description": "Godot music player with playlists and direct playback from ZIP archives, with Linux and Windows release builds.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/cello",
+      "language": "GDScript",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/cello/master/README.md"
+      ],
+      "image": "https://github.com/user-attachments/assets/b7694288-eb72-4221-91a9-e826cadb87f8",
+      "image_alt": "Cello music player showing playback controls, music directories, playlist settings, and visualizer options",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/cello/master/README.md",
+      "image_width": 1052,
+      "image_height": 666
+    },
+    {
+      "name": "colr",
+      "description": "GTK color picker for X11, inspired by PowerToys, with packaged binaries and a Meson build.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/colr",
+      "language": "C",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/colr/main/README.md"
+      ],
+      "image": "https://i.imgur.com/QudIqH1.png",
+      "image_alt": "Colr color picker showing its palette and RGB, HEX, and HSV values",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/colr/main/README.md",
+      "image_width": 400,
+      "image_height": 330
+    },
+    {
+      "name": "ewwxml",
+      "description": "Archived command-line converter that migrates Eww widget configurations from XML to the Yuck format.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/ewwxml",
+      "language": "TypeScript",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/ewwxml/main/README.md"
+      ]
+    },
+    {
+      "name": "mkr",
+      "description": "A customizable GTK application launcher in C with modular modes for applications, emoji, scripts, and calculations.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/mkr",
+      "language": "C",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/mkr/master/README.md",
+        "https://raw.githubusercontent.com/davidnoronha1/mkr/master/structure.md",
+        "https://raw.githubusercontent.com/davidnoronha1/mkr/master/src/app.c",
+        "https://raw.githubusercontent.com/davidnoronha1/mkr/master/config.ini"
+      ]
+    },
+    {
+      "name": "rice",
+      "description": "Personal AwesomeWM desktop setup with custom patches, widgets, Neovim configuration, and system integration scripts.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/rice",
+      "language": "Lua",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/rice/master/README.md"
+      ]
+    },
+    {
+      "name": "ricing-guide",
+      "description": "Practical Linux desktop customization guide covering setup, visual design, terminals, and frequently asked questions.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/ricing-guide",
+      "language": "Shell",
+      "fork": false,
+      "homepage": "https://nes.is-a.dev/ricing-guide/",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/ricing-guide/master/README.md"
+      ]
+    },
+    {
+      "name": "stremio-mpris",
+      "description": "Node.js Stremio add-on that publishes playback metadata through MPRIS for Linux media controls such as playerctl.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/stremio-mpris",
+      "language": "JavaScript",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/stremio-mpris/main/README.md"
+      ]
+    },
+    {
+      "name": "styllink",
+      "description": "Use an Android stylus as a Linux pen tablet over USB or Wi-Fi, with pressure, tilt, eraser input, and screen sharing.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/styllink",
+      "language": "Zig",
+      "fork": false,
+      "homepage": "https://styllink.vercel.app/",
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/styllink/main/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/styllink/main/assets/demo.gif",
+      "image_alt": "Android pen tablet connected to a Linux computer in the StylLink device demonstration",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/styllink/main/README.md",
+      "image_width": 240,
+      "image_height": 427
+    },
+    {
+      "name": "tinyws",
+      "description": "Python widget framework that connects HTML and JavaScript interfaces to Linux system capabilities through WebKit2GTK.",
+      "category": "Desktop & Linux",
+      "url": "https://github.com/davidnoronha1/tinyws",
+      "language": "Python",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/tinyws/main/README.md"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/tinyws/main/p.png",
+      "image_alt": "Tiny Widget System rendering a digital clock on the desktop",
+      "image_source": "https://raw.githubusercontent.com/davidnoronha1/tinyws/main/README.md",
+      "image_width": 950,
+      "image_height": 437
+    },
+    {
+      "name": "dither-experiments",
+      "description": "GPU image-processing tool built with Zig and Mach, supporting palette lookup, LUTs, grayscale, and several dithering methods.",
+      "category": "Graphics & Media",
+      "url": "https://github.com/davidnoronha1/dither-experiments",
+      "language": "Zig",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/dither-experiments/master/README.md",
+        "https://raw.githubusercontent.com/davidnoronha1/dither-experiments/master/main.zig"
+      ],
+      "image": "https://raw.githubusercontent.com/davidnoronha1/dither-experiments/master/output.png",
+      "image_alt": "Black-and-white dithered portrait produced by the image-processing project",
+      "image_source": "https://github.com/davidnoronha1/dither-experiments/blob/master/output.png",
+      "image_width": 512,
+      "image_height": 512
+    },
+    {
+      "name": "gbz",
+      "description": "C# Game Boy emulator in progress, with an implemented SM83 CPU and memory model; graphics and other subsystems remain unfinished.",
+      "category": "Systems & Libraries",
+      "url": "https://github.com/davidnoronha1/gbz",
+      "language": "C#",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/gbz/master/README.md"
+      ]
+    },
+    {
+      "name": "portmidi-lua",
+      "description": "Lua bindings for PortMidi generated with SWIG, exposing MIDI device and event APIs to Lua programs.",
+      "category": "Systems & Libraries",
+      "url": "https://github.com/davidnoronha1/portmidi-lua",
+      "language": "C",
+      "fork": false,
+      "evidence": [
+        "https://raw.githubusercontent.com/davidnoronha1/portmidi-lua/master/README.md"
+      ]
+    }
+  ]
+}

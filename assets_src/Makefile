@@ -20,6 +20,10 @@ $(OUTPUT_CSS): $(CSS_SOURCES)
 
 build-css: $(OUTPUT_CSS)
 
+# Solid viewer has its own entry point: no ASCII renderer or wireframe overlays.
+../out/.assets/model-viewer.js: ./other/model-viewer.ts
+	@bun build ./other/model-viewer.ts --outfile ../out/.assets/model-viewer.js --bundle --minify
+
 ../out/.assets/wireframe-model-viewer.js: ./other/wireframe-model-viewer.ts
 	@bun build ./other/wireframe-model-viewer.ts --outfile ../out/.assets/wireframe-model-viewer.js --bundle --minify
 
@@ -31,7 +35,7 @@ build-css: $(OUTPUT_CSS)
 ../experiments/ascii-model-viewer/ascii-render.js: ../ascii-model-viewer/ascii-render.ts
 	@bun build ../ascii-model-viewer/ascii-render.ts --outfile ../experiments/ascii-model-viewer/ascii-render.js --bundle --minify --target browser
 
-build-other: ../out/.assets/wireframe-model-viewer.js ../out/.assets/ascii-model-viewer.js ../experiments/ascii-model-viewer/ascii-render.js
+build-other: ../out/.assets/model-viewer.js ../out/.assets/wireframe-model-viewer.js ../out/.assets/ascii-model-viewer.js ../experiments/ascii-model-viewer/ascii-render.js
 
 # Fonts/icons/models/documents/etc. are no longer symlinked or built here —
 # they're picked up as plain source files by `.tooling/assets.py build`
