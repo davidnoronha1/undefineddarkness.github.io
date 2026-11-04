@@ -324,9 +324,9 @@ export class WireframeModelViewer extends HTMLElement {
       const zoomDelta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
       this.targetScale = Math.max(
         0.1,
-        Math.min(5, this.targetScale * (1 + zoomDelta))
+        Math.min(20, this.targetScale * (1 + zoomDelta))
       );
-    });
+    }, { passive: false });
   }
 
   private _animate(): void {

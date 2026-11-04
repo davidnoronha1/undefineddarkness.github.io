@@ -1,0 +1,269 @@
+// Solid 3D model viewer, bundled independently of the ASCII and wireframe viewers.
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+
+export class ModelViewer extends HTMLElement {
+  private container: HTMLDivElement;
+
+  private scene!: THREE.Scene;
+  private camera!: THREE.OrthographicCamera;
+  private renderer!: THREE.WebGLRenderer;
+
+  private model?: THREE.Object3D;
+  private pivotGroup?: THREE.Group;
+
+  private animationId?: number;
+
+  // Interaction state
+  private isDragging: boolean = false;
+  private prevX: number = 0;
+  private prevY: number = 0;
+
+  private rotation: THREE.Quaternion;
+  private targetRotation: THREE.Quaternion;
+  private scaleFactor: number;
+  private targetScale: number;
+  private position: THREE.Vector3;
+  private targetPosition: THREE.Vector3;
+
+  // Attribute flags
+  private disableZoom: boolean = false;
+  private disablePan: boolean = false;
+  private disableRotate: boolean = false;
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.container = document.createElement("div");
+    this.container.style.position = "relative";
+    this.shadowRoot!.appendChild(this.container);
+
+    // Interaction state
+    this.rotation = new THREE.Quaternion();
+    this.targetRotation = new THREE.Quaternion();
+    this.scaleFactor = 1;
+    this.targetScale = 1;
+    this.position = new THREE.Vector3(0, 0, 0);
+    this.targetPosition = new THREE.Vector3(0, 0, 0);
+
+  }
+
+  static get observedAttributes(): string[] {
+    return [
+      "scale",
+      "pos",
+      "rot",
+      "disable-zoom",
+      "disable-pan",
+      "disable-rotate"
+    ];
+  }
+
+  private parseAttributes(): void {
+    this.scaleFactor = parseFloat(this.getAttribute("scale") ?? "1") || 1;
+    this.targetScale = this.scaleFactor;
+
+    const posAttr = this.getAttribute("pos");
+    if (posAttr) {
+      const [x, y, z] = posAttr.split(",").map(Number);
+      this.position.set(x || 0, y || 0, z || 0);
+      this.targetPosition.copy(this.position);
+    } else {
+      this.position.set(0, 0, 0);
+      this.targetPosition.set(0, 0, 0);
+    }
+
+    const rotAttr = this.getAttribute("rot");
+    if (rotAttr) {
+      const [rx, ry, rz] = rotAttr.split(",").map(Number);
+      this.rotation.setFromEuler(
+        new THREE.Euler(
+          THREE.MathUtils.degToRad(rx || 0),
+          THREE.MathUtils.degToRad(ry || 0),
+          THREE.MathUtils.degToRad(rz || 0),
+          "XYZ"
+        )
+      );
+      this.targetRotation.copy(this.rotation);
+    } else {
+      this.rotation.identity();
+      this.targetRotation.identity();
+    }
+
+    this.disableZoom = this.hasAttribute("disable-zoom");
+    this.disablePan = this.hasAttribute("disable-pan");
+    this.disableRotate = this.hasAttribute("disable-rotate");
+  }
+
+  connectedCallback(): void {
+    this.parseAttributes();
+    this.initScene();
+    this.loadModel();
+    this.addInteractions();
+    this._animate();
+  }
+
+  disconnectedCallback(): void {
+    if (this.animationId) cancelAnimationFrame(this.animationId);
+    this.renderer.dispose();
+  }
+
+  private initScene(): void {
+    const width = this.clientWidth || 600;
+    const height = this.clientHeight || 400;
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x111111);
+
+    const aspect = width / height;
+    const zoom = 2.0;
+    this.camera = new THREE.OrthographicCamera(
+      -aspect * zoom,
+      aspect * zoom,
+      zoom,
+      -zoom,
+      0.1,
+      100
+    );
+    this.camera.position.set(0, 0, 10);
+
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer.setSize(width, height);
+    this.renderer.setClearColor(0x111111, 1);
+    this.container.appendChild(this.renderer.domElement);
+
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    dirLight.position.set(5, 10, 7.5);
+    this.scene.add(dirLight);
+  }
+
+  private loadModel(): void {
+    const src = this.getAttribute("src");
+    if (!src) return;
+
+    const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+    loader.setDRACOLoader(dracoLoader);
+
+    loader.load(
+      src,
+      (gltf) => {
+        this.model = gltf.scene;
+        this.model.traverse((object) => {
+          const mesh = object as THREE.Mesh;
+          if (mesh.isMesh && !mesh.geometry.getAttribute("normal")) {
+            mesh.geometry.computeVertexNormals();
+          }
+        });
+        const box = new THREE.Box3().setFromObject(this.model);
+        const center = box.getCenter(new THREE.Vector3());
+        this.model.position.sub(center);
+
+        this.pivotGroup = new THREE.Group();
+        this.pivotGroup.add(this.model);
+        this.scene.add(this.pivotGroup);
+
+        this.pivotGroup.setRotationFromQuaternion(this.rotation);
+        this.pivotGroup.scale.setScalar(this.scaleFactor);
+        this.pivotGroup.position.copy(this.position);
+
+      },
+      undefined,
+      (error) => {
+        console.error("Error loading GLB model:", error);
+      }
+    );
+  }
+
+  private addInteractions(): void {
+    const canvas = this.renderer.domElement;
+
+    canvas.addEventListener("mousedown", (e: MouseEvent) => {
+      this.isDragging = true;
+      this.prevX = e.clientX;
+      this.prevY = e.clientY;
+      canvas.style.cursor = "grabbing";
+    });
+
+    window.addEventListener("mouseup", () => {
+      this.isDragging = false;
+      canvas.style.cursor = "grab";
+    });
+
+    canvas.addEventListener("mouseenter", () => {
+      canvas.style.cursor = "grab";
+    });
+
+    canvas.addEventListener("mouseleave", () => {
+      canvas.style.cursor = "default";
+    });
+
+    window.addEventListener("mousemove", (e: MouseEvent) => {
+      if (!this.isDragging || !this.pivotGroup) return;
+
+      const dx = e.clientX - this.prevX;
+      const dy = e.clientY - this.prevY;
+      this.prevX = e.clientX;
+      this.prevY = e.clientY;
+
+      if (!this.disablePan && e.shiftKey) {
+        const panSpeed = 0.003;
+        this.targetPosition.x += dx * panSpeed;
+        this.targetPosition.y -= dy * panSpeed;
+      } else if (!this.disableRotate) {
+        const rotateSpeed = 0.008;
+        const deltaRotationQuaternion = new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(dy * rotateSpeed, dx * rotateSpeed, 0, "XYZ")
+        );
+        this.targetRotation.multiplyQuaternions(
+          deltaRotationQuaternion,
+          this.targetRotation
+        );
+      }
+    });
+
+    canvas.addEventListener("wheel", (e: WheelEvent) => {
+      if (this.disableZoom) return;
+      e.preventDefault();
+      const zoomSpeed = 0.1;
+      const zoomDelta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
+      this.targetScale = Math.max(
+        0.1,
+        Math.min(20, this.targetScale * (1 + zoomDelta))
+      );
+    }, { passive: false });
+  }
+
+  private _animate(): void {
+    this.animationId = requestAnimationFrame(() => this._animate());
+
+    if (this.pivotGroup) {
+      const lerpFactor = 0.1;
+      this.rotation.slerp(this.targetRotation, lerpFactor);
+      this.pivotGroup.setRotationFromQuaternion(this.rotation);
+      this.scaleFactor = THREE.MathUtils.lerp(
+        this.scaleFactor,
+        this.targetScale,
+        lerpFactor
+      );
+      this.pivotGroup.scale.setScalar(this.scaleFactor);
+      this.position.lerp(this.targetPosition, lerpFactor);
+      this.pivotGroup.position.copy(this.position);
+    }
+
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  public resetView(): void {
+    this.parseAttributes();
+    if (this.pivotGroup) {
+      this.pivotGroup.setRotationFromQuaternion(this.rotation);
+      this.pivotGroup.scale.setScalar(this.scaleFactor);
+      this.pivotGroup.position.copy(this.position);
+    }
+  }
+}
+
+customElements.define("model-viewer", ModelViewer);
