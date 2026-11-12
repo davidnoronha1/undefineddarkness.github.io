@@ -81,7 +81,7 @@ def fence(self, tokens, idx, options, env):
 
 
 md = (
-    MarkdownIt("commonmark", {"html": True, "breaks": True})
+    MarkdownIt("commonmark", {"html": True})
     .use(gfm_plugin, front_matter=True)
     .use(texmath_plugin, delimiters="brackets")
     .use(anchors_plugin, max_level=6)
@@ -99,22 +99,47 @@ def figures(m: re.Match) -> str:
     """An image on its own line becomes a <figure> captioned by its alt text;
     the text lines around it stay paragraphs."""
     out, para = [], []
-    for line in m[1].split("<br />\n"):
+    for line in m[1].split("\n"):
         img = IMG_LINE.match(line)
         if img:
             if para:
-                out.append("<p>" + "<br />\n".join(para) + "</p>")
+                out.append("<p>" + "\n".join(para) + "</p>")
                 para = []
             out.append(f"<figure>{line}" + (f"<figcaption>{img[1]}</figcaption>" if img[1] else "") + "</figure>")
         else:
             para.append(line)
     if para:
-        out.append("<p>" + "<br />\n".join(para) + "</p>")
+        out.append("<p>" + "\n".join(para) + "</p>")
+    return "\n".join(out)
+
+
+# Block-level tags that may wrap Markdown. CommonMark only parses Markdown
+# inside them when separated by blank lines; pad_html() adds those so posts
+# can be written without them.
+BLOCK_TAG = re.compile(r"^\s*</?(div|section|aside|figure|figcaption|details|summary|header|footer|"
+                       r"nav|main|article|blockquote|center|bar-chart|fn-plot)\b[^>]*>.*>?\s*$", re.I)
+
+
+def pad_html(text: str) -> str:
+    out, fence = [], None
+    for line in text.split("\n"):
+        s = line.strip()
+        if fence:
+            fence = None if s.startswith(fence) else fence
+            out.append(line)
+            continue
+        if s.startswith(("```", "~~~")):
+            fence = s[:3]
+        elif BLOCK_TAG.match(line) and out and out[-1].strip() and not out[-1].lstrip().startswith("<"):
+            out.append("")  # Markdown line followed by a block tag
+        elif s and not s.startswith("<") and out and BLOCK_TAG.match(out[-1]):
+            out.append("")  # block tag followed by a Markdown line
+        out.append(line)
     return "\n".join(out)
 
 
 def render(text: str) -> tuple[dict, str]:
-    tokens = md.parse(text)
+    tokens = md.parse(pad_html(text))
     meta = {}
     if tokens and tokens[0].type == "front_matter":
         for line in tokens[0].content.splitlines():
@@ -124,6 +149,10 @@ def render(text: str) -> tuple[dict, str]:
     body = md.renderer.render(tokens, md.options, {})
     body = re.sub(r"<p>(.*?)</p>", lambda m: figures(m) if "<img" in m[1] else m[0], body, flags=re.S)
     body = re.sub(r"<img (?![^>]*loading=)", '<img loading="lazy" ', body)
+    # Paragraphs and list items use `white-space: pre-line` so source line
+    # breaks show; drop the newlines markdown-it puts beside block tags so
+    # they don't turn into blank lines (e.g. "<li>\n<p>" in loose lists).
+    body = re.sub(r"\n+(?=</?(?:p|ul|ol|li|pre|div|figure|blockquote|table|details)\b)|(?<=<li>)\n+", "", body)
     if "<bar-chart" in body or "<fn-plot" in body:
         body += '<script type="module" src="/assets/charts.js"></script>\n'
     return meta, body

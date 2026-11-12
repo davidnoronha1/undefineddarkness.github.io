@@ -72,6 +72,9 @@ header img { float: right; max-width: 128px; margin: 0 0 1em 1em; image-renderin
 .posts li { margin: 0 0 .9em; }
 .posts p { margin: 0; color: var(--gray); font-size: .9em; }
 
+/* Line breaks in the Markdown source show as line breaks (no <br> needed). */
+p, li { white-space: pre-line; }
+
 /* -- Code -- */
 
 code, pre { font-family: var(--mono-font); font-size: .875em; }
