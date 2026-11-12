@@ -1,6 +1,8 @@
-#HEADER 2024, What can the web do?  image=/assets/images/icon-fugu.png
-An overview of modern web capabilities
-#END HEADER
+---
+title: 2024, What can the web do?
+description: An overview of modern web capabilities
+image: /assets/images/icon-fugu.png
+---
 
 Lately, I've been really interested in PWAs and how the web platform keeps becoming a platform for a very wide array of apps, removing much of the reason people use things like Electron or Tauri and decoupling web apps from the user's system & exposing powerful capabilities from within the sandbox.
 

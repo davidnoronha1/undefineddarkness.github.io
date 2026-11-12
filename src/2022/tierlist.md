@@ -1,14 +1,15 @@
-#HEADER My Language Tierlist
-A tierlist of programming languages I have used
-#END HEADER
+---
+title: My Language Tierlist
+description: A tierlist of programming languages I have used
+---
 
-#TABLE	.tierlist
+<x-table noheader class="tierlist">
 USEFUL	Rust	Typescript	C#	C++
 FUN	C	Lua	TCL	Haskell
 BEARABLE	Javascript	Go	Python
 PAINFUL	Bash
 TRASH	Perl
-#END TABLE
+</x-table>
 
 ## Notes
 - `Rust` - Eh, You knew it was gonna be on the list. Rust is immensley complicated but It's not hard to be productive in it, But when I use it, I feel like I'm arguing with someone on how I should write my code..

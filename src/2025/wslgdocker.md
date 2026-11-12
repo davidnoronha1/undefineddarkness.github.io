@@ -1,7 +1,9 @@
+---
+title: WSLg with Docker
+description: Using WSLg from within Docker with Vulkan support
+---
+
 ![](./image-2.png)
-#HEADER WSLg with Docker
-Using WSLg from within Docker with Vulkan support
-#END HEADER
 
 Recently WSL2 came out with the feature allowing you to have X11 or Wayland applications work within WSL and get displayed to your windows desktop. But this feature doesnt work out of the box with Docker (which uses WSL2 internally on windows) so this documents how to get it to work.
 
@@ -39,7 +41,7 @@ docker run -it \
     -e PULSE_SERVER=$PULSE_SERVER xclock
 ```
 
-#f for docker compose
+<x-fold title="for docker compose">
 ```
   o3de-wsl-gpu:
     <<: *o3de-base
@@ -69,7 +71,7 @@ docker run -it \
               count: all
               capabilities: [gpu]
 ```
-#END f
+</x-fold>
 
 ## vGPU & DirectX
 ![directx vgpu architecture](image-1.png)

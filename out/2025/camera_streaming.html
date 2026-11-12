@@ -1,105 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Low Latency Camera Streaming in Robotics</title>
-	<meta name="description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<link rel="canonical" href="https://nes.is-a.dev/2025/camera_streaming.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Low Latency Camera Streaming in Robotics" />
-	<meta property="og:description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2025/camera_streaming.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Low Latency Camera Streaming in Robotics" />
-	<meta name="twitter:description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}.human,h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.row{display:flex;gap:1em}.callout{background:var(--white-darker);border-left:3px solid var(--gray);margin:1em 0;padding:.7em 1em}.callout-title{font-weight:700;margin:0 0 .4em}.callout-content>:last-child{margin-bottom:0}.callout-note{border-left-color:#6a9ef2}.gnuplot-container{font-size:.8em;max-width:100%}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;letter-spacing:-.6px;line-height:.99;max-width:100%;overflow-x:auto;white-space:pre!important}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,article video,main img,main video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Low Latency Camera Streaming in Robotics",
-		"description": "Lessons from debugging flaky, laggy camera streams on robots.",
-		"url": "https://nes.is-a.dev/2025/camera_streaming.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Low Latency Camera Streaming in Robotics</title>
+<meta name="description" content="Lessons from debugging flaky, laggy camera streams on robots.">
+<link rel="canonical" href="https://nes.is-a.dev/out/2025/camera_streaming.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Low Latency Camera Streaming in Robotics">
+<meta property="og:description" content="Lessons from debugging flaky, laggy camera streams on robots.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2025/camera_streaming.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{margin:.3em 0 0;font-size:1.2em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
-
-<figure><img src="/assets/imx335-5mp-usb-camera-a-details-1-removebg-preview-ba964aa74b.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-<header>
-  <h1>Low Latency Camera Streaming in Robotics</h1>
-  <!-- post_description="Lessons from debugging flaky, laggy camera streams on robots." -->
-</header>
-So as part of my work at Dreadnought Robotics and a few other places since, I've often had to grapple with and sort out why a camera stream is not performing as it should and this can have many reasons like purely from my experience I've seen things <br/>
-<br/>
-<ul>
-<li>like the USB / Ethernet cable being too fragile<br/>
-    We needed to connect a USB camera that was under our bot to the main compute within the bot and the only entry was through a penetrator only designed for thinner ethernet wires and we also mostly had lots of high quality ethernet tether so we had to frankenstein a USB -> Ethernet -> USB setup. This worked on a good day but it was also very fragile<br/>
-</li>
-<li>the USB 2.0 cable being re-soldered so many times <br/>
-    it has to be re-twisted now and then to properly transmit data or the bandwidth drops and the framerate goes to like 3 or 5 from an expected 60 and if you didn't know about the cable issue you'd not figure it out<br/>
-    The insulation had also been cut so the strands didnt have anything holding them together :) <br/>
-</li>
-</ul><br/>So this documents my research and I guess my frustration finding a "sort" of way to get a low latency camera stream working across multiple different setups with different compute, different architectures etc, My experience has mostly been with USB cameras (for the receiving frames side) but the publishing side will hold true for any camera.<br/>
-<br/>
-So to fully illustrate how this entire pipeline works and to appreciate the complexity of cameras somewhat, I am going to go through the entire thing, It'll be a bit abstract at parts I am not super familiar but I'll try to be as in depth as I can<br/>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>Low Latency Camera Streaming in Robotics</h1></header>
+<figure><img loading="lazy" src="/assets/imx335-5mp-usb-camera-a-details-1-removebg-preview-ba964aa74b.avif" alt="" /></figure><p>So as part of my work at Dreadnought Robotics and a few other places since, I've often had to grapple with and sort out why a camera stream is not performing as it should and this can have many reasons like purely from my experience I've seen things</p><ul><li>like the USB / Ethernet cable being too fragile
+We needed to connect a USB camera that was under our bot to the main compute within the bot and the only entry was through a penetrator only designed for thinner ethernet wires and we also mostly had lots of high quality ethernet tether so we had to frankenstein a USB -&gt; Ethernet -&gt; USB setup. This worked on a good day but it was also very fragile</li><li>the USB 2.0 cable being re-soldered so many times
+it has to be re-twisted now and then to properly transmit data or the bandwidth drops and the framerate goes to like 3 or 5 from an expected 60 and if you didn't know about the cable issue you'd not figure it out
+The insulation had also been cut so the strands didnt have anything holding them together :)</li></ul><p>So this documents my research and I guess my frustration finding a &quot;sort&quot; of way to get a low latency camera stream working across multiple different setups with different compute, different architectures etc, My experience has mostly been with USB cameras (for the receiving frames side) but the publishing side will hold true for any camera.</p><p>So to fully illustrate how this entire pipeline works and to appreciate the complexity of cameras somewhat, I am going to go through the entire thing, It'll be a bit abstract at parts I am not super familiar but I'll try to be as in depth as I can</p>
 <h2 id="how-do-digital-cameras-work">How do digital cameras work</h2>
-<h3 id="sensor-bayer-filter">Sensor / Bayer Filter</h3>
-<p>
-So the camera is made up of a grid of photo cells, these cells can only measure luminance, as in how bright the light hitting it is, this grid is then read either row by row (CCA) or each cell can be read individually (CMOS), Most cameras today follow the CMOS architecture since it easier and hence cheaper to manufacture.<br/>
-<br/>
-But as you can imagine, a grid of luminence sensors isnt exactly sufficient to percieve colour so this is where colour filters come in. Unlike the human eye which has cones and rods for colour & luminence respectivley, Camera sensors need some way to filter the luminence they recieve to a particular colour spectrum, This is usually done with a bayer filter.<br/>
-<br/>
-<div class="row"><figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bayer_pattern_on_sensor.svg/1920px-Bayer_pattern_on_sensor.svg.png" alt="bayer filter" title="bayer filter" loading="lazy" /><figcaption>bayer filter</figcaption></figure><br/>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Eyesensitivity.svg/1280px-Eyesensitivity.svg.png" alt="human eye sensitivity" title="human eye sensitivity" loading="lazy" /><figcaption>human eye sensitivity</figcaption></figure><br/></div>
-This seperates the colours coming into the sensor, and since the pattern is repeated you can take the image from the sensor with the filter applied and "debayer" it to compute the R, G, B values for each pixel. (If you notice there are twice as many green spots on the filter compared to red & blue, because we percieve green more strongly than red or blue)<br/>
-<br/>
-
-<details>
-	<summary>
-		<h3 id="image-signal-processor-isp"> Image Signal Processor (ISP)</h3>
-	</summary>
-	<p>
-		This isn't something you need to worry about with USB or Ethernet cameras since they have an integrated ISP that takes care of reading data from the camera sensor, debayering it etc and presenting it in a format you can easily consume (USB is usually V4l2 & Ethernet can be custom), But if you are dealing with MIPI CSI cameras then you need to worry about this, since then, the sensor is directly connected to your devboard and the devboards internal ISP must be configured to communicate with the camera sensor, which if not included in your devices kernel (Raspi thankfully supports majority), can end up with you needing to edit files that look like this:<br/>
-<pre>
-<code class="language-dtb">...
+<h3 id="sensor--bayer-filter">Sensor / Bayer Filter</h3><p>So the camera is made up of a grid of photo cells, these cells can only measure luminance, as in how bright the light hitting it is, this grid is then read either row by row (CCA) or each cell can be read individually (CMOS), Most cameras today follow the CMOS architecture since it easier and hence cheaper to manufacture.</p><p>But as you can imagine, a grid of luminence sensors isnt exactly sufficient to percieve colour so this is where colour filters come in. Unlike the human eye which has cones and rods for colour &amp; luminence respectivley, Camera sensors need some way to filter the luminence they recieve to a particular colour spectrum, This is usually done with a bayer filter.</p><div class="row"><figure><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bayer_pattern_on_sensor.svg/1920px-Bayer_pattern_on_sensor.svg.png" alt="bayer filter" /><figcaption>bayer filter</figcaption></figure><figure><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Eyesensitivity.svg/1280px-Eyesensitivity.svg.png" alt="human eye sensitivity" /><figcaption>human eye sensitivity</figcaption></figure></div><p>This seperates the colours coming into the sensor, and since the pattern is repeated you can take the image from the sensor with the filter applied and &quot;debayer&quot; it to compute the R, G, B values for each pixel. (If you notice there are twice as many green spots on the filter compared to red &amp; blue, because we percieve green more strongly than red or blue)</p>
+<x-fold title="Image Signal Processor (ISP)" level="3"><p>This isn't something you need to worry about with USB or Ethernet cameras since they have an integrated ISP that takes care of reading data from the camera sensor, debayering it etc and presenting it in a format you can easily consume (USB is usually V4l2 &amp; Ethernet can be custom), But if you are dealing with MIPI CSI cameras then you need to worry about this, since then, the sensor is directly connected to your devboard and the devboards internal ISP must be configured to communicate with the camera sensor, which if not included in your devices kernel (Raspi thankfully supports majority), can end up with you needing to edit files that look like this:</p><pre><code class="language-dtb">...
 &amp;{/} {
 	clk_csi0_imx219_fixed: csi0-imx219-xclk {
 		compatible = &quot;fixed-clock&quot;;
-		&#35;clock-cells = &lt;0&gt;;
+		#clock-cells = &lt;0&gt;;
 		clock-frequency = &lt;24000000&gt;;
 	};
 };
@@ -114,10 +45,10 @@ This seperates the colours coming into the sensor, and since the pattern is repe
 	pinctrl-0 = &lt;&amp;main_i2c2_pins_default&gt;;
 	clock-frequency = &lt;400000&gt;;
 
-	&#35;address-cells = &lt;1&gt;;
-	&#35;size-cells = &lt;0&gt;;
+	#address-cells = &lt;1&gt;;
+	#size-cells = &lt;0&gt;;
 
-	imx219_0: sensor&#64;10 {
+	imx219_0: sensor@10 {
 		compatible = &quot;sony,imx219&quot;;
 		reg = &lt;0x10&gt;;
 
@@ -134,23 +65,9 @@ This seperates the colours coming into the sensor, and since the pattern is repe
 				remote-endpoint = &lt;&amp;csi2rx0_in_sensor&gt;;
 				link-frequencies = /bits/ 64 &lt;456000000&gt;;
 				clock-lanes = &lt;0&gt;;
-...	</code>
-</pre>
-<br/>
-Suffice to say its a big hassle and when you need to handle it, it takes forever to properly integrate the camera hardware, especially if documentation is unsatisfactory<br/>
-<br/>
-	</p>
-</details>
-</p>
-<h3 id="video4linux-usb-standards-compliant-cameras">Video4Linux (USB / Standards compliant cameras)</h3>
-<p>
-So this is the linux subsystem that is in charge of all video device aquistion, enumeration and handling on linux, It is what lets you configure the camera properties like exposure, auto focus etc and for this article most importantly it lets you query all the devices and shows you all the different streams it supports, a <i>stream</i> is just a valid configuration of FORMAT, RESOLUTION & FPS that the device <b>currently</b> supports and is capable of publishing.<br/>
-<br/>
-<a href="https://www.linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/v4l2.html">V4l2 Documentation</a><br/>
-<br/>
-So for example my laptop webcam supports the following:<br/>
-<pre>
-<code class="language-plaintext">$ v4l2-ctl --all
+...</code></pre><p>Suffice to say its a big hassle and when you need to handle it, it takes forever to properly integrate the camera hardware, especially if documentation is unsatisfactory</p>
+</x-fold>
+<h3 id="video4linux-usb--standards-compliant-cameras">Video4Linux (USB / Standards compliant cameras)</h3><p>So this is the linux subsystem that is in charge of all video device aquistion, enumeration and handling on linux, It is what lets you configure the camera properties like exposure, auto focus etc and for this article most importantly it lets you query all the devices and shows you all the different streams it supports, a <em>stream</em> is just a valid configuration of FORMAT, RESOLUTION &amp; FPS that the device <strong>currently</strong> supports and is capable of publishing.</p><p><a href="https://www.linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/v4l2.html">V4l2 Documentation</a></p><p>So for example my laptop webcam supports the following:</p><pre><code>$ v4l2-ctl --all
 Driver Info:
         Driver name      : uvcvideo
         Card type        : Integrated Camera: Integrated C
@@ -166,143 +83,35 @@ Driver Info:
                 Video Capture
                 Streaming
                 Extended Pix Format
-Media Driver Info:
-</code>
-</pre>
-<br/>
-Here you can see all the different options exposed by the device to the <code>uvcvideo</code> driver. Typically cameras support a few image formats, I have so far only seen (rarely) H.264, MJPEG, YUV422 and NV12. These are all useful for different things, Typically unless you need the perfectly raw image from the camera, MJPEG will serve your needs very well, You can see how much bandwidth each of these consume:<br/>
-<br/>
-<div class="gnuplot-container"><pre class="gnuplot-block">                                                                                                                                             
-                                                      <span style="color:#ffffff">Bandwidth (log scale)                                                                  
-                                                                                                                                             
-     10000 𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜶙                      
-           ▐                                                                                                2985      ▐  1080p 30fps </span><span style="color:#b4dcff">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                 </span><span style="color:#8cb4f0">𜺠▂▂      </span><span style="color:#ffffff">▐  1080p 60fps </span><span style="color:#8cb4f0">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                    1493      1430     1714   1492</span><span style="color:#8cb4f0">██</span><span style="color:#ffffff">1328  ▐   720p 30fps </span><span style="color:#ffdcb4">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                  746       995    746</span><span style="color:#8cb4f0">▆▆    </span><span style="color:#ffffff">715</span><span style="color:#8cb4f0">▆▆𜵈    </span><span style="color:#ffffff">857</span><span style="color:#8cb4f0">█▌</span><span style="color:#ffffff">764  </span><span style="color:#b4dcff">▆</span><span style="color:#a0c8f0">𜷥</span><span style="color:#8cb4f0">██ </span><span style="color:#ffb450">▗▄▖  </span><span style="color:#ffffff">▐   720p 60fps </span><span style="color:#ffb450">𜴡🮅🮅🮅🮅𜴍  
-      </span><span style="color:#ffffff">1000 ▐𜺨                                                  </span><span style="color:#8cb4f0">▂▂𜺣    </span><span style="color:#ffffff">497</span><span style="color:#8cb4f0">▆▆</span><span style="color:#ffffff">442  </span><span style="color:#b4dcff">▂</span><span style="color:#8cc8f0">𜷕</span><span style="color:#8cb4f0">██ </span><span style="color:#ffffff">664 </span><span style="color:#b4dcff">▂▂</span><span style="color:#8cb4f0">██▌</span><span style="color:#ffffff">637 </span><span style="color:#b4dcff">▗▄</span><span style="color:#a0c8f0">▟</span><span style="color:#8cb4f0">█▌ </span><span style="color:#ffb450">▂▂𜺣 </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">6</span><span style="color:#ffffff">64</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐                                                373</span><span style="color:#8cb4f0">██▌</span><span style="color:#ffffff">332 </span><span style="color:#b4dcff">▗▄</span><span style="color:#a0c8f0">▟</span><span style="color:#8cb4f0">██ </span><span style="color:#ffb450">▂▂𜺣 </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">3</span><span style="color:#ffffff">32</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">3</span><span style="color:#ffffff">19</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">3</span><span style="color:#ffffff">82</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐                                                 </span><span style="color:#b4dcff">𜶖▆</span><span style="color:#8cb4f0">██▌ </span><span style="color:#ffb450">▄▄ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">2</span><span style="color:#ffffff"></span><span style="color:#ffffff;background:#8cb4f0">2</span><span style="color:#ffffff">1</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#ffdcb4">▛</span><span style="color:#8cb4f0"></span><span style="color:#ffdcb4">▄</span><span style="color:#ffc878">▟</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#dcc8c8">▙</span><span style="color:#ffdcb4">▄</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#f0dcc8">𜷤</span><span style="color:#ffdcb4">▆</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐                                                 </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">1</span><span style="color:#ffffff">66</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#ffdcb4">𜵊</span><span style="color:#8cb4f0"></span><span style="color:#ffdcb4">▆</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐                                         100     </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-Mbps   100 ▐𜺨                                       50</span><span style="color:#8cb4f0">██ </span><span style="color:#ffffff">44  </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐                                        </span><span style="color:#b4dcff">▄▄</span><span style="color:#8cb4f0">██ </span><span style="color:#ffb450">𜺠▂▂ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                     M
-           ▐                                        </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">2</span><span style="color:#ffffff">2</span><span style="color:#ffb450">▐██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐    16                                  </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#ffdcb4">𜵊</span><span style="color:#8cb4f0"></span><span style="color:#ffdcb4">▆</span><span style="color:#ffc88c">𜷥</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-        10 ▐𜺣  8</span><span style="color:#8cb4f0">▐██  </span><span style="color:#ffffff">8    8                  9      </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐   </span><span style="color:#b4dcff">▆</span><span style="color:#a0c8f0">𜷥</span><span style="color:#8cb4f0">██</span><span style="color:#ffffff">4</span><span style="color:#ffb450">𜶖▆𜵈 </span><span style="color:#ffffff">4 </span><span style="color:#8cb4f0">▆▆𜵈 </span><span style="color:#ffffff">4    6      4.5</span><span style="color:#8cb4f0">██ </span><span style="color:#ffffff">4   </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐   </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#ffdcb4">𜵰</span><span style="color:#8cb4f0"></span><span style="color:#ffdcb4">▂</span><span style="color:#ffb464">𜷕</span><span style="color:#ffb450">█▌ </span><span style="color:#b4dcff">▂▂</span><span style="color:#8cb4f0">██▌</span><span style="color:#ffb450">𜺠▂▂  </span><span style="color:#ffffff">3</span><span style="color:#8cb4f0">██▌ </span><span style="color:#ffffff">3  </span><span style="color:#b4dcff">▗▄</span><span style="color:#a0c8f0">▟</span><span style="color:#8cb4f0">██ </span><span style="color:#ffb450">𜺠▂𜺣 </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐   </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffffff">2</span><span style="color:#ffb450">▐██ </span><span style="color:#b4dcff">▗▄</span><span style="color:#8cb4f0">██▌ </span><span style="color:#ffb450">▄▄▖</span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">██</span><span style="color:#ffffff">2</span><span style="color:#ffb450">▐█▌ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-           ▐   </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#f0dcc8">𜷤</span><span style="color:#ffc88c">𜷥</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffffff;background:#8cb4f0">1</span><span style="color:#ffffff">.5</span><span style="color:#ffb450">██▌</span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#ffdcb4">𜵊</span><span style="color:#8cb4f0"></span><span style="color:#ffdcb4">▆</span><span style="color:#ffc88c">𜷥</span><span style="color:#ffb450">█▌ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">██</span><span style="color:#8cb4f0">██</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██ </span><span style="color:#b4dcff">▐█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#ffdcb4">██</span><span style="color:#ffb450">██▌ </span><span style="color:#b4dcff">█</span><span style="color:#b4dcff;background:#b4dcff"></span><span style="color:#8cb4f0;background:#b4dcff">▐</span><span style="color:#8cb4f0">█</span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#ffdcb4;background:#8cb4f0">▐</span><span style="color:#ffdcb4">█</span><span style="color:#ffdcb4;background:#ffdcb4"></span><span style="color:#ffb450;background:#ffdcb4">▐</span><span style="color:#ffb450">█▌  </span><span style="color:#ffffff">▐                      
-         1 ▐▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#8cb4f0"></span><span style="color:#dcf0ff;background:#8cb4f0">𜷀</span><span style="color:#dcf0ff"></span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#fff0dc;background:#8cb4f0">𜷕</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffb450"></span><span style="color:#fff0dc;background:#ffb450">𜷀</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffdca0">𜷀</span><span style="color:#ffffff">▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffb450"></span><span style="color:#fff0dc;background:#ffb450">𜷀</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffffff">▂</span><span style="color:#dcf0ff">𜷕</span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffdca0">𜷀</span><span style="color:#dcf0ff">𜷕</span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#8cb4f0"></span><span style="color:#dcf0ff;background:#8cb4f0">𜷀</span><span style="color:#dcf0ff"></span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#fff0dc;background:#8cb4f0">𜷕</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffb450"></span><span style="color:#fff0dc;background:#ffb450">𜷀</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffdca0">𜷀</span><span style="color:#ffffff">▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#fff0dc;background:#8cb4f0">𜷕</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffb450"></span><span style="color:#fff0dc;background:#ffb450">𜷀</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffffff">▂</span><span style="color:#dcf0ff">𜷕</span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffffff">▂</span><span style="color:#dcf0ff">𜷕</span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#8cb4f0"></span><span style="color:#dcf0ff;background:#8cb4f0">𜷀</span><span style="color:#dcf0ff"></span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#fff0dc;background:#8cb4f0">𜷕</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffdca0">𜷀</span><span style="color:#ffffff">▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#8cb4f0"></span><span style="color:#dcf0ff;background:#8cb4f0">𜷀</span><span style="color:#dcf0ff"></span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#fff0dc;background:#8cb4f0">𜷕</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffb450"></span><span style="color:#fff0dc;background:#ffb450">𜷀</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffffff">▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffffff">▂</span><span style="color:#dcf0ff">𜷕</span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#8cb4f0"></span><span style="color:#dcf0ff;background:#8cb4f0">𜷀</span><span style="color:#dcf0ff"></span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffdca0">𜷀</span><span style="color:#ffffff">▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#8cb4f0"></span><span style="color:#dcf0ff;background:#8cb4f0">𜷀</span><span style="color:#dcf0ff"></span><span style="color:#dcf0ff;background:#ffffff"></span><span style="color:#8cb4f0;background:#ffffff">🮅</span><span style="color:#8cb4f0"></span><span style="color:#8cb4f0;background:#8cb4f0"></span><span style="color:#fff0dc;background:#8cb4f0">𜷕</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffb450"></span><span style="color:#fff0dc;background:#ffb450">𜷀</span><span style="color:#fff0dc"></span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffb450;background:#ffffff">🮅</span><span style="color:#ffb450"></span><span style="color:#ffdca0">𜷀</span><span style="color:#ffffff">▂▂𜷕                      
-                H.264    H.265     AV1       VP9     MJPEG  NV12/I420  YUV422   YUV444    RAW10    RAW12     RGB24                           
-                                                                                                                                             
-</span></pre></div>
-<table class="">
-<thead><tr>
-<th>Format</th>
-<th>Type</th>
-<th>1080p/30fps</th>
-<th>1080p/60fps</th>
-<th>720p/30fps</th>
-<th>720p/60fps</th>
-</tr>
-</thead><tbody><tr>
-<td>H.264</td>
-<td>Compressed</td>
-<td>8 Mbps</td>
-<td>16 Mbps</td>
-<td>4 Mbps</td>
-<td>8 Mbps<br/></td>
-</tr>
-<tr>
-<td>H.265/HEVC</td>
-<td>Compressed</td>
-<td>4 Mbps</td>
-<td>8 Mbps</td>
-<td>2 Mbps</td>
-<td>4 Mbps<br/></td>
-</tr>
-<tr>
-<td>AV1</td>
-<td>Compressed</td>
-<td>3 Mbps</td>
-<td>6 Mbps</td>
-<td>1.5 Mbps</td>
-<td>3 Mbps<br/></td>
-</tr>
-<tr>
-<td>VP9</td>
-<td>Compressed</td>
-<td>4.5 Mbps</td>
-<td>9 Mbps</td>
-<td>2 Mbps</td>
-<td>4 Mbps<br/></td>
-</tr>
-<tr>
-<td>MJPEG</td>
-<td>Compressed</td>
-<td>50 Mbps</td>
-<td>100 Mbps</td>
-<td>22 Mbps</td>
-<td>44 Mbps<br/></td>
-</tr>
-<tr>
-<td>NV12 (YUV 4:2:0)</td>
-<td>Uncompressed</td>
-<td>373 Mbps</td>
-<td>746 Mbps</td>
-<td>166 Mbps</td>
-<td>332 Mbps<br/></td>
-</tr>
-<tr>
-<td>YUV 4:2:2 (YUYV)</td>
-<td>Uncompressed</td>
-<td>497 Mbps</td>
-<td>995 Mbps</td>
-<td>221 Mbps</td>
-<td>442 Mbps<br/></td>
-</tr>
-<tr>
-<td>YUV 4:4:4</td>
-<td>Uncompressed</td>
-<td>746 Mbps</td>
-<td>1.46 Gbps</td>
-<td>332 Mbps</td>
-<td>664 Mbps<br/></td>
-</tr>
-<tr>
-<td>RAW10 Bayer</td>
-<td>Uncompressed</td>
-<td>715 Mbps</td>
-<td>1.40 Gbps</td>
-<td>319 Mbps</td>
-<td>637 Mbps<br/></td>
-</tr>
-<tr>
-<td>RAW12 Bayer</td>
-<td>Uncompressed</td>
-<td>857 Mbps</td>
-<td>1.67 Gbps</td>
-<td>382 Mbps</td>
-<td>764 Mbps<br/></td>
-</tr>
-<tr>
-<td>RGB24</td>
-<td>Uncompressed</td>
-<td>1.46 Gbps</td>
-<td>2.91 Gbps</td>
-<td>664 Mbps</td>
-<td>1.30 Gbps<br/></td>
-</tr>
-</tbody></table>
-<i>The numbers for the compressed formats vary depending on the compression settings and the actual content of the image</i><br/>
-<br/>
-Few cameras support directly streaming H264 or compressed video output directly so mostly you are dealing with either MJPEG or the compressed format of your choosing (please choose NV12 if you can).<br/>
-<br/>
-For the small sizes of the video formats should give you a hint of where we are going next.<br/>
-<pre>
-<code class="language-plaintext">        Model            : Integrated Camera: Integrated C
+Media Driver Info:</code></pre><p>Here you can see all the different options exposed by the device to the <code>uvcvideo</code> driver. Typically cameras support a few image formats, I have so far only seen (rarely) H.264, MJPEG, YUV422 and NV12. These are all useful for different things, Typically unless you need the perfectly raw image from the camera, MJPEG will serve your needs very well, You can see how much bandwidth each of these consume:</p>
+<x-chart unit="Mbps" log title="Bandwidth (log scale)">
+category	1080p 30fps	1080p 60fps	720p 30fps	720p 60fps
+H.264	8	16	4	8
+H.265	4	8	2	4
+AV1	3	6	1.5	3
+VP9	4.5	9	2	4
+MJPEG	50	100	22	44
+NV12/I420	373	746	166	332
+YUV422	497	995	221	442
+YUV444	746	1493	332	664
+RAW10	715	1430	319	637
+RAW12	857	1714	382	764
+RGB24	1492	2985	664	1328
+</x-chart>
+<x-table>
+Format	Type	1080p/30fps	1080p/60fps	720p/30fps	720p/60fps
+H.264	Compressed	8 Mbps	16 Mbps	4 Mbps	8 Mbps
+H.265/HEVC	Compressed	4 Mbps	8 Mbps	2 Mbps	4 Mbps
+AV1	Compressed	3 Mbps	6 Mbps	1.5 Mbps	3 Mbps
+VP9	Compressed	4.5 Mbps	9 Mbps	2 Mbps	4 Mbps
+MJPEG	Compressed	50 Mbps	100 Mbps	22 Mbps	44 Mbps
+NV12 (YUV 4:2:0)	Uncompressed	373 Mbps	746 Mbps	166 Mbps	332 Mbps
+YUV 4:2:2 (YUYV)	Uncompressed	497 Mbps	995 Mbps	221 Mbps	442 Mbps
+YUV 4:4:4	Uncompressed	746 Mbps	1.46 Gbps	332 Mbps	664 Mbps
+RAW10 Bayer	Uncompressed	715 Mbps	1.40 Gbps	319 Mbps	637 Mbps
+RAW12 Bayer	Uncompressed	857 Mbps	1.67 Gbps	382 Mbps	764 Mbps
+RGB24	Uncompressed	1.46 Gbps	2.91 Gbps	664 Mbps	1.30 Gbps
+</x-table><p><em>The numbers for the compressed formats vary depending on the compression settings and the actual content of the image</em></p><p>Few cameras support directly streaming H264 or compressed video output directly so mostly you are dealing with either MJPEG or the compressed format of your choosing (please choose NV12 if you can).</p><p>For the small sizes of the video formats should give you a hint of where we are going next.</p><pre><code>        Model            : Integrated Camera: Integrated C
         Serial           :
         Bus info         : usb-0000:05:00.3-3
         Media version    : 6.8.12
@@ -317,12 +126,12 @@ Entity Info:
         Function         : V4L2 I/O
         Flags            : default
         Pad 0x01000007   : 0: Sink
-          Link 0x02000013: from remote pad 0x100000a of entity 'Extension 4' (Video Pixel Formatter): Data, Enabled, Immutable
+          Link 0x02000013: from remote pad 0x100000a of entity &#x27;Extension 4&#x27; (Video Pixel Formatter): Data, Enabled, Immutable
 Priority: 2
 Video input : 0 (Camera 1: ok)
 Format Video Capture:
         Width/Height      : 1280/720
-        Pixel Format      : 'MJPG' (Motion-JPEG)
+        Pixel Format      : &#x27;MJPG&#x27; (Motion-JPEG)
         Field             : None
         Bytes per Line    : 0
         Size Image        : 1843200
@@ -344,284 +153,198 @@ Streaming Parameters Video Capture:
 
 User Controls
 
-                     brightness 0x00980900 (int)    : min&equals;0 max&equals;255 step&equals;1 default&equals;128 value&equals;128
-                       contrast 0x00980901 (int)    : min&equals;0 max&equals;100 step&equals;1 default&equals;32 value&equals;32
-                     saturation 0x00980902 (int)    : min&equals;0 max&equals;100 step&equals;1 default&equals;64 value&equals;64
-                            hue 0x00980903 (int)    : min&equals;-180 max&equals;180 step&equals;1 default&equals;0 value&equals;0
-        white_balance_automatic 0x0098090c (bool)   : default&equals;1 value&equals;1
-                          gamma 0x00980910 (int)    : min&equals;90 max&equals;150 step&equals;1 default&equals;120 value&equals;120
-           power_line_frequency 0x00980918 (menu)   : min&equals;0 max&equals;2 default&equals;1 value&equals;1 (50 Hz)
+                     brightness 0x00980900 (int)    : min=0 max=255 step=1 default=128 value=128
+                       contrast 0x00980901 (int)    : min=0 max=100 step=1 default=32 value=32
+                     saturation 0x00980902 (int)    : min=0 max=100 step=1 default=64 value=64
+                            hue 0x00980903 (int)    : min=-180 max=180 step=1 default=0 value=0
+        white_balance_automatic 0x0098090c (bool)   : default=1 value=1
+                          gamma 0x00980910 (int)    : min=90 max=150 step=1 default=120 value=120
+           power_line_frequency 0x00980918 (menu)   : min=0 max=2 default=1 value=1 (50 Hz)
                                 0: Disabled
                                 1: 50 Hz
                                 2: 60 Hz
-      white_balance_temperature 0x0098091a (int)    : min&equals;2800 max&equals;6500 step&equals;1 default&equals;4600 value&equals;4600 flags&equals;inactive
-                      sharpness 0x0098091b (int)    : min&equals;0 max&equals;7 step&equals;1 default&equals;3 value&equals;3
-         backlight_compensation 0x0098091c (int)    : min&equals;0 max&equals;2 step&equals;1 default&equals;1 value&equals;1
+      white_balance_temperature 0x0098091a (int)    : min=2800 max=6500 step=1 default=4600 value=4600 flags=inactive
+                      sharpness 0x0098091b (int)    : min=0 max=7 step=1 default=3 value=3
+         backlight_compensation 0x0098091c (int)    : min=0 max=2 step=1 default=1 value=1
 
 Camera Controls
 
-                  auto_exposure 0x009a0901 (menu)   : min&equals;0 max&equals;3 default&equals;3 value&equals;3 (Aperture Priority Mode)
+                  auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
                                 1: Manual Mode
                                 3: Aperture Priority Mode
-         exposure_time_absolute 0x009a0902 (int)    : min&equals;2 max&equals;1250 step&equals;1 default&equals;156 value&equals;156 flags&equals;inactive
-     exposure_dynamic_framerate 0x009a0903 (bool)   : default&equals;0 value&equals;1
-                        privacy 0x009a0910 (bool)   : default&equals;0 value&equals;0 flags&equals;read-only
-</code>
-</pre>
-<br/>
-</p>
-<h2 id="on-device-image-pub-sub">On device image pub sub</h2>
-<p>
-Once you have obtained your image in memory in some known format (typically RGB, NV12 or YUV422) there will typically be multiple applications that need to use it, and they might all want it in a different format, resolution & framerate etc.<br/>
-<br/>
-So your publishing system must be able to easily handle creating multiple streams and providing scripts data where it is wanted (eg: ML scripts will typically want a resized image of RGB format in the GPU)<br/>
-<br/>
-The solution you would most easily reach for is ROS since that is what you have been using for all your other sensors & data. But images & large data in general is a place where ROS really does not shine.  In my experience it will reliably transfer frames but a 30FPS is typically a 15-20FPS frame stream after going through ROS.<br/>
-<br/>
-By default ROS transfers image raw over the network, a 720p RGB image becomes <code>1280 &ast; 720 &ast; 3 + 56 = ~2.7MB</code> bytes (the 56 is the frame header)<br/>
-<br/>
-For 60fps this demands a bandwidth of <code>2.8 &ast; 60 / 1000 = ~165MB/s = ~1.33Gbps</code> purely for a single image stream & typically you will have multiple streams based on the number of nodes working on it and possible streams of multiple cameras and different resolutions, formats etc.<br/>
-<br/>
-This becomes better with <code>image_transport</code> but this isn't directly supported  in <code>rclpy</code> so almost always you end up with the raw stream in my experience.<br/>
-(There is support added but not everyone architects their scripts with it / around it) - and then I have found it to be kind of a stop-gap solution that doesn't fully solve the problem every time.<br/>
-<br/>
-I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less capable from your typical laptop. I should capture a snapshot of a system while it is running.<br/>
-<br/>
-Typically also in image pipelines you want to avoid copies and ROS does about 3-4 copies per image. Obviously all these latencies compound with larger images and higher framerates.<br/>
-<br/>
-This framerate that fluctuates under load is something I have been chasing a solutions for my entire time in Dreadnought and these are the solutions I have found that work<br/>
-<br/>
-</p>
-<h3 id="iceoryx-shared-memory-zero-copy">iceoryx (shared memory, zero copy)</h3>
-<p>
-Even just avoiding sending the image over the network and keeping it on the same device and trying to avoid copies can make a large difference, You can also _technically_ do this with the ROS2 RMW backends <a href="https://cyclonedds.io/docs/cyclonedds/0.8.2/shared_memory.html">CycloneDDS</a> & <a href="https://github.com/eProsima/rmw_fastrtps?tab=readme-ov-file#enable-zero-copy-data-sharing">FastDDS</a> but I have not that work well for me.<br/>
-<br/>
-So I have mostly been using <a href="https://github.com/eclipse-iceoryx/iceoryx">iceoryx</a> as a separate pub-sub system alongside ROS for larger data (like laser profiler batches) with a config like this:<br/>
-<pre>
-<code class="language-toml"><span style="color:&#35;e3ceab">&lsqb;general&rsqb;</span>
-<span style="color:&#35;dfdfbf; font-weight:bold">version </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span>
+         exposure_time_absolute 0x009a0902 (int)    : min=2 max=1250 step=1 default=156 value=156 flags=inactive
+     exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=1
+                        privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only</code></pre>
+<h2 id="on-device-image-pub-sub">On device image pub sub</h2><p>Once you have obtained your image in memory in some known format (typically RGB, NV12 or YUV422) there will typically be multiple applications that need to use it, and they might all want it in a different format, resolution &amp; framerate etc.</p><p>So your publishing system must be able to easily handle creating multiple streams and providing scripts data where it is wanted (eg: ML scripts will typically want a resized image of RGB format in the GPU)</p><p>The solution you would most easily reach for is ROS since that is what you have been using for all your other sensors &amp; data. But images &amp; large data in general is a place where ROS really does not shine.  In my experience it will reliably transfer frames but a 30FPS is typically a 15-20FPS frame stream after going through ROS.</p><p>By default ROS transfers image raw over the network, a 720p RGB image becomes <code>1280 * 720 * 3 + 56 = ~2.7MB</code> bytes (the 56 is the frame header)</p><p>For 60fps this demands a bandwidth of <code>2.8 * 60 / 1000 = ~165MB/s = ~1.33Gbps</code> purely for a single image stream &amp; typically you will have multiple streams based on the number of nodes working on it and possible streams of multiple cameras and different resolutions, formats etc.</p><p>This becomes better with <code>image_transport</code> but this isn't directly supported  in <code>rclpy</code> so almost always you end up with the raw stream in my experience.
+(There is support added but not everyone architects their scripts with it / around it) - and then I have found it to be kind of a stop-gap solution that doesn't fully solve the problem every time.</p><p>I wish I could show this with benchmarks but its something that happens when the system is under load of other things (like DAQ, control loops etc) and typically embedded systems less capable from your typical laptop. I should capture a snapshot of a system while it is running.</p><p>Typically also in image pipelines you want to avoid copies and ROS does about 3-4 copies per image. Obviously all these latencies compound with larger images and higher framerates.</p><p>This framerate that fluctuates under load is something I have been chasing a solutions for my entire time in Dreadnought and these are the solutions I have found that work</p>
+<h3 id="iceoryx-shared-memory-zero-copy">iceoryx (shared memory, zero copy)</h3><p>Even just avoiding sending the image over the network and keeping it on the same device and trying to avoid copies can make a large difference, You can also <em>technically</em> do this with the ROS2 RMW backends <a href="https://cyclonedds.io/docs/cyclonedds/0.8.2/shared_memory.html">CycloneDDS</a> &amp; <a href="https://github.com/eProsima/rmw_fastrtps?tab=readme-ov-file#enable-zero-copy-data-sharing">FastDDS</a> but I have not that work well for me.</p><p>So I have mostly been using <a href="https://github.com/eclipse-iceoryx/iceoryx">iceoryx</a> as a separate pub-sub system alongside ROS for larger data (like laser profiler batches) with a config like this:</p><pre><code class="language-toml"><span class="k">[general]</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 
-<span style="color:&#35;e3ceab">&lsqb;&lsqb;segment&rsqb;&rsqb;</span>
+<span class="k">[[segment]]</span>
 
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; ── Small pools (iceoryx internal: service discovery, heartbeats, routing) ──</span>
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">128</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1000</span>
+<span class="w">    </span><span class="c1"># ── Small pools (iceoryx internal: service discovery, heartbeats, routing) ──</span>
+<span class="w">    </span><span class="k">[[segment.mempool]]</span>
+<span class="w">    </span><span class="n">size</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">128</span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
 
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1024</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">500</span>
+<span class="w">    </span><span class="k">[[segment.mempool]]</span>
+<span class="w">    </span><span class="n">size</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span>
 
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">16384</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">200</span>
+<span class="w">    </span><span class="k">[[segment.mempool]]</span>
+<span class="w">    </span><span class="n">size</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">16384</span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span>
 
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; ── camera payload pool ─────────────────────────────────────────────</span>
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; Covers 1440×1080 BayerRG8 (1.5 MB + iceoryx overhead). Increase size to</span>
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; ~16 MiB if running 2448×2048 RGB8 cameras; reduce count if RAM is tight.</span>
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">2097152</span>     <span style="color:&#35;7f9f7f; font-style:italic">&#35; 2 MiB</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">300</span>         <span style="color:&#35;7f9f7f; font-style:italic">&#35; 300 × 2 MiB = 600 MB</span>	</code>
-</pre>
-<br/>
-Typically you should create a different <code>mempool</code> for each kind of message type you expect to have and give it a sufficient amount of reserved slots (<code>count</code>) to cope with traffic.<br/>
-<div class="callout callout-note">
-<p class="callout-title">📝 Note</p>
-<div class="callout-content">
-ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile & build it from source then use <code>iox-roudi</code> from <code>/usr/local/bin</code> (which is where the source build installs it) instead of the one included in ROS2.<br/>
-</div>
-</div>
-My senior did a <a href="https://medium.com/@kunalawari2709/zero-copy-robotics-breaking-the-ipc-bottleneck-with-ros-2-and-iceoryx-9c67efb443a6">good writeup on this</a> workflow for transferring laser profiler data and camera image frames.<br/>
-<br/>
-</p>
-<h3 id="motion-jpeg-mjpeg">motion-jpeg (mjpeg)</h3>
-<p>
-When trying to display the stream you either need a custom viewer script (ROS has this with <code>rviz</code> & <code>image_view</code>) or the format needs to be one of <code>mjpeg</code> or <code>rtsp</code>. <br/>
-<br/>
-Even when trying to display your live video stream in the browser or any kind of front end your best bet without streaming to the cloud is <code>mjpeg</code> or WebRTC - if you are streaming to the cloud then you can transcode and display it however you live, typically I think HLS is used.<br/>
-<br/>
-But displaying with webrtc is a whole _process_ in of itself, since typically the flow looks something like<br/>
-<figure><img src="/assets/image-5-895c9e93ac.avif" alt="webrtc diagram" title="webrtc diagram" loading="lazy" /><figcaption>webrtc diagram</figcaption></figure><br/>
-<br/>
-So you need <i>another</i> server besides the main publishing server and the whole neotiation is complicated enough that ffmpeg fully delegates it to <a href="https://github.com/bluenviron/mediamtx">another seperate program</a> and gstreamer only has a <a href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/tree/main/net/webrtc?ref_type=heads">third party plugin</a> that fully implements it (by embedding a signalling server within its sink)<br/>
-<br/>
-motion jpeg is much simpler, the whole infrastructure to publish a mjpeg stream is this<br/>
-<pre>
-<code class="language-cpp"><span style="color:&#35;aabfe3">class</span> MjpegStreamer <span style="color:&#35;dcdccc">{</span>
-<span style="color:&#35;aabfe3">public</span><span style="color:&#35;dcdccc">:</span>
-  <span style="color:&#35;aabfe3">MjpegStreamer</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span> port<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">int</span> quality<span style="color:&#35;dcdccc">)</span>
-      <span style="color:&#35;dcdccc">:</span> <span style="color:&#35;aabfe3">port_</span><span style="color:&#35;dcdccc">(</span>port<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;aabfe3">quality_</span><span style="color:&#35;dcdccc">(</span>quality<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;aabfe3">running_</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">false</span><span style="color:&#35;dcdccc">),</span> <span style="color:&#35;aabfe3">listenFd_</span><span style="color:&#35;dcdccc">(-</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">),</span>
-        <span style="color:&#35;aabfe3">currentFrameId_</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {}</span>
+<span class="w">    </span><span class="c1"># ── camera payload pool ─────────────────────────────────────────────</span>
+<span class="w">    </span><span class="c1"># Covers 1440×1080 BayerRG8 (1.5 MB + iceoryx overhead). Increase size to</span>
+<span class="w">    </span><span class="c1"># ~16 MiB if running 2448×2048 RGB8 cameras; reduce count if RAM is tight.</span>
+<span class="w">    </span><span class="k">[[segment.mempool]]</span>
+<span class="w">    </span><span class="n">size</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2097152</span><span class="w">     </span><span class="c1"># 2 MiB</span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span><span class="w">         </span><span class="c1"># 300 × 2 MiB = 600 MB</span></code></pre><p>Typically you should create a different <code>mempool</code> for each kind of message type you expect to have and give it a sufficient amount of reserved slots (<code>count</code>) to cope with traffic.</p><div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title">Note</p><p>ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile &amp; build it from source then use <code>iox-roudi</code> from <code>/usr/local/bin</code> (which is where the source build installs it) instead of the one included in ROS2.</p></div><p>My senior did a <a href="https://medium.com/@kunalawari2709/zero-copy-robotics-breaking-the-ipc-bottleneck-with-ros-2-and-iceoryx-9c67efb443a6">good writeup on this</a> workflow for transferring laser profiler data and camera image frames.</p>
+<h3 id="motion-jpeg-mjpeg">motion-jpeg (mjpeg)</h3><p>When trying to display the stream you either need a custom viewer script (ROS has this with <code>rviz</code> &amp; <code>image_view</code>) or the format needs to be one of <code>mjpeg</code> or <code>rtsp</code>.</p><p>Even when trying to display your live video stream in the browser or any kind of front end your best bet without streaming to the cloud is <code>mjpeg</code> or WebRTC - if you are streaming to the cloud then you can transcode and display it however you live, typically I think HLS is used.</p><p>But displaying with webrtc is a whole <em>process</em> in of itself, since typically the flow looks something like</p><figure><img loading="lazy" src="/assets/image-5-895c9e93ac.avif" alt="webrtc diagram" /><figcaption>webrtc diagram</figcaption></figure><p>So you need <em>another</em> server besides the main publishing server and the whole neotiation is complicated enough that ffmpeg fully delegates it to <a href="https://github.com/bluenviron/mediamtx">another seperate program</a> and gstreamer only has a <a href="https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/tree/main/net/webrtc?ref_type=heads">third party plugin</a> that fully implements it (by embedding a signalling server within its sink)</p><p>motion jpeg is much simpler, the whole infrastructure to publish a mjpeg stream is this</p><pre><code class="language-cpp"><span class="k">class</span><span class="w"> </span><span class="nc">MjpegStreamer</span><span class="w"> </span><span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">  </span><span class="n">MjpegStreamer</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">quality</span><span class="p">)</span>
+<span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="n">port_</span><span class="p">(</span><span class="n">port</span><span class="p">),</span><span class="w"> </span><span class="n">quality_</span><span class="p">(</span><span class="n">quality</span><span class="p">),</span><span class="w"> </span><span class="n">running_</span><span class="p">(</span><span class="nb">false</span><span class="p">),</span><span class="w"> </span><span class="n">listenFd_</span><span class="p">(</span><span class="mi">-1</span><span class="p">),</span>
+<span class="w">        </span><span class="n">currentFrameId_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 
-  <span style="color:&#35;dcdccc">~</span><span style="color:&#35;aabfe3">MjpegStreamer</span><span style="color:&#35;dcdccc">() {</span> <span style="color:&#35;aabfe3">stop</span><span style="color:&#35;dcdccc">(); }</span>
+<span class="w">  </span><span class="o">~</span><span class="n">MjpegStreamer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">stop</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">start</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">exchange</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">true</span><span style="color:&#35;dcdccc">))</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    acceptThread_ <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">thread</span><span style="color:&#35;dcdccc">(&lsqb;</span><span style="color:&#35;e3ceab">this</span><span style="color:&#35;dcdccc">&rsqb; {</span> <span style="color:&#35;aabfe3">acceptLoop</span><span style="color:&#35;dcdccc">(); });</span>
-  <span style="color:&#35;dcdccc">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">running_</span><span class="p">.</span><span class="n">exchange</span><span class="p">(</span><span class="nb">true</span><span class="p">))</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="n">acceptThread_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="k">this</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">acceptLoop</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">stop</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(!</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">exchange</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">false</span><span style="color:&#35;dcdccc">))</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>listenFd_ <span style="color:&#35;dcdccc">&gt;=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">shutdown</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> SHUT_RDWR<span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;dcdccc">}</span>
-    frameCv_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">notify_all</span><span style="color:&#35;dcdccc">();</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>acceptThread_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">joinable</span><span style="color:&#35;dcdccc">()) {</span>
-      acceptThread_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">join</span><span style="color:&#35;dcdccc">();</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>listenFd_ <span style="color:&#35;dcdccc">&gt;=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">);</span>
-      listenFd_ <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-  <span style="color:&#35;dcdccc">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">running_</span><span class="p">.</span><span class="n">exchange</span><span class="p">(</span><span class="nb">false</span><span class="p">))</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">listenFd_</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="o">::</span><span class="n">shutdown</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">,</span><span class="w"> </span><span class="n">SHUT_RDWR</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">frameCv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">acceptThread_</span><span class="p">.</span><span class="n">joinable</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">acceptThread_</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">listenFd_</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="o">::</span><span class="n">close</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">);</span>
+<span class="w">      </span><span class="n">listenFd_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">getPort</span><span style="color:&#35;dcdccc">()</span> <span style="color:&#35;dfdfbf; font-weight:bold">const</span> <span style="color:&#35;dcdccc">{</span> <span style="color:&#35;e3ceab">return</span> port_<span style="color:&#35;dcdccc">; }</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">getPort</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">port_</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">pushFrame</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">const</span> <span style="color:&#35;84d2d4">cv</span><span style="color:&#35;dcdccc">::</span>Mat <span style="color:&#35;dcdccc">&amp;</span>bgr<span style="color:&#35;dcdccc">) {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>bgr<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">empty</span><span style="color:&#35;dcdccc">()) {</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">pushFrame</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="w"> </span><span class="o">&amp;</span><span class="n">bgr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bgr</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
 
-    <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint8_t</span><span style="color:&#35;dcdccc">&gt;</span> jpegBuf<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span><span style="color:&#35;dcdccc">&gt;</span> params <span style="color:&#35;dcdccc">= {</span><span style="color:&#35;84d2d4">cv</span><span style="color:&#35;dcdccc">::</span>IMWRITE_JPEG_QUALITY<span style="color:&#35;dcdccc">,</span> quality_<span style="color:&#35;dcdccc">};</span>
-    <span style="color:&#35;84d2d4">cv</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">imencode</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;cc9393">&quot;.jpg&quot;</span><span style="color:&#35;dcdccc">,</span> bgr<span style="color:&#35;dcdccc">,</span> jpegBuf<span style="color:&#35;dcdccc">,</span> params<span style="color:&#35;dcdccc">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">jpegBuf</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">cv</span><span class="o">::</span><span class="n">IMWRITE_JPEG_QUALITY</span><span class="p">,</span><span class="w"> </span><span class="n">quality_</span><span class="p">};</span>
+<span class="w">    </span><span class="n">cv</span><span class="o">::</span><span class="n">imencode</span><span class="p">(</span><span class="s">".jpg"</span><span class="p">,</span><span class="w"> </span><span class="n">bgr</span><span class="p">,</span><span class="w"> </span><span class="n">jpegBuf</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">);</span>
 
-    <span style="color:&#35;dcdccc">{</span>
-      <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>lock_guard<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>mutex<span style="color:&#35;dcdccc">&gt;</span> <span style="color:&#35;aabfe3">lk</span><span style="color:&#35;dcdccc">(</span>frameMtx_<span style="color:&#35;dcdccc">);</span>
-      frame_ <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">move</span><span style="color:&#35;dcdccc">(</span>jpegBuf<span style="color:&#35;dcdccc">);</span>
-      currentFrameId_<span style="color:&#35;dcdccc">++;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    frameCv_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">notify_all</span><span style="color:&#35;dcdccc">();</span>
-  <span style="color:&#35;dcdccc">}</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lk</span><span class="p">(</span><span class="n">frameMtx_</span><span class="p">);</span>
+<span class="w">      </span><span class="n">frame_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">jpegBuf</span><span class="p">);</span>
+<span class="w">      </span><span class="n">currentFrameId_</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">frameCv_</span><span class="p">.</span><span class="n">notify_all</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
 
-<span style="color:&#35;aabfe3">private</span><span style="color:&#35;dcdccc">:</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">static</span> <span style="color:&#35;e3ceab">constexpr</span> <span style="color:&#35;dfdfbf; font-weight:bold">const char</span> <span style="color:&#35;dcdccc">&ast;</span>kHttpHdr <span style="color:&#35;dcdccc">=</span>
-      <span style="color:&#35;cc9393">&quot;HTTP/1.1 200 OK</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;Cache-Control: no-cache</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;Connection: close</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">;</span>
+<span class="k">private</span><span class="o">:</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">kHttpHdr</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="s">"HTTP/1.1 200 OK</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">      </span><span class="s">"Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">      </span><span class="s">"Cache-Control: no-cache</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">      </span><span class="s">"Connection: close</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">      </span><span class="s">"</span><span class="se">\r\n</span><span class="s">"</span><span class="p">;</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">acceptLoop</span><span style="color:&#35;dcdccc">() {</span>
-    listenFd_ <span style="color:&#35;dcdccc">= ::</span><span style="color:&#35;aabfe3">socket</span><span style="color:&#35;dcdccc">(</span>AF_INET<span style="color:&#35;dcdccc">,</span> SOCK_STREAM<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>listenFd_ <span style="color:&#35;dcdccc">&lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">int</span> opt <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">setsockopt</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> SOL_SOCKET<span style="color:&#35;dcdccc">,</span> SO_REUSEADDR<span style="color:&#35;dcdccc">, &amp;</span>opt<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>opt<span style="color:&#35;dcdccc">));</span>
-    sockaddr_in addr<span style="color:&#35;dcdccc">{};</span>
-    addr<span style="color:&#35;dcdccc">.</span>sin_family <span style="color:&#35;dcdccc">=</span> AF_INET<span style="color:&#35;dcdccc">;</span>
-    addr<span style="color:&#35;dcdccc">.</span>sin_addr<span style="color:&#35;dcdccc">.</span>s_addr <span style="color:&#35;dcdccc">=</span> INADDR_ANY<span style="color:&#35;dcdccc">;</span>
-    addr<span style="color:&#35;dcdccc">.</span>sin_port <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">htons</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">static_cast</span><span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint16_t</span><span style="color:&#35;dcdccc">&gt;(</span>port_<span style="color:&#35;dcdccc">));</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">bind</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">reinterpret_cast</span><span style="color:&#35;dcdccc">&lt;</span>sockaddr <span style="color:&#35;dcdccc">&ast;&gt;(&amp;</span>addr<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>addr<span style="color:&#35;dcdccc">))</span> 
-        <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">);</span>
-      listenFd_ <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">listen</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">8</span><span style="color:&#35;dcdccc">);</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">acceptLoop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">listenFd_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">::</span><span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">listenFd_</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="o">::</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">,</span><span class="w"> </span><span class="n">SOL_SOCKET</span><span class="p">,</span><span class="w"> </span><span class="n">SO_REUSEADDR</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">opt</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">opt</span><span class="p">));</span>
+<span class="w">    </span><span class="n">sockaddr_in</span><span class="w"> </span><span class="n">addr</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">addr</span><span class="p">.</span><span class="n">sin_family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AF_INET</span><span class="p">;</span>
+<span class="w">    </span><span class="n">addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INADDR_ANY</span><span class="p">;</span>
+<span class="w">    </span><span class="n">addr</span><span class="p">.</span><span class="n">sin_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">htons</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">port_</span><span class="p">));</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">,</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">sockaddr</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span><span class="w"> </span>
+<span class="w">        </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="o">::</span><span class="n">close</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">);</span>
+<span class="w">      </span><span class="n">listenFd_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="o">::</span><span class="n">listen</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
 
-    <span style="color:&#35;e3ceab">while</span> <span style="color:&#35;dcdccc">(</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">()) {</span>
-      sockaddr_in ca<span style="color:&#35;dcdccc">{};</span>
-      socklen_t cl <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>ca<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">int</span> fd <span style="color:&#35;dcdccc">= ::</span><span style="color:&#35;aabfe3">accept</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">reinterpret_cast</span><span style="color:&#35;dcdccc">&lt;</span>sockaddr <span style="color:&#35;dcdccc">&ast;&gt;(&amp;</span>ca<span style="color:&#35;dcdccc">), &amp;</span>cl<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>fd <span style="color:&#35;dcdccc">&lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;dcdccc">}</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">char</span> rbuf<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">2048</span><span style="color:&#35;dcdccc">&rsqb;;</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">int</span> received <span style="color:&#35;dcdccc">= ::</span><span style="color:&#35;aabfe3">recv</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> rbuf<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>rbuf<span style="color:&#35;dcdccc">) -</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>received <span style="color:&#35;dcdccc">&gt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-        <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">thread</span><span style="color:&#35;dcdccc">(&lsqb;</span><span style="color:&#35;e3ceab">this</span><span style="color:&#35;dcdccc">,</span> fd<span style="color:&#35;dcdccc">&rsqb; {</span> <span style="color:&#35;aabfe3">serveClient</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">); }).</span><span style="color:&#35;aabfe3">detach</span><span style="color:&#35;dcdccc">();</span>
-      <span style="color:&#35;dcdccc">}</span> <span style="color:&#35;e3ceab">else</span> <span style="color:&#35;dcdccc">{</span>
-        <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dcdccc">}</span>
-  <span style="color:&#35;dcdccc">}</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">running_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">sockaddr_in</span><span class="w"> </span><span class="n">ca</span><span class="p">{};</span>
+<span class="w">      </span><span class="kt">socklen_t</span><span class="w"> </span><span class="n">cl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">ca</span><span class="p">);</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">::</span><span class="n">accept</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">,</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">sockaddr</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ca</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cl</span><span class="p">);</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fd</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="kt">char</span><span class="w"> </span><span class="n">rbuf</span><span class="p">[</span><span class="mi">2048</span><span class="p">];</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">received</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">::</span><span class="n">recv</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">rbuf</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">rbuf</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">received</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="p">([</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">fd</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">serveClient</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span><span class="w"> </span><span class="p">}).</span><span class="n">detach</span><span class="p">();</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">::</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">serveClient</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span> fd<span style="color:&#35;dcdccc">) {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> kHttpHdr<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">strlen</span><span style="color:&#35;dcdccc">(</span>kHttpHdr<span style="color:&#35;dcdccc">),</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span> lastSentId <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;e3ceab">while</span> <span style="color:&#35;dcdccc">(</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">()) {</span>
-      <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint8_t</span><span style="color:&#35;dcdccc">&gt;</span> jpeg<span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;dcdccc">{</span>
-        <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>unique_lock<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>mutex<span style="color:&#35;dcdccc">&gt;</span> <span style="color:&#35;aabfe3">lk</span><span style="color:&#35;dcdccc">(</span>frameMtx_<span style="color:&#35;dcdccc">);</span>
-        frameCv_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">wait_for</span><span style="color:&#35;dcdccc">(</span>lk<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;84d2d4">chrono</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">seconds</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">), &lsqb;</span><span style="color:&#35;e3ceab">this</span><span style="color:&#35;dcdccc">,</span> lastSentId<span style="color:&#35;dcdccc">&rsqb; {</span>
-          <span style="color:&#35;e3ceab">return</span> currentFrameId_ <span style="color:&#35;dcdccc">&gt;</span> lastSentId <span style="color:&#35;dcdccc">|| !</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">();</span>
-        <span style="color:&#35;dcdccc">});</span>
-        <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(!</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">())</span>
-          <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-        <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>currentFrameId_ <span style="color:&#35;dcdccc">&lt;=</span> lastSentId<span style="color:&#35;dcdccc">)</span>
-          <span style="color:&#35;e3ceab">continue</span><span style="color:&#35;dcdccc">;</span>
-        jpeg <span style="color:&#35;dcdccc">=</span> frame_<span style="color:&#35;dcdccc">;</span>
-        lastSentId <span style="color:&#35;dcdccc">=</span> currentFrameId_<span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;dcdccc">}</span>
-      <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>string hdr <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;--mjpeg_boundary</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-                        <span style="color:&#35;cc9393">&quot;Content-Type: image/jpeg</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-                        <span style="color:&#35;cc9393">&quot;Content-Length: &quot;</span> <span style="color:&#35;dcdccc">+</span>
-                        <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">to_string</span><span style="color:&#35;dcdccc">(</span>jpeg<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">size</span><span style="color:&#35;dcdccc">()) +</span>
-                        <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-                        <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> hdr<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">data</span><span style="color:&#35;dcdccc">(),</span> hdr<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">size</span><span style="color:&#35;dcdccc">(),</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> jpeg<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">data</span><span style="color:&#35;dcdccc">(),</span> jpeg<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">size</span><span style="color:&#35;dcdccc">(),</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">,</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;dcdccc">}</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">serveClient</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">::</span><span class="n">send</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">kHttpHdr</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">kHttpHdr</span><span class="p">),</span><span class="w"> </span><span class="n">MSG_NOSIGNAL</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="o">::</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">lastSentId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">running_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">jpeg</span><span class="p">;</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">unique_lock</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lk</span><span class="p">(</span><span class="n">frameMtx_</span><span class="p">);</span>
+<span class="w">        </span><span class="n">frameCv_</span><span class="p">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">lk</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">lastSentId</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">return</span><span class="w"> </span><span class="n">currentFrameId_</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">lastSentId</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">running_</span><span class="p">.</span><span class="n">load</span><span class="p">();</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">running_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span>
+<span class="w">          </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">currentFrameId_</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">lastSentId</span><span class="p">)</span>
+<span class="w">          </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">        </span><span class="n">jpeg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frame_</span><span class="p">;</span>
+<span class="w">        </span><span class="n">lastSentId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentFrameId_</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">hdr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"--mjpeg_boundary</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">                        </span><span class="s">"Content-Type: image/jpeg</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">                        </span><span class="s">"Content-Length: "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                        </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">jpeg</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                        </span><span class="s">"</span><span class="se">\r\n</span><span class="s">"</span>
+<span class="w">                        </span><span class="s">"</span><span class="se">\r\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">::</span><span class="n">send</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">hdr</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">hdr</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">MSG_NOSIGNAL</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">::</span><span class="n">send</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">jpeg</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">jpeg</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">MSG_NOSIGNAL</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">::</span><span class="n">send</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="s">"</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">MSG_NOSIGNAL</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="o">::</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> port_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> quality_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>atomic<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">bool</span><span style="color:&#35;dcdccc">&gt;</span> running_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> listenFd_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>thread acceptThread_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>mutex frameMtx_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>condition_variable frameCv_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint8_t</span><span style="color:&#35;dcdccc">&gt;</span> frame_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span> currentFrameId_<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dcdccc">};</span>	</code>
-</pre>
-<br/>
-This works by the <code>Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</code> header, which tells the client to expect a stream of data that is separated by a boundary, and that each part of the stream should replace the previous part. <br/>
-<br/>
-Each frame is sent like this:<br/>
-<pre>
-<code class="language-plaintext">--mjpeg_boundary\r\n
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">port_</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">quality_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="n">running_</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">listenFd_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="w"> </span><span class="n">acceptThread_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="w"> </span><span class="n">frameMtx_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">condition_variable</span><span class="w"> </span><span class="n">frameCv_</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frame_</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">currentFrameId_</span><span class="p">;</span>
+<span class="p">};</span></code></pre><p>This works by the <code>Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</code> header, which tells the client to expect a stream of data that is separated by a boundary, and that each part of the stream should replace the previous part.</p><p>Each frame is sent like this:</p><pre><code>--mjpeg_boundary\r\n
 Content-Type: image/jpeg\r\n
 Content-Length: 48213\r\n
 \r\n
-&lsqb;raw JPEG bytes&rsqb;\r\n
-</code>
-</pre>
-The parser knows that the content after the <code>mjpeg_boundry</code> is meant to replace the content so the browser will continually update the image as long as the connection is maintained with the server. This format is also compatible with OpenCV, ffmpeg and VLC. Since each frame is a complete JPEG frame the receiving end can also be very simple as long as it understands how to decode a JPEG image.<br/>
-<br/>
-Here is a little demo that is being live streamed from a vercel service:<br/>
-<figure><img src="https://mjpeg-demo.vercel.app/api/mjpeg" alt="mjpeg demo in a <img> tag" title="mjpeg demo in a <img> tag" loading="lazy" /><figcaption>mjpeg demo in a <img> tag</figcaption></figure><br/>
-<br/>
-<div class="callout callout-note">
-<p class="callout-title">📝 Note</p>
-<div class="callout-content">
-Another advantage is that some cameras support directly outputting JPEG encoded frames so you can fully skip the encoding step of raw pixel format -> encoded jpeg image saving some latency when you can fully passthrough frames.<br/>
-</div>
-</div>
-</p>
-<h2 id="rtsp">rtsp</h2>
-<p>
-Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the <i>keyframes</i> you can fully reconstruct the original video. This also works really well if you have multiple clients for the same stream.<br/>
-<br/>
-This is a <a href="https://sonnati.wordpress.com/2014/06/20/h265-part-i-technical-overview/">better explanation of how these modern codecs work</a>, this is for h265 but the same general ideas persist for h264, av1 etc.<br/>
-<br/>
-Typically the video encoding you choose really depends on what exactly your hardware supports, if you are on Intel you can use the <code>qsv</code> family of encoders, nvidia <code>nvenc</code> and AMD <code>amf</code>, <a href="https://trac.ffmpeg.org/wiki/HWAccelIntro">ffmpeg hwaccel guide</a> - There are also <i>generic</i> accelerated encoders that use <a href="https://trac.ffmpeg.org/wiki/Hardware/VAAPI">va-api</a>, dx11, dx12 or vulkan for acceleration but I find that using the device specific api is reliably better.<br/>
-<br/>
-On my laptop this is available by default (use <a href="https://gist.github.com/davidnoronha1/e964e4c6c7b07ae30f126a8e7dc12b96">this script</a> to find for your hardware):<br/>
-<pre>
-<code class="language-plaintext">  Tool        Vendor / Backend             Codec   Encoder / Element
+[raw JPEG bytes]\r\n</code></pre><p>The parser knows that the content after the <code>mjpeg_boundry</code> is meant to replace the content so the browser will continually update the image as long as the connection is maintained with the server. This format is also compatible with OpenCV, ffmpeg and VLC. Since each frame is a complete JPEG frame the receiving end can also be very simple as long as it understands how to decode a JPEG image.</p><p>Here is a little demo that is being live streamed from a vercel service:</p><figure><img loading="lazy" src="https://mjpeg-demo.vercel.app/api/mjpeg" alt="mjpeg demo in a &lt;img&gt; tag" /><figcaption>mjpeg demo in a &lt;img&gt; tag</figcaption></figure><div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title">Note</p><p>Another advantage is that some cameras support directly outputting JPEG encoded frames so you can fully skip the encoding step of raw pixel format -&gt; encoded jpeg image saving some latency when you can fully passthrough frames.</p></div>
+<h2 id="rtsp">rtsp</h2><p>Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the <em>delta</em> of what exactly changed between 2 full frames and using these deltas and the <em>keyframes</em> you can fully reconstruct the original video. This also works really well if you have multiple clients for the same stream.</p><p>This is a <a href="https://sonnati.wordpress.com/2014/06/20/h265-part-i-technical-overview/">better explanation of how these modern codecs work</a>, this is for h265 but the same general ideas persist for h264, av1 etc.</p><p>Typically the video encoding you choose really depends on what exactly your hardware supports, if you are on Intel you can use the <code>qsv</code> family of encoders, nvidia <code>nvenc</code> and AMD <code>amf</code>, <a href="https://trac.ffmpeg.org/wiki/HWAccelIntro">ffmpeg hwaccel guide</a> - There are also <em>generic</em> accelerated encoders that use <a href="https://trac.ffmpeg.org/wiki/Hardware/VAAPI">va-api</a>, dx11, dx12 or vulkan for acceleration but I find that using the device specific api is reliably better.</p><p>On my laptop this is available by default (use <a href="https://gist.github.com/davidnoronha1/e964e4c6c7b07ae30f126a8e7dc12b96">this script</a> to find for your hardware):</p><pre><code>  Tool        Vendor / Backend             Codec   Encoder / Element
  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ffmpeg      NVIDIA                       H.264   h264_nvenc
   ffmpeg      NVIDIA                       HEVC    hevc_nvenc
@@ -630,25 +353,9 @@ On my laptop this is available by default (use <a href="https://gist.github.com/
   gstreamer   NVIDIA (nvcodec)             H.264   nvcudah264enc
   gstreamer   NVIDIA (nvcodec)             H.264   nvautogpuh264enc
   gstreamer   NVIDIA (nvcodec)             HEVC    nvcudah265enc
-  gstreamer   NVIDIA (nvcodec)             HEVC    nvautogpuh265enc
-</code>
-</pre>
-(I dont have AMF compiled into my ffmpeg)<br/>
-<br/>
-<div class="callout callout-note">
-<p class="callout-title">📝 Note</p>
-<div class="callout-content">
-This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 200m long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.<br/>
-</div>
-</div>
-RTSP doesn't work to send media to the browser since if you are sending video you need WebRTC or HLS. But for any scripts on your local network you can use it and it is understood by OpenCV, ffmpeg and others (they also understand mjpeg), I've found that setting these flags for the reciever stream helps to priotize latency over perfect frames.<br/>
-<pre>
-<code class="language-plaintext">export OPENCV_FFMPEG_CAPTURE_OPTIONS&equals;"fifo_size;500000|overrun_nonfatal;1|fflags;nobuffer|flags;low_delay|framedrop;1|vf;setpts&equals;0"
-</code>
-</pre>
-Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame, the above line is to set it for opencv when using the ffmpeg backend but the same flags can be replicated for raw ffmpeg.<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+  gstreamer   NVIDIA (nvcodec)             HEVC    nvautogpuh265enc</code></pre><p>(I dont have AMF compiled into my ffmpeg)</p><div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title">Note</p><p>This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 200m long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.</p></div><p>RTSP doesn't work to send media to the browser since if you are sending video you need WebRTC or HLS. But for any scripts on your local network you can use it and it is understood by OpenCV, ffmpeg and others (they also understand mjpeg), I've found that setting these flags for the reciever stream helps to priotize latency over perfect frames.</p><pre><code>export OPENCV_FFMPEG_CAPTURE_OPTIONS=&quot;fifo_size;500000|overrun_nonfatal;1|fflags;nobuffer|flags;low_delay|framedrop;1|vf;setpts=0&quot;</code></pre><p>Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame, the above line is to set it for opencv when using the ffmpeg backend but the same flags can be replicated for raw ffmpeg.</p>
+<script type="module" src="/assets/elements.js"></script>
+
+</article>
 </body>
+</html>

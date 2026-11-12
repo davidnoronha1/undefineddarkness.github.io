@@ -1,403 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>C Compiler Binary Optimization</title>
-	<meta name="description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags" />
-	<link rel="canonical" href="https://nes.is-a.dev/2021/small-c.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="C Compiler Binary Optimization" />
-	<meta property="og:description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2021/small-c.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="C Compiler Binary Optimization" />
-	<meta name="twitter:description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.gnuplot-container{font-size:.8em;max-width:100%}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;letter-spacing:-.6px;line-height:.99;max-width:100%;overflow-x:auto;white-space:pre!important}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "C Compiler Binary Optimization",
-		"description": "I attempt to see how small I can get a C program using OpenGL with only compiler flags",
-		"url": "https://nes.is-a.dev/2021/small-c.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C Compiler Binary Optimization</title>
+<meta name="description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/small-c.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="C Compiler Binary Optimization">
+<meta property="og:description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/small-c.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{margin:.3em 0 0;font-size:1.2em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>C Compiler Binary Optimization</h1></header>
+<p>I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.
+I might be using &quot;non trivial&quot; wrongly here but I mean a program that can actually do something.</p><p>Well, let us start with a non trivial program and go from there,
+For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a></p><pre><code class="language-c"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"tigr.h"</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 
-<header>
-  <h1>C Compiler Binary Optimization</h1>
-  <!-- post_description="I attempt to see how small I can get a C program using OpenGL with only compiler flags" -->
-</header>
-I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.<br/>
-I might be using "non trivial" wrongly here but I mean a program that can actually do something.<br/>
-<br/>
-Well, let us start with a non trivial program and go from there,<br/>
-For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a><br/>
-<pre>
-<code class="language-c"><span style="color:&#35;ffcfaf; font-weight:bold">&#35;include &lt;stdlib.h&gt;</span>
-<span style="color:&#35;ffcfaf; font-weight:bold">&#35;include</span> <span style="color:&#35;cc9393">&quot;tigr.h&quot;</span><span style="color:&#35;ffcfaf; font-weight:bold"></span>
-<span style="color:&#35;ffcfaf; font-weight:bold">&#35;include &lt;time.h&gt;</span>
-<span style="color:&#35;ffcfaf; font-weight:bold">&#35;include &lt;stdio.h&gt;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">randomNo</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rand</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">RAND_MAX</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">randomNo</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span> min<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">int</span> max<span style="color:&#35;dcdccc">) {</span>
-  <span style="color:&#35;e3ceab">return</span> min <span style="color:&#35;dcdccc">+</span> <span style="color:&#35;aabfe3">rand</span><span style="color:&#35;dcdccc">() / (</span>RAND_MAX <span style="color:&#35;dcdccc">/ (</span>max <span style="color:&#35;dcdccc">-</span> min <span style="color:&#35;dcdccc">+</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">) +</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">);</span>
-<span style="color:&#35;dcdccc">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-<span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">main</span><span style="color:&#35;dcdccc">() {</span>
+<span class="w">  </span><span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
 
-  <span style="color:&#35;aabfe3">srand</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>
+<span class="w">  </span><span class="n">Tigr</span><span class="w"> </span><span class="o">*</span><span class="n">screen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tigrWindow</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">fmt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">tigrClosed</span><span class="p">(</span><span class="n">screen</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">tigrClear</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">));</span>
 
-  Tigr <span style="color:&#35;dcdccc">&ast;</span>screen <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">tigrWindow</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">320</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">240</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;Hello&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> x<span style="color:&#35;dcdccc">,</span> y<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">char</span> <span style="color:&#35;dcdccc">&ast;</span>fmt <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">malloc</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;e3ceab">while</span> <span style="color:&#35;dcdccc">(!</span><span style="color:&#35;aabfe3">tigrClosed</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">)) {</span>
-    <span style="color:&#35;aabfe3">tigrClear</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">tigrRGB</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0x11</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0x11</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0x11</span><span style="color:&#35;dcdccc">));</span>
+<span class="w">    </span><span class="n">tigrPrint</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">tfont</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">110</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">),</span>
+<span class="w">              </span><span class="s">"Hello, world."</span><span class="p">);</span>
+<span class="w">	</span><span class="n">snprintf</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="s">"%d, %d"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<span class="w">	</span><span class="n">tigrPrint</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">tfont</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">110</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">),</span><span class="w"> </span><span class="n">fmt</span><span class="p">);</span>
 
-    <span style="color:&#35;aabfe3">tigrPrint</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">,</span> tfont<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">120</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">110</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">tigrRGB</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0xf0</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0xf0</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0xf0</span><span style="color:&#35;dcdccc">),</span>
-              <span style="color:&#35;cc9393">&quot;Hello, world.&quot;</span><span style="color:&#35;dcdccc">);</span>
-	<span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>fmt<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%d</span><span style="color:&#35;cc9393">,</span> <span style="color:&#35;c07abe">%d</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">,</span> x<span style="color:&#35;dcdccc">,</span> y<span style="color:&#35;dcdccc">);</span>
-	<span style="color:&#35;aabfe3">tigrPrint</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">,</span> tfont<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">120</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">110</span> <span style="color:&#35;dcdccc">+</span> <span style="color:&#35;dca3a3; font-weight:bold">16</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">tigrRGB</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0xf0</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0xf0</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0xf0</span><span style="color:&#35;dcdccc">),</span> fmt<span style="color:&#35;dcdccc">);</span>
+<span class="w">    </span><span class="n">tigrMouse</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tigrFillCircle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0xff</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">));</span>
 
-    <span style="color:&#35;aabfe3">tigrMouse</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">, &amp;</span>x<span style="color:&#35;dcdccc">, &amp;</span>y<span style="color:&#35;dcdccc">,</span> NULL<span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;aabfe3">tigrFillCircle</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">,</span> x<span style="color:&#35;dcdccc">,</span> y<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">8</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">tigrRGB</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0xff</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0x00</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0x00</span><span style="color:&#35;dcdccc">));</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randomNo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">320</span><span class="p">);</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randomNo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">);</span>
+<span class="w">      </span><span class="n">tigrLine</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
 
-    <span style="color:&#35;e3ceab">for</span> <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span> i <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">;</span> i <span style="color:&#35;dcdccc">&lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">;</span> i<span style="color:&#35;dcdccc">++) {</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">int</span> x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">randomNo</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">320</span><span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">int</span> y <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">randomNo</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">240</span><span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;aabfe3">tigrLine</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">,</span> x<span style="color:&#35;dcdccc">,</span> y<span style="color:&#35;dcdccc">,</span> x<span style="color:&#35;dcdccc">,</span> y <span style="color:&#35;dcdccc">+</span> <span style="color:&#35;dca3a3; font-weight:bold">10</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">tigrRGB</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0x00</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0x00</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0xff</span><span style="color:&#35;dcdccc">));</span>
-    <span style="color:&#35;dcdccc">}</span>
-
-    <span style="color:&#35;aabfe3">tigrUpdate</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;dcdccc">}</span>
-  <span style="color:&#35;aabfe3">free</span><span style="color:&#35;dcdccc">(</span>fmt<span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;aabfe3">tigrFree</span><span style="color:&#35;dcdccc">(</span>screen<span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;e3ceab">return</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
-</pre>
-Nothing flashy, it just opens a window, draws some text and some rain.<br/>
-Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.<br/>
-<br/>
-For such a simple program, surely we can do better right?<br/>
+<span class="w">    </span><span class="n">tigrUpdate</span><span class="p">(</span><span class="n">screen</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">fmt</span><span class="p">);</span>
+<span class="w">  </span><span class="n">tigrFree</span><span class="p">(</span><span class="n">screen</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre><p>Nothing flashy, it just opens a window, draws some text and some rain.
+Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.</p><p>For such a simple program, surely we can do better right?</p>
 <h2 id="compiler-flags">Compiler Flags</h2>
-<p>
-<br/>
-</p>
-<h3 id="os">-Os</h3>
-<p>
-How about telling the compiler to optimize for size with the <code>-Os</code> flag?<br/>
-With it, The new binary is 68kb, a decrease of 10.52%, Not bad if I say so myself.<br/>
-However in my experience this doesnt always happen, quite often the decrease is so small, that it won't even be measured.<br/>
-<br/>
-You can find out what it does by starting from here, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options</a><br/>
-<br/>
-</p>
-<h3 id="s">-s</h3>
-<p>
-Despite adding <code>-Os</code>, the compiler still adds in a bunch of debug information that we don't really need, so if we ask we can <code>strip</code> it from the binary.<br/>
-<br/>
-Adding it via the compiler flag <code>-s</code>, We get a binary 26% smaller than the 76kb original, not bad.<br/>
-(Instead of the compiler flag, you can use <code>-s</code> on a compiled binary.)<br/>
-<br/>
-You can sort of see this with the <code>strings</code> utility, initially our binary contained 1363 strings, after stripping it contained 339.<br/>
-<br/>
-Following the saying, "Good artists create, Great artists steal", Consulting <a href="https://github.com/johnthagen/min-sized-rust">https://github.com/johnthagen/min-sized-rust</a> , We find one thing of interest, Link Time Optimization (LTO)..<br/>
-<br/>
-</p>
-<h3 id="flto">-flto</h3>
-<p>
-Basically this tells the linker to apply optimizations during linking time. It's more complicated than that but I don't understand it.<br/>
-<br/>
-So what does it do for us?<br/>
-Quite a bit, Using it we have shaved off 16kb to reach 40kb, so in total (with -Os and -s) a 47% decrease of our initial 76kb, not bad at all.<br/>
-<br/>
-<b>NOTE</b>: Enabling <code>-flto</code> sometimes caused me a segfault at program start with clang, but this didnt occur with GCC, so it seems like GCC has a more mature implementation.<br/>
-<br/>
-</p>
-<h2 id="executable-packing">Executable Packing</h2>
-<p>
-If you wanted to go even furthur you could try <a href="https://upx.github.io/">UPX</a>, Which actually compresses your biniary and this works since<br/>
-the decompression code + compressed data ends up smaller than the initial binary.<br/>
-<br/>
-Although some would consider this cheating, It is still a legtimate method and does work,<br/>
-Running it with the highest compression level (-9) on our 40kb binary yields a binary size of 24kb, A decrease of 60% which is undeniably really impressive.<br/>
-<br/>
-<b>NOTE:</b> Since upx is often used in malware, There are chances it might get flagged by an antivirus,<br/>
-But running through virus total shows only <a href="https://is.gd/MtqIMG">results</a> from Google & Ikarus(?)<br/>
-<br/>
-<b>NOTE:</b> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.<br/>
-<br/>
-<figure><img src="/assets/size-chart.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure> <br/>
-<br/>
-</p>
-<h2 id="compression-linker-update-19-08-2025">Compression & Linker [UPDATE - 19-08-2025]</h2>
-<p>
-Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings<br/>
-<br/>
-I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br/>
-<br/>
-<div class="gnuplot-container"><pre class="gnuplot-block">                                                                                                                                                                                                        
-     <span style="color:#ffffff">70000 𜶖𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆𜴆66.52kB𜶙                                                  
-           ▐                                                                                                                                  </span><span style="color:#a0c8dc">𜺠▂▂▂▂▂▂</span><span style="color:#f0f0f0">𜷕   </span><span style="color:#ffffff">basic-optimized-stripped-lto-linker.7z </span><span style="color:#ffb4b4">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">   basic-optimized-stripped-lto-linker.xz </span><span style="color:#ffdcb4">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">  basic-optimized-stripped-lto-linker.zst </span><span style="color:#ffffb4">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">   basic-optimized-stripped-lto-linker.gz </span><span style="color:#b4ffc8">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">  basic-optimized-stripped-lto-linker.bz2 </span><span style="color:#b4dcff">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">  basic-optimized-stripped-lto-linker-upx </span><span style="color:#c8b4ff">𜴡🮅🮅🮅🮅𜴍  
-     </span><span style="color:#ffffff">60000 ▐𜺣</span><span style="color:#a0a0a0">𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠 𜺠</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">      basic-optimized-stripped-lto-linker </span><span style="color:#ffb4f0">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">             basic-optimized-stripped-lto </span><span style="color:#f0a0a0">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                 basic-optimized-stripped </span><span style="color:#f0c8a0">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                          basic-optimized </span><span style="color:#f0dc78">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                                  </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                       source-code.tar.gz </span><span style="color:#a0dcc8">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                      51.86kB     </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                    basic </span><span style="color:#a0c8dc">𜴡🮅🮅🮅🮅𜴍  
-           </span><span style="color:#ffffff">▐                                                                                                                      </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                                      </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-     50000 ▐𜴉</span><span style="color:#a0a0a0">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘</span><span style="color:#ffffff">47.94kB</span><span style="color:#a0a0a0">𜴘 𜴘 𜴘</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                                          </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                              38.52kB     </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-     40000 ▐𜺨</span><span style="color:#a0a0a0">𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫 𜺫</span><span style="color:#f0c8a0">▗𜷜▄𜷜▄𜷜▄𜷜▖</span><span style="color:#a0a0a0">𜺫 𜺫</span><span style="color:#f0dc78">▐███████ </span><span style="color:#a0a0a0">𜺫 𜺫</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜺫 𜺫</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                              </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                              </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                                              </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       31.56kB     31.60kB    </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">▂▂▂▂▂▂▂𜺣    </span><span style="color:#f0a0a0">▂▂▂▂▂▂▂𜺣   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-     30000 ▐𜴉</span><span style="color:#a0a0a0">𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 𜴘 </span><span style="color:#ffb4f0">███████▌</span><span style="color:#a0a0a0">𜴘 𜴘 </span><span style="color:#f0a0a0">███████▌</span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#f0c8a0">▐███████▌</span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#f0dc78">▐███████ </span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜴘 𜴘</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                                       </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                                                           19.84kB     </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-     20000 ▐𜴀</span><span style="color:#a0a0a0">𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 𜴃 </span><span style="color:#ffffff">17.58kB </span><span style="color:#a0a0a0">𜴃 𜴃 </span><span style="color:#c8b4ff">███████▌</span><span style="color:#a0a0a0">𜴃 𜴃 </span><span style="color:#ffb4f0">███████▌</span><span style="color:#a0a0a0">𜴃 𜴃 </span><span style="color:#f0a0a0">███████▌</span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#f0c8a0">▐███████▌</span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#f0dc78">▐███████ </span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#a0dcc8">▐███████ </span><span style="color:#a0a0a0">𜴃 𜴃</span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                       16.11kB     17.04kB     </span><span style="color:#b4dcff">▂▂▂▂▂▂▂𜺣    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐                       </span><span style="color:#ffffb4">𜺠▂▂▂▂▂▂▂    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           14.43kB     14.74kB     </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐</span><span style="color:#ffb4b4">▆▆▆▆▆▆▆    </span><span style="color:#ffdcb4">▐███████    </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐</span><span style="color:#ffb4b4">███████    </span><span style="color:#ffdcb4">▐███████    </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-           ▐</span><span style="color:#ffb4b4">███████    </span><span style="color:#ffdcb4">▐███████    </span><span style="color:#ffffb4">▐███████    </span><span style="color:#b4ffc8">████████    </span><span style="color:#b4dcff">███████▌    </span><span style="color:#c8b4ff">███████▌    </span><span style="color:#ffb4f0">███████▌    </span><span style="color:#f0a0a0">███████▌   </span><span style="color:#f0c8a0">▐███████▌   </span><span style="color:#f0dc78">▐███████    </span><span style="color:#a0dcc8">▐███████    </span><span style="color:#a0c8dc">▐██████</span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">▐</span><span style="color:#ffffff">                                                  
-     10000 ▐</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffb4b4;background:#ffffff">🮅</span><span style="color:#ffb4b4"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#fff0dc">𜷕</span><span style="color:#fff0dc;background:#ffffff"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffdcb4;background:#ffffff">🮅</span><span style="color:#ffdcb4"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffdc">𜷕</span><span style="color:#ffffdc;background:#ffffff"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffb4;background:#ffffff">🮅</span><span style="color:#ffffb4"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#b4ffc8;background:#ffffff">🮅</span><span style="color:#b4ffc8"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#b4dcff;background:#ffffff">🮅</span><span style="color:#b4dcff"></span><span style="color:#dcf0ff">𜷀</span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#c8b4ff;background:#ffffff">🮅</span><span style="color:#c8b4ff"></span><span style="color:#dcdcff">𜷀</span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffb4f0;background:#ffffff">🮅</span><span style="color:#ffb4f0"></span><span style="color:#ffdcf0">𜷀</span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#ffffff;background:#ffffff"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0a0a0;background:#ffffff">🮅</span><span style="color:#f0a0a0"></span><span style="color:#f0c8c8">𜷀</span><span style="color:#ffffff">▂▂▂</span><span style="color:#f0dcc8">𜷕</span><span style="color:#f0dcc8;background:#ffffff"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0c8a0;background:#ffffff">🮅</span><span style="color:#f0c8a0"></span><span style="color:#f0dcc8">𜷀</span><span style="color:#ffffff">▂▂▂</span><span style="color:#f0f0b4">𜷕</span><span style="color:#f0f0b4;background:#ffffff"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#f0dc78;background:#ffffff">🮅</span><span style="color:#f0dc78"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#c8f0dc">𜷕</span><span style="color:#c8f0dc;background:#ffffff"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#a0dcc8;background:#ffffff">🮅</span><span style="color:#a0dcc8"></span><span style="color:#ffffff">▂▂▂▂</span><span style="color:#c8dcf0">𜷕</span><span style="color:#c8dcf0;background:#ffffff"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#ffffff">🮅</span><span style="color:#a0c8dc"></span><span style="color:#a0c8dc;background:#a0c8dc"></span><span style="color:#ffffff;background:#a0c8dc">𜷕</span><span style="color:#ffffff">                                                  
-              7z          xz         zst          gz         bz2         upx       linker       -flto        -s         -Os        source      basic                                                    
-                                                                                                                                                                                                        
-                                                                     Compression/Build Type                                                                                                             
-</span>
-</pre></div>
-<table class="">
-<thead><tr>
-<th>size</th>
-<th>filename</th>
-</tr>
-</thead><tbody><tr>
-<td>14778</td>
-<td>basic-optimized-stripped-lto-linker.7z<br/></td>
-</tr>
-<tr>
-<td>15100</td>
-<td>basic-optimized-stripped-lto-linker.xz<br/></td>
-</tr>
-<tr>
-<td>16497</td>
-<td>basic-optimized-stripped-lto-linker.zst<br/></td>
-</tr>
-<tr>
-<td>17448</td>
-<td>basic-optimized-stripped-lto-linker.gz<br/></td>
-</tr>
-<tr>
-<td>17998</td>
-<td>basic-optimized-stripped-lto-linker.bz2<br/></td>
-</tr>
-<tr>
-<td>20320</td>
-<td>basic-optimized-stripped-lto-linker-upx<br/></td>
-</tr>
-<tr>
-<td>32312</td>
-<td>basic-optimized-stripped-lto-linker<br/></td>
-</tr>
-<tr>
-<td>32360</td>
-<td>basic-optimized-stripped-lto<br/></td>
-</tr>
-<tr>
-<td>39448</td>
-<td>basic-optimized-stripped<br/></td>
-</tr>
-<tr>
-<td>49088</td>
-<td>basic-optimized<br/></td>
-</tr>
-<tr>
-<td>53107</td>
-<td>source-code.tar.gz<br/></td>
-</tr>
-<tr>
-<td>68120</td>
-<td>basic<br/></td>
-</tr>
-</tbody></table>
-You can see all the commands that I used for each one here,<br/>
+<h3 id="-os">-Os</h3><p>How about telling the compiler to optimize for size with the <code>-Os</code> flag?
+With it, The new binary is 68kb, a decrease of 10.52%, Not bad if I say so myself.
+However in my experience this doesnt always happen, quite often the decrease is so small, that it won't even be measured.</p><p>You can find out what it does by starting from here, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options</a></p>
+<h3 id="-s">-s</h3><p>Despite adding <code>-Os</code>, the compiler still adds in a bunch of debug information that we don't really need, so if we ask we can <code>strip</code> it from the binary.</p><p>Adding it via the compiler flag <code>-s</code>, We get a binary 26% smaller than the 76kb original, not bad.
+(Instead of the compiler flag, you can use <code>-s</code> on a compiled binary.)</p><p>You can sort of see this with the <code>strings</code> utility, initially our binary contained 1363 strings, after stripping it contained 339.</p><p>Following the saying, &quot;Good artists create, Great artists steal&quot;, Consulting <a href="https://github.com/johnthagen/min-sized-rust">https://github.com/johnthagen/min-sized-rust</a> , We find one thing of interest, Link Time Optimization (LTO)..</p>
+<h3 id="-flto">-flto</h3><p>Basically this tells the linker to apply optimizations during linking time. It's more complicated than that but I don't understand it.</p><p>So what does it do for us?
+Quite a bit, Using it we have shaved off 16kb to reach 40kb, so in total (with -Os and -s) a 47% decrease of our initial 76kb, not bad at all.</p><p><strong>NOTE</strong>: Enabling <code>-flto</code> sometimes caused me a segfault at program start with clang, but this didnt occur with GCC, so it seems like GCC has a more mature implementation.</p>
+<h2 id="executable-packing">Executable Packing</h2><p>If you wanted to go even furthur you could try <a href="https://upx.github.io/">UPX</a>, Which actually compresses your biniary and this works since
+the decompression code + compressed data ends up smaller than the initial binary.</p><p>Although some would consider this cheating, It is still a legtimate method and does work,
+Running it with the highest compression level (-9) on our 40kb binary yields a binary size of 24kb, A decrease of 60% which is undeniably really impressive.</p><p><strong>NOTE:</strong> Since upx is often used in malware, There are chances it might get flagged by an antivirus,
+But running through virus total shows only <a href="https://is.gd/MtqIMG">results</a> from Google &amp; Ikarus(?)</p><p><strong>NOTE:</strong> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.</p><figure><img loading="lazy" src="/assets/size-chart.svg" alt="" /></figure>
+<h2 id="compression--linker-update---19-08-2025">Compression &amp; Linker [UPDATE - 19-08-2025]</h2><p>Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings</p><p>I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find</p>
+<x-chart unit="B" title="File size by compression/build type">
+build	size
+7z	14778
+xz	15100
+zst	16497
+gz	17448
+bz2	17998
+upx	20320
+linker	32312
+-flto	32360
+-s	39448
+-Os	49088
+source	53107
+basic	68120
+</x-chart>
+<x-table>
+size	filename
+14778	basic-optimized-stripped-lto-linker.7z
+15100	basic-optimized-stripped-lto-linker.xz
+16497	basic-optimized-stripped-lto-linker.zst
+17448	basic-optimized-stripped-lto-linker.gz
+17998	basic-optimized-stripped-lto-linker.bz2
+20320	basic-optimized-stripped-lto-linker-upx
+32312	basic-optimized-stripped-lto-linker
+32360	basic-optimized-stripped-lto
+39448	basic-optimized-stripped
+49088	basic-optimized
+53107	source-code.tar.gz
+68120	basic
+</x-table><p>You can see all the commands that I used for each one here,</p>
+<x-fold title="Makefile"><pre><code class="language-make"><span class="nv">CC</span><span class="o">=</span>clang
+<span class="c"># SOURCES=./hw.c</span>
+<span class="nv">SOURCES</span><span class="o">=</span>./src.c<span class="w"> </span>./tigr.c
+<span class="nv">LIBS</span><span class="o">=</span>-lGLU<span class="w"> </span>-lGL<span class="w"> </span>-lX11
+<span class="nv">BASIC_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">CC</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">SOURCES</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">LIBS</span><span class="si">}</span><span class="w"> </span>-march<span class="o">=</span>native<span class="w"> </span>-fuse-ld<span class="o">=</span>lld
 
-<details>
-	<summary>
-		Makefile
-	</summary>
-	<p>
-		<pre>
-<code class="language-make">CC=clang
-&#35; SOURCES=./hw.c
-SOURCES=./src.c ./tigr.c
-LIBS=-lGLU -lGL -lX11
-BASIC_CC = ${CC} ${SOURCES} ${LIBS} -march=native -fuse-ld=lld
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span><span class="n">build</span>-<span class="n">all</span>
 
-all: build-all
+<span class="nf">basic</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic
+<span class="w">	</span>
+<span class="nv">BASIC_OPTIMIZED_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_CC</span><span class="si">}</span><span class="w">  </span>-Oz<span class="w"> </span>-fno-ident<span class="w"> </span>-fno-asynchronous-unwind-tables<span class="w"> </span>
+<span class="nf">basic-optimized</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized
 
-basic:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_CC} -o out/basic
-	
-BASIC_OPTIMIZED_CC = ${BASIC_CC}  -Oz -fno-ident -fno-asynchronous-unwind-tables 
-basic-optimized:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_CC} -o out/basic-optimized
+<span class="nv">BASIC_OPTIMIZED_STRIPPED_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_CC</span><span class="si">}</span><span class="w"> </span>-s
+<span class="nf">basic-optimized-stripped</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped
 
-BASIC_OPTIMIZED_STRIPPED_CC = ${BASIC_OPTIMIZED_CC} -s
-basic-optimized-stripped:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_STRIPPED_CC} -o out/basic-optimized-stripped
+<span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_CC</span><span class="si">}</span><span class="w"> </span>-flto
+<span class="nf">basic-optimized-stripped-lto</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto
 
-BASIC_OPTIMIZED_STRIPPED_LTO_CC = ${BASIC_OPTIMIZED_STRIPPED_CC} -flto
-basic-optimized-stripped-lto:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -o out/basic-optimized-stripped-lto
+<span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_CC</span><span class="si">}</span><span class="w"> </span>-z<span class="w"> </span>noseparate-code<span class="w"> </span>-Wl,--gc-sections<span class="w"> </span>-Wl,--strip-all<span class="w"> </span>-Wl,--icf<span class="o">=</span>all<span class="w"> </span>-Wl,--lto-O3<span class="w"> </span>-Wl,-O2
+<span class="nf">basic-optimized-stripped-lto-linker</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto-linker
 
-BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC = ${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -z noseparate-code -Wl,--gc-sections -Wl,--strip-all -Wl,--icf=all -Wl,--lto-O3 -Wl,-O2
-basic-optimized-stripped-lto-linker:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC} -o out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-zstd</span><span class="o">:</span><span class="w"> </span><span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>zstd<span class="w"> </span>-22<span class="w"> </span>--ultra<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker<span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto-linker.zst
 
-basic-optimized-stripped-lto-linker-compressed-zstd: basic-optimized-stripped-lto-linker
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	zstd -22 --ultra -f out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker.zst
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-gz</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.gz
+<span class="w">	</span>gzip<span class="w"> </span>--best<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker<span class="w"> </span>-c<span class="w"> </span>&gt;<span class="w"> </span>out/basic-optimized-stripped-lto-linker.gz
 
-basic-optimized-stripped-lto-linker-compressed-gz:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.gz
-	gzip --best -f out/basic-optimized-stripped-lto-linker -c &gt; out/basic-optimized-stripped-lto-linker.gz
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-xz</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.xz
+<span class="w">	</span>xz<span class="w"> </span>-e<span class="w"> </span>-k<span class="w"> </span>-9<span class="w"> </span>out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-xz:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.xz
-	xz -e -k -9 out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-bzip2</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.bz2
+<span class="w">	</span>bzip2<span class="w"> </span>-k<span class="w"> </span>--best<span class="w"> </span>./out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-bzip2:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.bz2
-	bzip2 -k --best ./out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-7z</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.7z
+<span class="c"># 	7z a -mx=9 -m0=LZMA2 -mfb=64 -md=64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker</span>
+<span class="w">	</span>7z<span class="w"> </span>a<span class="w"> </span>-mx<span class="o">=</span><span class="m">9</span><span class="w"> </span>out/basic-optimized-stripped-lto-linker.7z<span class="w"> </span>out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-7z:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.7z
-&#35; 	7z a -mx=9 -m0=LZMA2 -mfb=64 -md=64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
-	7z a -mx=9 out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-upx</span><span class="o">:</span><span class="w"> </span><span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker-upx
+<span class="w">	</span>upx<span class="w"> </span>--ultra-brute<span class="w"> </span>--no-lzma<span class="w"> </span>out/basic-optimized-stripped-lto-linker<span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto-linker-upx
 
-basic-optimized-stripped-lto-linker-compressed-upx: basic-optimized-stripped-lto-linker
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker-upx
-	upx --ultra-brute --no-lzma out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker-upx
+<span class="nf">source-code</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span>cp<span class="w"> </span>makefile<span class="w"> </span>src.c<span class="w"> </span>tigr.c<span class="w"> </span>tigr.h<span class="w"> </span>out/
+<span class="w">	</span>tar<span class="w"> </span>-czf<span class="w"> </span>out/source-code.tar.gz<span class="w"> </span>-C<span class="w"> </span>out<span class="w"> </span>makefile<span class="w"> </span>src.c<span class="w"> </span>tigr.c<span class="w"> </span>tigr.h
+<span class="w">	</span>rm<span class="w"> </span>out/makefile<span class="w"> </span>out/src.c<span class="w"> </span>out/tigr.c<span class="w"> </span>out/tigr.h
 
-source-code:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	cp makefile src.c tigr.c tigr.h out/
-	tar -czf out/source-code.tar.gz -C out makefile src.c tigr.c tigr.h
-	rm out/makefile out/src.c out/tigr.c out/tigr.h
+<span class="nf">build-all</span><span class="o">:</span><span class="w"> </span><span class="n">basic</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span> <span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">zstd</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">upx</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">gz</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">xz</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">bzip</span>2 \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-7<span class="n">z</span> \
+			<span class="n">source</span>-<span class="n">code</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>du<span class="w"> </span>-b<span class="w"> </span>out/*
 
-build-all: basic \
-			basic-optimized basic-optimized-stripped \
-			basic-optimized-stripped-lto \
-			basic-optimized-stripped-lto-linker \
-			basic-optimized-stripped-lto-linker-compressed-zstd \
-			basic-optimized-stripped-lto-linker-compressed-upx \
-			basic-optimized-stripped-lto-linker-compressed-gz \
-			basic-optimized-stripped-lto-linker-compressed-xz \
-			basic-optimized-stripped-lto-linker-compressed-bzip2 \
-			basic-optimized-stripped-lto-linker-compressed-7z \
-			source-code
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	du -b out/&ast;
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>out</code></pre>
+</x-fold>
+<h2 id="conclusion">Conclusion</h2><p>So in total we managed to decrease our binary by <strong>68%</strong> without changing a single line of code, Less than half of its original size
+I am very pleased with that..</p><p>Of course, even this isn't anything compared to marvellous feats of engineering like <a href="https://en.wikipedia.org/wiki/.kkrieger">.kkreiger</a>, A entire 3d fps game demo in a extremely impressive 95kb,
+When code is <em>actually written</em> to be small, and optimized to the limit towards that purpose.
+More on why:</p><ul><li><a href="https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/">https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/</a></li><li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a></li><li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a></li><li><a href="https://justine.lol/sizetricks/">https://justine.lol/sizetricks/</a></li><li><a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">https://nathanotterness.com/2021/10/tiny_elf_modernized.html</a></li></ul>
+<script type="module" src="/assets/elements.js"></script>
 
-clean:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -rf out	</code>
-</pre>
-	</p>
-</details>
-</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>
-So in total we managed to decrease our binary by <b>68%</b> without changing a single line of code, Less than half of its original size<br/>
-I am very pleased with that..<br/>
-<br/>
-Of course, even this isn't anything compared to marvellous feats of engineering like <a href="https://en.wikipedia.org/wiki/.kkrieger">.kkreiger</a>, A entire 3d fps game demo in a extremely impressive 95kb,<br/>
-When code is <i>actually written</i> to be small, and optimized to the limit towards that purpose.<br/>
-More on why:<br/>
-<ul>
-<li><a href="https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/">https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/</a><br/>
-</li>
-<li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a><br/>
-</li>
-<li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a><br/>
-</li>
-<li><a href="https://justine.lol/sizetricks/">https://justine.lol/sizetricks/</a><br/>
-</li>
-<li><a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">https://nathanotterness.com/2021/10/tiny_elf_modernized.html</a><br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

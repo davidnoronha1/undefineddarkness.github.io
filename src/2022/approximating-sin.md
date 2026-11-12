@@ -1,9 +1,11 @@
-#HEADER Approximating sin(x) image=/assets/images/icon-sin.png
-A look into various methods of approximating the sine function
-#END HEADER
+---
+title: Approximating sin(x)
+description: A look into various methods of approximating the sine function
+image: /assets/images/icon-sin.png
+---
+
 We all know calculating \(\sin(x)\) for anything other than simple multiples of \(\pi\) is a pain in the neck.
 Even for something like \(\sin(\pi/12)\),
-
 
 ```math
 \begin{aligned}
@@ -15,33 +17,16 @@ Even for something like \(\sin(\pi/12)\),
 
 Fortunatley, many brilliant mathematicians have come with approximations for these functions, Some which we humans can use and some which we cant.
 
-#GNUPLOT width=1024 height=800
-
-set xrange [-10:10]
-set yrange [-2:2]
-
-set zeroaxis
-
-f(x)  = sin(x)
-t1(x) = x
-t3(x) = x - x**3/6
-t5(x) = x - x**3/6 + x**5/120
-t7(x) = x - x**3/6 + x**5/120 - x**7/5040
-
-plot f(x)  lc rgb "#FFB3BA" lw 2 title "sin(x)", \
-     t1(x) lc rgb "#BAE1FF" lw 2 title "1st order", \
-     t3(x) lc rgb "#BAFFC9" lw 2 title "3rd order", \
-     t5(x) lc rgb "#FFFFBA" lw 2 title "5th order", \
-     t7(x) lc rgb "#D7BAFF" lw 2 title "7th order"
-#END GNUPLOT
-#GNUPLOT width=1024 height=800
-
-set zeroaxis
-
-f(x) = x - x**3/6 + x**5/120 - x**7/5040
-
-plot sin(x) - f(x) lc rgb "#D7BAFF" lw 3 title "sin(x) - f(x)"
-#END GNUPLOT
+<x-plot x="-10:10" y="-2:2">
+sin(x)	sin(x)
+x	1st order
+x - x**3/6	3rd order
+x - x**3/6 + x**5/120	5th order
+x - x**3/6 + x**5/120 - x**7/5040	7th order
+</x-plot>
+<x-plot x="-10:10">
+sin(x) - (x - x**3/6 + x**5/120 - x**7/5040)	sin(x) - f(x)
+</x-plot>
 
 ## Taylor Series
 Probably the one most are familiar with, This is a really understandable way of expressing sin(x) in terms of a polynomial
@@ -89,14 +74,9 @@ While taylor series are extremely useful and a variant is used to calculate sin(
 
 There is a wonderful video by 3blue1brown, visually demonstrating this: https://youtu.be/3d6DsjIBzJ4
 
-#GNUPLOT width=1024 height=800
-set yrange [-1000:1000]
-set zeroaxis
-t9(x) = x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880
-e(x)  = abs(sin(x) - t9(x))
-
-plot e(x) lc rgb "#D7BAFF" lw 3 title "e(x)"
-#END GNUPLOT
+<x-plot x="-10:10" y="-1000:1000">
+abs(sin(x) - (x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880))	e(x)
+</x-plot>
 
 ## Bhaskara's Approximation
 This is a formula for calculating sin(x) discovered by 7th centuary Indian mathematician Baskara,
@@ -146,7 +126,7 @@ Which it does, achieving some 10^4 times smaller error in comparison (for 7 term
 [Wikipedia Article](https://en.wikipedia.org/wiki/Minimax_approximation_algorithm)
 [Original Source](http://lolengine.net/blog/2011/12/21/better-function-approximations)
 
-#f Standard sin(x) - How does it work
+<x-fold title="Standard sin(x) - How does it work">
 Looking at the implementation of sin in musl, We get:
 ```c
 
@@ -201,8 +181,7 @@ Source for __sin(x): https://git.musl-libc.org/cgit/musl/tree/src/math/__sin.c
 Source for   sin(x): https://git.musl-libc.org/cgit/musl/tree/src/math/sin.c
 
 **NOTE:** If you couldn't tell, this code really confuses me and I cant fully tell whats happening, The glibc source is even more confounded.
-
-#END f
+</x-fold>
 
 ## Conclusion
 The results from my very naive implementation are as follows, This is without any effort made to optimize the code and most is copied from here and there so the comparison isn't entirely fair,
@@ -219,7 +198,6 @@ Minmax Polynomial (7T):
 Libmvec (4xD):
         took 565 ms
 ```
-
 
 ---
 https://git.musl-libc.org/cgit/musl/tree/src/math/sin.c - sin(x) implementation in musl std c lib

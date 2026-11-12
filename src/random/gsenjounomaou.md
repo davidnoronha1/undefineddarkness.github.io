@@ -1,6 +1,8 @@
-#HEADER G-Senjou No Maou (Devil on G String)
-A review of the visual novel
-#END HEADER
+---
+title: G-Senjou No Maou (Devil on G String)
+description: A review of the visual novel
+---
+
 [VNDB](https://vndb.org/v211)
 
 <div>
@@ -81,11 +83,11 @@ It was the most I felt throughout reading the whole thing, The epiloque hits har
 If you just read the main route, without ever touching the others, This is quite an amazing sort of mystery thriller read.
 The H scenes are present and can feel a little bit unecessary at times but 🤷
 
-#CAROUSEL
-../../assets/images/dump/fd8478dd-1343-4fe9-9f8b-aea6def4d92d.avif
-../../assets/images/dump/13e00c90-17e8-4f2a-931b-612c2e11b2e3.avif
-../../assets/images/dump/63c2aeff-76b5-43fe-b705-f4912292379b.avif
-../../assets/images/dump/a7ab27ec-1aba-41e8-9b30-cee5da50ffe8.avif
-../../assets/images/dump/e0234249-4893-4378-bf1b-687b1766bc80.avif
-../../assets/images/dump/f29af82e-d091-4ef5-9ab6-c339359bd101.avif
-#END CAROUSEL
+<div class="slides">
+<img src="../../assets/images/dump/fd8478dd-1343-4fe9-9f8b-aea6def4d92d.avif" alt="">
+<img src="../../assets/images/dump/13e00c90-17e8-4f2a-931b-612c2e11b2e3.avif" alt="">
+<img src="../../assets/images/dump/63c2aeff-76b5-43fe-b705-f4912292379b.avif" alt="">
+<img src="../../assets/images/dump/a7ab27ec-1aba-41e8-9b30-cee5da50ffe8.avif" alt="">
+<img src="../../assets/images/dump/e0234249-4893-4378-bf1b-687b1766bc80.avif" alt="">
+<img src="../../assets/images/dump/f29af82e-d091-4ef5-9ab6-c339359bd101.avif" alt="">
+</div>

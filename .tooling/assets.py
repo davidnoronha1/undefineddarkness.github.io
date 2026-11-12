@@ -50,13 +50,15 @@ VIDEO_EXTS = RAW_VIDEO_EXTS | {OPTIMIZED_VIDEO_EXT}
 MEDIA_EXTS = IMAGE_EXTS | VIDEO_EXTS
 
 # Files/dirs under the source folder that aren't shippable media at all.
-SKIP_DIR_NAMES = {".tooling", "styles"}
+# models: 3D models are served from Vercel blob storage (the repo is over its
+# GitHub LFS budget, and Pages would serve LFS pointers anyway), not /assets.
+SKIP_DIR_NAMES = {".tooling", "styles", "models"}
 SKIP_FILE_NAMES = {"Makefile"}
 SKIP_SUFFIXES = {".ts"}
 
 # Build outputs that live in the same flat output folder but aren't
 # produced by this script (postcss/bun handle these) — never prune them.
-PROTECTED_NAMES = {"styles.css", "wireframe-model-viewer.js", "ascii-model-viewer.js"}
+PROTECTED_NAMES = {"styles.css", "elements.js", "charts.js", "code.js", "model-viewer.js"}
 
 HASH_HEXLEN = 10
 

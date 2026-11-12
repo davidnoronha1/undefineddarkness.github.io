@@ -12,3 +12,4 @@ bun.lockb
 .vercel
 out/.pond-tmp/
 *.zip
+__pycache__/

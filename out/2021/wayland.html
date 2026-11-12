@@ -1,73 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Wayland</title>
-	<meta name="description" content="My experience with wayland" />
-	<link rel="canonical" href="https://nes.is-a.dev/2021/wayland.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Wayland" />
-	<meta property="og:description" content="My experience with wayland" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2021/wayland.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Wayland" />
-	<meta name="twitter:description" content="My experience with wayland" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.showcase{overflow-x:hidden}.showcase:hover{overflow-x:auto}.showcase::-webkit-scrollbar{width:.8em}.showcase::-webkit-scrollbar-track{border:1px solid}.showcase::-webkit-scrollbar-thumb{background:var(--black)}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Wayland",
-		"description": "My experience with wayland",
-		"url": "https://nes.is-a.dev/2021/wayland.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wayland</title>
+<meta name="description" content="My experience with wayland">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/wayland.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Wayland">
+<meta property="og:description" content="My experience with wayland">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/wayland.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{margin:.3em 0 0;font-size:1.2em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
-
-<header>
-  <h1>Wayland</h1>
-  <!-- post_description="My experience with wayland" -->
-</header>
-<pre>
-<code class="language-plaintext">                  ,____
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>Wayland</h1></header>
+<pre><code>                  ,____
                    |---.\
            ___     |    `
-          / .-\  ./&equals;)
-         |  |"|_/\/|
+          / .-\  ./=)
+         |  |&quot;|_/\/|
          ;  |-;| /_|
         / \_| |/ \ |
        /      \/\( |
@@ -76,88 +33,47 @@
       /--._/  \    |
       `/|)    |    /
         /     |   |
-      .'      |   |
+      .&#x27;      |   |
      /         \  |
-    (_.-.__.__./  /
-</code>
-</pre>
-<i>Got a display server to kill</i><br/>
-This is intended to chronicle my adventures using Wayland<br/>
-The primary reason being terrible performance in X11 but that was later resolved. :)<br/>
-The journey continues tho 📔<br/>
-<h2 id="window-manager-compositor">Window Manager (Compositor) </h2>
-<p>
-<i>I know its called a compositer but I am going to call it a window manager >:(</i>To fulfill this purpose I chose <a href="https://swaywm.org/">sway</a> as its the one I felt I could most get used to<br/>
-since I had used its Xorg brother (i3) for a long while<br/>
-<br/>
-And..<br/>
-It works really well! It's performance is very impressive compared to what I am used to<br/>
-I have a few scruples with its configuration format and its refusal to add features i3 lacks but oh well..,<br/>
-not like I'm gonna be writing my own compositor any time soon<br/>
-<br/>
-Coming from awesomewm, I would have liked to find something similar <br/>
-and that sort of exists in the form of <a href="https://taiwins.org/index.html">Taiwins</a> but its very different from what I am used to <br/>
-and I am not keen on using it as it is rather unstable and documentation is lacking<br/>
-<br/>
-</p>
-<h3 id="screenshots">Screenshots</h3>
-<p>
-What is the point of making a epic rice if there is no way to showcase it!<br/>
-Wayland seems a bit more fiddly compared to the centralized xorg in terms of recording <br/>
-but its not that bad. I had to use <a href="https://github.com/emersion/grim">grim</a> along with this <a href="https://github.com/swaywm/sway/blob/master/contrib/grimshot">script</a> from sway to get<br/>
-Nothing particularly difficult but not as cohesive as id like :/<br/>
-<br/>
-</p>
-<h2 id="moving-from-xorg">Moving from Xorg </h2>
-<p>
-This is a bit of a generic header but oh well<br/>
-<br/>
-Much to my surprise this wasnt as bad as I thought it would be,<br/>
-rofi, wezterm, firefox & dunst - all programs I am used to from Xorg could work <br/>
-natively (without Xwayland) on wayland<br/>
-<br/>
-Although most of them required tweaking in some form or another<br/>
-<br/>
-<b>ROFI:</b> This does use a fork
-<pre>
-<code class="language-sh">git clone <span style="color:&#35;dfdfbf; font-weight:bold">--recurse-submodules</span> https<span style="color:&#35;dcdccc">://</span>github.com<span style="color:&#35;dcdccc">/</span>lbonn<span style="color:&#35;dcdccc">/</span>rofi
-<span style="color:&#35;dfdfbf; font-weight:bold">cd</span> rofi
-meson setup build <span style="color:&#35;dfdfbf; font-weight:bold">-Dwayland</span><span style="color:&#35;dcdccc">=</span>enabled <span style="color:&#35;dfdfbf; font-weight:bold">--prefix</span><span style="color:&#35;dcdccc">=/</span>usr<span style="color:&#35;dcdccc">/</span><span style="color:&#35;dfdfbf; font-weight:bold">local</span>
-ninja <span style="color:&#35;dfdfbf; font-weight:bold">-C</span> build
-ninja <span style="color:&#35;dfdfbf; font-weight:bold">-C</span> build <span style="color:&#35;aae3b2">install</span>	</code>
-</pre>
-<p></p>
+    (_.-.__.__./  /</code></pre><p><em>Got a display server to kill</em>
+This is intended to chronicle my adventures using Wayland
+The primary reason being terrible performance in X11 but that was later resolved. :)
+The journey continues tho 📔</p>
+<h2 id="window-manager-compositor">Window Manager (Compositor)</h2><p><i>I know its called a compositer but I am going to call it a window manager &gt;:(</i>
+To fulfill this purpose I chose <a href="https://swaywm.org/">sway</a> as its the one I felt I could most get used to
+since I had used its Xorg brother (i3) for a long while</p><p>And..
+It works really well! It's performance is very impressive compared to what I am used to
+I have a few scruples with its configuration format and its refusal to add features i3 lacks but oh well..,
+not like I'm gonna be writing my own compositor any time soon</p><p>Coming from awesomewm, I would have liked to find something similar
+and that sort of exists in the form of <a href="https://taiwins.org/index.html">Taiwins</a> but its very different from what I am used to
+and I am not keen on using it as it is rather unstable and documentation is lacking</p>
+<h3 id="screenshots">Screenshots</h3><p>What is the point of making a epic rice if there is no way to showcase it!
+Wayland seems a bit more fiddly compared to the centralized xorg in terms of recording
+but its not that bad. I had to use <a href="https://github.com/emersion/grim">grim</a> along with this <a href="https://github.com/swaywm/sway/blob/master/contrib/grimshot">script</a> from sway to get
+Nothing particularly difficult but not as cohesive as id like :/</p>
+<h2 id="moving-from-xorg">Moving from Xorg</h2><p>This is a bit of a generic header but oh well</p><p>Much to my surprise this wasnt as bad as I thought it would be,
+rofi, wezterm, firefox &amp; dunst - all programs I am used to from Xorg could work
+natively (without Xwayland) on wayland</p><p>Although most of them required tweaking in some form or another</p><p><b>ROFI:</b> This does use a fork</p><pre><code class="language-sh">git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/lbonn/rofi
+<span class="nb">cd</span><span class="w"> </span>rofi
+meson<span class="w"> </span>setup<span class="w"> </span>build<span class="w"> </span>-Dwayland<span class="o">=</span>enabled<span class="w"> </span>--prefix<span class="o">=</span>/usr/local
+ninja<span class="w"> </span>-C<span class="w"> </span>build
+ninja<span class="w"> </span>-C<span class="w"> </span>build<span class="w"> </span>install</code></pre><p></p>
 <b>FIREFOX:</b> Might need to modify some desktop files to get it to work right
-<pre>
-<code class="language-plaintext">MOZ_ENABLE_WAYLAND&equals;1 firefox
-</code>
-</pre>
+```
+MOZ_ENABLE_WAYLAND=1 firefox
+```
 ** Wezterm has issues with the wayland clipboard. I think using <a href="https://codeberg.org/dnkl/foot">foot</a> would be a better idea
 ** Firefox crashed more often for me in wayland but that may or may not happen to you
-
-</p>
-<h3 id="bars">Bars</h3>
-<p>
-Compared to the choice on X11, bars in wayland are a bit ehhhh ig
-There are only 2 that I found:
-
-<ul>
-<li>Yambar:
-	<a href="https://codeberg.org/dnkl/yambar">https://codeberg.org/dnkl/yambar</a>
-</li>
-<li>Waybar:
-	<a href="https://github.com/Alexays/Waybar">https://github.com/Alexays/Waybar</a>
-</li>
-</ul><br/>Since I couldn't compile yambar even tho it seems pretty nice :/ I was forced to use waybar
+<h3 id="bars">Bars</h3><p>Compared to the choice on X11, bars in wayland are a bit ehhhh ig
+There are only 2 that I found:</p><ul><li>Yambar:
+<a href="https://codeberg.org/dnkl/yambar">https://codeberg.org/dnkl/yambar</a></li><li>Waybar:
+<a href="https://github.com/Alexays/Waybar">https://github.com/Alexays/Waybar</a></li></ul><p>Since I couldn't compile yambar even tho it seems pretty nice :/ I was forced to use waybar
 Both of them take after polybar very much which I personally am not much a fan off
 but ig it makes sense, If I were to revisit the topic of bars I will definitely look into using
-The one and only <a href="https://github.com/elkowar/eww/">eww</a> for this purpose.
+The one and only <a href="https://github.com/elkowar/eww/">eww</a> for this purpose.</p>
+<hr /><p>🚧 This has been archived since I have not had the time to give a proper look at wayland, I do plan on looking at it again at some point,
+since whether I like it or not, it seems to be the future of Linux Desktop</p>
 
-<hr />
-🚧 This has been archived since I have not had the time to give a proper look at wayland, I do plan on looking at it again at some point,
-since whether I like it or not, it seems to be the future of Linux Desktop
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

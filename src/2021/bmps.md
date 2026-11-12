@@ -1,6 +1,8 @@
-#HEADER A day of fixing bitmap fonts on Linux/X11 image=/assets/images/icon-bitmap.png
-How to get bitmap fonts to work on linux
-#END HEADER
+---
+title: A day of fixing bitmap fonts on Linux/X11
+description: How to get bitmap fonts to work on linux
+image: /assets/images/icon-bitmap.png
+---
 
 Bitmap fonts are something I have always been very interested in,
 They do not offer much or any of the flexibility vector fonts have made common place but

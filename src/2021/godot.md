@@ -1,6 +1,7 @@
-#HEADER Godot for UI
-My experience when using Godot to make a mostly UI application
-#END HEADER
+---
+title: Godot for UI
+description: My experience when using Godot to make a mostly UI application
+---
 
 *This is my attempt at rewriting the original article, Since that one wasn't well structured and a few of my opinions had changed since then*
 
@@ -301,7 +302,6 @@ For example, I wanted a layout with the preview and node editor in a
 vertical layout to the left and a script editor to the right, But this
 is not possible, Godot 4 introduces a split screen editor so that's a
 start.
-
 
 Footnotes:
 

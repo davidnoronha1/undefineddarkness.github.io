@@ -1,7 +1,9 @@
+---
+title: Electronic Tape Cassette
+description: How does a tape store signal data?
+---
+
 ![cassette picture](image-removebg-preview.png)
-#HEADER Electronic Tape Cassette
-How does a tape store signal data?
-#END HEADER
 
 ### Tape
 It consists of a thin plastic tape coated with a coating of ferric oxide powder.

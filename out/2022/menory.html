@@ -1,397 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Why</title>
-	<meta name="description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<link rel="canonical" href="https://nes.is-a.dev/2022/menory.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Why" />
-	<meta property="og:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2022/menory.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Why" />
-	<meta name="twitter:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3,h4{font-family:var(--display-font)}h4{margin:0}h1,h2,h3,h4{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}h4{font-size:calc(var(--article-size)*1)}.callout{background:var(--white-darker);border-left:3px solid var(--gray);margin:1em 0;padding:.7em 1em}.callout-title{font-weight:700;margin:0 0 .4em}.callout-content>:last-child{margin-bottom:0}.callout-note{border-left-color:#6a9ef2}.stack{flex-direction:column;gap:1em}.stack{display:flex}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Why",
-		"description": "A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.",
-		"url": "https://nes.is-a.dev/2022/menory.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basic Memory Introduction</title>
+<meta name="description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.">
+<link rel="canonical" href="https://nes.is-a.dev/out/2022/menory.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Basic Memory Introduction">
+<meta property="og:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2022/menory.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{margin:.3em 0 0;font-size:1.2em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
-
-<header>
-  <h1>Basic Memory Introduction</h1>
-  <!-- post_description="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." -->
-</header>
-An introduction to low-level programming and how to avoid<br/>
-<pre>
-<code class="language-c">$<span style="color:&#35;dcdccc">./</span>a<span style="color:&#35;dcdccc">.</span>out
-<span style="color:&#35;dca3a3; font-weight:bold">105</span>
-Core Dumped<span style="color:&#35;dcdccc">.</span>	</code>
-</pre>
-<br/>
-<div class="callout callout-note">
-<p class="callout-title">📝 Note</p>
-<div class="callout-content">
-This article also has an original handwritten version which this cleaned up document is dervied from, You can find it <a href="/assets/menory.pdf">here</a><br/>
-</div>
-</div>
-Note: I've pretty much only covered the kinds of errors you'd encounter in a single threaded program.<br/>
-going over why it happens, how to diagnose compiled (C/C++) programs & how to fix it.<br/>
-I wrote assuming the reader has experience in some garbage collected language like Python or Javascript.<br/>
-<header>
-<h1>Why</h1>
-</header>
-<br/>
-In many languages deemed high level or easy to use the main thing allowing this easy development without directly caring about the underlying memory & addresses is a garbage collector, on a very high level they work like this:<br/>
-<pre>
-<code class="language-csharp"><span style="color:&#35;e3ceab">int</span> <span style="color:&#35;aabfe3">func</span><span style="color:&#35;dcdccc">() {</span>
-String x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;APPLE&quot;</span><span style="color:&#35;dcdccc">;</span> → <span style="color:&#35;cc9393">&quot;APPLE&quot;</span> allocated
-<span style="color:&#35;aabfe3">func2</span><span style="color:&#35;dcdccc">(</span>x<span style="color:&#35;dcdccc">);</span> → Copy of x made <span style="color:&#35;dcdccc">&amp;</span> tracked<span style="color:&#35;dcdccc">.</span>
-x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;ORANGE&quot;</span><span style="color:&#35;dcdccc">;</span> → <span style="color:&#35;cc9393">&quot;APPLE&quot;</span> removed <span style="color:&#35;dcdccc">&amp;</span> <span style="color:&#35;cc9393">&quot;ORANGE&quot;</span> allocated
-<span style="color:&#35;dcdccc">}</span>	</code>
-</pre>
-This is a very rough example to give out an idea of its purpose, there are many different ways a garbage collector can function. See the working of the Java or the C# GC if you're interested in the engineering behind them.<br/>
-<br/>
-<ul>
-<li>Reference Counter → Increment a counter each time the obj is referenced & decr. later.<br/>
-</li>
-<li>Mark & Sweep → Mark objects for cleanup.<br/>
-</li>
-<li>Generational Collection → Divide into young & old gens of objects.<br/>
-</li>
-</ul><br/>All in all, GCs are fantastic bits of engg. that make the vast majority of coding relatively hassle free by removing the work of the coder to manage memory.<br/>
-<br/>
-But if you're reading this, you already decided you can't use one or for the following use cases might be suboptimal,<br/>
-<ul>
-<li>Byte Wrangling: You're moving around a lot of large buffers around & you can't afford any overhead in copying & in general want to interact with the bytes directly.<br/>
-</li>
-<li>Latency sensitive code: What you're working on is real-time or cannot handle a GC pause at any time.<br/>
-(GC pause -> microseconds your program's execution could be paused to free() objects.)<br/>
-</li>
-<li>High Performance: This is a bad reason to chase after C, C++, Rust for, you can get fast code in all the languages but it's true that compiled languages tend to be closer to the hardware so can be optimized at a lower level.<br/>
-</li>
-</ul><br/>*: Be careful of choosing a hard lang. simply b/c you think something like C# would be too slow, chances are good C# code can outperform the equivalent code in Rust (e.g.).<br/>
-<br/>
-It all depends on the <i>algorithms</i> & the data structures you employ.<br/>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>Basic Memory Introduction</h1></header>
+<p>An introduction to low-level programming and how to avoid</p><pre><code class="language-c"><span class="n">$</span><span class="p">.</span><span class="o">/</span><span class="n">a</span><span class="p">.</span><span class="n">out</span>
+<span class="mi">105</span>
+<span class="n">Core</span><span class="w"> </span><span class="n">Dumped</span><span class="p">.</span></code></pre><div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title">Note</p><p>This article also has an original handwritten version which this cleaned up document is dervied from, You can find it <a href="/assets/menory.pdf">here</a></p></div><p>Note: I've pretty much only covered the kinds of errors you'd encounter in a single threaded program.
+going over why it happens, how to diagnose compiled (C/C++) programs &amp; how to fix it.
+I wrote assuming the reader has experience in some garbage collected language like Python or Javascript.</p>
+<h1 id="why">Why</h1><p>In many languages deemed high level or easy to use the main thing allowing this easy development without directly caring about the underlying memory &amp; addresses is a garbage collector, on a very high level they work like this:</p><pre><code class="language-csharp"><span class="kt">int</span><span class="w"> </span><span class="nf">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="n">String</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"APPLE"</span><span class="p">;</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="s">"APPLE"</span><span class="w"> </span><span class="n">allocated</span>
+<span class="n">func2</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Copy</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">made</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">tracked</span><span class="p">.</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ORANGE"</span><span class="p">;</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="s">"APPLE"</span><span class="w"> </span><span class="n">removed</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="s">"ORANGE"</span><span class="w"> </span><span class="n">allocated</span>
+<span class="p">}</span></code></pre><p>This is a very rough example to give out an idea of its purpose, there are many different ways a garbage collector can function. See the working of the Java or the C# GC if you're interested in the engineering behind them.</p><ul><li>Reference Counter → Increment a counter each time the obj is referenced &amp; decr. later.</li><li>Mark &amp; Sweep → Mark objects for cleanup.</li><li>Generational Collection → Divide into young &amp; old gens of objects.</li></ul><p>All in all, GCs are fantastic bits of engg. that make the vast majority of coding relatively hassle free by removing the work of the coder to manage memory.</p><p>But if you're reading this, you already decided you can't use one or for the following use cases might be suboptimal,</p><ul><li>Byte Wrangling: You're moving around a lot of large buffers around &amp; you can't afford any overhead in copying &amp; in general want to interact with the bytes directly.</li><li>Latency sensitive code: What you're working on is real-time or cannot handle a GC pause at any time.
+(GC pause -&gt; microseconds your program's execution could be paused to free() objects.)</li><li>High Performance: This is a bad reason to chase after C, C++, Rust for, you can get fast code in all the languages but it's true that compiled languages tend to be closer to the hardware so can be optimized at a lower level.</li></ul><p>*: Be careful of choosing a hard lang. simply b/c you think something like C# would be too slow, chances are good C# code can outperform the equivalent code in Rust (e.g.).</p><p>It all depends on the <em>algorithms</em> &amp; the data structures you employ.</p>
 <h2 id="how">How</h2>
-<p>
-<br/>
-</p>
-<h3 id="primer">Primer</h3>
-<p>
-I'm going to over a few concepts here so that I can use the terms I'm comfortable later.<br/>
-<br/>
-Byte -> A collection of 8 bits. [ uint8_t ]<br/>
-<br/>
-Slice / Span -> A struct consisting of a ptr & a length (bytes).<br/>
-struct -> A collection of multiple diff data types together.<br/>
-<br/>
-Pointer -> An offset into program memory, can encode the type of object its pointing to.<br/>
-Could point to multiple objects in sequence but you can't infer that from its type.<br/>
-<br/>
-void* -> Anything<br/>
-<br/>
-int* -> Integer(s)<br/>
-<br/>
-Program memory can be thought of as a long (very long) tape where each slot in that tape can hold a byte (Byte addressable).<br/>
-<br/>
-<figure><img src="/assets/image-9ebafeee10.avif" alt="A pointer simply points to one of these bytes." title="A pointer simply points to one of these bytes." loading="lazy" /><figcaption>A pointer simply points to one of these bytes.</figcaption></figure><br/>
-<br/>
-</p>
-<h3 id="heap-stack">Heap / Stack</h3>
-<p>
-You can think of this tape as being divided into 2 kinds, A fast tape w/ limited qty & one bulk cheap tape but its slower.<br/>
-<br/>
-The fast tape is the Stack, the other is Heap<br/>
-<br/>
-The stack is already managed for you & You manually manage the heap.<br/>
-<br/>
-</p>
-<h4 id="allocating-freeing">Allocating / Freeing:</h4>
-<p>
-This mostly applies to the heap & not the stack since that one is already managed for you.<br/>
-<br/>
-When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.<br/>
-<br/>
-This mostly applies to the heap & not the stack since that one is already managed for you.<br/>
-<br/>
-When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.<br/>
-<figure><img src="/assets/image-1-f20f914299.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-The opposite process, returning the memory to the operating system (ie giving up ownership) is called freeing.<br/>
-<br/>
-<b>Segmentation Fault (SIGSEGV)</b>: When your program tries to access memory it doesnt have access to, the OS kills the process & raises a segfault error.<br/>
-<br/>
-<b>String</b>: Since I’m mostly writing from the perspective of a C programmer, the string I will be referring to is a C-string.<br/>
-Note: The string is stored w/ no length & is terminated with a NULL byte (\0)<br/>
-<br/>
-<figure><img src="/assets/image-2-f16470f30f.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-<br/>
-</p>
-<h3 id="reverse">Reverse</h3>
-<p>
-I feel the easiest way to go at will be to re-tread common issues you could face & see whats going on & how to solve it.<br/>
-<br/>
-<b>Returning a stack string</b> (I specify stack since a heap pointer can be passed around till the pointer is freed. whereas a stack pointer will be invalid after the block its declared in)<br/>
-<br/>
-Lets take the following:<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">.</span> <span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;</span> <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">( ) {</span>
-<span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">.</span>     <span style="color:&#35;dfdfbf; font-weight:bold">char</span> timestamp<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">&rsqb;;</span>
-<span style="color:&#35;dca3a3; font-weight:bold">3</span><span style="color:&#35;dcdccc">.</span>     <span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%l</span><span style="color:&#35;cc9393">lu&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>
-<span style="color:&#35;dca3a3; font-weight:bold">4</span><span style="color:&#35;dcdccc">.</span>		<span style="color:&#35;e3ceab">return</span> timestamp<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dca3a3; font-weight:bold">5</span><span style="color:&#35;dcdccc">. }</span>	</code>
-</pre>
-<br/>
-In line 2, we declare a variable ‘timestamp’ to be 100 chars [ notice theres no allocation so this a stack variable ] -> Using sprintf()In this we put the UNIX timestamp into that variable<br/>
-<br/>
-sizeof(X) -> Gives the size of a data type as known at compile time, Not useful for pointers since itll return the no of bytes to store the pointer (8 bytes)<br/>
-<br/>
-If you replace the data type of timestamp w/ this you’ll get 8 also -> sizeof((char<i>)timestamp);((char</i>) prefix is casting away the known array type.)<br/>
-<br/>
-Then after insertion, the function returns the variable as a pointer.(C doesnt have proper ‘ARRAY’ types so any array is fundamentally a pointer to memory.)<br/>
-<br/>
-But this will fail since the pointer returned by the function will be invalid.This will be easiest to show with the assembly:<br/>
-<br/>
-The following ASM is for AMD64 (SysV calling convention)<br/>
-<br/>
-<b>getTimestampStr:</b><br/>
-<br/>
-Code snippet<br/>
-<pre>
-<code class="language-x86asm">    push rbx    -&gt; Store callee address on stack
+<h3 id="primer">Primer</h3><p>I'm going to over a few concepts here so that I can use the terms I'm comfortable later.</p><p>Byte -&gt; A collection of 8 bits. [ uint8_t ]</p><p>Slice / Span -&gt; A struct consisting of a ptr &amp; a length (bytes).
+struct -&gt; A collection of multiple diff data types together.</p><p>Pointer -&gt; An offset into program memory, can encode the type of object its pointing to.
+Could point to multiple objects in sequence but you can't infer that from its type.</p><p>void* -&gt; Anything</p><p>int* -&gt; Integer(s)</p><p>Program memory can be thought of as a long (very long) tape where each slot in that tape can hold a byte (Byte addressable).</p><figure><img loading="lazy" src="/assets/image-9ebafeee10.avif" alt="A pointer simply points to one of these bytes." /><figcaption>A pointer simply points to one of these bytes.</figcaption></figure>
+<h3 id="heap--stack">Heap / Stack</h3><p>You can think of this tape as being divided into 2 kinds, A fast tape w/ limited qty &amp; one bulk cheap tape but its slower.</p><p>The fast tape is the Stack, the other is Heap</p><p>The stack is already managed for you &amp; You manually manage the heap.</p>
+<h4 id="allocating--freeing">Allocating / Freeing:</h4><p>This mostly applies to the heap &amp; not the stack since that one is already managed for you.</p><p>When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.</p><p>This mostly applies to the heap &amp; not the stack since that one is already managed for you.</p><p>When you want to put say 500 numbers on the heap, you need a pointer to 500 * 4 bytes of free space, You can't simply point a pointer to any memory address that is not given to your program by the OS, So you have to humbly request the OS for these 2e³ bytes of free space, this process of asking for memory from the operating system is called allocation.</p><figure><img loading="lazy" src="/assets/image-1-f20f914299.avif" alt="" /></figure><p>The opposite process, returning the memory to the operating system (ie giving up ownership) is called freeing.</p><p><strong>Segmentation Fault (SIGSEGV)</strong>: When your program tries to access memory it doesnt have access to, the OS kills the process &amp; raises a segfault error.</p><p><strong>String</strong>: Since I’m mostly writing from the perspective of a C programmer, the string I will be referring to is a C-string.
+Note: The string is stored w/ no length &amp; is terminated with a NULL byte (\0)</p><figure><img loading="lazy" src="/assets/image-2-f16470f30f.avif" alt="" /></figure>
+<h3 id="reverse">Reverse</h3><p>I feel the easiest way to go at will be to re-tread common issues you could face &amp; see whats going on &amp; how to solve it.</p><p><strong>Returning a stack string</strong> (I specify stack since a heap pointer can be passed around till the pointer is freed. whereas a stack pointer will be invalid after the block its declared in)</p><p>Lets take the following:</p><pre><code class="language-c"><span class="mf">1.</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">getTimestampStr</span><span class="p">(</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="mf">2.</span><span class="w">     </span><span class="kt">char</span><span class="w"> </span><span class="n">timestamp</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="mf">3.</span><span class="w">     </span><span class="n">snprintf</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span><span class="w"> </span><span class="s">"%llu"</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
+<span class="mf">4.</span><span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span>
+<span class="mf">5.</span><span class="w"> </span><span class="p">}</span></code></pre><p>In line 2, we declare a variable ‘timestamp’ to be 100 chars [ notice theres no allocation so this a stack variable ] -&gt; Using sprintf()In this we put the UNIX timestamp into that variable</p><p>sizeof(X) -&gt; Gives the size of a data type as known at compile time, Not useful for pointers since itll return the no of bytes to store the pointer (8 bytes)</p><p>If you replace the data type of timestamp w/ this you’ll get 8 also -&gt; sizeof((char*)timestamp);((char*) prefix is casting away the known array type.)</p><p>Then after insertion, the function returns the variable as a pointer.(C doesnt have proper ‘ARRAY’ types so any array is fundamentally a pointer to memory.)</p><p>But this will fail since the pointer returned by the function will be invalid.This will be easiest to show with the assembly:</p><p>The following ASM is for AMD64 (SysV calling convention)</p><p><strong>getTimestampStr:</strong></p><p>Code snippet</p><pre><code class="language-x86asm">    push rbx    -&gt; Store callee address on stack
 .1  sub rsp, 112 -&gt; Reserve 100 bytes on the stack
     xor edi, edi -&gt; Zero out EDI register
-    call time&#64;PLT -&gt; Call time(EDI=0)
-    lea rdx, &lsqb;rip + .L.str&rsqb; -&gt; Store &amp;&quot;%llu&quot;
+    call time@PLT -&gt; Call time(EDI=0)
+    lea rdx, [rip + .L.str] -&gt; Store &amp;&quot;%llu&quot;
 .2  mov rbx, rsp -&gt; Store address of stack space
     mov esi, 100 -&gt; Store sizeof(timestamp)
     mov rdi, rbx -&gt; Copy buffer address &lt;-- (Arrow indicating flow)
     mov rcx, rax -&gt; Store output of time(NULL)
     xor eax, eax -&gt; Mark as multiple variadic arguments
-    call snprintf&#64;PLT -&gt; Call snprintf(rdi, rsi, rdx, rcx)
+    call snprintf@PLT -&gt; Call snprintf(rdi, rsi, rdx, rcx)
     mov rax, rbx -&gt; RAX = RBX = Buffer pointer
 .3  add rsp, 112 -&gt; &quot;Unreserve&quot; stack space
     pop rbx -&gt; Restore callee address
-    ret	</code>
-</pre>
-<br/>
-If you havent messed w/ assembly registers, heres what you need to understand:<br/>
-<br/>
-<b>Stack (Data Structure)</b>: Think of a stack of plates.(Diagram of a stack of plates with arrows indicating 'push' adding to the top and 'pop' removing from the top) You can push new elements to the end of the stack, You can only pop the last inserted element -> I.e the element at the top of the stack.<br/>
-<br/>
-<figure><img src="/assets/image-3-223c62c403.avif" alt="stack of plates analogy" title="stack of plates analogy" loading="lazy" /><figcaption>stack of plates analogy</figcaption></figure><br/>
-<br/>
-The CPU Stack (from w/h we derive stack memory from) is basically some scratch space (think like a rough notebook) whenever it needs some memory & It cant use its registers (insufficient space/data to be stored for later); So stack memory really refers to data stored on this stack.<br/>
-<br/>
-The CPU has a stack register (ESP) & instructions only for pushing & popping data from the stack.<br/>
-<br/>
-Pushing data increments the SP Popping data decrements the SP<br/>
-<br/>
-<b>Now we can look at the instructions,</b><br/>
-<br/>
-1 → This reserves 112 bytes of space on the stack (112 → 100 + rounding to 16b boundary)<br/>
-<br/>
-2 → Sets the address of the array to the current stack pointer address.<br/>
-<br/>
-3 → Unreserves the stack space (cleanup).<br/>
-<br/>
-I hope the problem is very visible now, the stack space isn't reserved at all so any future code that modifies the stack will clobber the char array so corrupting our string → Makes the returned pointer pointless.<br/>
-<br/>
-Theres 3 ways we can solve this, you shouldve thought of 1 already.<br/>
-<br/>
-Solutions<br/>
-<ul>
-<li>(A) Reserve the static memory<br/>
-</li>
-</ul><br/><ul>
-<li>(B) Use the heap<br/>
-</li>
-</ul><br/><ul>
-<li>(C) Ask the caller to provide a buffer to write to<br/>
-</li>
-</ul><br/>Once you're done, you'll start to notice almost all C apis using (B) or (C) in order to pass non primative data back to the caller.<br/>
-<br/>
-(A) This is done by making the array static<br/>
-<figure><img src="/assets/image-4-9cd69ce907.avif" alt="GCC output" title="GCC output" loading="lazy" /><figcaption>GCC output</figcaption></figure><br/>
-<br/>
-Also this is impractical for large objects like several megabytes in size. Its best for singletons or for function returns that are expected to be used then discarded before the next function call.<br/>
-<br/>
-The main problem w/ this approach is that you cant use it on-demand.<br/>
-<br/>
-The storage is attached to this storage so if you did this:<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">()</span>
-    <span style="color:&#35;dcdccc">|-&gt;</span> Stores <span style="color:&#35;cc9393">&quot;T+0&quot;</span> in <span style="color:&#35;dfdfbf; font-weight:bold">static</span> variable space <span style="color:&#35;dcdccc">&amp;</span> returns pointer to it
-<span style="color:&#35;aabfe3">getTimestamp</span><span style="color:&#35;dcdccc">()</span>
-    <span style="color:&#35;dcdccc">|-&gt;</span> Stores <span style="color:&#35;cc9393">&quot;T+1&quot;</span> in <span style="color:&#35;dfdfbf; font-weight:bold">static</span> variable	</code>
-</pre>
-After the 2nd call, the first functions output is removed/replaced.<br/>
-<br/>
-<b>(B)</b> This is done by manually allocating memory & manually freeing it. Say you have an object w/ some max or known size, & the size is > than say 4kB (4096 bytes), Its a good candidate to be heap allocated, Its also really useful if the object size could change in the future / it needs to be passed around.<br/>
-<br/>
-In our example, we have a timestamp array (max 100 bytes in size), that we've determined to be max 100 bytes in size, we can get a pointer to 100 bytes of space on the heap using malloc() (MAN).<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;</span> timestamp <span style="color:&#35;dcdccc">= (</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;)</span> <span style="color:&#35;aabfe3">malloc</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">) &ast;</span> <span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">);</span>	</code>
-</pre>
-Notice that we can no longer keep the array size w/ its type since the compiler is unaware of what malloc() is doing, It only knows it will return a void* pointer.<br/>
-<br/>
-So its up to us to make sure we are always in bounds of our heap variables or we can run into segfault.<br/>
-<br/>
-So since sizeof(timestamp) no longer knows the size of our array, we have to hardcode it:<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%l</span><span style="color:&#35;cc9393">lu&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>	</code>
-</pre>
-For this reason of often associating the size of our obtained pointer its very common to see a struct like this:<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">struct</span> slice_t <span style="color:&#35;dcdccc">{</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">void</span><span style="color:&#35;dcdccc">&ast;</span> ptr<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size_t</span> len<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dcdccc">}</span>
-<span style="color:&#35;7f9f7f; font-style:italic">// The correctly sized int type to hold any possible memory size</span>	</code>
-</pre>
-This is very often used type in Zig or other languages.<br/>
-<br/>
-Once we are done using the heap memory object, Its common to free() it. This returns the memory to the OS for further use.<br/>
-<br/>
-If you continually allocate memory without freeing it, thats called a memory leak & eventually the system wont allocate any more memory (OOM).<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;aabfe3">free</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">);</span>	</code>
-</pre>
-<br/>
-Remember to only call free() once after the memory is used. If you call free again on a already freed pointer that is a double free error. The pointer that is freed is no longer valid after its freed. Using a freed pointer will cause a use after free error or a segfault.<br/>
-<br/>
-If you want to resize the block given by malloc() use realloc()<br/>
-<pre>
-<code class="language-c">timestamp <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">realloc</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">2000</span><span style="color:&#35;dcdccc">);</span>	</code>
-</pre>
-<br/>
-timestamp is now 2kb - Original data is reserved<br/>
-<br/>
-<b>(C)</b> This is a way of simply not making it your problem, You make it the callers responsibility to allocate & give you a large enough buffer which can be either heap or stack allocated.<br/>
-<br/>
-The function can be changed to:<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;</span> buf<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">size_t</span> buf_s<span style="color:&#35;dcdccc">) {</span>
-    <span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>buf<span style="color:&#35;dcdccc">,</span> buf_s<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%l</span><span style="color:&#35;cc9393">lu&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
-</pre>
-& it would be called like this:<br/>
-<br/>
-STACK<br/>
-<pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">main</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">char</span> ts<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">&rsqb;;</span>
-    <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">&rsqb;,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">));</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
-</pre>
-<br/>
-HEAP<br/>
-<pre>
-<code class="language-C"><span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">main</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">char</span> ts<span style="color:&#35;dcdccc">&ast; = (</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;)</span><span style="color:&#35;aabfe3">malloc</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">1024</span><span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">1024</span><span style="color:&#35;dcdccc">);</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
-</pre>
-<br/>
-This one is best if you want the buffer size to be configurable or if the function directly writes to a byte array.<br/>
-<br/>
-</p>
-<h2 id="debugging-introduction">DEBUGGING INTRODUCTION</h2>
-<p>
-<br/>
-Even following best practices, you can very easily reach a segfault & it will make you a lot more confident if you can triage/diagnose & remedy it. The diagnosis & remedy will depend on your specific project but I can show you some ways to triage issues.<br/>
-<br/>
-Generally mapping a breakpoint to source code requires the program to be compiled w/ debugging information. i.e → it should not be stripped. ( Has 'extra' info removed. )<br/>
-<br/>
-</p>
-<h3 id="faddress-sanitizer">-faddress-sanitizer</h3>
-<p>
-This compiler flag enables the address sanitizer or ASAN. How it works isnt exactly relevant but you can think of it like this:<br/>
-<br/>
-<figure><img src="/assets/image-6-95f003c502.avif" alt="without ASAN" title="without ASAN" loading="lazy" /><figcaption>without ASAN</figcaption></figure><br/>
-<figure><img src="/assets/image-5-b3972e8593.avif" alt="with ASAN" title="with ASAN" loading="lazy" /><figcaption>with ASAN</figcaption></figure><br/>
-<br/>
-<figure><img src="/assets/image-7-b2f7619917.avif" alt="ASAN output" title="ASAN output" loading="lazy" /><figcaption>ASAN output</figcaption></figure><br/>
-<br/>
-As you can see, it provides the line no. of where the memory error occurred & a stacktrace.<br/>
-<br/>
-Alternatively you can use a debugger. Im not going to go very in-depth on this since there is simply so much you can do using a debugger but for ‘basic’ debugging, what you need is:<br/>
-<br/>
-1) The executable must be built with debug symbols. Generally this is done with -g.<br/>
-<br/>
-Note: The optimization level you compile with will determine the kind of assembly you inspect, use -O0 for the closest equivalent of your C code.<br/>
-<br/>
-2) Run your program<br/>
-<br/>
-3) When an exception occurs, inspect the backtrace & the stack / variables<br/>
-<br/>
-You can also set breakpts. for the prog. to auto stop w/n reached & watch variables for when they are read or written to.<br/>
-<br/>
-Based on the images provided, the first four images (image_1133c8.png, image_1133ef.png, image_119128.jpg, image_1198ce.jpg) appear to be the same pages we transcribed in the previous turns (covering the Stack issue, Assembly, and Solutions A, B, & C).<br/>
-<br/>
-Here is the transcription for the new page (image_120644.png) which concludes the debugging section and adds some miscellaneous notes.<br/>
-<br/>
-Debugging (Continued)<br/>
-Alternatively you can use a debugger. Im not going to go very in-depth on this since there is simply so much you can do using a debugger but for ‘basic’ debugging, what you need is:<br/>
-<br/>
-1) The executable must be built with debug symbols. Generally this is done with -g.<br/>
-<br/>
-Note: The optimization level you compile with will determine the kind of assembly you inspect, use -O0 for the closest equivalent of your C code.<br/>
-<br/>
-2) Run your program<br/>
-<br/>
-3) When an exception occurs, inspect the backtrace & the stack / variables<br/>
-<br/>
-You can also set breakpts. for the prog. to auto stop w/n reached & watch variables for when they are read or written to.<br/>
-<br/>
-</p>
-<h2 id="misc">MISC</h2>
-<p>
-Tools like ClangD w/ Clang Format turned on can help you catch errors early.<br/>
-<br/>
-Simple Rule of Thumb is whenever passing a pointer to MULTIPLE elements, pass in a length parameter as well.<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+    ret</code></pre><p>If you havent messed w/ assembly registers, heres what you need to understand:</p><p><strong>Stack (Data Structure)</strong>: Think of a stack of plates.(Diagram of a stack of plates with arrows indicating 'push' adding to the top and 'pop' removing from the top) You can push new elements to the end of the stack, You can only pop the last inserted element -&gt; I.e the element at the top of the stack.</p><figure><img loading="lazy" src="/assets/image-3-223c62c403.avif" alt="stack of plates analogy" /><figcaption>stack of plates analogy</figcaption></figure><p>The CPU Stack (from w/h we derive stack memory from) is basically some scratch space (think like a rough notebook) whenever it needs some memory &amp; It cant use its registers (insufficient space/data to be stored for later); So stack memory really refers to data stored on this stack.</p><p>The CPU has a stack register (ESP) &amp; instructions only for pushing &amp; popping data from the stack.</p><p>Pushing data increments the SP Popping data decrements the SP</p><p><strong>Now we can look at the instructions,</strong></p><p>1 → This reserves 112 bytes of space on the stack (112 → 100 + rounding to 16b boundary)</p><p>2 → Sets the address of the array to the current stack pointer address.</p><p>3 → Unreserves the stack space (cleanup).</p><p>I hope the problem is very visible now, the stack space isn't reserved at all so any future code that modifies the stack will clobber the char array so corrupting our string → Makes the returned pointer pointless.</p><p>Theres 3 ways we can solve this, you shouldve thought of 1 already.</p><p>Solutions</p><ul><li><p>(A) Reserve the static memory</p></li><li><p>(B) Use the heap</p></li><li><p>(C) Ask the caller to provide a buffer to write to</p></li></ul><p>Once you're done, you'll start to notice almost all C apis using (B) or (C) in order to pass non primative data back to the caller.</p><p>(A) This is done by making the array static</p><figure><img loading="lazy" src="/assets/image-4-9cd69ce907.avif" alt="GCC output" /><figcaption>GCC output</figcaption></figure><p>Also this is impractical for large objects like several megabytes in size. Its best for singletons or for function returns that are expected to be used then discarded before the next function call.</p><p>The main problem w/ this approach is that you cant use it on-demand.</p><p>The storage is attached to this storage so if you did this:</p><pre><code class="language-c"><span class="n">getTimestampStr</span><span class="p">()</span>
+<span class="w">    </span><span class="o">|-&gt;</span><span class="w"> </span><span class="n">Stores</span><span class="w"> </span><span class="s">"T+0"</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="n">pointer</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">it</span>
+<span class="n">getTimestamp</span><span class="p">()</span>
+<span class="w">    </span><span class="o">|-&gt;</span><span class="w"> </span><span class="n">Stores</span><span class="w"> </span><span class="s">"T+1"</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">variable</span></code></pre><p>After the 2nd call, the first functions output is removed/replaced.</p><p><strong>(B)</strong> This is done by manually allocating memory &amp; manually freeing it. Say you have an object w/ some max or known size, &amp; the size is &gt; than say 4kB (4096 bytes), Its a good candidate to be heap allocated, Its also really useful if the object size could change in the future / it needs to be passed around.</p><p>In our example, we have a timestamp array (max 100 bytes in size), that we've determined to be max 100 bytes in size, we can get a pointer to 100 bytes of space on the heap using malloc() (MAN).</p><pre><code class="language-c"><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span></code></pre><p>Notice that we can no longer keep the array size w/ its type since the compiler is unaware of what malloc() is doing, It only knows it will return a void* pointer.</p><p>So its up to us to make sure we are always in bounds of our heap variables or we can run into segfault.</p><p>So since sizeof(timestamp) no longer knows the size of our array, we have to hardcode it:</p><pre><code class="language-c"><span class="n">snprintf</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="s">"%llu"</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span></code></pre><p>For this reason of often associating the size of our obtained pointer its very common to see a struct like this:</p><pre><code class="language-c"><span class="k">struct</span><span class="w"> </span><span class="nc">slice_t</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">ptr</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// The correctly sized int type to hold any possible memory size</span></code></pre><p>This is very often used type in Zig or other languages.</p><p>Once we are done using the heap memory object, Its common to free() it. This returns the memory to the OS for further use.</p><p>If you continually allocate memory without freeing it, thats called a memory leak &amp; eventually the system wont allocate any more memory (OOM).</p><pre><code class="language-c"><span class="n">free</span><span class="p">(</span><span class="n">timestamp</span><span class="p">);</span></code></pre><p>Remember to only call free() once after the memory is used. If you call free again on a already freed pointer that is a double free error. The pointer that is freed is no longer valid after its freed. Using a freed pointer will cause a use after free error or a segfault.</p><p>If you want to resize the block given by malloc() use realloc()</p><pre><code class="language-c"><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">realloc</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="mi">2000</span><span class="p">);</span></code></pre><p>timestamp is now 2kb - Original data is reserved</p><p><strong>(C)</strong> This is a way of simply not making it your problem, You make it the callers responsibility to allocate &amp; give you a large enough buffer which can be either heap or stack allocated.</p><p>The function can be changed to:</p><pre><code class="language-c"><span class="kt">void</span><span class="w"> </span><span class="nf">getTimestampStr</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">buf_s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">snprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">buf_s</span><span class="p">,</span><span class="w"> </span><span class="s">"%llu"</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
+<span class="p">}</span></code></pre><p>&amp; it would be called like this:</p><p>STACK</p><pre><code class="language-c"><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">ts</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="n">getTimestampStr</span><span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">ts</span><span class="p">));</span>
+<span class="p">}</span></code></pre><p>HEAP</p><pre><code class="language-C"><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">ts</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">1024</span><span class="p">);</span>
+<span class="w">    </span><span class="n">getTimestampStr</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="w"> </span><span class="mi">1024</span><span class="p">);</span>
+<span class="p">}</span></code></pre><p>This one is best if you want the buffer size to be configurable or if the function directly writes to a byte array.</p>
+<h2 id="debugging-introduction">DEBUGGING INTRODUCTION</h2><p>Even following best practices, you can very easily reach a segfault &amp; it will make you a lot more confident if you can triage/diagnose &amp; remedy it. The diagnosis &amp; remedy will depend on your specific project but I can show you some ways to triage issues.</p><p>Generally mapping a breakpoint to source code requires the program to be compiled w/ debugging information. i.e → it should not be stripped. ( Has 'extra' info removed. )</p>
+<h3 id="-faddress-sanitizer">-faddress-sanitizer</h3><p>This compiler flag enables the address sanitizer or ASAN. How it works isnt exactly relevant but you can think of it like this:</p><figure><img loading="lazy" src="/assets/image-6-95f003c502.avif" alt="without ASAN" /><figcaption>without ASAN</figcaption></figure><figure><img loading="lazy" src="/assets/image-5-b3972e8593.avif" alt="with ASAN" /><figcaption>with ASAN</figcaption></figure><figure><img loading="lazy" src="/assets/image-7-b2f7619917.avif" alt="ASAN output" /><figcaption>ASAN output</figcaption></figure><p>As you can see, it provides the line no. of where the memory error occurred &amp; a stacktrace.</p><p>Alternatively you can use a debugger. Im not going to go very in-depth on this since there is simply so much you can do using a debugger but for ‘basic’ debugging, what you need is:</p><ol><li>The executable must be built with debug symbols. Generally this is done with -g.</li></ol><p>Note: The optimization level you compile with will determine the kind of assembly you inspect, use -O0 for the closest equivalent of your C code.</p><ol start="2"><li><p>Run your program</p></li><li><p>When an exception occurs, inspect the backtrace &amp; the stack / variables</p></li></ol><p>You can also set breakpts. for the prog. to auto stop w/n reached &amp; watch variables for when they are read or written to.</p><p>Based on the images provided, the first four images (image_1133c8.png, image_1133ef.png, image_119128.jpg, image_1198ce.jpg) appear to be the same pages we transcribed in the previous turns (covering the Stack issue, Assembly, and Solutions A, B, &amp; C).</p><p>Here is the transcription for the new page (image_120644.png) which concludes the debugging section and adds some miscellaneous notes.</p><p>Debugging (Continued)
+Alternatively you can use a debugger. Im not going to go very in-depth on this since there is simply so much you can do using a debugger but for ‘basic’ debugging, what you need is:</p><ol><li>The executable must be built with debug symbols. Generally this is done with -g.</li></ol><p>Note: The optimization level you compile with will determine the kind of assembly you inspect, use -O0 for the closest equivalent of your C code.</p><ol start="2"><li><p>Run your program</p></li><li><p>When an exception occurs, inspect the backtrace &amp; the stack / variables</p></li></ol><p>You can also set breakpts. for the prog. to auto stop w/n reached &amp; watch variables for when they are read or written to.</p>
+<h2 id="misc">MISC</h2><p>Tools like ClangD w/ Clang Format turned on can help you catch errors early.</p><p>Simple Rule of Thumb is whenever passing a pointer to MULTIPLE elements, pass in a length parameter as well.</p>
+
+</article>
 </body>
+</html>

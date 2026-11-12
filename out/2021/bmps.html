@@ -1,167 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>A day of fixing bitmap fonts on Linux/X11</title>
-	<meta name="description" content="How to get bitmap fonts to work on linux" />
-	<link rel="canonical" href="https://nes.is-a.dev/2021/bmps.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="A day of fixing bitmap fonts on Linux/X11" />
-	<meta property="og:description" content="How to get bitmap fonts to work on linux" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2021/bmps.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/icon-bitmap-ff64d1cc87.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="A day of fixing bitmap fonts on Linux/X11" />
-	<meta name="twitter:description" content="How to get bitmap fonts to work on linux" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/icon-bitmap-ff64d1cc87.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}header .img-sml{image-rendering:pixelated}.img-sml{max-height:200px;max-width:200px}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}p{margin-top:0}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}article img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "A day of fixing bitmap fonts on Linux/X11",
-		"description": "How to get bitmap fonts to work on linux",
-		"url": "https://nes.is-a.dev/2021/bmps.html",
-		"image": "https://nes.is-a.dev/assets/icon-bitmap-ff64d1cc87.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A day of fixing bitmap fonts on Linux/X11</title>
+<meta name="description" content="How to get bitmap fonts to work on linux">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/bmps.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="A day of fixing bitmap fonts on Linux/X11">
+<meta property="og:description" content="How to get bitmap fonts to work on linux">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/bmps.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/icon-bitmap-ff64d1cc87.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{margin:.3em 0 0;font-size:1.2em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><img src="/assets/icon-bitmap-ff64d1cc87.avif" alt=""><h1>A day of fixing bitmap fonts on Linux/X11</h1></header>
+<p>Bitmap fonts are something I have always been very interested in,
+They do not offer much or any of the flexibility vector fonts have made common place but
+In return you recieve a simple thing, pixel perfect text, that is without any anti aliasing whatsoever.</p><p>However, It has been a pain point for me to get them working as I wish as many of the text rendering software on linux at least expects vector fonts and is configured as such.</p><p>To get started, I wanted to install the <a href="https://github.com/turquoise-hexagon/cherry">cherry</a> font, handily it comes with a install script that wouldnt you know it, <em>doesnt work</em> :&lt;
+While it builds to Opentype Bitmap Font files just fine, <code>fc-list</code> just doesnt find them.</p><p><em>NOTE</em>: This behaviour tends to be very inconsistent across distros, it <em>just</em> works in some distributions, but for context, I am writing from an Debian machine, I expect much of it to apply to Ubuntu distros too</p><p>Why would that be? well even though there is support for them implemented for both font config and xft; Debian has disabled them, for a pretty good reason.
+Bitmap looks like shit for almost every case in modern UI and only works in some very specific contexts, Besides that it can look even worse on some high resolution displays as they don't contain a lot of detail and can't be scaled up much.</p><p>Besides that pango techically removed support for them when it switched to harfbuzz for its text shaping, though in some configurations, you can get it to work.</p><p>But, not all hope is lost, if you are determined enough, it is possible to renable them.</p>
+<h2 id="reenabling">Reenabling</h2><p>Font config configurations are stored in xml files and debian ships with several pre made ones installed / available to be installed.</p><p>Any installed configurations can be found in <code>/etc/fonts/conf.d</code>
+And available configurations can be found in <code>/etc/fonts/avail.d</code> &amp; <code>/usr/share/fontconfig/conf.avail</code></p><p>You can verify any installed configurations  with <code>$ fc-conflist</code></p><p>You'll notice a <code>70-no-bitmaps.conf</code> file that is the culprit for our bitmap starvation.
+to disable it, you can simply remove the symlink with <code>rm</code>.</p><p>Once this is done however, you will notice text in your web browser (firefox in my case, might apply to chromium too, idk) becoming a shitshow.
+This happens because sites can use system fonts which it expects to be installed on every system, eg: sans-serif, serif, monospace to avoid loading custom fonts or to fit in more with the rest of the operating system.
+You can notice this effect rather prominently on Github &amp; Wikipedia.</p><p>On a fresh debian install,
+<code>sans-serif</code> will be matched to <code>DejaVu Sans</code>
+<code>monospace</code> will be matched to <code>Liberation Mono</code>
+<code>serif</code> will be matched to <code>DejaVu Serif</code>
+I am guessing these from memory, it might be something else, you can find out with <code>fc-match</code></p><p>After our little wrench was thrown in the works, all the X11 core fonts are now available for font-config to choose from (about 814 fonts in total),
+This would be all within expectations, if some for god given reason, many of the X11 fonts are bitmap variants of fonts that are common use today as vectors, eg: Helvetica, Times New Roman, ...
+With this much choice (bitmaps + vectors), FC gets very confused and tends to prefer picking bitmaps, ruining our good UI design.</p><p>I am not certain why it is this way, but I also don't want to dig deep into FC configuration to find out, and my current hack that seems to have worked in most cases that I have personally encountered is to create a different FC config with a higher priority and setup aliases for common font names
+so that they will point to modern vector fonts.</p><p>My current alias file:</p><pre><code class="language-xml"><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE fontconfig SYSTEM "fonts.dtd"&gt;</span>
+<span class="nt">&lt;fontconfig&gt;</span>
+<span class="w">  </span><span class="nt">&lt;description&gt;</span>
+<span class="w">  	</span>Alias<span class="w"> </span>common<span class="w"> </span>font<span class="w"> </span>names<span class="w"> </span>to<span class="w"> </span>vectors,<span class="w"> </span>to<span class="w"> </span>avoid<span class="w"> </span>bitmaps<span class="w"> </span>messing<span class="w"> </span>it<span class="w"> </span>up
+<span class="w">  </span><span class="nt">&lt;/description&gt;</span>
 
-<header>
-  <img class='img-sml' src="/assets/icon-bitmap-ff64d1cc87.avif" />
-  <!-- post_image="/assets/icon-bitmap-ff64d1cc87.avif" -->
-  <h1>A day of fixing bitmap fonts on Linux/X11</h1>
-  <!-- post_description="How to get bitmap fonts to work on linux" -->
-</header>
-Bitmap fonts are something I have always been very interested in,<br/>
-They do not offer much or any of the flexibility vector fonts have made common place but<br/>
-In return you recieve a simple thing, pixel perfect text, that is without any anti aliasing whatsoever.<br/>
-<br/>
-However, It has been a pain point for me to get them working as I wish as many of the text rendering software on linux at least expects vector fonts and is configured as such.<br/>
-<br/>
-To get started, I wanted to install the <a href="https://github.com/turquoise-hexagon/cherry">cherry</a> font, handily it comes with a install script that wouldnt you know it, <i>doesnt work</i> :<<br/>
-While it builds to Opentype Bitmap Font files just fine, <code>fc-list</code> just doesnt find them.<br/>
-<br/>
-<i>NOTE</i>: This behaviour tends to be very inconsistent across distros, it <i>just</i> works in some distributions, but for context, I am writing from an Debian machine, I expect much of it to apply to Ubuntu distros too<br/>
-<br/>
-Why would that be? well even though there is support for them implemented for both font config and xft; Debian has disabled them, for a pretty good reason.<br/>
-Bitmap looks like shit for almost every case in modern UI and only works in some very specific contexts, Besides that it can look even worse on some high resolution displays as they don't contain a lot of detail and can't be scaled up much.<br/>
-<br/>
-Besides that pango techically removed support for them when it switched to harfbuzz for its text shaping, though in some configurations, you can get it to work.<br/>
-<br/>
-But, not all hope is lost, if you are determined enough, it is possible to renable them.<br/>
-<h2 id="reenabling">Reenabling</h2>
-<p>
-Font config configurations are stored in xml files and debian ships with several pre made ones installed / available to be installed.<br/>
-<br/>
-Any installed configurations can be found in <code>/etc/fonts/conf.d</code><br/>
-And available configurations can be found in <code>/etc/fonts/avail.d</code> & <code>/usr/share/fontconfig/conf.avail</code><br/>
-<br/>
-You can verify any installed configurations  with <code>$ fc-conflist</code><br/>
-<br/>
-You'll notice a <code>70-no-bitmaps.conf</code> file that is the culprit for our bitmap starvation.<br/>
-to disable it, you can simply remove the symlink with <code>rm</code>.<br/>
-<br/>
-Once this is done however, you will notice text in your web browser (firefox in my case, might apply to chromium too, idk) becoming a shitshow.<br/>
-This happens because sites can use system fonts which it expects to be installed on every system, eg: sans-serif, serif, monospace to avoid loading custom fonts or to fit in more with the rest of the operating system.<br/>
-You can notice this effect rather prominently on Github & Wikipedia.<br/>
-<br/>
-On a fresh debian install,<br/>
-<code>sans-serif</code> will be matched to <code>DejaVu Sans</code><br/>
-<code>monospace</code> will be matched to <code>Liberation Mono</code><br/>
-<code>serif</code> will be matched to <code>DejaVu Serif</code><br/>
-I am guessing these from memory, it might be something else, you can find out with <code>fc-match</code><br/>
-<br/>
-After our little wrench was thrown in the works, all the X11 core fonts are now available for font-config to choose from (about 814 fonts in total),<br/>
-This would be all within expectations, if some for god given reason, many of the X11 fonts are bitmap variants of fonts that are common use today as vectors, eg: Helvetica, Times New Roman, ...<br/>
-With this much choice (bitmaps + vectors), FC gets very confused and tends to prefer picking bitmaps, ruining our good UI design.<br/>
-<br/>
-I am not certain why it is this way, but I also don't want to dig deep into FC configuration to find out, and my current hack that seems to have worked in most cases that I have personally encountered is to create a different FC config with a higher priority and setup aliases for common font names<br/>
-so that they will point to modern vector fonts.<br/>
-<br/>
-My current alias file: <br/>
-<pre>
-<code class="language-xml"></fontconfig>
-<span style="color:&#35;e3ceab">&lt;?xml</span> <span style="color:&#35;dfdfbf; font-weight:bold">version</span>=<span style="color:&#35;cc9393">&quot;1.0&quot;</span><span style="color:&#35;e3ceab">?&gt;</span>
-<span style="color:&#35;e3ceab">&lt;!DOCTYPE</span> fontconfig SYSTEM <span style="color:&#35;cc9393">&quot;fonts.dtd&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-<span style="color:&#35;e3ceab">&lt;fontconfig&gt;</span>
-  <span style="color:&#35;e3ceab">&lt;description&gt;</span>
-  	Alias common font names to vectors, to avoid bitmaps messing it up
-  <span style="color:&#35;e3ceab">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;alias</span><span class="w"> </span><span class="na">binding=</span><span class="s">"same"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;family&gt;</span>Helvetica<span class="nt">&lt;/family&gt;</span>
+<span class="w">    </span><span class="nt">&lt;prefer&gt;</span>
+<span class="w">      </span><span class="nt">&lt;family&gt;</span>Liberation<span class="w"> </span>Sans<span class="nt">&lt;/family&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/prefer&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/alias&gt;</span>
 
-  <span style="color:&#35;e3ceab">&lt;alias</span> <span style="color:&#35;dfdfbf; font-weight:bold">binding</span>=<span style="color:&#35;cc9393">&quot;same&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-    <span style="color:&#35;e3ceab">&lt;family&gt;</span>Helvetica<span style="color:&#35;e3ceab">&lt;/family&gt;</span>
-    <span style="color:&#35;e3ceab">&lt;prefer&gt;</span>
-      <span style="color:&#35;e3ceab">&lt;family&gt;</span>Liberation Sans<span style="color:&#35;e3ceab">&lt;/family&gt;</span>
-    <span style="color:&#35;e3ceab">&lt;/prefer&gt;</span>
-  <span style="color:&#35;e3ceab">&lt;/alias&gt;</span>	</code>
-</pre>
-<br/>
-hopefully its workings are visible to you, this file can be placed as <code>~/.config/fontconfig/conf.d/01-alias.conf</code> or in one of the other places font config will look.<br/>
-And there you go, kinda working bitmap fonts!<br/>
-<br/>
-To use them, <code>fc-list</code> can find the xft font description to string and their font names.<br/>
-<code>xfontsel</code> can also be used but iirc thats only in the case of .pcf.gz fonts installed directly into X11<br/>
-<br/>
+<span class="nt">&lt;/fontconfig&gt;</span></code></pre><p>hopefully its workings are visible to you, this file can be placed as <code>~/.config/fontconfig/conf.d/01-alias.conf</code> or in one of the other places font config will look.
+And there you go, kinda working bitmap fonts!</p><p>To use them, <code>fc-list</code> can find the xft font description to string and their font names.
+<code>xfontsel</code> can also be used but iirc thats only in the case of .pcf.gz fonts installed directly into X11</p>
 <hr />
-</p>
-<h3 id="addenum">Addenum</h3>
-<p>
-A better example is<br/>
-<pre>
-<code class="language-xml"></fontconfig>
-<span style="color:&#35;e3ceab">&lt;?xml</span> <span style="color:&#35;dfdfbf; font-weight:bold">version</span>=<span style="color:&#35;cc9393">&quot;1.0&quot;</span><span style="color:&#35;e3ceab">?&gt;</span>
-<span style="color:&#35;e3ceab">&lt;!DOCTYPE</span> fontconfig SYSTEM <span style="color:&#35;cc9393">&quot;urn:fontconfig:fonts.dtd&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-<span style="color:&#35;e3ceab">&lt;fontconfig&gt;</span>
-    <span style="color:&#35;e3ceab">&lt;match</span> <span style="color:&#35;dfdfbf; font-weight:bold">target</span>=<span style="color:&#35;cc9393">&quot;font&quot;</span><span style="color:&#35;e3ceab">&gt;</span> 
-        <span style="color:&#35;e3ceab">&lt;test</span> <span style="color:&#35;dfdfbf; font-weight:bold">name</span>=<span style="color:&#35;cc9393">&quot;family&quot;</span> <span style="color:&#35;dfdfbf; font-weight:bold">qual</span>=<span style="color:&#35;cc9393">&quot;any&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-            <span style="color:&#35;e3ceab">&lt;string&gt;</span>Ark Pixel Font <span style="color:&#35;dca3a3; font-weight:bold">16</span><span style="color:&#35;e3ceab">&lt;/string&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;/test&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;edit</span> <span style="color:&#35;dfdfbf; font-weight:bold">name</span>=<span style="color:&#35;cc9393">&quot;hinting&quot;</span> <span style="color:&#35;dfdfbf; font-weight:bold">mode</span>=<span style="color:&#35;cc9393">&quot;assign&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-            <span style="color:&#35;e3ceab">&lt;bool&gt;</span>false<span style="color:&#35;e3ceab">&lt;/bool&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;/edit&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;edit</span> <span style="color:&#35;dfdfbf; font-weight:bold">name</span>=<span style="color:&#35;cc9393">&quot;antialias&quot;</span> <span style="color:&#35;dfdfbf; font-weight:bold">mode</span>=<span style="color:&#35;cc9393">&quot;assign&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-            <span style="color:&#35;e3ceab">&lt;bool&gt;</span>false<span style="color:&#35;e3ceab">&lt;/bool&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;/edit&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;edit</span> <span style="color:&#35;dfdfbf; font-weight:bold">name</span>=<span style="color:&#35;cc9393">&quot;lcdfilter&quot;</span> <span style="color:&#35;dfdfbf; font-weight:bold">mode</span>=<span style="color:&#35;cc9393">&quot;assign&quot;</span><span style="color:&#35;e3ceab">&gt;</span>
-            <span style="color:&#35;e3ceab">&lt;const&gt;</span>lcddefault<span style="color:&#35;e3ceab">&lt;/const&gt;</span>
-        <span style="color:&#35;e3ceab">&lt;/edit&gt;</span> 
-    <span style="color:&#35;e3ceab">&lt;/match&gt;</span>	</code>
-</pre>
-A way to convert BDF & PCF files to OTB (OpenType Bitmap), a format that has better support is <a href="https://gist.github.com/Earnestly/6bc5bad7666f7bf8816d054b7b76112e">Documented here</a>, You can also try using <a href="https://github.com/kreativekorp/bitsnpicas">Bits'nPicas</a> to convert the font or even to make your own, it's just pixels on a grid after all 😉<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+<h3 id="addenum">Addenum</h3><p>A better example is</p><pre><code class="language-xml"><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd"&gt;</span>
+<span class="nt">&lt;fontconfig&gt;</span>
+<span class="w">    </span><span class="nt">&lt;match</span><span class="w"> </span><span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">&lt;test</span><span class="w"> </span><span class="na">name=</span><span class="s">"family"</span><span class="w"> </span><span class="na">qual=</span><span class="s">"any"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;string&gt;</span>Ark<span class="w"> </span>Pixel<span class="w"> </span>Font<span class="w"> </span>16<span class="nt">&lt;/string&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/test&gt;</span>
+<span class="w">        </span><span class="nt">&lt;edit</span><span class="w"> </span><span class="na">name=</span><span class="s">"hinting"</span><span class="w"> </span><span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/edit&gt;</span>
+<span class="w">        </span><span class="nt">&lt;edit</span><span class="w"> </span><span class="na">name=</span><span class="s">"antialias"</span><span class="w"> </span><span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/edit&gt;</span>
+<span class="w">        </span><span class="nt">&lt;edit</span><span class="w"> </span><span class="na">name=</span><span class="s">"lcdfilter"</span><span class="w"> </span><span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;const&gt;</span>lcddefault<span class="nt">&lt;/const&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/edit&gt;</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&lt;/match&gt;</span>
+<span class="nt">&lt;/fontconfig&gt;</span></code></pre><p>A way to convert BDF &amp; PCF files to OTB (OpenType Bitmap), a format that has better support is <a href="https://gist.github.com/Earnestly/6bc5bad7666f7bf8816d054b7b76112e">Documented here</a>, You can also try using <a href="https://github.com/kreativekorp/bitsnpicas">Bits'nPicas</a> to convert the font or even to make your own, it's just pixels on a grid after all 😉</p>
+
+</article>
 </body>
+</html>
