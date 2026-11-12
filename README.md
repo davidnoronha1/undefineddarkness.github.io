@@ -57,6 +57,10 @@ sin(x)	sin(x)
 x - x**3/6	3rd order
 </x-plot>
 
+<x-code language="c">
+#include <stdio.h>
+</x-code>
+
 Math: \(e^{i\pi} + 1 = 0\) inline, or a ```math block (rendered to MathML).
 
 ![Images on their own line become captioned figures](photo.png)
@@ -75,6 +79,12 @@ source `assets_src/other/elements.ts`). On any page:
 <script type="module" src="elements.js"></script>
 ```
 
-`<x-chart>`/`<x-plot>` load `charts.js` (uPlot) from next to `elements.js`,
-only when used, so copy both files together. Without JS, table/chart/plot
-rows show as preformatted text and folds show open.
+`<x-chart>`/`<x-plot>` load `charts.js` (uPlot) and `<x-code>` loads
+`code.js` (highlight.js) from next to `elements.js`, only when used, so copy
+them together. Without JS, table/chart/plot rows and code show as
+preformatted text and folds show open.
+
+In hand-written HTML, `<x-code>` content is text: write `<` as `&lt;`, or
+paste the code verbatim inside `<script type="text/plain">…</script>`. In
+posts, `build.py` highlights `<x-code>` with Pygments at build time (same as
+```` ``` ```` fences), so those pages load no JS for it.

@@ -3,9 +3,9 @@
 
 OUT := ../out/.assets
 
-all: $(OUT)/elements.js $(OUT)/charts.js $(OUT)/model-viewer.js
+all: $(OUT)/elements.js $(OUT)/charts.js $(OUT)/code.js $(OUT)/model-viewer.js
 
-# x-fold/x-table/x-chart/x-plot (elements.js) + uPlot renderers it lazy-loads (charts.js).
+# elements.js: the x- custom elements; lazy-loads charts.js (uPlot) and code.js (highlight.js).
 # model-viewer.js: three.js viewer, the portfolio loads it on click.
 $(OUT)/%.js: other/%.ts
 	bun build $< --outfile $@ --bundle --minify

@@ -55,6 +55,13 @@ float Q_rsqrt( float number )
 }
 ```
 
+The same block as a reusable element:
+<x-code language="c">
+#include <stdio.h>
+
+int main() { printf("hi\n"); }
+</x-code>
+
 <x-fold title="Do folds work?">
 I guess they do :)
 ```sh

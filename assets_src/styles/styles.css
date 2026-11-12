@@ -123,10 +123,10 @@ summary > * { display: inline; }
 
 /* -- Custom elements (assets_src/other/elements.ts) -- */
 
-x-fold { display: block; }
+x-fold, x-code { display: block; }
 x-table, x-chart, x-plot { display: block; margin: 1em 0; }
 /* Before/without JS: raw rows as preformatted text, folds open with their title. */
-x-table:not(:defined), x-chart:not(:defined), x-plot:not(:defined) { white-space: pre; overflow-x: auto; font: .875em var(--mono-font); }
+x-table:not(:defined), x-chart:not(:defined), x-plot:not(:defined), x-code:not(:defined):not(:has(pre)) { white-space: pre; overflow-x: auto; font: .875em var(--mono-font); }
 x-fold[title]::before { content: attr(title); display: block; font-weight: 600; }
 x-table table { white-space: normal; }
 .initial-conditions table { width: 100%; display: table; }

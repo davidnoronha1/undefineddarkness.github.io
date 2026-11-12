@@ -15,8 +15,9 @@ Posts are Markdown, plus:
   - callouts:   > [!NOTE] / [!TIP] / [!IMPORTANT] / [!WARNING] / [!CAUTION]
   - math:       \\( inline \\), \\[ display \\] and ```math fences -> MathML (no JS)
   - code:       fenced blocks, highlighted at build time (pygments)
-  - <x-fold>, <x-table>, <x-chart>, <x-plot>: reusable custom elements
-    (assets_src/other/elements.ts); pages using them get /assets/elements.js
+  - <x-fold>, <x-table>, <x-chart>, <x-plot>, <x-code>: reusable custom
+    elements (assets_src/other/elements.ts); pages using them get
+    /assets/elements.js. <x-code> is pre-highlighted here, so it needs none
   - anything else is plain HTML (<video>, <object>, <div class="split">, ...)
 Markdown inside HTML tags (e.g. <x-fold>, <div>) works without CommonMark's
 blank-line rules; <x-table>/<x-chart>/<x-plot> content is passed through raw.
@@ -29,6 +30,7 @@ import html
 import re
 import subprocess
 import sys
+import textwrap
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from pathlib import Path
@@ -74,13 +76,17 @@ def fence(self, tokens, idx, options, env):
     lang = tok.info.strip().split(" ")[0]
     if lang == "math":
         return mathml(tok.content, True) + "\n"
-    code = tok.content
+    return code_block(tok.content, lang) + "\n"
+
+
+def code_block(code: str, lang: str) -> str:
+    """Pygments-highlighted <pre><code>; no/unknown language: plain, escaped."""
     try:
         body = pyg_highlight(code, get_lexer_by_name(lang), HtmlFormatter(nowrap=True)) if lang else html.escape(code)
     except ClassNotFound:
         body = html.escape(code)
     cls = f' class="language-{html.escape(lang)}"' if lang else ""
-    return f"<pre><code{cls}>{body}</code></pre>\n"
+    return f"<pre><code{cls}>{body.rstrip(chr(10))}</code></pre>"
 
 
 md = (
@@ -128,6 +134,38 @@ BLOCK_TAG = re.compile(r"^\s*</?(div|section|aside|figure|figcaption|details|sum
 RAW_TAG = re.compile(r"^\s*<(x-table|x-chart|x-plot)\b")
 
 
+X_CODE = re.compile(r'^\s*<x-code\b([^>]*)>(.*)$')
+
+
+def x_code(text: str, slots: list[str]) -> str:
+    """Pre-highlight <x-code language=".."> with Pygments (so posts need no JS
+    for it). Code may contain blank lines, which would end a raw HTML block,
+    so each one becomes an <!--x-code:N--> placeholder that render() fills in."""
+    out, lines, fence, i = [], text.split("\n"), None, 0
+    while i < len(lines):
+        line, s = lines[i], lines[i].strip()
+        m = None if fence else X_CODE.match(line)
+        if fence:
+            fence = None if s.startswith(fence) else fence
+        elif s.startswith(("```", "~~~")):
+            fence = s[:3]
+        if not m:
+            out.append(line)
+            i += 1
+            continue
+        attrs, body = m[1], [m[2]]
+        while "</x-code>" not in body[-1] and i + 1 < len(lines):
+            i += 1
+            body.append(lines[i])
+        code = "\n".join(body).split("</x-code>")[0]
+        code = re.sub(r'^\s*<script type="text/plain">|</script>\s*$', "", code.strip("\n"))
+        lang = re.search(r'\blanguage="([^"]*)"', attrs)
+        slots.append(f"<x-code{attrs}>{code_block(textwrap.dedent(code).strip(chr(10)), lang[1] if lang else '')}</x-code>")
+        out += ["", f"<!--x-code:{len(slots) - 1}-->", ""]
+        i += 1
+    return "\n".join(out)
+
+
 def pad_html(text: str) -> str:
     out, fence, raw = [], None, None
     for line in text.split("\n"):
@@ -162,7 +200,8 @@ def pad_html(text: str) -> str:
 
 
 def render(text: str) -> tuple[dict, str]:
-    tokens = md.parse(pad_html(text))
+    slots: list[str] = []
+    tokens = md.parse(pad_html(x_code(text, slots)))
     meta = {}
     if tokens and tokens[0].type == "front_matter":
         for line in tokens[0].content.splitlines():
@@ -170,6 +209,7 @@ def render(text: str) -> tuple[dict, str]:
             if sep:
                 meta[k.strip()] = v.strip().strip('"')
     body = md.renderer.render(tokens, md.options, {})
+    body = re.sub(r"<!--x-code:(\d+)-->", lambda m: slots[int(m[1])], body)
     body = re.sub(r"<p>(.*?)</p>", lambda m: figures(m) if "<img" in m[1] else m[0], body, flags=re.S)
     body = re.sub(r"<img (?![^>]*loading=)", '<img loading="lazy" ', body)
     # Paragraphs and list items use `white-space: pre-line` so source line
