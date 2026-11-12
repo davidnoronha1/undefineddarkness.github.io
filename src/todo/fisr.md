@@ -1,6 +1,7 @@
-#HEADER Fast Inverse Square Root (Quake III Arena)
-Breaking down the famous Quake III fast inverse square root trick.
-#END HEADER
+---
+title: Fast Inverse Square Root (Quake III Arena)
+description: Breaking down the famous Quake III fast inverse square root trick.
+---
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/OpenArena-Rocket.jpg/1024px-OpenArena-Rocket.jpg" class="inline">
 In 1999, The Source code for the game quake 3 arena was released, containing a rather ingenious algoritm for calculating the inverse square root of a number (\(\frac{1}{\sqrt{x}}\)), In a case, its required to calculate this very often for vector calculations and when quake 3 was being made, it was an expensive calculation that required approximation.
@@ -33,7 +34,6 @@ To understand this bit of trickery, we need to know a few things,
 ### Integers
 A `int32_t` as the name implies is 32 bits long
 ![](/assets/images/binary.svg)
-
 
 ```math
 ```

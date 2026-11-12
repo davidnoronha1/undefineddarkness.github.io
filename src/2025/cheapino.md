@@ -1,6 +1,8 @@
-#HEADER Cheapino
-Building a Cheapino split mechanical keyboard from scratch.
-#END HEADER
+---
+title: Cheapino
+description: Building a Cheapino split mechanical keyboard from scratch.
+---
+
 My experience building a split from scratch
 
 For a long time I've wanted to make a custom keyboard, My first *actual* mechanical keyboard is/was like the cheapest RedDragon keyboard with **blue** switches, and while I was really grateful to have it, I always wanted to either make a 60% eventually or something more exquisite 
@@ -9,5 +11,5 @@ Being around some Linux discord servers, it wasn't rare to meet someone with a r
 
 Then I stumbled across the Cheapino w/h was supposed to be the cheapest _usable_ split
 
-#WIP
-#END WIP
+> [!WARNING]
+> This post is a work in progress.

@@ -5,354 +5,256 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Godot for UI</title>
 <meta name="description" content="My experience when using Godot to make a mostly UI application">
-<link rel="canonical" href="https://nes.is-a.dev/2021/godot.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/godot.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="Godot for UI">
 <meta property="og:description" content="My experience when using Godot to make a mostly UI application">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2021/godot.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/godot.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3,h4{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img{height:auto;max-width:100%}img{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwc{color:#aae3b2}.kwd{color:#aabfe3}.sng{color:#cc9393}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.box,.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){.split{grid-template-columns:1fr}header img{float:none;margin:0 0 1em}}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><h1>Godot for UI</h1></header>
 
-<header>
-  <h1>Godot for UI</h1>
-  <!-- post_description="My experience when using Godot to make a mostly UI application" -->
-</header>
-<i>This is my attempt at rewriting the original article, Since that one wasn't well structured and a few of my opinions had changed since then</i><br/>
-<br/>
-After spending some time making Cello in Godot's UI system, I have to<br/>
-say it has been the most <b>fun</b> I have had making any GUI application,<br/>
-It's not perfect by any means but it is extremely good.<br/>
+<p><em>This is my attempt at rewriting the original article, Since that one wasn't well structured and a few of my opinions had changed since then</em></p>
+<p>After spending some time making Cello in Godot's UI system, I have to<br />
+say it has been the most <strong>fun</strong> I have had making any GUI application,<br />
+It's not perfect by any means but it is extremely good.</p>
 <h2 id="editing">Editing</h2>
-<p>
-<br/>
-The editor is the main part that makes it fun, The Godot Engine's editor<br/>
-is extremely capable and previewing the ui in editor & hot reloading (to<br/>
-some extent) ui code is a wonderful experience<br/>
-<br/>
-Most things can be easily visualized and with Godot's powerful scene<br/>
-system, Your UI can be as modular as you like, It also allows for easy<br/>
-reusability in code, Need a button in a specific color, create a scene<br/>
-for it and drag and drop it where ever you need it.<br/>
-<br/>
-No compile step or commands to run also is really nice (in comparison to<br/>
-something like GTK)<br/>
-<br/>
-Godot's Node system also works wonderfully well for GUI, since<br/>
-everything is a child of some other thing and the structure works really<br/>
-well for me mentally.<br/>
-<br/>
-A visible display of what signals are connected where also helps<br/>
-visualize interactions a lot more neatly.<br/>
-<br/>
-Code Editor, UI Editor all being under one window is pretty convenient<br/>
-too.<br/>
-<br/>
-No complaints here, the experience you get is really good, I don't think<br/>
-of them as complaints but there are a few places it could be improved in<br/>
-my opinion, <i>Theme Editor</i><br/>
-<br/>
-</p>
+<p>The editor is the main part that makes it fun, The Godot Engine's editor<br />
+is extremely capable and previewing the ui in editor &amp; hot reloading (to<br />
+some extent) ui code is a wonderful experience</p>
+<p>Most things can be easily visualized and with Godot's powerful scene<br />
+system, Your UI can be as modular as you like, It also allows for easy<br />
+reusability in code, Need a button in a specific color, create a scene<br />
+for it and drag and drop it where ever you need it.</p>
+<p>No compile step or commands to run also is really nice (in comparison to<br />
+something like GTK)</p>
+<p>Godot's Node system also works wonderfully well for GUI, since<br />
+everything is a child of some other thing and the structure works really<br />
+well for me mentally.</p>
+<p>A visible display of what signals are connected where also helps<br />
+visualize interactions a lot more neatly.</p>
+<p>Code Editor, UI Editor all being under one window is pretty convenient<br />
+too.</p>
+<p>No complaints here, the experience you get is really good, I don't think<br />
+of them as complaints but there are a few places it could be improved in<br />
+my opinion, <em>Theme Editor</em></p>
 <h2 id="ui-system">UI System</h2>
-<p>
-<br/>
-In my opinion, The UI system in godot while not capable enough to fit<br/>
-every single use case in the world (is there any software that does?),<br/>
-it will easily fill 99.999% of them. Despite being part of a game engine<br/>
-whose main focus as you can guess, is making games…, the UI system is<br/>
-very capable and doesn't assume it's environment is always a game.<br/>
-<br/>
-</p>
+<p>In my opinion, The UI system in godot while not capable enough to fit<br />
+every single use case in the world (is there any software that does?),<br />
+it will easily fill 99.999% of them. Despite being part of a game engine<br />
+whose main focus as you can guess, is making games…, the UI system is<br />
+very capable and doesn't assume it's environment is always a game.</p>
 <h3 id="responsiveness">Responsiveness</h3>
-<p>
-<br/>
-While I don't think it can beat the web here, it does a really good with<br/>
-little effort, A bit of messing in Project Settings can yield usable<br/>
-results. (for usable at least), You just need to set the<br/>
-<code>2d/window/stretch</code> settings as you need.<br/>
-<br/>
-These are mine for Cello, which have so far worked fine for me.<br/>
-<br/>
+<p>While I don't think it can beat the web here, it does a really good with<br />
+little effort, A bit of messing in Project Settings can yield usable<br />
+results. (for usable at least), You just need to set the<br />
+<code>2d/window/stretch</code> settings as you need.</p>
+<p>These are mine for Cello, which have so far worked fine for me.</p>
 <ul>
-<li>Mode: disabled<br/>
-</li>
-<li>Aspect: ignore<br/>
-</li>
-<li>Shrink: 1 (default)<br/>
-</li>
-</ul><br/></p>
+<li>Mode: disabled</li>
+<li>Aspect: ignore</li>
+<li>Shrink: 1 (default)</li>
+</ul>
 <h3 id="layout">Layout</h3>
-<p>
-<br/>
-<a href="https://docs.godotengine.org/en/stable/tutorials/ui/gui_containers.html">Godot Docs Page</a><br/>
-<br/>
-<i>I highly suggest you take a read through it if you're interested, It explains everything in a much better way than I could.</i><br/>
-<br/>
-The layout system I am most used to is definitely CSS Flexbox, there is<br/>
-just something about it resizing to fit the child neatly that is<br/>
-intuitive. A layout that tries to fit everything as compactly as it can<br/>
-(like awesome's <code>wibox.layout.fixed.&lt;orientation&gt;</code>) also makes sense.<br/>
-<br/>
-Godot doesn't really do either of those, well not in the way I am used<br/>
-to anyway, Godot's main layouting power comes in the form of 2<br/>
-containers, <code>VBoxContainer</code> & <code>HBoxContainer</code>, both of them initially<br/>
-try to fit everything as compactly as possible, but this doesn't really<br/>
-work as you'd expect, every child widget tends to by default, not<br/>
-request any space at all, which leaves them all at 0px width (so not<br/>
-visible).<br/>
-<br/>
-To fix these each widget (Godot calls them Nodes but I am going to use<br/>
-Widget & Node interchangeably), has some size flags to determine its<br/>
-behaviour when requesting space. They are:<br/>
-<br/>
+<p><a href="https://docs.godotengine.org/en/stable/tutorials/ui/gui_containers.html">Godot Docs Page</a></p>
+<p><em>I highly suggest you take a read through it if you're interested, It explains everything in a much better way than I could.</em></p>
+<p>The layout system I am most used to is definitely CSS Flexbox, there is<br />
+just something about it resizing to fit the child neatly that is<br />
+intuitive. A layout that tries to fit everything as compactly as it can<br />
+(like awesome's <code>wibox.layout.fixed.&lt;orientation&gt;</code>) also makes sense.</p>
+<p>Godot doesn't really do either of those, well not in the way I am used<br />
+to anyway, Godot's main layouting power comes in the form of 2<br />
+containers, <code>VBoxContainer</code> &amp; <code>HBoxContainer</code>, both of them initially<br />
+try to fit everything as compactly as possible, but this doesn't really<br />
+work as you'd expect, every child widget tends to by default, not<br />
+request any space at all, which leaves them all at 0px width (so not<br />
+visible).</p>
+<p>To fix these each widget (Godot calls them Nodes but I am going to use<br />
+Widget &amp; Node interchangeably), has some size flags to determine its<br />
+behaviour when requesting space. They are:</p>
 <ul>
-<li>Expand<br/>
-</li>
-<li>Fill<br/>
-</li>
-<li>Shrink Center<br/>
-</li>
-<li>Shrink End<br/>
-</li>
-</ul><br/>and a <i>stretch ratio</i>; I am going to ignore Shrink Center & Shrink End<br/>
-since so far I have not had the need to use them. Fill should be on at<br/>
-all times or it will get really confusing, I am still not entirely sure<br/>
-on what it does, I guess "Should I fill the space allocated to me?"<br/>
-<br/>
-Expand is the main one, it says "I will take up as much of my parent's<br/>
-space as possible", So for example: 2 children nodes both having expand<br/>
-= true, would look like (they divide the parent's space evenly)<br/>
-<br/>
-<figure><img src="/assets/godot-expand-show-707a90d3b9.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-<br/>
-Then if this isn't enough for you, <i>it often isn't</i>, Stretch Ratio can<br/>
-help you out, it determines how much of the parent's space the child is<br/>
-willing to gobble up, for example 1 is 100% of the space, 0.5 is 50% and<br/>
-so on and so forth, this is a 6:4 stretch ratio<br/>
-<br/>
-<figure><img src="/assets/godot-ratio-show-4b43b388c1.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-<br/>
-Make sure your ratio sums up to 1, or it won't make sense.<br/>
-<br/>
-Of course there are also times when you need pixel perfect sizes for<br/>
-things, this is where any Control node's <code>rect_min_size</code> property comes<br/>
-in, It's comparatively simple, You simply define how many X and Y pixels<br/>
-you want.<br/>
-<br/>
-<figure><img src="/assets/godot-min-size-show-39c4a47abe.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-<br/>
-This is after disabling Expand & Fill as they interfere, Fill is mostly<br/>
-fine but if you want your child's height to be less than your parent's<br/>
-height, turn it off.<br/>
-<br/>
-Overall I wouldn't say it is the most intuitive system out there, it<br/>
-takes a while to know what trick to use for it to behave but its usable<br/>
-at least.<br/>
-<br/>
-</p>
+<li>Expand</li>
+<li>Fill</li>
+<li>Shrink Center</li>
+<li>Shrink End</li>
+</ul>
+<p>and a <em>stretch ratio</em>; I am going to ignore Shrink Center &amp; Shrink End<br />
+since so far I have not had the need to use them. Fill should be on at<br />
+all times or it will get really confusing, I am still not entirely sure<br />
+on what it does, I guess &quot;Should I fill the space allocated to me?&quot;</p>
+<p>Expand is the main one, it says &quot;I will take up as much of my parent's<br />
+space as possible&quot;, So for example: 2 children nodes both having expand<br />
+= true, would look like (they divide the parent's space evenly)</p>
+<figure><img loading="lazy" src="/assets/godot-expand-show-707a90d3b9.avif" alt="" /></figure>
+<p>Then if this isn't enough for you, <em>it often isn't</em>, Stretch Ratio can<br />
+help you out, it determines how much of the parent's space the child is<br />
+willing to gobble up, for example 1 is 100% of the space, 0.5 is 50% and<br />
+so on and so forth, this is a 6:4 stretch ratio</p>
+<figure><img loading="lazy" src="/assets/godot-ratio-show-4b43b388c1.avif" alt="" /></figure>
+<p>Make sure your ratio sums up to 1, or it won't make sense.</p>
+<p>Of course there are also times when you need pixel perfect sizes for<br />
+things, this is where any Control node's <code>rect_min_size</code> property comes<br />
+in, It's comparatively simple, You simply define how many X and Y pixels<br />
+you want.</p>
+<figure><img loading="lazy" src="/assets/godot-min-size-show-39c4a47abe.avif" alt="" /></figure>
+<p>This is after disabling Expand &amp; Fill as they interfere, Fill is mostly<br />
+fine but if you want your child's height to be less than your parent's<br />
+height, turn it off.</p>
+<p>Overall I wouldn't say it is the most intuitive system out there, it<br />
+takes a while to know what trick to use for it to behave but its usable<br />
+at least.</p>
 <h3 id="styling">Styling</h3>
-<p>
-<br/>
-This was one the main factors in me deciding to try out Godot, The UI<br/>
-styling is very capable and excellent in its class, I was looking for a<br/>
-GUI framework that could be easily styled that wasn't GTK & Web.<br/>
-<br/>
-I wouldn't say its perfect, I would have preferred a more CSS like<br/>
-approach with selectors and properties that apply to all widgets but its<br/>
-passable, for maximum styling on individual widgets, You might need to<br/>
-wrap many of them in a Panel tho.<br/>
-<br/>
-The theme system is pretty capable, it applies to the widget whose<br/>
-property it is and any child widgets, without overriding a theme from a<br/>
-parent widget further up in the hierarchy; and the editor experience for<br/>
-most properties is very good.<br/>
-<br/>
-</p>
+<p>This was one the main factors in me deciding to try out Godot, The UI<br />
+styling is very capable and excellent in its class, I was looking for a<br />
+GUI framework that could be easily styled that wasn't GTK &amp; Web.</p>
+<p>I wouldn't say its perfect, I would have preferred a more CSS like<br />
+approach with selectors and properties that apply to all widgets but its<br />
+passable, for maximum styling on individual widgets, You might need to<br />
+wrap many of them in a Panel tho.</p>
+<p>The theme system is pretty capable, it applies to the widget whose<br />
+property it is and any child widgets, without overriding a theme from a<br />
+parent widget further up in the hierarchy; and the editor experience for<br />
+most properties is very good.</p>
 <h4 id="1-rounded-corners-for-images-1">1. Rounded Corners for images [1]</h4>
-<p>
-<br/>
-While you can apply <code>corner-radius</code> for most theme-able widgets, a<br/>
-surprising exceptions is <code>TextureRect</code>, the fix I found was to use<br/>
-this shader from someone, I lost the source apologies.<br/>
-<pre>
-<code class="language-glsl">shader_type canvas_item;
-render_mode blend_mix,unshaded;
+<p>While you can apply <code>corner-radius</code> for most theme-able widgets, a<br />
+surprising exceptions is <code>TextureRect</code>, the fix I found was to use<br />
+this shader from someone, I lost the source apologies.</p>
+<pre><code class="language-glsl"><span class="n">shader_type</span><span class="w"> </span><span class="n">canvas_item</span><span class="p">;</span>
+<span class="n">render_mode</span><span class="w"> </span><span class="n">blend_mix</span><span class="p">,</span><span class="n">unshaded</span><span class="p">;</span>
 
-uniform vec4 color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+<span class="k">uniform</span><span class="w"> </span><span class="kt">vec4</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">hint_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec4</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 
-uniform float radius : hint_range(0.0, 1.0) = 0.0;
-uniform vec2 size = vec2(1.0, 1.0);
+<span class="k">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">hint_range</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="k">uniform</span><span class="w"> </span><span class="kt">vec2</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec2</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
 
-void fragment() {
-  vec4 texture_color = texture(TEXTURE, UV);
-  COLOR = texture_color &ast; color;
+<span class="kt">void</span><span class="w"> </span><span class="n">fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">vec4</span><span class="w"> </span><span class="n">texture_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">texture</span><span class="p">(</span><span class="n">TEXTURE</span><span class="p">,</span><span class="w"> </span><span class="n">UV</span><span class="p">);</span>
+<span class="w">  </span><span class="n">COLOR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">texture_color</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">color</span><span class="p">;</span>
 
-  vec2 size_ratio = vec2(max(1.0, size.x / size.y), max(1.0, size.y / size.x));
-  float half_radius = 0.5 &ast; radius;
-  vec2 dist_max = half_radius / size_ratio;
-  vec2 edge_pos = clamp(UV, dist_max, 1.0 - dist_max);
-  float edge_dist = distance(UV &ast; size_ratio, edge_pos &ast; size_ratio);
-  COLOR.a &ast;= step(edge_dist, half_radius + 0.000001);
-}	</code>
-</pre>
-<br/>
-</p>
+<span class="w">  </span><span class="kt">vec2</span><span class="w"> </span><span class="n">size_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">vec2</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size</span><span class="p">.</span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size</span><span class="p">.</span><span class="n">x</span><span class="p">));</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">half_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">vec2</span><span class="w"> </span><span class="n">dist_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half_radius</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size_ratio</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">vec2</span><span class="w"> </span><span class="n">edge_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clamp</span><span class="p">(</span><span class="n">UV</span><span class="p">,</span><span class="w"> </span><span class="n">dist_max</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dist_max</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">edge_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">UV</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">size_ratio</span><span class="p">,</span><span class="w"> </span><span class="n">edge_pos</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">size_ratio</span><span class="p">);</span>
+<span class="w">  </span><span class="n">COLOR</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">step</span><span class="p">(</span><span class="n">edge_dist</span><span class="p">,</span><span class="w"> </span><span class="n">half_radius</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.000001</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
 <h4 id="2-fonts">2. Fonts</h4>
-<p>
-<br/>
-Godot's system is good currently and allows a lot of flexibility<br/>
-when defining what font to use, allowing you to toggle filtering /<br/>
-not use vector fonts etc. But its inability to use fonts from the<br/>
-system is a bit annoying, I have to package every font I want with<br/>
-the project; That is probably fine for a game but picking up fonts<br/>
-from the system would be useful functionality.<br/>
-<br/>
-And from a bit of messing around, looks like the only way to use things like <b>bold</b> <i>italic</i> and <u>underline</u> in the general UI, is to use a <code>RichTextLabel</code><br/>
-that accept BBcode markup, and even for that you need to define<br/>
-separate fonts for each weight / slant you want. :/ No fancy<br/>
-variable fonts here.<br/>
-<br/>
-For other widgets, if there is no font property for it, you're out<br/>
-of luck.<br/>
-<br/>
-</p>
+<p>Godot's system is good currently and allows a lot of flexibility<br />
+when defining what font to use, allowing you to toggle filtering /<br />
+not use vector fonts etc. But its inability to use fonts from the<br />
+system is a bit annoying, I have to package every font I want with<br />
+the project; That is probably fine for a game but picking up fonts<br />
+from the system would be useful functionality.</p>
+<p>And from a bit of messing around, looks like the only way to use things like <strong>bold</strong> <em>italic</em> and <u>underline</u> in the general UI, is to use a <code>RichTextLabel</code><br />
+that accept BBcode markup, and even for that you need to define<br />
+separate fonts for each weight / slant you want. :/ No fancy<br />
+variable fonts here.</p>
+<p>For other widgets, if there is no font property for it, you're out<br />
+of luck.</p>
 <h4 id="3-theme-editor">3. Theme Editor</h4>
-<p>
-<br/>
-You might call this a nitpick, but it is something worth nothing I<br/>
-feel. This is what the default theme editor looks like and while its<br/>
-certainly usable…<br/>
-<br/>
-<figure><img src="/assets/godot-theme-editor-1b1f1f3800.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-<br/>
-I think it's a bit more confusing than it should be, You have to<br/>
-select what you want to change from the Type: drop down menu,<br/>
-instead of intuitively clicking on one of the widgets in the preview<br/>
-to modify it.<br/>
-<br/>
-I'd prefer just the preview window without all the buttons at the<br/>
-top, and a sidebar with all the available properties in one<br/>
-condensed view for modification.<br/>
-<br/>
-TODO: Create mockup<br/>
-<br/>
-</p>
+<p>You might call this a nitpick, but it is something worth nothing I<br />
+feel. This is what the default theme editor looks like and while its<br />
+certainly usable…</p>
+<figure><img loading="lazy" src="/assets/godot-theme-editor-1b1f1f3800.avif" alt="" /></figure>
+<p>I think it's a bit more confusing than it should be, You have to<br />
+select what you want to change from the Type: drop down menu,<br />
+instead of intuitively clicking on one of the widgets in the preview<br />
+to modify it.</p>
+<p>I'd prefer just the preview window without all the buttons at the<br />
+top, and a sidebar with all the available properties in one<br />
+condensed view for modification.</p>
+<p>TODO: Create mockup</p>
 <h2 id="gdscript">GDScript</h2>
-<p>
-<br/>
-I decided that to get the most out of the box experience, I would use<br/>
-Godot's own builtin scripting language (called GDScript) and also<br/>
-because it integrated the best with the Engine, (C# also integrates<br/>
-very well). While I wouldn't call it unusable, It certainly was not<br/>
-<i>fun</i> to use.<br/>
-<br/>
-The syntax which is mostly copied from Python is fine… Some things<br/>
-taking several lines when they shouldn't need to is a bit frustrating<br/>
-but it's fine.<br/>
-<br/>
-[2] GDScript recently gained support for Static Typing which is great<br/>
-but to say its fragile is putting it mildly, It's optional so it's very<br/>
-lightly enforced, And in some places is missing entirely. There is still<br/>
-no way to define some kind of interface type over dictionary, or define<br/>
-a array that will take only a certain value (There is <code>PoolStringArray</code><br/>
-and friends but those are only for a few data types) Signal parameters<br/>
-can't be typed currently<br/>
-<br/>
-Godot has what it calls "tool scripts", that is scripts that run<br/>
-directly in the editor, (this can be used to create much more<br/>
-interactive previews or some custom in editor tooling), but the main<br/>
-problem I have with them is that by default the entire script is run in<br/>
-its entirety, A small flaw is that if you decide to run one of your<br/>
-game's scripts as a tool script, potentially to avoid writing the code<br/>
-twice, The only way to exclude some game specific code to run in the<br/>
-editor which would probably error it out and maybe even crash it or slow<br/>
-it down a lot is to do<br/>
-<pre>
-<code class="language-gdscript"><span class="kwa">if</span> Engine.<span class="kwd">editor_hint</span>:
-    <span class="kwa">print</span>(<span class="sng">&quot;Running in editor&quot;</span>)
-   <span class="kwa">return</span>	</code>
-</pre>
-<br/>
-which is just ugly in a word, I'd rather a way alongside the if check<br/>
-somewhat like this<br/>
-<pre>
-<code class="language-gdscript">editor <span class="kwa">func</span> <span class="kwc">only_in_editor</span>():
-    <span class="kwa">print</span>(<span class="sng">&quot;I only run in the editor&quot;</span>)	</code>
-</pre>
-<br/>
-Definitely a nitpick, but true private functions would be nice to go<br/>
-along with the static typing<br/>
-<br/>
-Also although Godot's node system is wonderful in most cases, in a few<br/>
-places it feel just kinda sticky, like <i>the</i> way to run functions from<br/>
-other script files (This is very basic stuff) is to have 2 scripts like<br/>
-this:<br/>
-<pre>
-<code class="language-gdscript"><span class="kwa">extends</span> Node
+<p>I decided that to get the most out of the box experience, I would use<br />
+Godot's own builtin scripting language (called GDScript) and also<br />
+because it integrated the best with the Engine, (C# also integrates<br />
+very well). While I wouldn't call it unusable, It certainly was not<br />
+<em>fun</em> to use.</p>
+<p>The syntax which is mostly copied from Python is fine… Some things<br />
+taking several lines when they shouldn't need to is a bit frustrating<br />
+but it's fine.</p>
+<p>[2] GDScript recently gained support for Static Typing which is great<br />
+but to say its fragile is putting it mildly, It's optional so it's very<br />
+lightly enforced, And in some places is missing entirely. There is still<br />
+no way to define some kind of interface type over dictionary, or define<br />
+a array that will take only a certain value (There is <code>PoolStringArray</code><br />
+and friends but those are only for a few data types) Signal parameters<br />
+can't be typed currently</p>
+<p>Godot has what it calls &quot;tool scripts&quot;, that is scripts that run<br />
+directly in the editor, (this can be used to create much more<br />
+interactive previews or some custom in editor tooling), but the main<br />
+problem I have with them is that by default the entire script is run in<br />
+its entirety, A small flaw is that if you decide to run one of your<br />
+game's scripts as a tool script, potentially to avoid writing the code<br />
+twice, The only way to exclude some game specific code to run in the<br />
+editor which would probably error it out and maybe even crash it or slow<br />
+it down a lot is to do</p>
+<pre><code class="language-gdscript"><span class="k">if</span><span class="w"> </span><span class="n">Engine</span><span class="o">.</span><span class="n">editor_hint</span><span class="p">:</span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="s2">"Running in editor"</span><span class="p">)</span>
+<span class="w">   </span><span class="k">return</span>
+</code></pre>
+<p>which is just ugly in a word, I'd rather a way alongside the if check<br />
+somewhat like this</p>
+<pre><code class="language-gdscript"><span class="n">editor</span><span class="w"> </span><span class="k">func</span><span class="w"> </span><span class="n">only_in_editor</span><span class="p">():</span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="s2">"I only run in the editor"</span><span class="p">)</span>
+</code></pre>
+<p>Definitely a nitpick, but true private functions would be nice to go<br />
+along with the static typing</p>
+<p>Also although Godot's node system is wonderful in most cases, in a few<br />
+places it feel just kinda sticky, like <em>the</em> way to run functions from<br />
+other script files (This is very basic stuff) is to have 2 scripts like<br />
+this:</p>
+<pre><code class="language-gdscript"><span class="k">extends</span><span class="w"> </span><span class="n">Node</span>
 
-<span class="kwa">func</span> <span class="kwc">greet</span>(name: String) -&gt; String:
-  <span class="kwa">return</span> <span class="sng">&quot;Hello there, &quot;</span> + name	</code>
-</pre>
-<br/>
-&<br/>
-<pre>
-<code class="language-gdscript"><span class="kwa">extends</span> Node
+<span class="k">func</span><span class="w"> </span><span class="n">greet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">:</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="s2">"Hello there, "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span>
+</code></pre>
+<p>&amp;</p>
+<pre><code class="language-gdscript"><span class="k">extends</span><span class="w"> </span><span class="n">Node</span>
 
-<span class="kwa">var</span> hello = <span class="kwa">preload</span>(<span class="sng">&quot;res://hello.gd&quot;</span>).<span class="kwc">new</span>()
+<span class="k">var</span><span class="w"> </span><span class="n">hello</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">preload</span><span class="p">(</span><span class="s2">"res://hello.gd"</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
 
-<span class="kwa">func</span> <span class="kwc">_ready</span>() -&gt; void:
-    <span class="kwa">print</span>(hello.<span class="kwc">greet</span>(<span class="sng">&quot;Jeffery&quot;</span>))	</code>
-</pre>
-<br/>
-This might be fine, but I just don't like it :| A proper import / export<br/>
-system would be nice to see<br/>
-<br/>
-Tween <b>nodes</b> which are used for animation but are meant to be used<br/>
-almost entirely from within code become a bit annoying after some time. [3]<br/>
-<br/>
-Maybe I was expecting a bit too much though, It's not <i>designed</i> for a<br/>
-lot of this, but in my opinion a lot of it leads to simply better /<br/>
-neater code or at least it does and static typing even helps me<br/>
-significantly when writing code.<br/>
-<br/>
-</p>
+<span class="k">func</span><span class="w"> </span><span class="n">_ready</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="n">hello</span><span class="o">.</span><span class="n">greet</span><span class="p">(</span><span class="s2">"Jeffery"</span><span class="p">))</span>
+</code></pre>
+<p>This might be fine, but I just don't like it :| A proper import / export<br />
+system would be nice to see</p>
+<p>Tween <strong>nodes</strong> which are used for animation but are meant to be used<br />
+almost entirely from within code become a bit annoying after some time. [3]</p>
+<p>Maybe I was expecting a bit too much though, It's not <em>designed</em> for a<br />
+lot of this, but in my opinion a lot of it leads to simply better /<br />
+neater code or at least it does and static typing even helps me<br />
+significantly when writing code.</p>
 <h3 id="other">Other</h3>
-<p>
-<br/>
-As for performance, while I won't call it light weight , its not too<br/>
-outrageously intensive, as long as you tone down the fps and don't go<br/>
-nuts with the asset loading, it'll probably be fine… Memory usage can<br/>
-get out of hand if you don't mind it tho. <i>I found 25 fps to be good enough for my purposes.</i> For GUI alone though, it's not very good.<br/>
-<br/>
-It definitely isn't the best if you want a accessible UI system, outside<br/>
-of like translations, you won't find much of that here.<br/>
-<br/>
-</p>
+<p>As for performance, while I won't call it light weight , its not too<br />
+outrageously intensive, as long as you tone down the fps and don't go<br />
+nuts with the asset loading, it'll probably be fine… Memory usage can<br />
+get out of hand if you don't mind it tho. <em>I found 25 fps to be good enough for my purposes.</em> For GUI alone though, it's not very good.</p>
+<p>It definitely isn't the best if you want a accessible UI system, outside<br />
+of like translations, you won't find much of that here.</p>
 <h4 id="editor-layout">Editor Layout</h4>
-<p>
- The editor UI is really inflexible, while the<br/>
-default layout is perfectly functional, If you want to customize it to<br/>
-any greater extent than moving a few panes around, you're out of luck :/<br/>
-For example, I wanted a layout with the preview and node editor in a<br/>
-vertical layout to the left and a script editor to the right, But this<br/>
-is not possible, Godot 4 introduces a split screen editor so that's a<br/>
-start.<br/>
-<br/>
-<br/>
-Footnotes:<br/>
-<br/>
+<p>The editor UI is really inflexible, while the<br />
+default layout is perfectly functional, If you want to customize it to<br />
+any greater extent than moving a few panes around, you're out of luck :/<br />
+For example, I wanted a layout with the preview and node editor in a<br />
+vertical layout to the left and a script editor to the right, But this<br />
+is not possible, Godot 4 introduces a split screen editor so that's a<br />
+start.</p>
+<p>Footnotes:</p>
 <ul>
-<li>[1] This has been addressed in Godot V4.<br/>
-</li>
-<li>[2] This has been addressed in Godot V4.<br/>
-</li>
-<li>[3] This has been addressed in Godot V4.<br/>
+<li>[1] This has been addressed in Godot V4.</li>
+<li>[2] This has been addressed in Godot V4.</li>
+<li>[3] This has been addressed in Godot V4.</li>
+</ul>
+
 </article>
 </body>
 </html>

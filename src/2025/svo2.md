@@ -1,6 +1,7 @@
-#HEADER Reverse-enginnering SVO2
-The recording format from Stereolabs ZED cameras
-#END HEADER
+---
+title: Reverse-enginnering SVO2
+description: The recording format from Stereolabs ZED cameras
+---
 
 Dreadnought Robotics, The team I'm part of recently got our hands on a very nice ZED 2i stereo depth camera, However the SDK is heavily dependent on CUDA so that it made difficult for some of us and some of our infra. to make full use of it, To slightly remedy this deficiency I tried reverse enginnering the SVO2 recording format so that we could more easily export it to other formats for ingestion
 
@@ -91,7 +92,6 @@ At this point I realized this project wasn't gonna be as easy as I had hoped, I 
 ### Side Quest: Binary Reverse Enginnering
 [Executable](https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQBTy__gTPnMQI5CrqlQgEklAVUk29Z-z3CydLrVarCrV54?e=NHe5xa)
 
-
 While randomly googling this to see to if anyone had tried anything / found any information regarding this, I came across [this docker container](https://hub.docker.com/r/stereolabs/svo-conversion-tool) from stereolabs which isnt linked anywhere and doesnt show up on my google results
 
 The description says the container is meant to export MP4s out from SVO2 sans CUDA, I was quite happy on finding it thinking I wouldnt have to finish the reverse enginnering after all, But apparently it only works with H265 encded SVO2s, (SVO2s can compress images with JPEG / H264 / H265), No matter I figured it gave me an executable that I should be able to reverse enginner and scavenge for more information
@@ -114,6 +114,7 @@ After trying out a bunch of ideas with how the arrange the data to form the fina
 So we had the shape right and the size right but no luck on the colours, No matter what we did we couldn't get the colours to show up without some weird patterning
 
 ![a square pattern](square-pattern.png)
+
 ![a blue image of an underwater scene but with pattern on it](final_BGGR_right.png)
 
 Since we had gotten somewhere partly, we went about in circles trying to figure out what kind of layering they were doing to form the bayer pattern

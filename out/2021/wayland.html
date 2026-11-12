@@ -5,31 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wayland</title>
 <meta name="description" content="My experience with wayland">
-<link rel="canonical" href="https://nes.is-a.dev/2021/wayland.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/wayland.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="Wayland">
 <meta property="og:description" content="My experience with wayland">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2021/wayland.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/wayland.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwb{color:#dfdfbf}.kwc{color:#aae3b2}.com{color:#7f9f7f;font-style:italic}.card{border:1px solid var(--white-darker);padding:.5em 1em}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
-
-<header>
-  <h1>Wayland</h1>
-  <!-- post_description="My experience with wayland" -->
-</header>
-<pre>
-<code class="language-plaintext">                  ,____
+<header><h1>Wayland</h1></header>
+<pre><code>                  ,____
                    |---.\
            ___     |    `
-          / .-\  ./&equals;)
-         |  |"|_/\/|
+          / .-\  ./=)
+         |  |&quot;|_/\/|
          ;  |-;| /_|
         / \_| |/ \ |
        /      \/\( |
@@ -38,86 +33,67 @@
       /--._/  \    |
       `/|)    |    /
         /     |   |
-      .'      |   |
+      .&#x27;      |   |
      /         \  |
     (_.-.__.__./  /
-</code>
-</pre>
-<i>Got a display server to kill</i><br/>
-This is intended to chronicle my adventures using Wayland<br/>
-The primary reason being terrible performance in X11 but that was later resolved. :)<br/>
-The journey continues tho 📔<br/>
-<h2 id="window-manager-compositor">Window Manager (Compositor) </h2>
-<p>
-<i>I know its called a compositer but I am going to call it a window manager >:(</i>To fulfill this purpose I chose <a href="https://swaywm.org/">sway</a> as its the one I felt I could most get used to<br/>
-since I had used its Xorg brother (i3) for a long while<br/>
-<br/>
-And..<br/>
-It works really well! It's performance is very impressive compared to what I am used to<br/>
-I have a few scruples with its configuration format and its refusal to add features i3 lacks but oh well..,<br/>
-not like I'm gonna be writing my own compositor any time soon<br/>
-<br/>
-Coming from awesomewm, I would have liked to find something similar <br/>
-and that sort of exists in the form of <a href="https://taiwins.org/index.html">Taiwins</a> but its very different from what I am used to <br/>
-and I am not keen on using it as it is rather unstable and documentation is lacking<br/>
-<br/>
-</p>
+</code></pre>
+<p><em>Got a display server to kill</em><br />
+This is intended to chronicle my adventures using Wayland<br />
+The primary reason being terrible performance in X11 but that was later resolved. :)<br />
+The journey continues tho 📔</p>
+<h2 id="window-manager-compositor">Window Manager (Compositor)</h2>
+<p><i>I know its called a compositer but I am going to call it a window manager &gt;:(</i><br />
+To fulfill this purpose I chose <a href="https://swaywm.org/">sway</a> as its the one I felt I could most get used to<br />
+since I had used its Xorg brother (i3) for a long while</p>
+<p>And..<br />
+It works really well! It's performance is very impressive compared to what I am used to<br />
+I have a few scruples with its configuration format and its refusal to add features i3 lacks but oh well..,<br />
+not like I'm gonna be writing my own compositor any time soon</p>
+<p>Coming from awesomewm, I would have liked to find something similar<br />
+and that sort of exists in the form of <a href="https://taiwins.org/index.html">Taiwins</a> but its very different from what I am used to<br />
+and I am not keen on using it as it is rather unstable and documentation is lacking</p>
 <h3 id="screenshots">Screenshots</h3>
-<p>
-What is the point of making a epic rice if there is no way to showcase it!<br/>
-Wayland seems a bit more fiddly compared to the centralized xorg in terms of recording <br/>
-but its not that bad. I had to use <a href="https://github.com/emersion/grim">grim</a> along with this <a href="https://github.com/swaywm/sway/blob/master/contrib/grimshot">script</a> from sway to get<br/>
-Nothing particularly difficult but not as cohesive as id like :/<br/>
-<br/>
-</p>
-<h2 id="moving-from-xorg">Moving from Xorg </h2>
-<p>
-This is a bit of a generic header but oh well<br/>
-<br/>
-Much to my surprise this wasnt as bad as I thought it would be,<br/>
-rofi, wezterm, firefox & dunst - all programs I am used to from Xorg could work <br/>
-natively (without Xwayland) on wayland<br/>
-<br/>
-Although most of them required tweaking in some form or another<br/>
-<br/>
-<b>ROFI:</b> This does use a fork
-<pre>
-<code class="language-sh">git clone <span class="kwb">--recurse-submodules</span> <a href="https://github.com/lbonn/rofi">https://github.com/lbonn/rofi</a>
-<span class="kwb">cd</span> rofi
-meson setup build <span class="kwb">-Dwayland</span>=enabled <span class="kwb">--prefix</span>=/usr/<span class="kwb">local</span>
-ninja <span class="kwb">-C</span> build
-ninja <span class="kwb">-C</span> build <span class="kwc">install</span>	</code>
-</pre>
+<p>What is the point of making a epic rice if there is no way to showcase it!<br />
+Wayland seems a bit more fiddly compared to the centralized xorg in terms of recording<br />
+but its not that bad. I had to use <a href="https://github.com/emersion/grim">grim</a> along with this <a href="https://github.com/swaywm/sway/blob/master/contrib/grimshot">script</a> from sway to get<br />
+Nothing particularly difficult but not as cohesive as id like :/</p>
+<h2 id="moving-from-xorg">Moving from Xorg</h2>
+<p>This is a bit of a generic header but oh well</p>
+<p>Much to my surprise this wasnt as bad as I thought it would be,<br />
+rofi, wezterm, firefox &amp; dunst - all programs I am used to from Xorg could work<br />
+natively (without Xwayland) on wayland</p>
+<p>Although most of them required tweaking in some form or another</p>
+<p><b>ROFI:</b> This does use a fork</p>
+<pre><code class="language-sh">git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/lbonn/rofi
+<span class="nb">cd</span><span class="w"> </span>rofi
+meson<span class="w"> </span>setup<span class="w"> </span>build<span class="w"> </span>-Dwayland<span class="o">=</span>enabled<span class="w"> </span>--prefix<span class="o">=</span>/usr/local
+ninja<span class="w"> </span>-C<span class="w"> </span>build
+ninja<span class="w"> </span>-C<span class="w"> </span>build<span class="w"> </span>install
+</code></pre>
 <p></p>
 <b>FIREFOX:</b> Might need to modify some desktop files to get it to work right
-<pre>
-<code class="language-plaintext">MOZ_ENABLE_WAYLAND&equals;1 firefox
-</code>
-</pre>
+```
+MOZ_ENABLE_WAYLAND=1 firefox
+```
 ** Wezterm has issues with the wayland clipboard. I think using <a href="https://codeberg.org/dnkl/foot">foot</a> would be a better idea
 ** Firefox crashed more often for me in wayland but that may or may not happen to you
-
-</p>
 <h3 id="bars">Bars</h3>
-<p>
-Compared to the choice on X11, bars in wayland are a bit ehhhh ig
-There are only 2 that I found:
-
+<p>Compared to the choice on X11, bars in wayland are a bit ehhhh ig<br />
+There are only 2 that I found:</p>
 <ul>
-<li>Yambar:
-	<a href="https://codeberg.org/dnkl/yambar">https://codeberg.org/dnkl/yambar</a>
-</li>
-<li>Waybar:
-	<a href="https://github.com/Alexays/Waybar">https://github.com/Alexays/Waybar</a>
-</li>
-</ul><br/>Since I couldn't compile yambar even tho it seems pretty nice :/ I was forced to use waybar
-Both of them take after polybar very much which I personally am not much a fan off
-but ig it makes sense, If I were to revisit the topic of bars I will definitely look into using
-The one and only <a href="https://github.com/elkowar/eww/">eww</a> for this purpose.
-
+<li>Yambar:<br />
+<a href="https://codeberg.org/dnkl/yambar">https://codeberg.org/dnkl/yambar</a></li>
+<li>Waybar:<br />
+<a href="https://github.com/Alexays/Waybar">https://github.com/Alexays/Waybar</a></li>
+</ul>
+<p>Since I couldn't compile yambar even tho it seems pretty nice :/ I was forced to use waybar<br />
+Both of them take after polybar very much which I personally am not much a fan off<br />
+but ig it makes sense, If I were to revisit the topic of bars I will definitely look into using<br />
+The one and only <a href="https://github.com/elkowar/eww/">eww</a> for this purpose.</p>
 <hr />
-🚧 This has been archived since I have not had the time to give a proper look at wayland, I do plan on looking at it again at some point,
-since whether I like it or not, it seems to be the future of Linux Desktop
+<p>🚧 This has been archived since I have not had the time to give a proper look at wayland, I do plan on looking at it again at some point,<br />
+since whether I like it or not, it seems to be the future of Linux Desktop</p>
+
 </article>
 </body>
 </html>

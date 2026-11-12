@@ -1,102 +1,40 @@
 # undefineddarkness.github.io
 
-Personal site + custom bash/python static site generator ("pond"/"generate"). Content is authored in Markdown/HTML with a custom directive syntax (`#HEADER`, `#CHART`, `#PLOT`, etc.), transformed by a bash pipeline, and built into `out/`.
-
-## Running things
-
-Everything goes through `./generate`, which — when run *outside* Docker — transparently proxies into the `generate` container (`docker compose exec generate ./generate "$@"`), starting it if needed. So on the host you just run `./generate ...` as if it were native; on Windows, `generate.cmd` does the same via `docker compose exec`.
-
-```
-./generate            # full build: src/ -> out/, plus index/rss/sitemap, plus asset sync
-./generate live       # live rebuild + browser preview (hs.py, port 5000)
-./generate serve      # plain static file server over out/ (port 5050)
-./generate deploy     # build + minify + `bunx vercel`
-./generate minify-out  # HTML-minify everything already in out/
-./generate rm <slug>  # delete a built post + its .md source, then regen the index
-./generate winfix     # dos2unix the whole src/ tree (CRLF from Windows editors)
-./generate dbg <file> # run pond.sh in debug mode on one file, verbose transformer trace
-```
-
-`make` at the repo root wraps the CSS/JS asset build + `./generate` into a single `make build` (see root `Makefile`).
+Personal site. Posts are GitHub-flavoured Markdown in `src/`, built to `out/` by a single Python script, `build.py`. See `README.md` for the authoring format.
 
 ## Design constraints
 
-The site is deliberately minimal: dark-only, system fonts, one small stylesheet (`assets_src/styles/styles.css`, purged + inlined per page), no JS unless a feature can't work without it (and then loaded on demand — e.g. the portfolio's three.js viewer loads only on click). Keep new features in that spirit.
+Deliberately minimal: dark-only, system fonts, one small stylesheet inlined into every page, no JS unless a feature can't work without it — and then it's a self-contained module loaded only by pages that use it (charts), or on demand (the portfolio's three.js viewer loads on click). Prefer plain HTML elements (`<details>`, `<video>`, `<object>`, MathML) over custom syntax. Keep new features in that spirit.
 
-## Docker image (tools available at build time)
+## Running things
 
-`Dockerfile` is based on `ghcr.io/astral-sh/uv:debian-slim` (so `uv`/`uv run` is always available for the `.tooling/*.py` scripts, each of which is a PEP 723 inline-metadata script run via `uv run --script`). Installed on top:
+```
+./generate               # build.py (all pages) + assets.py sync
+./generate <src files>   # rebuild just those posts (+ index/feeds)
+./generate live          # live-reload preview (.tooling/hs.py, port 5000)
+./generate serve         # static server over the repo (port 5050)
+./generate deploy        # build + `bunx vercel`
+make                     # rebuild JS bundles (bun) then ./generate
+```
 
-- `bash`, `make`, `perl` — the actual build pipeline is bash + perl regex, not a JS toolchain
-- `bun` (installed via the official install script, not apt) — used for the TS asset bundling (`bun build`), running `postcss`/`html-minifier-terser` via `bunx`, and as `node_runner` fallback in `generate`
-- `imagemagick` — raster image processing
-- `libavif-bin` — AVIF transcoding for images (`assets.py`'s image pipeline hashes + converts raster assets to `.avif`)
-- `highlight` — server-side syntax highlighting for fenced code blocks, emitted as short class names (`kwa`, `sng`, ...) coloured by `styles.css`; without it code renders plain (see `.tooling/initial.sh`)
-- `fontforge-nox` — font manipulation/subsetting for custom glyph work (e.g. the octant font used by `ascii-model-viewer`)
-- `jq`, `curl`, `unzip`, `ca-certificates` — general scripting/fetch utilities
-- `python3` — python3 stdlib is what most `.tooling/*.py` scripts actually need; `uv run` handles any extra deps per-script
-- `dos2unix` — used by `./generate winfix`
+`./generate` runs natively when `uv` is installed; otherwise it proxies into the `generate` Docker container (`docker-compose.yml`). `generate.cmd` is the Windows equivalent via Docker.
 
-`package.json` deps installed via `bun install`: `three` (3D model viewers), `mathjax-full` (build-time math rendering), `postcss`/`postcss-import`/`cssnano` (CSS build), `purgecss` (critical CSS extraction in `optimize_page.sh`), `html-minifier-terser`, `rollup`/`@rollup/plugin-node-resolve` (bundling).
+## Layout
 
-`docker-compose.yml` bind-mounts the whole repo into `/app` and keeps the container alive (`sleep infinity`) after `bun install`, so `./generate` on the host is just `docker compose exec`-ing into an already-warm container rather than paying image/install cost per invocation. Ports 5000 (`generate live`) and 5050 (`generate serve`) are exposed.
-
-## Script inventory
-
-### Root
-
-| File | Role |
+| Path | Role |
 |---|---|
-| `generate` | The SSG driver. Host/container dispatch, per-file build loop, index/RSS/sitemap generation, HTML minification, `deploy` |
-| `generate.cmd` | Windows equivalent (just shells out to `docker compose exec`) |
-| `template.html` | Minimal page shell (essential meta + og tags, one favicon, top nav). Split by the generator on the `!CONTENT!` marker into pre/post-content halves; per-page placeholders (`!TITLE!`, `!URL!`, `!DESCRIPTION!`, `!IMAGE!`, `!DOCUMENT-PATH!`) get substituted in |
-| `Makefile` | `make build` = `assets_src` CSS + other-asset build, then `./generate` |
+| `build.py` | The generator (`uv run --script`, deps pinned inline: markdown-it-py, mdit-py-plugins, pygments, latex2mathml). Front matter -> page metadata; GFM incl. alerts, tables, footnotes, task lists, autolinks; heading anchors; pygments highlighting (short class names, coloured in `styles.css`); `\(..\)`, `\[..\]` and ```` ```math ```` -> MathML at build time; images alone on a line -> `<figure>` with alt-text caption; adds `/assets/charts.js` to pages using `<bar-chart>`/`<fn-plot>`. Also writes `out/index.html` (+ root `index.html`), `rss.xml`, `sitemap.xml`, and the minified `out/.assets/styles.css` |
+| `template.html` | Page shell; `!TITLE!`, `!DESCRIPTION!`, `!URL!`, `!IMAGE!`, `!CONTENT!` placeholders. Its stylesheet `<link>` is replaced by the inlined CSS |
+| `src/index.html` | Index template. Each `!POSTS-<FOLDER>!` placeholder becomes that folder's post list (newest first). Folders without a placeholder (`todo/` drafts) stay off the index, RSS and sitemap |
+| `src/*.html` | Hand-written pages (about), copied with CSS inlined |
+| `portfolio.html`, `404.html`, `experiments/` | Hand-written pages at the repo root, linking `/assets/styles.css` |
+| `assets_src/styles/styles.css` | The one stylesheet. Token names are legacy (`--white*` = backgrounds, `--black*` = text) because experiments/ use them |
+| `assets_src/other/charts.ts` | `<bar-chart>` / `<fn-plot>` custom elements (uPlot). They read the Markdown table / formula list they wrap; without JS that content is shown as-is |
+| `assets_src/other/*model-viewer.ts` | three.js viewers (`model-viewer.js` used by the portfolio) |
+| `assets_src/Makefile` | `bun build` for the JS bundles above, committed under `out/.assets/` |
+| `.tooling/assets.py` | Media pipeline: walks `assets_src/` + images next to posts in `src/`, content-hashes and AVIF-transcodes raster images (`avifenc`), transcodes video to AV1 `.webm` (`ffmpeg`), copies the rest flat into `out/.assets/`, then rewrites asset references across `out/`, `experiments/`, `rss.xml` and `index.html`. `assets_src/models/` is skipped: models are Git LFS (repo is over budget) and are served from Vercel blob URLs |
+| `.tooling/hs.py` | Dev server for `./generate live` (aiohttp + watchfiles; rebuilds changed files via `./generate <file>`) |
 
-### `.tooling/` — the markup pipeline ("pond")
+## Dates and metadata
 
-| File | Role |
-|---|---|
-| `pond.sh` | Entry point for converting one `.md`/`.html` source file to markup. Sources the other `.sh` files, runs `initial_transformer` then dispatches `#DIRECTIVE` blocks to functions in `transformers.sh`, then `final_transformer` |
-| `initial.sh` | Line-by-line pre-pass: detects `#DIRECTIVE ... #END DIRECTIVE` blocks and code fences, tracks nesting, handles inline `\(...\)` math via `render_math.ts`, hands off matched blocks to `transformers.sh` functions |
-| `transformers.sh` | One bash function per directive: `box`, `callout` (`#CALLOUT`), `f` (`#FOLD`), `right_align`/`center`/`preserve_center`, `header` (`#HEADER`), `plot` (`#PLOT`, function plots: one `expression<TAB>label[<TAB>#colour]` per line, sampled in the browser), `chart` (`#CHART`, bar charts via `chart.py`), `pdf`/`pdfi` (`#PDF`, native `<object>` embed — no JS), `redirect`, `video` (`#VIDEO`), `wip`, `verbatim`, `carousel` (CSS-only scroll-snap strip), `columns`, `table` |
-| `final.sh` | Post-pass: inline code spans, `**bold**`/`*italic*`/`~~strike~~`/`==mark==`, `![alt](src)` -> `<figure>`, `[text](url)` -> `<a>`, bare-URL autolinking |
-| `helpers.sh` | Shared utilities: logging (`warn`/`err`/`dbg`), `slice`/`snip`/`trim`, `get-functions` (directive dispatch table), `calc`/`ms`/`timer`, `escape_code_block`, `protect_raw_block` (shields `#CHART`/`#PLOT` HTML output from the markdown-lite regex pass in `final.sh`) |
-| `assets.py` | `uv run` script. Single-pass asset pipeline: walks `assets_src/` + co-located post images in `src/`, content-hashes + AVIF-transcodes raster images, transcodes raw video to AV1/Opus `.webm` in place, copies everything else through flattened into `out/.assets/`, then rewrites every asset reference (`src=`, `href=`, `url()`, `import`, etc.) across `out/`, `rss.xml`, and root `index.html` to match. Invoked as `assets.py sync <dirs...>` at the end of every `./generate` run |
-| `chart.py` | Backs `#CHART`: turns tab-separated (or `csv=true`) category/series data into a `<figure class="chart">` holding a plain data `<table>` |
-| `gfm.py` | `uv run` script wrapping `cmarkgfm` — used instead of `pond.sh` when building inside `ricing-guide/` (plain GitHub-flavored markdown, no custom directives) |
-| `render_math.ts` | Build-time TeX rendering (MathJax) for `\(...\)` inline math and fenced math blocks |
-| `hs.py` | `uv run` script: the dev server behind `./generate live` — aiohttp static server with gzip/br compression, a `/ws` endpoint, and a `watchfiles`-driven live-reload loop that re-invokes `fsw.py`/`generate` on source changes |
-| `fsw.py` | Tiny `watchfiles` watcher over `src/` that prints changed `.md`/`.html` paths, one per line, for `hs.py` to consume |
-| `sync_with_personal.sh` | One-off script to mirror `.tooling`, `generate`, and CSS between this repo and a sibling personal fork |
-| `generate.py` | Unused/incomplete argparse stub — not wired into `generate` |
-
-### `assets_src/` — pre-build asset sources
-
-| File | Role |
-|---|---|
-| `Makefile` | Builds `styles/styles.css` -> `out/.assets/styles.css` via `postcss`; bundles `other/*.ts` (three.js custom elements) -> `out/.assets/*.js` via `bun build --bundle --minify` |
-| `.tooling/optimize_page.sh` | Per-page critical-CSS step: purges `out/.assets/styles.css` down to what a given built page actually uses (via `purgecss`) and inlines it, run on every page by `generate`'s `build_md`/`generate_index` |
-| `other/charts.ts` | uPlot renderer for `#CHART`/`#PLOT` figures -> `out/.assets/charts.js`. Each chart figure includes it as a module script (runs once per page), so only chart pages load it. The figure's table/formula list is the no-JS fallback |
-| `other/*.ts` | Custom elements bundled standalone (not through the main site JS, since there mostly isn't any) — e.g. `ascii-model-viewer.ts`, `wireframe-model-viewer.ts`, both three.js-based `<model-viewer>`-style web components that render 3D models as terminal/wireframe art |
-| `fonts/`, `icons/`, `images/`, `documents/`, `videos/` | Raw asset sources picked up by `assets.py`'s sync pass — not symlinked, just walked and flattened into `out/.assets/` |
-| `models/` | 3D model sources (Git LFS). *Not* synced into `out/.assets/`: the repo is over its LFS budget and Pages would serve LFS pointers, so models are served from Vercel blob URLs instead |
-
-## SSG structure
-
-**Source -> output mapping**: `src/**/*.md`, `src/**/*.org`, `src/**/*.html` each build to the same relative path under `out/`, with `.md`/`.org` extensions swapped to `.html`. `assets` at the repo root is a symlink to `out/.assets`.
-
-**Build flow** (`./generate`, no subcommand):
-1. Split `template.html` on `!CONTENT!` into `template_pre_content` / `template_post_content`.
-2. Rebuild `out/.assets/styles.css` first (via `assets_src` Makefile) — page-level critical-CSS purging later in the same run depends on this being current.
-3. Walk every `src/**/*.{html,md,org}` and build it (in parallel background jobs, `wait`ed at the end):
-   - `.md` -> `pond.sh` (custom directive markup) or, inside `ricing-guide/`, `gfm.py` (plain GFM) -> heading/meta extracted for the template placeholders -> concatenated with the template halves -> `optimize_page.sh` (critical CSS inline) -> written to `out/`.
-   - `.html` -> copied through as-is (`build_html`).
-   - `.org` -> `build_org` (Emacs-based, see `generate_org_full`).
-4. `generate_index` — rebuilds `src/index.html` -> `out/index.html` (and mirrors to root `index.html`) by substituting each `!POSTS-<FOLDER>!` placeholder with an `<li>` list of that folder's posts, sorted newest-first by `get_article_date` (prefers an explicit `post_date=` HTML comment override, then git first-commit date, then mtime).
-5. `generate_rss` / `generate_sitemap` — same per-article date/metadata scan, emitted as `rss.xml` / `sitemap.xml`.
-6. `make -s -C assets_src build-regen` — rebuild CSS again (cheap, picks up anything touched mid-build).
-7. `.tooling/assets.py sync out experiments` — the one asset pass: hash/transcode/flatten everything from `assets_src/` + co-located post images into `out/.assets/`, then rewrite every asset reference across `out/`, `experiments/`, `rss.xml`, and root `index.html` to point at the resulting hashed filenames.
-
-**Per-page metadata**: pulled out of the rendered markup via HTML comments authors can drop in source — `<!-- post_description=... -->`, `<!-- post_image=... -->`, `<!-- post_date=... -->` — read by `format_doc_heading`/`get_article_date` in `generate`.
-
-**Directive markup**: content files use a custom `#DIRECTIVE ... #END DIRECTIVE` block syntax (plus a `**bold**`/`*italic*`/`` `code` ``/etc. markdown-lite pass) handled by the pond pipeline — see `transformers.sh` above for the full directive list. Reference examples: `out/2021/lorem.html`, `out/2022/nesdown.html` (per `README.md`).
+Front matter keys: `title`, `description`, `date` (ISO, overrides git), `image` (shown in the post header, small/pixelated), `icon` (social preview image; falls back to `image`, then a site default). Post date = `date`, else the source file's first git commit, else mtime.

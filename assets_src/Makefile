@@ -1,50 +1,16 @@
-# --- Configuration ---
+# JS bundles (the only thing here that needs bun). CSS is minified and
+# inlined by build.py. Bundles are committed under out/.assets/.
 
-# Source files are in the 'styles' subdirectory relative to this Makefile.
-CSS_SOURCES := $(wildcard ./styles/*.css)
+OUT := ../out/.assets
 
-# The main entry point for PostCSS.
-CSS_ENTRY_POINT := ./styles/styles.css
+all: $(OUT)/charts.js $(OUT)/model-viewer.js $(OUT)/wireframe-model-viewer.js
 
-# The output file is one level up, then into out/.assets/
-OUTPUT_CSS := ../out/.assets/styles.css
+# <bar-chart>/<fn-plot> custom elements (uPlot); only loaded by chart pages.
+$(OUT)/charts.js: other/charts.ts
+	bun build $< --outfile $@ --bundle --minify
 
-# Automatically get the directory part of the output path.
-OUTPUT_DIR := $(dir $(OUTPUT_CSS))
+# three.js viewers; the portfolio loads model-viewer.js on click.
+$(OUT)/%.js: other/%.ts
+	bun build $< --outfile $@ --bundle --minify
 
-$(OUTPUT_CSS): $(CSS_SOURCES)
-	@mkdir -p $(OUTPUT_DIR)
-	@echo "==> Building CSS: $(CSS_ENTRY_POINT) -> $(OUTPUT_CSS)"
-	@bunx postcss $(CSS_ENTRY_POINT) --output $(OUTPUT_CSS)
-	@touch $(OUTPUT_CSS)
-
-build-css: $(OUTPUT_CSS)
-
-# uPlot-based #CHART/#PLOT renderer, only loaded by pages that have a chart.
-../out/.assets/charts.js: ./other/charts.ts
-	@bun build ./other/charts.ts --outfile ../out/.assets/charts.js --bundle --minify
-
-# Solid viewer has its own entry point: no ASCII renderer or wireframe overlays.
-../out/.assets/model-viewer.js: ./other/model-viewer.ts
-	@bun build ./other/model-viewer.ts --outfile ../out/.assets/model-viewer.js --bundle --minify
-
-../out/.assets/wireframe-model-viewer.js: ./other/wireframe-model-viewer.ts
-	@bun build ./other/wireframe-model-viewer.ts --outfile ../out/.assets/wireframe-model-viewer.js --bundle --minify
-
-../out/.assets/ascii-model-viewer.js: ../ascii-model-viewer/ascii-model-viewer.ts
-	@bun build ../ascii-model-viewer/ascii-model-viewer.ts --outfile ../out/.assets/ascii-model-viewer.js --bundle --minify
-
-# Standalone demo — fully bundled (three + OBJLoader inlined, no CDN)
-# Source is canonical in ../../ascii-model-viewer/, output lives with the demo at experiments/ascii-model-viewer/
-../experiments/ascii-model-viewer/ascii-render.js: ../ascii-model-viewer/ascii-render.ts
-	@bun build ../ascii-model-viewer/ascii-render.ts --outfile ../experiments/ascii-model-viewer/ascii-render.js --bundle --minify --target browser
-
-build-other: ../out/.assets/charts.js ../out/.assets/model-viewer.js ../out/.assets/wireframe-model-viewer.js ../out/.assets/ascii-model-viewer.js ../experiments/ascii-model-viewer/ascii-render.js
-
-# Fonts/icons/models/documents/etc. are no longer symlinked or built here —
-# they're picked up as plain source files by `.tooling/assets.py build`
-# (flattened into out/.assets/ with their original filename kept).
-
-build-regen:
-# 	git diff --quiet HEAD -- ./other/wireframe-model-viewer.ts || make build-other
-	@make -s build-css
+.PHONY: all

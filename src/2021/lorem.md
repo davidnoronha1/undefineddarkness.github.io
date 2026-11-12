@@ -1,18 +1,19 @@
-#HEADER Lorem Ipsum
-Test page for all the various markup used on this site
-#END HEADER
+---
+title: Lorem Ipsum
+description: Test page for all the various markup used on this site
+---
 
-==TEST FOR GITHUB ACTION==
+<mark>TEST FOR GITHUB ACTION</mark>
 
 <!-- You can use markdown in HTML blocks, no problem  -->
-<div class='txt-c'>[View Page Source](/src/lorem.md)</div>
+<p class="txt-c"><a href="/src/2021/lorem.md">View Page Source</a></p>
 
 <!-- These are as you'd expect -->
 Testing Inlines: 
 Normal text - *italic text* - **bold text**
 I am a [link](https://example.com)
 
-==Pay attention to me==
+<mark>Pay attention to me</mark>
 
 `1 * 2 * 3 = 3!`
 https://www.youtube.com/watch?v=dQw4w9WgXcQ - Link is automatically generated
@@ -57,9 +58,12 @@ int main () {
 }
 ```
 <!-- Folds can be created with the 'f'old transformer -->
-#f Do folds work?
+<details>
+<summary>Do folds work?</summary>
+
 I guess they do :)
-#END f
+
+</details>
 
 <!-- IM:... will add `...` to the article margin -->
 I should be next to a percent sign IM:%
@@ -70,11 +74,12 @@ My own table syntax:
 Rows are separated by lines
 Columns are seperated by any amount of spaces and at least 1 tab.
 -->
-#TABLE	Fruits	Vegetables
-		Apple	Carrot
-		Orange	Tomato
-		Banana	Eggplant
-#END TABLE
+
+| Fruits | Vegetables |
+| --- | --- |
+| Apple | Carrot |
+| Orange | Tomato |
+| Banana | Eggplant |
 
 Block Quotes & Captions:
 <!-- Pretty simple here too, the last line automatically becomes the caption -->

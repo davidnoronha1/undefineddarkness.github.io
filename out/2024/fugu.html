@@ -5,119 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2024, What can the web do?</title>
 <meta name="description" content="An overview of modern web capabilities">
-<link rel="canonical" href="https://nes.is-a.dev/2024/fugu.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2024/fugu.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="2024, What can the web do?">
 <meta property="og:description" content="An overview of modern web capabilities">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2024/fugu.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2024/fugu.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/icon-fugu-fb77b2babd.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video{height:auto;max-width:100%}img,video{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code{font-family:var(--mono-font);font-size:.875em}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}.com{color:#7f9f7f;font-style:italic}.img-sml{max-height:200px;max-width:200px}.card{border:1px solid var(--white-darker);padding:.5em 1em}.hidden{display:none!important}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><img src="/assets/icon-fugu-fb77b2babd.avif" alt=""><h1>2024, What can the web do?</h1></header>
 
-<header>
-  <img class='img-sml' src="/assets/icon-fugu-fb77b2babd.avif" />
-  <!-- post_image="/assets/icon-fugu-fb77b2babd.avif" -->
-  <h1>2024, What can the web do?</h1>
-  <!-- post_description="An overview of modern web capabilities" -->
-</header>
-Lately, I've been really interested in PWAs and how the web platform keeps becoming a platform for a very wide array of apps, removing much of the reason people use things like Electron or Tauri and decoupling web apps from the user's system & exposing powerful capabilities from within the sandbox.<br/>
-<h2 id="file-system-access">📂 File System Access</h2>
-<p>
-This is one of the most exciting ones for me, With this API, a user can grant access to a specified directory in their local file system, This API also encompasses a save file API to replace the standard hidden download button trick and an API for easily opening a system file picker to allow the web app access to a specific file.<br/>
-<br/>
-This can be very useful in an app like Photopea and it might even be enough for many electron applications to be only web apps, for example Obsidian comes to mind, you could grant it access to a VAULT folder and (to my belief) it could function almost entirely as a website<br/>
-<br/>
-To use it, you need to run <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker"><code>window.showOpenFilePicker</code></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker"><code>window.showOpenDirectoryPicker</code></a> on button activation, If it's to save a single file you can instead use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showSaveFilePicker"><code>window.showSaveFilePicker</code></a>, From there you get a File or Directory Handle which can be used to read / write to the file / directory.<br/>
-<br/>
-Unfortunatley, This hasn't been implemented by Mozilla (<a href="https://mozilla.github.io/standards-positions/#native-file-system">Mozilla's Position</a>) & WebKit (<a href="https://github.com/WebKit/standards-positions/issues/28">WebKit's Position</a>) :/, Which is reasonable since most websites don't need access to a user's file system and careless users could easily cause irreparable harm, I think it's still quite useful :P<br/>
-<br/>
-Here's an example:<br/>
-<iframe src='/experiments/fsa.html'></iframe><br/>
+<p>Lately, I've been really interested in PWAs and how the web platform keeps becoming a platform for a very wide array of apps, removing much of the reason people use things like Electron or Tauri and decoupling web apps from the user's system &amp; exposing powerful capabilities from within the sandbox.</p>
+<h2 id="-file-system-access">📂 File System Access</h2>
+<p>This is one of the most exciting ones for me, With this API, a user can grant access to a specified directory in their local file system, This API also encompasses a save file API to replace the standard hidden download button trick and an API for easily opening a system file picker to allow the web app access to a specific file.</p>
+<p>This can be very useful in an app like Photopea and it might even be enough for many electron applications to be only web apps, for example Obsidian comes to mind, you could grant it access to a VAULT folder and (to my belief) it could function almost entirely as a website</p>
+<p>To use it, you need to run <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showOpenFilePicker"><code>window.showOpenFilePicker</code></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker"><code>window.showOpenDirectoryPicker</code></a> on button activation, If it's to save a single file you can instead use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showSaveFilePicker"><code>window.showSaveFilePicker</code></a>, From there you get a File or Directory Handle which can be used to read / write to the file / directory.</p>
+<p>Unfortunatley, This hasn't been implemented by Mozilla (<a href="https://mozilla.github.io/standards-positions/#native-file-system">Mozilla's Position</a>) &amp; WebKit (<a href="https://github.com/WebKit/standards-positions/issues/28">WebKit's Position</a>) :/, Which is reasonable since most websites don't need access to a user's file system and careless users could easily cause irreparable harm, I think it's still quite useful :P</p>
+<p>Here's an example:</p>
+<iframe src='/experiments/fsa.html'></iframe>
 <ul>
-<li><a href="https://fs.spec.whatwg.org/">WhatWG Standard</a><br/>
-</li>
-<li><a href="https://developer.chrome.com/docs/capabilities/web-apis/file-system-access">Chrome Documentation</a><br/>
-</li>
-</ul><br/></p>
+<li><a href="https://fs.spec.whatwg.org/">WhatWG Standard</a></li>
+<li><a href="https://developer.chrome.com/docs/capabilities/web-apis/file-system-access">Chrome Documentation</a></li>
+</ul>
 <h2 id="compression-streams">Compression Streams</h2>
-<p>
-These recently added streams allow you to read and write compressed data to streams (think blobs / files), Right now only <code>gzip</code>, <code>deflate</code> or <code>deflate-raw</code> are supported options, But I'm keeping my fingers crossed for brotli or zstd to be added 🤞<br/>
-<br/>
-In the meantime, people have been compressing <a href="https://purplesyringa.moe/blog/webp-the-webpage-compression-format/">their web pages by storing it inside a WebP image</a>, I wonder what result's one would get with AVIF though I don't imagine them to be <i>too</i> different <br/>
-<br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.CompressionStream&reportSize=true'></iframe><br/>
+<p>These recently added streams allow you to read and write compressed data to streams (think blobs / files), Right now only <code>gzip</code>, <code>deflate</code> or <code>deflate-raw</code> are supported options, But I'm keeping my fingers crossed for brotli or zstd to be added 🤞</p>
+<p>In the meantime, people have been compressing <a href="https://purplesyringa.moe/blog/webp-the-webpage-compression-format/">their web pages by storing it inside a WebP image</a>, I wonder what result's one would get with AVIF though I don't imagine them to be <em>too</em> different</p>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.CompressionStream&reportSize=true'></iframe>
 <ul>
-<li><a href="https://github.com/whatwg/compression/issues/54">Issue for zstd</a><br/>
-</li>
-<li><a href="https://github.com/whatwg/compression/issues/54">Issue for brotli</a><br/>
-</li>
-<li><a href="https://compression.spec.whatwg.org/#compressionstream">WhatWG Standard</a><br/>
-</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Compression_Streams_API">MDN</a><br/>
-</li>
-</ul><br/></p>
-<h2 id="real-time-communication">🗃️ Real Time Communication </h2>
-<p>
-Ever wanted to easily connect 2 instances of your website and transfer arbitrary data between them or even Audio / Video streams? Well with WebRTC, you can, you only need a signalling server for some initial communication between the clients, which can be easily done with a library like <strike><a href="https://peerjs.com/">peer.js</a></strike> <a href="https://github.com/feross/simple-peer">feross/simple-peer</a>,<br/>
-<br/>
-Once the connection is established, data can be transferred in <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel">RTCDataChannels</a> or a media (video / auto) stream can be mostly handled by the browser itself and then rendered in a canvas.<br/>
-<br/>
-This is what powers stuff like <a href="https://webtorrent.io/">WebTorrent</a> & <a href="https://github.com/szimek/sharedrop">ShareDrop</a><br/>
-<br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.RTCPeerConnection&reportSize=true'></iframe><br/>
+<li><a href="https://github.com/whatwg/compression/issues/54">Issue for zstd</a></li>
+<li><a href="https://github.com/whatwg/compression/issues/54">Issue for brotli</a></li>
+<li><a href="https://compression.spec.whatwg.org/#compressionstream">WhatWG Standard</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Compression_Streams_API">MDN</a></li>
+</ul>
+<h2 id="-real-time-communication">🗃️ Real Time Communication</h2>
+<p>Ever wanted to easily connect 2 instances of your website and transfer arbitrary data between them or even Audio / Video streams? Well with WebRTC, you can, you only need a signalling server for some initial communication between the clients, which can be easily done with a library like <s><a href="https://peerjs.com/">peer.js</a></s> <a href="https://github.com/feross/simple-peer">feross/simple-peer</a>,</p>
+<p>Once the connection is established, data can be transferred in <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel">RTCDataChannels</a> or a media (video / auto) stream can be mostly handled by the browser itself and then rendered in a canvas.</p>
+<p>This is what powers stuff like <a href="https://webtorrent.io/">WebTorrent</a> &amp; <a href="https://github.com/szimek/sharedrop">ShareDrop</a></p>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.RTCPeerConnection&reportSize=true'></iframe>
 <ul>
-<li><a href="https://fireship.io/lessons/webrtc-firebase-video-chat/">Firebase course for WebRTC</a><br/>
-</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API">MDN</a><br/>
-</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebTransport">WebTransport</a><br/>
-</li>
-</ul><br/></p>
-<h2 id="talk-to-serial-devices">🔌 Talk to Serial Devices</h2>
-<p>
-The Web Serial API allows you to easily write a web app to communicate with your microcontroller over USB serial, This only works on Edge & Chrome for now though<br/>
-<br/>
-<a href='/experiments/serial.html'>[SERIAL CONSOLE WEBAPP]</a><br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.Serial&reportSize=true'></iframe><br/>
-</p>
+<li><a href="https://fireship.io/lessons/webrtc-firebase-video-chat/">Firebase course for WebRTC</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API">MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebTransport">WebTransport</a></li>
+</ul>
+<h2 id="-talk-to-serial-devices">🔌 Talk to Serial Devices</h2>
+<p>The Web Serial API allows you to easily write a web app to communicate with your microcontroller over USB serial, This only works on Edge &amp; Chrome for now though</p>
+<p><a href='/experiments/serial.html'>[SERIAL CONSOLE WEBAPP]</a></p>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.Serial&reportSize=true'></iframe>
 <h2 id="pwa-share-url-scheme-custom-titlebar">PWA: Share, URL Scheme, Custom titlebar</h2>
-<p>
-This is just a few of the <i>many</i> PWA APIs that I find especially cool or useful<br/>
-<br/>
-<a href="https://web.dev/learn/pwa/capabilities">A full list from web.dev</a><br/>
-<a href="https://developer.chrome.com/docs/capabilities/fugu-showcase">Project Fugu Showcase</a><br/>
-<br/>
-</p>
+<p>This is just a few of the <em>many</em> PWA APIs that I find especially cool or useful</p>
+<p><a href="https://web.dev/learn/pwa/capabilities">A full list from web.dev</a><br />
+<a href="https://developer.chrome.com/docs/capabilities/fugu-showcase">Project Fugu Showcase</a></p>
 <h3 id="share-target">Share Target</h3>
-<p>
-Essentially this lets you add an entry to your system's share menu, you'd be most familiar with this on mobile devices, where you want to share a file, a url or anything to a friend through this menu<br/>
-<br/>
-A few notes on usage, this API allows your app to recieve both files and textual data like links and what not, but if you're dealing with a file, it must be a <b>POST</b> request to an endpoint in your app, <i>Hint: Making this a service worker will make your life a lot easier I promise</i> otherwise if it's a GET request, any binary data is discarded and textual data are inserted as URL query parameters as per what's defined in your <code>manifest.json</code><br/>
-<br/>
-This one is quite useful on mobile devices, kinda mid on desktop, but the real pity is it seems to be pretty inconsistent, I've used this with a personal PWA I've made to make file sharing friction-less (Goodbye, slow af notion uploads) and when I tried installing it on my Android phone through the Brave browser (My usual browser), It doesn't work :/, After some research I discovered the cause to be that as brave is a user installed application, It can't register <i>new</i> share targets of it's own, Chrome being a system installed app has the appropriate permissions to do so and works without a hitch, Even then behaviour was a little off, on my development Windows 10 machine, The share target worked just fine but on my friend's Windows 11 machine, It installed fine but the app was missing from the share menu, I'm not entirely sure why and I haven't had time to research since right now the PWA fulfills exactly what I wanted to do.<br/>
-<br/>
-<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=html.manifest.share_target&reportSize=true'></iframe><br/>
+<p>Essentially this lets you add an entry to your system's share menu, you'd be most familiar with this on mobile devices, where you want to share a file, a url or anything to a friend through this menu</p>
+<p>A few notes on usage, this API allows your app to recieve both files and textual data like links and what not, but if you're dealing with a file, it must be a <strong>POST</strong> request to an endpoint in your app, <em>Hint: Making this a service worker will make your life a lot easier I promise</em> otherwise if it's a GET request, any binary data is discarded and textual data are inserted as URL query parameters as per what's defined in your <code>manifest.json</code></p>
+<p>This one is quite useful on mobile devices, kinda mid on desktop, but the real pity is it seems to be pretty inconsistent, I've used this with a personal PWA I've made to make file sharing friction-less (Goodbye, slow af notion uploads) and when I tried installing it on my Android phone through the Brave browser (My usual browser), It doesn't work :/, After some research I discovered the cause to be that as brave is a user installed application, It can't register <em>new</em> share targets of it's own, Chrome being a system installed app has the appropriate permissions to do so and works without a hitch, Even then behaviour was a little off, on my development Windows 10 machine, The share target worked just fine but on my friend's Windows 11 machine, It installed fine but the app was missing from the share menu, I'm not entirely sure why and I haven't had time to research since right now the PWA fulfills exactly what I wanted to do.</p>
+<iframe class='nb onx' src='https://bcd-table.neswk.workers.dev/?style=true&key=html.manifest.share_target&reportSize=true'></iframe>
 <ul>
-<li><a href="https://developer.chrome.com/docs/capabilities/web-apis/web-share-target">Chrome Article</a><br/>
-</li>
-</ul><br/></p>
+<li><a href="https://developer.chrome.com/docs/capabilities/web-apis/web-share-target">Chrome Article</a></li>
+</ul>
 <h3 id="custom-titlebar">Custom titlebar</h3>
-<p>
-I remember seeing this in one the issues for <a href="https://github.com/gluon-framework/gluon/issues/13">gluon</a>, It's an API that allows the PWA to draw on the "titlebar" of it's application window with the browser just providing window controls (close/minimize/maximize).<br/>
-<br/>
-<figure><img src="/assets/image-75aab94586.avif" alt="Custom titlebar example" title="Custom titlebar example" loading="lazy" /><figcaption>Custom titlebar example</figcaption></figure><br/>
-<br/>
-Again seems to only be implemented by Chromium though :/<br/>
-<br/>
-<iframe class='nb onx' style='max-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.WindowControlsOverlay&reportSize=true'></iframe><br/>
-<a href="https://web.dev/articles/window-controls-overlay">Web.dev Article</a><br/>
-<br/>
+<p>I remember seeing this in one the issues for <a href="https://github.com/gluon-framework/gluon/issues/13">gluon</a>, It's an API that allows the PWA to draw on the &quot;titlebar&quot; of it's application window with the browser just providing window controls (close/minimize/maximize).</p>
+<figure><img loading="lazy" src="/assets/image-75aab94586.avif" alt="Custom titlebar example" /><figcaption>Custom titlebar example</figcaption></figure>
+<p>Again seems to only be implemented by Chromium though :/</p>
+<iframe class='nb onx' style='max-height: 400px;' src='https://bcd-table.neswk.workers.dev/?style=true&key=api.WindowControlsOverlay&reportSize=true'></iframe>
+<p><a href="https://web.dev/articles/window-controls-overlay">Web.dev Article</a></p>
 <script>
 window.addEventListener("message", (event) => {
   console.log(event.data)
@@ -133,6 +90,7 @@ window.addEventListener("message", (event) => {
     }
   });
 </script>
+
 </article>
 </body>
 </html>

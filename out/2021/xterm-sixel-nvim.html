@@ -5,83 +5,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terminal tips &amp; tricks</title>
 <meta name="description" content="😎">
-<link rel="canonical" href="https://nes.is-a.dev/2021/xterm-sixel-nvim.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/xterm-sixel-nvim.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="Terminal tips &amp; tricks">
 <meta property="og:description" content="😎">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2021/xterm-sixel-nvim.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/xterm-sixel-nvim.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video{height:auto;max-width:100%}img,video{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwb{color:#dfdfbf}.esc{color:#dca3a3}.sng{color:#cc9393}.com{color:#7f9f7f;font-style:italic}.ipl{color:#c07abe}table{border-collapse:collapse;display:block;margin:1em 0;overflow-x:auto}td,th{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}summary{cursor:pointer}.chart{width:100%}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><h1>Terminal tips &amp; tricks</h1></header>
 
-<header>
-  <h1>Terminal tips &amp; tricks</h1>
-  <!-- post_description="😎" -->
-</header>
-Just a few things Ive learnt after spending a lot of time in a lot of different terminals.<br/>
+<p>Just a few things Ive learnt after spending a lot of time in a lot of different terminals.</p>
 <h2 id="xterm">xterm</h2>
 <h3 id="neovim">neovim</h3>
-<p>
-One day while tweaking my colourscheme, I noticed that my neovim wasn't displaying any italics<br/>
-like I had specified in it. After double checking that everything was fine from my configuration side, I resolved it to be something between neovim and the terminal.<br/>
-<br/>
-An hour of googling and trying a bunch of different fixes ensue, But most nothing happens till I try running neovim through the <code>env</code> program, forcibly overriding the <code>XTERM_VERSION</code> variable to be empty, This finally gave the correct behaviour.<br/>
-<br/>
-</p>
+<p>One day while tweaking my colourscheme, I noticed that my neovim wasn't displaying any italics<br />
+like I had specified in it. After double checking that everything was fine from my configuration side, I resolved it to be something between neovim and the terminal.</p>
+<p>An hour of googling and trying a bunch of different fixes ensue, But most nothing happens till I try running neovim through the <code>env</code> program, forcibly overriding the <code>XTERM_VERSION</code> variable to be empty, This finally gave the correct behaviour.</p>
 <h3 id="sixel">sixel</h3>
-<p>
-Seems like some kind of bug?, Maybe its because my xterm is run in vt340 mode to allow sixel support (Yes, xterm has sixel!!!)<br/>
-<br/>
-<figure><img src="/assets/image-4913a514fa.avif" alt="screenshot of xterm showcasing SIXEL support" title="screenshot of xterm showcasing SIXEL support" loading="lazy" /><figcaption>screenshot of xterm showcasing SIXEL support</figcaption></figure><br/>
-<br/>
-To enable it launch it with <code>-ti vt340</code> or if you are using Xrdb to configure it<br/>
-<code>xterm&ast;decTerminalID: vt340</code><br/>
-<br/>
-You can watch a video using sixel or kitty by doing: <code>curl <a href="https://mjpeg-demo.vercel.app/sixel/256">https://mjpeg-demo.vercel.app/sixel/256</a></code> (or 1024 if your terminal supports it) / <code>curl <a href="https://mjpeg-demo.vercel.app/kitty">https://mjpeg-demo.vercel.app/kitty</a></code><br/>
-<br/>
-
+<p>Seems like some kind of bug?, Maybe its because my xterm is run in vt340 mode to allow sixel support (Yes, xterm has sixel!!!)</p>
+<figure><img loading="lazy" src="/assets/image-4913a514fa.avif" alt="screenshot of xterm showcasing SIXEL support" /><figcaption>screenshot of xterm showcasing SIXEL support</figcaption></figure>
+<p>To enable it launch it with <code>-ti vt340</code> or if you are using Xrdb to configure it<br />
+<code>xterm*decTerminalID: vt340</code></p>
+<p>You can watch a video using sixel or kitty by doing: <code>curl https://mjpeg-demo.vercel.app/sixel/256</code> (or 1024 if your terminal supports it) / <code>curl https://mjpeg-demo.vercel.app/kitty</code></p>
 <details>
-	<summary>
-		comparison of the different terminal graphics protocols with mjpeg & h264, h265
-	</summary>
-	<p>
-		<br/>
-<figure class="chart" data-w="1024" data-h="800" data-unit="MB"><table><thead><tr><th>protocol</th><th>zstd_mb</th></tr></thead><tbody><tr><th>jpeg</th><td>56.22</td></tr><tr><th>h264</th><td>7.22</td></tr><tr><th>h265</th><td>4.23</td></tr><tr><th>sixel-256</th><td>90.97</td></tr><tr><th>sixel-1024</th><td>160.90</td></tr><tr><th>kitty</th><td>177.11</td></tr></tbody></table><figcaption>Size</figcaption></figure><script type="module" src="/assets/charts.js"></script>
-</p>
+<summary>comparison of the different terminal graphics protocols with mjpeg & h264, h265</summary>
+<figure>
+<bar-chart unit="MB">
+<table>
+<thead>
+<tr>
+<th>protocol</th>
+<th>zstd_mb</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jpeg</td>
+<td>56.22</td>
+</tr>
+<tr>
+<td>h264</td>
+<td>7.22</td>
+</tr>
+<tr>
+<td>h265</td>
+<td>4.23</td>
+</tr>
+<tr>
+<td>sixel-256</td>
+<td>90.97</td>
+</tr>
+<tr>
+<td>sixel-1024</td>
+<td>160.90</td>
+</tr>
+<tr>
+<td>kitty</td>
+<td>177.11</td>
+</tr>
+</tbody>
+</table>
+</bar-chart>
+<figcaption>Size</figcaption>
+</figure>
 <h3 id="protocol-notes">Protocol Notes</h3>
-<p>
-* all sizes above are zstd-compressed; h264, jpeg, h265 dont compress much since they are already compressed formats, sixel compresses well and kitty is just pngs with some markers so it compresses a little also<br/>
-<br/>
-* <b>capture settings weren't uniform:</b> jpeg/h264/h265 were captured at 320px/30fps over 7089 frames, while sixel-256/sixel-1024/kitty were captured at 240px/15fps over 3545 frames (a quarter as much raw pixel data per second) — so the sizes above aren't apples-to-apples across those two groups, only within each<br/>
-<br/>
-	</p>
+<ul>
+<li>
+<p>all sizes above are zstd-compressed; h264, jpeg, h265 dont compress much since they are already compressed formats, sixel compresses well and kitty is just pngs with some markers so it compresses a little also</p>
+</li>
+<li>
+<p><strong>capture settings weren't uniform:</strong> jpeg/h264/h265 were captured at 320px/30fps over 7089 frames, while sixel-256/sixel-1024/kitty were captured at 240px/15fps over 3545 frames (a quarter as much raw pixel data per second) — so the sizes above aren't apples-to-apples across those two groups, only within each</p>
+</li>
+</ul>
 </details>
-</p>
 <h3 id="osc-52">OSC 52</h3>
-<p>
-One of my biggest peeves with tmux was that copy-paste was very unintuitive and especially to get it into the system clipboard was a pain even on the same machine, Let alone a machine that I am ssh'd into. This was the one thing that made me create like 8 different panes instead of using tmux but recently I found a feature that fully solves this but it requires both the terminal and tmux to be configured to use it.<br/>
-<br/>
-The <a href="https://ghostty.org/docs/vt/osc/52">OSC 52</a> escape codes allow a terminal to copy into your clipboard and optionally read from it as well (this is usually disabled for security), The benefit of it being an escape code is that any application that is sending text to the terminal (through ssh, tmux or whatever) can copy into the clipboard so you can use it to copy text from tmux within an ssh session.<br/>
-<br/>
-To enable it, you must have a supported terminal emulator and enable it in <a href="https://github.com/tmux/tmux/wiki/Clipboard">the terminal emulator</a> and in tmux with <code>set -g set-clipboard on</code><br/>
-<br/>
-For xterm, it is: <code>XTerm&ast;disallowedWindowOps: 20,21,SetXprop</code><br/>
-<br/>
-Neovim by default will only use it <b>in SSH</b> sessions, to make it always use it so that it doesnt depend on any desktop tools like <code>xclip</code> or <code>wlclip</code> etc, you can use <code>vim.g.clipboard = "osc52"</code> in modern versions of neovim.<br/>
-<br/>
-<i>NOTE</i>: VTE (Gnome based, terminator etc) do not support it as of yet.<br/>
-<br/>
-If you want to test if your terminal supports it, you can run this command:<br/>
-<pre>
-<code class="language-sh"><span class="kwb">printf</span> <span class="sng">&#39;</span><span class="esc">\033</span><span class="sng">&rsqb;52;c;%s</span><span class="esc">\007</span><span class="sng">&#39;</span> <span class="sng">&quot;</span><span class="ipl">$(printf &#39;%s&#39; &#39;Hello from OSC 52&#39; | base64 | tr -d &#39;\n&#39;)</span><span class="sng">&quot;</span>	</code>
-</pre>
-It should copy "Hello from OSC52" into your clipboard<br/>
+<p>One of my biggest peeves with tmux was that copy-paste was very unintuitive and especially to get it into the system clipboard was a pain even on the same machine, Let alone a machine that I am ssh'd into. This was the one thing that made me create like 8 different panes instead of using tmux but recently I found a feature that fully solves this but it requires both the terminal and tmux to be configured to use it.</p>
+<p>The <a href="https://ghostty.org/docs/vt/osc/52">OSC 52</a> escape codes allow a terminal to copy into your clipboard and optionally read from it as well (this is usually disabled for security), The benefit of it being an escape code is that any application that is sending text to the terminal (through ssh, tmux or whatever) can copy into the clipboard so you can use it to copy text from tmux within an ssh session.</p>
+<p>To enable it, you must have a supported terminal emulator and enable it in <a href="https://github.com/tmux/tmux/wiki/Clipboard">the terminal emulator</a> and in tmux with <code>set -g set-clipboard on</code></p>
+<p>For xterm, it is: <code>XTerm*disallowedWindowOps: 20,21,SetXprop</code></p>
+<p>Neovim by default will only use it <strong>in SSH</strong> sessions, to make it always use it so that it doesnt depend on any desktop tools like <code>xclip</code> or <code>wlclip</code> etc, you can use <code>vim.g.clipboard = &quot;osc52&quot;</code> in modern versions of neovim.</p>
+<p><em>NOTE</em>: VTE (Gnome based, terminator etc) do not support it as of yet.</p>
+<p>If you want to test if your terminal supports it, you can run this command:</p>
+<pre><code class="language-sh"><span class="nb">printf</span><span class="w"> </span><span class="s1">'\033]52;c;%s\007'</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">'%s'</span><span class="w"> </span><span class="s1">'Hello from OSC 52'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">'\n'</span><span class="k">)</span><span class="s2">"</span>
+</code></pre>
+<p>It should copy &quot;Hello from OSC52&quot; into your clipboard</p>
+<script type="module" src="/assets/charts.js"></script>
+
 </article>
 </body>
 </html>

@@ -1,6 +1,8 @@
-#HEADER Basic Memory Introduction
-A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.
-#END HEADER
+---
+title: Basic Memory Introduction
+description: A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.
+---
+
 An introduction to low-level programming and how to avoid
 
 ```c
@@ -9,9 +11,8 @@ $./a.out
 Core Dumped.
 ```
 
-#CALLOUT
-This article also has an original handwritten version which this cleaned up document is dervied from, You can find it [here](/assets/documents/menory.pdf)
-#END CALLOUT
+> [!NOTE]
+> This article also has an original handwritten version which this cleaned up document is dervied from, You can find it [here](/assets/documents/menory.pdf)
 
 Note: I've pretty much only covered the kinds of errors you'd encounter in a single threaded program.
 going over why it happens, how to diagnose compiled (C/C++) programs & how to fix it.
@@ -275,6 +276,7 @@ Generally mapping a breakpoint to source code requires the program to be compile
 This compiler flag enables the address sanitizer or ASAN. How it works isnt exactly relevant but you can think of it like this:
 
 ![without ASAN](./image-6.png)
+
 ![with ASAN](./image-5.png)
 
 ![ASAN output](./image-7.png)

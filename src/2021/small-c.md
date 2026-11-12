@@ -1,6 +1,7 @@
-#HEADER C Compiler Binary Optimization
-I attempt to see how small I can get a C program using OpenGL with only compiler flags
-#END HEADER
+---
+title: C Compiler Binary Optimization
+description: I attempt to see how small I can get a C program using OpenGL with only compiler flags
+---
 
 I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.
 I might be using "non trivial" wrongly here but I mean a program that can actually do something.
@@ -100,39 +101,47 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 
 I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
 
-#CHART unit=B title=File size by compression/build type
-build	size
-7z	14778
-xz	15100
-zst	16497
-gz	17448
-bz2	17998
-upx	20320
-linker	32312
--flto	32360
--s	39448
--Os	49088
-source	53107
-basic	68120
-#END CHART
+<figure>
+<bar-chart unit="B">
 
-#TABLE size	filename
-14778	basic-optimized-stripped-lto-linker.7z
-15100	basic-optimized-stripped-lto-linker.xz
-16497	basic-optimized-stripped-lto-linker.zst
-17448	basic-optimized-stripped-lto-linker.gz
-17998	basic-optimized-stripped-lto-linker.bz2
-20320	basic-optimized-stripped-lto-linker-upx
-32312	basic-optimized-stripped-lto-linker
-32360	basic-optimized-stripped-lto
-39448	basic-optimized-stripped
-49088	basic-optimized
-53107	source-code.tar.gz
-68120	basic
-#END TABLE
+| build | size |
+|---|---|
+| 7z | 14778 |
+| xz | 15100 |
+| zst | 16497 |
+| gz | 17448 |
+| bz2 | 17998 |
+| upx | 20320 |
+| linker | 32312 |
+| -flto | 32360 |
+| -s | 39448 |
+| -Os | 49088 |
+| source | 53107 |
+| basic | 68120 |
+
+</bar-chart>
+<figcaption>File size by compression/build type</figcaption>
+</figure>
+
+| size | filename |
+| --- | --- |
+| 14778 | basic-optimized-stripped-lto-linker.7z |
+| 15100 | basic-optimized-stripped-lto-linker.xz |
+| 16497 | basic-optimized-stripped-lto-linker.zst |
+| 17448 | basic-optimized-stripped-lto-linker.gz |
+| 17998 | basic-optimized-stripped-lto-linker.bz2 |
+| 20320 | basic-optimized-stripped-lto-linker-upx |
+| 32312 | basic-optimized-stripped-lto-linker |
+| 32360 | basic-optimized-stripped-lto |
+| 39448 | basic-optimized-stripped |
+| 49088 | basic-optimized |
+| 53107 | source-code.tar.gz |
+| 68120 | basic |
 
 You can see all the commands that I used for each one here,
-#f Makefile
+<details>
+<summary>Makefile</summary>
+
 ```make
 CC=clang
 # SOURCES=./hw.c
@@ -226,7 +235,8 @@ clean:
 	@echo "\033[1m$@:\033[0m"
 	rm -rf out
 ```
-#END f
+
+</details>
 
 ## Conclusion
 So in total we managed to decrease our binary by **68%** without changing a single line of code, Less than half of its original size

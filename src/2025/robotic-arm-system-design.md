@@ -1,13 +1,16 @@
-#HEADER Robotic Arm System Design
-Latency Transport & Controls Planning for a 6DOF Robotic Arm
-#END HEADER
+---
+title: Robotic Arm System Design
+description: Latency Transport & Controls Planning for a 6DOF Robotic Arm
+---
 
 This is based on a interview assignment I did for Origin Robotics, (no reply :< ) — here is [my original handwritten version](/assets/documents/origin-assignment.pdf), with the [cleaned up version in Word](/assets/documents/origin-assignment-clean.pdf) as well. The whole writeup is reproduced below.
 
 I later got to work on a SO-101 arm for Reinforcement Learning training while at Muks Robotics
 
-#VIDEO /assets/videos/NC_20260805_103007.webm alt=teleop demo with SO101 arms
-#END VIDEO
+<figure>
+<video src="/assets/videos/NC_20260805_103007.webm" controls preload="metadata" playsinline></video>
+<figcaption>teleop demo with SO101 arms</figcaption>
+</figure>
 
 <hr>
 
@@ -18,12 +21,12 @@ I later got to work on a SO-101 arm for Reinforcement Learning training while at
 
 ### Initial Conditions
 
-#TABLE	.table-full	.initial-conditions
-**Jetson AGX Orin**	<img src="origin-jetson.png" alt="Jetson AGX Orin" style="max-height: 80px;" />	[Datasheet](https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf)
-**Livox Mid 360 Lidar**	<img src="origin-livox.png" alt="Livox Mid 360 Lidar" style="max-height: 80px;" />	[Datasheet](https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf)
-**ECon Systems<br/>STURDeCAM25**	<img src="origin-sturdacam.png" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" />	[Datasheet](https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M)
-**Universal Robots UR7e**	<img src="origin-ur7e.png" alt="Universal Robots UR7e" style="max-height: 80px;" />	[Datasheet](https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf)
-#END TABLE
+<table class="initial-conditions">
+<tr><td><strong>Jetson AGX Orin</strong></td><td><img src="origin-jetson.png" alt="Jetson AGX Orin" style="max-height: 80px;" /></td><td><a href="https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf">Datasheet</a></td></tr>
+<tr><td><strong>Livox Mid 360 Lidar</strong></td><td><img src="origin-livox.png" alt="Livox Mid 360 Lidar" style="max-height: 80px;" /></td><td><a href="https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf">Datasheet</a></td></tr>
+<tr><td><strong>ECon Systems<br/>STURDeCAM25</strong></td><td><img src="origin-sturdacam.png" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" /></td><td><a href="https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M">Datasheet</a></td></tr>
+<tr><td><strong>Universal Robots UR7e</strong></td><td><img src="origin-ur7e.png" alt="Universal Robots UR7e" style="max-height: 80px;" /></td><td><a href="https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf">Datasheet</a></td></tr>
+</table>
 
 ## Data Pipeline
 
@@ -113,12 +116,12 @@ Alternatively, you could trigger camera frames using FSYNC / PPS based on the TS
 
 *I couldn't find good documentation for the e-con camera, so I'm just going over keywords I've found.*
 
-#TABLE	.table-full	Device	Clock	Method	Accuracy
-**Jetson**	TSC / PTP grandmaster	phc2sys	reference
-**Livox Mid-360**	PTP slave	[Native PTP client](https://livox-wiki-en.readthedocs.io/en/latest/tutorials/new_product/common/time_sync.html)	±500ns
-**STURDeCAM25**	TSC	[LibArgus Hardware Timestamps](https://docs.nvidia.com/jetson/l4t-multimedia/classArgus_1_1Ext_1_1ISensorTimestampTsc.html)	&lt;10µs
-**UR7e joints**	UR internal clock	RTDE round-trip correlation + drift tracking	~1ms
-#END TABLE
+| Device | Clock | Method | Accuracy |
+| --- | --- | --- | --- |
+| **Jetson** | TSC / PTP grandmaster | phc2sys | reference |
+| **Livox Mid-360** | PTP slave | [Native PTP client](https://livox-wiki-en.readthedocs.io/en/latest/tutorials/new_product/common/time_sync.html) | ±500ns |
+| **STURDeCAM25** | TSC | [LibArgus Hardware Timestamps](https://docs.nvidia.com/jetson/l4t-multimedia/classArgus_1_1Ext_1_1ISensorTimestampTsc.html) | &lt;10µs |
+| **UR7e joints** | UR internal clock | RTDE round-trip correlation + drift tracking | ~1ms |
 
 - [Orin Time Sync | NVIDIA Docs](https://developer.nvidia.com/docs/drive/drive-os/6.0.8/public/drive-os-linux-sdk/common/topics/network_stub/time_sync_details.html)
 - [Generic Timestamp Engine — Jetson Linux Developer Guide documentation](https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/SD/Kernel/GenericTimestampEngine.html)
@@ -227,12 +230,12 @@ struct SystemHealth {
 
 ### Action Matrix
 
-#TABLE	.table-prose	.action-matrix	Fault Condition	Severity	Action / Mitigation Strategy
-**Camera Frame Dropped**	Warning	Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner.
-**Lidar PTP Offset > 5ms**	Error	Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL & command robot to [stop].
-**Inference Latency > 100ms**	Critical	Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming.
-**GPU Temp > 85°C**	Critical	Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp < 75°C for 30s.
-#END TABLE
+| Fault Condition | Severity | Action / Mitigation Strategy |
+| --- | :---: | --- |
+| **Camera Frame Dropped** | Warning | Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner. |
+| **Lidar PTP Offset > 5ms** | Error | Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL & command robot to [stop]. |
+| **Inference Latency > 100ms** | Critical | Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming. |
+| **GPU Temp > 85°C** | Critical | Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp < 75°C for 30s. |
 
 ## Core Control Logic
 
@@ -252,20 +255,17 @@ b_c = 0
 atomic<bool> new_trajectory_ready = false;
 atomic<uint64> last_ai_update_ns = 0;
 
-
 def pus(waypts):
     b_c = min(len(waypts), MAX_WPTS)
     back = [...waypts[0:b_c]]
     last_ai_update_ns = now();
     new_trajectory_ready = True;
 
-
 # Called by controller loop
 def maybe_swap():
     if (new_trajectory_ready == False):
         swap(front, back);
         f_c = b_c
-
 
 def interpolate_at(ts):
     for i in range(0, f_c):
@@ -280,14 +280,14 @@ Very basic interpolation, for longer time periods, could use an Extended Kalman 
 
 ### Core Allocation
 
-#TABLE	.table-prose	.core-allocation	Core(s)	Task / Responsibility	Priority	Scheduling Policy
-0	Linux OS, ROS 2 middleware, logging, non-RT housekeeping	Default	SCHED_OTHER
-1	Lidar driver (UDP rx), Camera driver (GMSL2/Argus), PTP trigger thread (30Hz FSYNC)	70–80	SCHED_FIFO
-2	**500Hz RTDE Control Loop, URHardwareInterface plugin**<br/>*(ISOLATED — isolcpus=2)*	99	SCHED_FIFO
-3	Health monitor watchdog, UR clock drift tracker, Trajectory buffer manager	50–60	SCHED_FIFO
-4–7	ROS 2 executor threads, Mission planner, API services, Correlated timestamp driver	Default	SCHED_OTHER
-8–11	TensorRT inference (CPU side), Point cloud preprocessing, nvblox / scene reconstruction	Default	SCHED_OTHER
-#END TABLE
+| Core(s) | Task / Responsibility | Priority | Scheduling Policy |
+| :---: | --- | :---: | :---: |
+| 0 | Linux OS, ROS 2 middleware, logging, non-RT housekeeping | Default | SCHED_OTHER |
+| 1 | Lidar driver (UDP rx), Camera driver (GMSL2/Argus), PTP trigger thread (30Hz FSYNC) | 70–80 | SCHED_FIFO |
+| 2 | **500Hz RTDE Control Loop, URHardwareInterface plugin**<br/>*(ISOLATED — isolcpus=2)* | 99 | SCHED_FIFO |
+| 3 | Health monitor watchdog, UR clock drift tracker, Trajectory buffer manager | 50–60 | SCHED_FIFO |
+| 4–7 | ROS 2 executor threads, Mission planner, API services, Correlated timestamp driver | Default | SCHED_OTHER |
+| 8–11 | TensorRT inference (CPU side), Point cloud preprocessing, nvblox / scene reconstruction | Default | SCHED_OTHER |
 
 - GPU (CUDA Cores): TensorRT inference graph, point cloud voxelization
 - GPU (DLA Core 0): Primary TensorRT engine (routed via Isaac ROS)
@@ -299,18 +299,18 @@ Very basic interpolation, for longer time periods, could use an Extended Kalman 
 
 ### Actions
 
-#TABLE	.table-prose	Action Name	Goal (Inputs)	Feedback (Progress)	Result (Final Output)
-**TriggerScan**	quality_level (0-2)<br/>require_lidar (bool)	percent_complete<br/>stage (MOVING, etc.)	point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason
-**ExecuteTrajectory**	trajectory<br/>max_velocity_scale<br/>safety_mode (0-2)	percent_complete<br/>tcp_velocity_m_s	success, failure_reason<br/>final_joint_state
-#END TABLE
+| Action Name | Goal (Inputs) | Feedback (Progress) | Result (Final Output) |
+| --- | --- | --- | --- |
+| **TriggerScan** | quality_level (0-2)<br/>require_lidar (bool) | percent_complete<br/>stage (MOVING, etc.) | point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason |
+| **ExecuteTrajectory** | trajectory<br/>max_velocity_scale<br/>safety_mode (0-2) | percent_complete<br/>tcp_velocity_m_s | success, failure_reason<br/>final_joint_state |
 
 ### Services
 
-#TABLE	.table-prose	Service Name	Request Parameters	Response Fields
-**GetSystemHealth**	*(None)*	health, ready_for_command<br/>active_faults
-**RequestEStop**	reason (string)	acknowledged (bool)<br/>robot_state (0-2)
-**ClearEStop**	cleared_by (string)	acknowledged (bool)<br/>robot_state (0-2)
-#END TABLE
+| Service Name | Request Parameters | Response Fields |
+| --- | --- | --- |
+| **GetSystemHealth** | *(None)* | health, ready_for_command<br/>active_faults |
+| **RequestEStop** | reason (string) | acknowledged (bool)<br/>robot_state (0-2) |
+| **ClearEStop** | cleared_by (string) | acknowledged (bool)<br/>robot_state (0-2) |
 
 ### Safety Handshake
 

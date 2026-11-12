@@ -5,69 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotic Arm System Design</title>
 <meta name="description" content="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm">
-<link rel="canonical" href="https://nes.is-a.dev/2025/robotic-arm-system-design.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2025/robotic-arm-system-design.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="Robotic Arm System Design">
 <meta property="og:description" content="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2025/robotic-arm-system-design.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2025/robotic-arm-system-design.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,svg,video{height:auto;max-width:100%}img,video{display:block}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.num{color:#dca3a3}.com,.slc{color:#7f9f7f;font-style:italic}table{border-collapse:collapse;display:block;margin:1em 0;overflow-x:auto}td,th{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions,.table-full,.table-prose{display:table;width:100%}.initial-conditions img{margin:0 auto}.action-matrix td:nth-child(2),.core-allocation td:not(:nth-child(2)){text-align:center}.stack{display:flex;flex-direction:column;gap:1em}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><h1>Robotic Arm System Design</h1></header>
 
-<header>
-  <h1>Robotic Arm System Design</h1>
-  <!-- post_description="Latency Transport &amp; Controls Planning for a 6DOF Robotic Arm" -->
-</header>
-This is based on a interview assignment I did for Origin Robotics, (no reply :< ) — here is <a href="/assets/origin-assignment.pdf">my original handwritten version</a>, with the <a href="/assets/origin-assignment-clean.pdf">cleaned up version in Word</a> as well. The whole writeup is reproduced below.<br/>
-<br/>
-I later got to work on a SO-101 arm for Reinforcement Learning training while at Muks Robotics<br/>
-<br/>
-<figure class="video-figure">
-  <video src="/assets/nc-20260805-103007-6da368dd6a.webm" controls preload="metadata" playsinline aria-label="teleop demo with SO101 arms">
-    Your browser does not support the video tag. <a href="/assets/nc-20260805-103007-6da368dd6a.webm">Download the video</a> instead.
-  </video>
-  <figcaption>teleop demo with SO101 arms</figcaption>
+<p>This is based on a interview assignment I did for Origin Robotics, (no reply :&lt; ) — here is <a href="/assets/origin-assignment.pdf">my original handwritten version</a>, with the <a href="/assets/origin-assignment-clean.pdf">cleaned up version in Word</a> as well. The whole writeup is reproduced below.</p>
+<p>I later got to work on a SO-101 arm for Reinforcement Learning training while at Muks Robotics</p>
+<figure>
+<video src="/assets/nc-20260805-103007-6da368dd6a.webm" controls preload="metadata" playsinline></video>
+<figcaption>teleop demo with SO101 arms</figcaption>
 </figure>
 <hr>
-
 <div style="text-align: center; margin: 2.5em 0 1.5em 0;">
   <h2 style="margin-bottom: 0.25em;">Embedded Software &amp; Controls Assignment</h2>
   <p style="margin-top: 0; font-size: 1.05em;">David Noronha &mdash; <a href="mailto:davidnoronha@outlook.in">davidnoronha@outlook.in</a></p>
 </div>
 <h3 id="initial-conditions">Initial Conditions</h3>
-<p>
-<table class=" table-full initial-conditions">
-<tbody><tr>
-<td><b>Jetson AGX Orin</b></td>
-<td><img src="/assets/origin-jetson-e81f0481ec.avif" alt="Jetson AGX Orin" style="max-height: 80px;" /></td>
-<td><a href="https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf">Datasheet</a><br/></td>
-</tr>
-<tr>
-<td><b>Livox Mid 360 Lidar</b></td>
-<td><img src="/assets/origin-livox-4a6a5af24a.avif" alt="Livox Mid 360 Lidar" style="max-height: 80px;" /></td>
-<td><a href="https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf">Datasheet</a><br/></td>
-</tr>
-<tr>
-<td><b>ECon Systems<br/>STURDeCAM25</b></td>
-<td><img src="/assets/origin-sturdacam-a66371b936.avif" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" /></td>
-<td><a href="https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M">Datasheet</a><br/></td>
-</tr>
-<tr>
-<td><b>Universal Robots UR7e</b></td>
-<td><img src="/assets/origin-ur7e-c5f9496298.avif" alt="Universal Robots UR7e" style="max-height: 80px;" /></td>
-<td><a href="https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf">Datasheet</a><br/></td>
-</tr>
-</tbody></table>
-</p>
+<table class="initial-conditions">
+<tr><td><strong>Jetson AGX Orin</strong></td><td><img loading="lazy" src="/assets/origin-jetson-e81f0481ec.avif" alt="Jetson AGX Orin" style="max-height: 80px;" /></td><td><a href="https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf">Datasheet</a></td></tr>
+<tr><td><strong>Livox Mid 360 Lidar</strong></td><td><img loading="lazy" src="/assets/origin-livox-4a6a5af24a.avif" alt="Livox Mid 360 Lidar" style="max-height: 80px;" /></td><td><a href="https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf">Datasheet</a></td></tr>
+<tr><td><strong>ECon Systems<br/>STURDeCAM25</strong></td><td><img loading="lazy" src="/assets/origin-sturdacam-a66371b936.avif" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" /></td><td><a href="https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M">Datasheet</a></td></tr>
+<tr><td><strong>Universal Robots UR7e</strong></td><td><img loading="lazy" src="/assets/origin-ur7e-c5f9496298.avif" alt="Universal Robots UR7e" style="max-height: 80px;" /></td><td><a href="https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf">Datasheet</a></td></tr>
+</table>
 <h2 id="data-pipeline">Data Pipeline</h2>
 <h3 id="vision">Vision</h3>
-<p>
 <figure>
   <img src="/assets/origin-camera-stack-5b7b3c2694.avif" alt="Kernel / Userspace drivers for camera in Jetson" loading="lazy" />
   <figcaption>Kernel / Userspace drivers for camera in Jetson – <a href="https://docs.nvidia.com/jetson/archives/r38.2/DeveloperGuide/SD/CameraDevelopment/SensorSoftwareDriverProgramming.html">Jetson Developer Guide</a></figcaption>
@@ -79,424 +52,356 @@ I later got to work on a SO-101 arm for Reinforcement Learning training while at
 <figure>
   <img src="/assets/origin-nitros-aee7975d3d.avif" alt="NVIDIA Isaac Transport for ROS (NITROS)" loading="lazy" />
 </figure>
-NITROS (<a href="https://nvidia-isaac-ros.github.io/v/release-3.2/concepts/nitros/index.html">NVIDIA Isaac Transport for ROS</a>) nodes that are next to each other in a graph, they apply type negotiation & type adaption which removes memory copies.<br/>
-Over ROS each node simply publishes a small header w/ the location to the message/data in GPU memory<br/>
-Location internally contains GPU side pointers / NvBufSurface internally backed by NVMM<br/>
-Also need to compose the nodes using <code>component_container_mt</code> to ensure intra process communication.<br/>
-Since if you need to do interprocess communication, you need to use DDS/RMW which brings copies.<br/>
-<br/>
-<a href="https://nvidia-isaac-ros.github.io/v/release-3.2/index.html">Isaac ROS Documentation</a><br/>
-<br/>
-</p>
+<p>NITROS (<a href="https://nvidia-isaac-ros.github.io/v/release-3.2/concepts/nitros/index.html">NVIDIA Isaac Transport for ROS</a>) nodes that are next to each other in a graph, they apply type negotiation &amp; type adaption which removes memory copies.<br />
+Over ROS each node simply publishes a small header w/ the location to the message/data in GPU memory<br />
+Location internally contains GPU side pointers / NvBufSurface internally backed by NVMM<br />
+Also need to compose the nodes using <code>component_container_mt</code> to ensure intra process communication.<br />
+Since if you need to do interprocess communication, you need to use DDS/RMW which brings copies.</p>
+<p><a href="https://nvidia-isaac-ros.github.io/v/release-3.2/index.html">Isaac ROS Documentation</a></p>
 <h3 id="point-cloud">Point Cloud</h3>
-<p>
-<br/>
-Similar flow only, using NITROS to enable zero copy transfer across our stack.<br/>
-<br/>
+<p>Similar flow only, using NITROS to enable zero copy transfer across our stack.</p>
 <figure>
   <img src="/assets/origin-livox-driver-cbfb459b52.avif" alt="Isaac ROS Livox Driver Pipeline" loading="lazy" />
 </figure>
-<br/>
-There exists no Isaac ROS Livox Driver so a custom one utilizing <a href="https://docs.nvidia.com/holoscan/sdk-user-guide/gxf/doc/index.html">GXF</a> & the base <a href="https://github.com/Livox-SDK/Livox-SDK2">Livox SDK</a> would have to be made.<br/>
-We can either make a bridge node that consumes the PointCloud message & republishes into NITROS or modify the Livox Driver to work similarly to Isaac ROS <a href="https://github.com/nvidia-isaac/nvblox">Nvblox</a> / <a href="https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nova/tree/main/isaac_ros_hesai">Isaac ROS Hesai</a> which is a NITROS accelerated driver for the Hesai LIDAR.<br/>
-<br/>
-But this only makes sense if our computation using the pointcloud is GPU accel. & can make use of the data being available in the GPU to reduce copies.<br/>
-If the processing is mostly CPU bound then ROS2 intra process communication (sharing memory within process) should be sufficient.<br/>
-<br/>
-</p>
+<p>There exists no Isaac ROS Livox Driver so a custom one utilizing <a href="https://docs.nvidia.com/holoscan/sdk-user-guide/gxf/doc/index.html">GXF</a> &amp; the base <a href="https://github.com/Livox-SDK/Livox-SDK2">Livox SDK</a> would have to be made.<br />
+We can either make a bridge node that consumes the PointCloud message &amp; republishes into NITROS or modify the Livox Driver to work similarly to Isaac ROS <a href="https://github.com/nvidia-isaac/nvblox">Nvblox</a> / <a href="https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nova/tree/main/isaac_ros_hesai">Isaac ROS Hesai</a> which is a NITROS accelerated driver for the Hesai LIDAR.</p>
+<p>But this only makes sense if our computation using the pointcloud is GPU accel. &amp; can make use of the data being available in the GPU to reduce copies.<br />
+If the processing is mostly CPU bound then ROS2 intra process communication (sharing memory within process) should be sufficient.</p>
 <h2 id="notes">Notes</h2>
-<p>
-<br/>
 <ul>
-<li>Modern Isaac ROS for the Jetson host, recommends Nvidia SIPL for the camera but doesn't seem to be stable / reliable for the Orin, using older version of Isaac ROS (v3.3)<br/>
-</li>
-<li>If using ROS, a 1080p raw image at 65 f/s is:<br/>
-    1920 × 1080 × 3 × 65 bytes/s ⇒ 404.352 Megabytes/s<br/>
-    This data is copied multiple times during serialization & deserialization.<br/>
-    This eats up memory bandwidth.<br/>
-</li>
-<li>The TensorRT inference node can automatically use the NITROS image handles w/o any copies, removing need for copy from host to device.<br/>
-</li>
-<li>Can run inference on the Jetson's DLA to offload processing from the GPU.<br/>
-</li>
-<li>In the LIDAR driver, could use remote DMA if available to directly write the received sensor data to the Orin's memory (accessible by the CPU & GPU).<br/>
-</li>
-<li>Can test with using Cyclone DDS with shared memory to reduce latency in the pipeline, especially between 2 regular ROS nodes.<br/>
-</li>
-</ul><br/></p>
-<h2 id="system-architecture-synchronization">System Architecture / Synchronization</h2>
-<p>
-<br/>
+<li>Modern Isaac ROS for the Jetson host, recommends Nvidia SIPL for the camera but doesn't seem to be stable / reliable for the Orin, using older version of Isaac ROS (v3.3)</li>
+<li>If using ROS, a 1080p raw image at 65 f/s is:<br />
+1920 × 1080 × 3 × 65 bytes/s ⇒ 404.352 Megabytes/s<br />
+This data is copied multiple times during serialization &amp; deserialization.<br />
+This eats up memory bandwidth.</li>
+<li>The TensorRT inference node can automatically use the NITROS image handles w/o any copies, removing need for copy from host to device.</li>
+<li>Can run inference on the Jetson's DLA to offload processing from the GPU.</li>
+<li>In the LIDAR driver, could use remote DMA if available to directly write the received sensor data to the Orin's memory (accessible by the CPU &amp; GPU).</li>
+<li>Can test with using Cyclone DDS with shared memory to reduce latency in the pipeline, especially between 2 regular ROS nodes.</li>
+</ul>
+<h2 id="system-architecture--synchronization">System Architecture / Synchronization</h2>
 <figure>
   <img src="/assets/origin-clock-rates-db64fda667.avif" alt="Device Clock Rates" loading="lazy" />
   <figcaption>All devices functioning at different clock speeds, Continuous, 30Hz, 500Hz</figcaption>
 </figure>
-<br/>
-Using the Orin's Timestamp Clock (TSC) as the reference to all other clocks, we can synchronize the LIDAR & Camera timestamps to the TSC and can estimate the drift between the motor controller clock and synchronized TSC clock, We can also propagate this clock to the network using PTP (Precision Time Protocol) which is responsible for synchronizing any connected ethernet devices using the following logic:<br/>
-<br/>
+<p>Using the Orin's Timestamp Clock (TSC) as the reference to all other clocks, we can synchronize the LIDAR &amp; Camera timestamps to the TSC and can estimate the drift between the motor controller clock and synchronized TSC clock, We can also propagate this clock to the network using PTP (Precision Time Protocol) which is responsible for synchronizing any connected ethernet devices using the following logic:</p>
 <figure>
   <img src="/assets/origin-ptp-b5184ebb35.avif" alt="Precision Time Protocol (PTP) synchronization logic" loading="lazy" />
 </figure>
-⠀<br/>
-<mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -1.552ex;" xmlns="http://www.w3.org/2000/svg" width="46.963ex" height="4.855ex" role="img" focusable="false" viewBox="0 -1460 20757.7 2146"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z"></path></g><g data-mml-node="mo" transform="translate(1105.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mfrac" transform="translate(2161.6,0)"><g data-mml-node="mrow" transform="translate(220,710)"><g data-mml-node="mo"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(389,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g><g data-mml-node="mo" transform="translate(1408.8,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="msub" transform="translate(2409,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><g data-mml-node="mo" transform="translate(3206.6,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(3817.8,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mo" transform="translate(4818,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(5207,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g></g><g data-mml-node="mo" transform="translate(6226.8,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="msub" transform="translate(7227,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g><g data-mml-node="mo" transform="translate(8024.5,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g><g data-mml-node="mn" transform="translate(4176.8,-686)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><rect width="8613.5" height="60" x="120" y="220"></rect></g><g data-mml-node="mstyle" transform="translate(11015.1,0)"><g data-mml-node="mspace"></g></g><g data-mml-node="mi" transform="translate(13015.1,0)"><path data-c="1D442" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path></g><g data-mml-node="mo" transform="translate(14055.9,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mo" transform="translate(15111.7,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(15500.7,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g><g data-mml-node="mo" transform="translate(16520.4,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="msub" transform="translate(17520.7,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><g data-mml-node="mo" transform="translate(18318.2,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(18929.4,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mi" transform="translate(19929.7,0)"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z"></path></g></g></g></svg></mjx-container>
-<br/>
-Where D is the transmission delay between the slave & master clock and O is the clock offset<br/>
-<br/>
-Using ptp4l, we can configure the Jetson to be the grandmaster & synchronize the LIDAR to its own clock & other PTP slaves.<br/>
-<br/>
-Taking advantage of Jetson hardware features, it has a feature to sync the PTP clock with the TSC using PPS from the network card.<br/>
-<br/>
-This is very useful for applications like this one (sensor fusion & camera frame timestamping).<br/>
-<br/>
-The Orin also includes the Generic Timestamp Engine, which provides hardware timestamping for state changes of specific interrupt lines.<br/>
-<br/>
-This is used by LibArgus (the Linux API for cameras on Tegra) to obtain SOF / EOF timestamps that are synchronized to TSC.<br/>
-<br/>
-In this way, all the sensors are synchronized to the same clock domain.<br/>
-<br/>
-Alternatively, you could trigger camera frames using FSYNC / PPS based on the TSC clock, but you must handle finite timeouts in the Argus driver & connect to the Jetson's GPIO pins.*<br/>
-<br/>
-<i>I couldn't find good documentation for the e-con camera, so I'm just going over keywords I've found.</i><br/>
-<br/>
-<table class=" table-full">
-<thead><tr>
+⠀
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>D</mi><mo>&#x0003D;</mo><mfrac><mrow><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>4</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">&#x00029;</mo><mo>&#x02212;</mo><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>3</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>2</mn></msub><mo stretchy="false">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></mfrac><mspace width="2em" /><mi>O</mi><mo>&#x0003D;</mo><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>2</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">&#x00029;</mo><mo>&#x02212;</mo><mi>D</mi></mrow></math>
+<p>Where D is the transmission delay between the slave &amp; master clock and O is the clock offset</p>
+<p>Using ptp4l, we can configure the Jetson to be the grandmaster &amp; synchronize the LIDAR to its own clock &amp; other PTP slaves.</p>
+<p>Taking advantage of Jetson hardware features, it has a feature to sync the PTP clock with the TSC using PPS from the network card.</p>
+<p>This is very useful for applications like this one (sensor fusion &amp; camera frame timestamping).</p>
+<p>The Orin also includes the Generic Timestamp Engine, which provides hardware timestamping for state changes of specific interrupt lines.</p>
+<p>This is used by LibArgus (the Linux API for cameras on Tegra) to obtain SOF / EOF timestamps that are synchronized to TSC.</p>
+<p>In this way, all the sensors are synchronized to the same clock domain.</p>
+<p>Alternatively, you could trigger camera frames using FSYNC / PPS based on the TSC clock, but you must handle finite timeouts in the Argus driver &amp; connect to the Jetson's GPIO pins.*</p>
+<p><em>I couldn't find good documentation for the e-con camera, so I'm just going over keywords I've found.</em></p>
+<table>
+<thead>
+<tr>
 <th>Device</th>
 <th>Clock</th>
 <th>Method</th>
 <th>Accuracy</th>
 </tr>
-</thead><tbody><tr>
-<td><b>Jetson</b></td>
+</thead>
+<tbody>
+<tr>
+<td><strong>Jetson</strong></td>
 <td>TSC / PTP grandmaster</td>
 <td>phc2sys</td>
-<td>reference<br/></td>
+<td>reference</td>
 </tr>
 <tr>
-<td><b>Livox Mid-360</b></td>
+<td><strong>Livox Mid-360</strong></td>
 <td>PTP slave</td>
 <td><a href="https://livox-wiki-en.readthedocs.io/en/latest/tutorials/new_product/common/time_sync.html">Native PTP client</a></td>
-<td>±500ns<br/></td>
+<td>±500ns</td>
 </tr>
 <tr>
-<td><b>STURDeCAM25</b></td>
+<td><strong>STURDeCAM25</strong></td>
 <td>TSC</td>
 <td><a href="https://docs.nvidia.com/jetson/l4t-multimedia/classArgus_1_1Ext_1_1ISensorTimestampTsc.html">LibArgus Hardware Timestamps</a></td>
-<td>&lt;10µs<br/></td>
+<td>&lt;10µs</td>
 </tr>
 <tr>
-<td><b>UR7e joints</b></td>
+<td><strong>UR7e joints</strong></td>
 <td>UR internal clock</td>
 <td>RTDE round-trip correlation + drift tracking</td>
-<td>~1ms<br/></td>
+<td>~1ms</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <ul>
-<li><a href="https://developer.nvidia.com/docs/drive/drive-os/6.0.8/public/drive-os-linux-sdk/common/topics/network_stub/time_sync_details.html">Orin Time Sync | NVIDIA Docs</a><br/>
-</li>
-<li><a href="https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/SD/Kernel/GenericTimestampEngine.html">Generic Timestamp Engine — Jetson Linux Developer Guide documentation</a><br/>
-</li>
-</ul><br/></p>
+<li><a href="https://developer.nvidia.com/docs/drive/drive-os/6.0.8/public/drive-os-linux-sdk/common/topics/network_stub/time_sync_details.html">Orin Time Sync | NVIDIA Docs</a></li>
+<li><a href="https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/SD/Kernel/GenericTimestampEngine.html">Generic Timestamp Engine — Jetson Linux Developer Guide documentation</a></li>
+</ul>
 <h2 id="clock-synchronization-architecture">Clock Synchronization Architecture</h2>
-<p>
-<br/>
 <figure>
   <img src="/assets/origin-clock-sync-ab323d763c.avif" alt="Clock Synchronization Architecture" loading="lazy" />
   <figcaption>Clock Synchronization Architecture</figcaption>
 </figure>
-<br/>
-</p>
 <h3 id="ur7e-motor-controller-rtde">UR7e Motor Controller (RTDE)</h3>
-<p>
-<br/>
-The UR7e uses its own clock that I can't figure out how to synchronize, so what I'd compromise with is taking the timestamp from RTDE & using that to convert time from the robot to PTP time domain & vice versa, kind of like this:<br/>
-<pre>
-<code class="language-plaintext">t1 &equals; getTime
-ur &equals; RTDETime
-t2 &equals; getTime
+<p>The UR7e uses its own clock that I can't figure out how to synchronize, so what I'd compromise with is taking the timestamp from RTDE &amp; using that to convert time from the robot to PTP time domain &amp; vice versa, kind of like this:</p>
+<pre><code>t1 = getTime
+ur = RTDETime
+t2 = getTime
 
-&#35; Assume RTDE timestamp taken at (t1 + t2) / 2 &equals; e
+# Assume RTDE timestamp taken at (t1 + t2) / 2 = e
 
-offset &equals; (e / 1e9) - ur
+offset = (e / 1e9) - ur
           └── convert from ns to s
-</code>
-</pre>
-<br/>
-You can use a no-lock ring buffer to store history of the UR7e joint states so you can remember the joint state from when a particular image frame was taken, & since the controller can respond faster than the camera. Otherwise, if a state is not discretely stored, you can interpolate from the 2 nearest states.<br/>
-<br/>
-Occasionally you'll have to re-run this "manual" synchronization.<br/>
-<br/>
-</p>
+</code></pre>
+<p>You can use a no-lock ring buffer to store history of the UR7e joint states so you can remember the joint state from when a particular image frame was taken, &amp; since the controller can respond faster than the camera. Otherwise, if a state is not discretely stored, you can interpolate from the 2 nearest states.</p>
+<p>Occasionally you'll have to re-run this &quot;manual&quot; synchronization.</p>
 <h2 id="camera-hardware-synchronization">Camera Hardware Synchronization</h2>
-<p>
-<br/>
-<b>Finding camera time offset</b><br/>
-<pre>
-<code class="language-python">t1 = <span class="kwd">SystemTime</span>()
-tc = <span class="kwd">getCameraFrame</span>().ts <span class="slc">&#35; → Get the next available camera frame</span>
-t2 = <span class="kwd">SystemTime</span>()
+<p><strong>Finding camera time offset</strong></p>
+<pre><code class="language-python"><span class="n">t1</span> <span class="o">=</span> <span class="n">SystemTime</span><span class="p">()</span>
+<span class="n">tc</span> <span class="o">=</span> <span class="n">getCameraFrame</span><span class="p">()</span><span class="o">.</span><span class="n">ts</span> <span class="c1"># → Get the next available camera frame</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">SystemTime</span><span class="p">()</span>
 
-offset = ((t1 + t2) / <span class="num">2</span>) - tc	</code>
-</pre>
-<br/>
-<b>Delay compensating trigger generator</b><br/>
-<pre>
-<code class="language-cpp">ts = offset / <span class="num">1</span>e3 ; nTs = <span class="num">1</span>e3
+<span class="n">offset</span> <span class="o">=</span> <span class="p">((</span><span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">tc</span>
+</code></pre>
+<p><strong>Delay compensating trigger generator</strong></p>
+<pre><code class="language-cpp"><span class="n">ts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e3</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">nTs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e3</span>
 
-<span class="kwa">while</span> (<span class="kwa">true</span>) {
-    <span class="kwd">emitPulse</span>(FSYNC_PIN);
-    period += ts &ast; (nTs--);
-    <span class="kwd">sleep</span>(period);
-}	</code>
-</pre>
-<br/>
-Very rough idea to spread out the offset over 1000 frames (@ ~16 s at 30 fps), assuming the camera clocks have some clock drift in a few minutes.<br/>
-<br/>
-</p>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">emitPulse</span><span class="p">(</span><span class="n">FSYNC_PIN</span><span class="p">);</span>
+<span class="w">    </span><span class="n">period</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">nTs</span><span class="o">--</span><span class="p">);</span>
+<span class="w">    </span><span class="n">sleep</span><span class="p">(</span><span class="n">period</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>Very rough idea to spread out the offset over 1000 frames (@ ~16 s at 30 fps), assuming the camera clocks have some clock drift in a few minutes.</p>
 <h2 id="compute-resource-monitoring">Compute Resource Monitoring</h2>
-<p>
-<br/>
-</p>
 <h3 id="system-health-struct">System Health Struct</h3>
-<p>
-<pre>
-<code class="language-cpp"><span class="kwb">struct</span> SystemHealth {
+<pre><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">SystemHealth</span><span class="w"> </span><span class="p">{</span>
 
-    <span class="slc">// ── Timing &amp; Synchronization</span>
-    <span class="kwb">int64_t</span>   lidar_ptp_offset_ns;     <span class="slc">// from ptp4l — target: &lt; 500&#39;000 ns</span>
-    <span class="kwb">int64_t</span>   camera_tsc_corr_error_ns;<span class="slc">// from correlated_timestamp_driver</span>
-    <span class="kwb">int64_t</span>   ur_clock_drift_ppm;      <span class="slc">// from URClockTracker</span>
-    <span class="kwb">uint64_t</span>  last_trigger_jitter_ns;  <span class="slc">// actual vs intended FSYNC fire time</span>
-    <span class="kwb">uint32_t</span>  camera_frames_dropped;   <span class="slc">// rolling 1s window</span>
-    <span class="kwb">uint32_t</span>  lidar_packets_missed;    <span class="slc">// rolling 1s window</span>
+<span class="w">    </span><span class="c1">// ── Timing &amp; Synchronization</span>
+<span class="w">    </span><span class="kt">int64_t</span><span class="w">   </span><span class="n">lidar_ptp_offset_ns</span><span class="p">;</span><span class="w">     </span><span class="c1">// from ptp4l — target: &lt; 500'000 ns</span>
+<span class="w">    </span><span class="kt">int64_t</span><span class="w">   </span><span class="n">camera_tsc_corr_error_ns</span><span class="p">;</span><span class="c1">// from correlated_timestamp_driver</span>
+<span class="w">    </span><span class="kt">int64_t</span><span class="w">   </span><span class="n">ur_clock_drift_ppm</span><span class="p">;</span><span class="w">      </span><span class="c1">// from URClockTracker</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w">  </span><span class="n">last_trigger_jitter_ns</span><span class="p">;</span><span class="w">  </span><span class="c1">// actual vs intended FSYNC fire time</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">  </span><span class="n">camera_frames_dropped</span><span class="p">;</span><span class="w">   </span><span class="c1">// rolling 1s window</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">  </span><span class="n">lidar_packets_missed</span><span class="p">;</span><span class="w">    </span><span class="c1">// rolling 1s window</span>
 
-    <span class="slc">// ── AI Inference</span>
-    <span class="kwb">float</span>     inference_latency_ms;    <span class="slc">// latest TensorRT forward pass</span>
-    <span class="kwb">float</span>     inference_latency_p99_ms;<span class="slc">// 99th percentile over 10s window</span>
-    <span class="kwb">uint32_t</span>  trajectory_buffer_depth;<span class="slc">// waypoints ahead of current time</span>
-                                       <span class="slc">// &lt; 3 = AI struggling</span>
-    <span class="kwb">uint64_t</span>  last_ai_trajectory_ns;   <span class="slc">// age of most recent trajectory</span>
-    <span class="kwb">bool</span>      ai_timeout;              <span class="slc">// set if &gt; 80ms since last trajectory</span>
+<span class="w">    </span><span class="c1">// ── AI Inference</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">inference_latency_ms</span><span class="p">;</span><span class="w">    </span><span class="c1">// latest TensorRT forward pass</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">inference_latency_p99_ms</span><span class="p">;</span><span class="c1">// 99th percentile over 10s window</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">  </span><span class="n">trajectory_buffer_depth</span><span class="p">;</span><span class="c1">// waypoints ahead of current time</span>
+<span class="w">                                       </span><span class="c1">// &lt; 3 = AI struggling</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w">  </span><span class="n">last_ai_trajectory_ns</span><span class="p">;</span><span class="w">   </span><span class="c1">// age of most recent trajectory</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w">      </span><span class="n">ai_timeout</span><span class="p">;</span><span class="w">              </span><span class="c1">// set if &gt; 80ms since last trajectory</span>
 
-    <span class="slc">// ── Control Loop</span>
-    <span class="kwb">float</span>     control_loop_jitter_us;  <span class="slc">// 500Hz loop period deviation</span>
-    <span class="kwb">uint32_t</span>  rtde_write_failures;     <span class="slc">// failed RTDE packets (rolling 1s)</span>
-    <span class="kwb">bool</span>      deceleration_active;     <span class="slc">// true = AI timeout engaged</span>
+<span class="w">    </span><span class="c1">// ── Control Loop</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">control_loop_jitter_us</span><span class="p">;</span><span class="w">  </span><span class="c1">// 500Hz loop period deviation</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">  </span><span class="n">rtde_write_failures</span><span class="p">;</span><span class="w">     </span><span class="c1">// failed RTDE packets (rolling 1s)</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w">      </span><span class="n">deceleration_active</span><span class="p">;</span><span class="w">     </span><span class="c1">// true = AI timeout engaged</span>
 
-    <span class="slc">// ── Thermal &amp; Power</span>
-    <span class="kwb">float</span>     gpu_temp_celsius;
-    <span class="kwb">float</span>     cpu_temp_celsius;
-    <span class="kwb">float</span>     gpu_power_watts;
-    <span class="kwb">uint32_t</span>  gpu_throttle_events;    <span class="slc">// non-zero = thermal throttle occurred</span>
+<span class="w">    </span><span class="c1">// ── Thermal &amp; Power</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">gpu_temp_celsius</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">cpu_temp_celsius</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">gpu_power_watts</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">  </span><span class="n">gpu_throttle_events</span><span class="p">;</span><span class="w">    </span><span class="c1">// non-zero = thermal throttle occurred</span>
 
-    <span class="slc">// ── Robot Safety</span>
-    <span class="kwb">bool</span>      estop_engaged;
-    <span class="kwb">float</span>     tcp_velocity_m_s;        <span class="slc">// must remain &lt; safety_limit</span>
-    <span class="kwb">float</span>     joint_torque_max_nm;     <span class="slc">// highest torque across all joints</span>
-    <span class="kwb">bool</span>      protective_stop_active;  <span class="slc">// UR internal safety violation</span>
+<span class="w">    </span><span class="c1">// ── Robot Safety</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w">      </span><span class="n">estop_engaged</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">tcp_velocity_m_s</span><span class="p">;</span><span class="w">        </span><span class="c1">// must remain &lt; safety_limit</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">joint_torque_max_nm</span><span class="p">;</span><span class="w">     </span><span class="c1">// highest torque across all joints</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w">      </span><span class="n">protective_stop_active</span><span class="p">;</span><span class="w">  </span><span class="c1">// UR internal safety violation</span>
 
-    <span class="slc">// ── System-Level</span>
-    <span class="kwb">float</span>     cpu_load_1s&lsqb;<span class="num">12</span>&rsqb;;         <span class="slc">// per-core load</span>
-    <span class="kwb">uint64_t</span>  core2_max_latency_ns;    <span class="slc">// worst RT wakeup latency on isolcpus</span>
-    <span class="kwb">uint32_t</span>  watchdog_misses;         <span class="slc">// health monitor heartbeat misses</span>
+<span class="w">    </span><span class="c1">// ── System-Level</span>
+<span class="w">    </span><span class="kt">float</span><span class="w">     </span><span class="n">cpu_load_1s</span><span class="p">[</span><span class="mi">12</span><span class="p">];</span><span class="w">         </span><span class="c1">// per-core load</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w">  </span><span class="n">core2_max_latency_ns</span><span class="p">;</span><span class="w">    </span><span class="c1">// worst RT wakeup latency on isolcpus</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">  </span><span class="n">watchdog_misses</span><span class="p">;</span><span class="w">         </span><span class="c1">// health monitor heartbeat misses</span>
 
-    <span class="slc">// ── Derived Status</span>
-    <span class="kwb">enum</span> <span class="kwd">class</span> Status { GREEN, YELLOW, RED, ESTOP } overall_status;
-};	</code>
-</pre>
-<br/>
-</p>
+<span class="w">    </span><span class="c1">// ── Derived Status</span>
+<span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">GREEN</span><span class="p">,</span><span class="w"> </span><span class="n">YELLOW</span><span class="p">,</span><span class="w"> </span><span class="n">RED</span><span class="p">,</span><span class="w"> </span><span class="n">ESTOP</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">overall_status</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
 <h3 id="action-matrix">Action Matrix</h3>
-<p>
-<br/>
-<table class=" table-prose action-matrix">
-<thead><tr>
+<table>
+<thead>
+<tr>
 <th>Fault Condition</th>
-<th>Severity</th>
+<th style="text-align:center">Severity</th>
 <th>Action / Mitigation Strategy</th>
 </tr>
-</thead><tbody><tr>
-<td><b>Camera Frame Dropped</b></td>
-<td>Warning</td>
-<td>Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner.<br/></td>
+</thead>
+<tbody>
+<tr>
+<td><strong>Camera Frame Dropped</strong></td>
+<td style="text-align:center">Warning</td>
+<td>Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner.</td>
 </tr>
 <tr>
-<td><b>Lidar PTP Offset > 5ms</b></td>
-<td>Error</td>
-<td>Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL & command robot to [stop].<br/></td>
+<td><strong>Lidar PTP Offset &gt; 5ms</strong></td>
+<td style="text-align:center">Error</td>
+<td>Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL &amp; command robot to [stop].</td>
 </tr>
 <tr>
-<td><b>Inference Latency > 100ms</b></td>
-<td>Critical</td>
-<td>Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming.<br/></td>
+<td><strong>Inference Latency &gt; 100ms</strong></td>
+<td style="text-align:center">Critical</td>
+<td>Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming.</td>
 </tr>
 <tr>
-<td><b>GPU Temp > 85°C</b></td>
-<td>Critical</td>
-<td>Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp < 75°C for 30s.<br/></td>
+<td><strong>GPU Temp &gt; 85°C</strong></td>
+<td style="text-align:center">Critical</td>
+<td>Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp &lt; 75°C for 30s.</td>
 </tr>
-</tbody></table>
-</p>
+</tbody>
+</table>
 <h2 id="core-control-logic">Core Control Logic</h2>
-<p>
 <figure>
   <img src="/assets/origin-control-loop-1cab85fb4e.avif" alt="Core Control Loop" loading="lazy" />
 </figure>
-</p>
 <h3 id="trajectory-estimation-pseudocode">Trajectory Estimation Pseudocode</h3>
-<p>
-<pre>
-<code class="language-python">MAX_WAYPOINTS = <span class="num">64</span>
-front = &lsqb;&rsqb;
-back = &lsqb;&rsqb;
-f_c = <span class="num">0</span>
-b_c = <span class="num">0</span>
+<pre><code class="language-python"><span class="n">MAX_WAYPOINTS</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">front</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">back</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">f_c</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">b_c</span> <span class="o">=</span> <span class="mi">0</span>
 
-atomic&lt;<span class="kwb">bool</span>&gt; new_trajectory_ready = false;
-atomic&lt;uint64&gt; last_ai_update_ns = <span class="num">0</span>;
+<span class="n">atomic</span><span class="o">&lt;</span><span class="nb">bool</span><span class="o">&gt;</span> <span class="n">new_trajectory_ready</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+<span class="n">atomic</span><span class="o">&lt;</span><span class="n">uint64</span><span class="o">&gt;</span> <span class="n">last_ai_update_ns</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">pus</span><span class="p">(</span><span class="n">waypts</span><span class="p">):</span>
+    <span class="n">b_c</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">waypts</span><span class="p">),</span> <span class="n">MAX_WPTS</span><span class="p">)</span>
+    <span class="n">back</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="n">waypts</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">b_c</span><span class="p">]]</span>
+    <span class="n">last_ai_update_ns</span> <span class="o">=</span> <span class="n">now</span><span class="p">();</span>
+    <span class="n">new_trajectory_ready</span> <span class="o">=</span> <span class="kc">True</span><span class="p">;</span>
 
-<span class="kwa">def</span> <span class="kwd">pus</span>(waypts):
-    b_c = <span class="kwb">min</span>(<span class="kwb">len</span>(waypts), MAX_WPTS)
-    back = &lsqb;...waypts&lsqb;<span class="num">0</span>:b_c&rsqb;&rsqb;
-    last_ai_update_ns = <span class="kwd">now</span>();
-    new_trajectory_ready = <span class="kwa">True</span>;
+<span class="c1"># Called by controller loop</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">maybe_swap</span><span class="p">():</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_trajectory_ready</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">swap</span><span class="p">(</span><span class="n">front</span><span class="p">,</span> <span class="n">back</span><span class="p">);</span>
+        <span class="n">f_c</span> <span class="o">=</span> <span class="n">b_c</span>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">interpolate_at</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">f_c</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ts</span> <span class="o">&lt;=</span> <span class="n">ts</span> <span class="o">&amp;&amp;</span> <span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="n">ts</span><span class="p">:</span>
+            <span class="n">α</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span> <span class="o">-</span> <span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ts</span> <span class="o">-</span> <span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">lerp</span><span class="p">(</span><span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">front</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">α</span><span class="p">)</span>
 
-<span class="slc">&#35; Called by controller loop</span>
-<span class="kwa">def</span> <span class="kwd">maybe_swap</span>():
-    <span class="kwa">if</span> (new_trajectory_ready == <span class="kwa">False</span>):
-        <span class="kwd">swap</span>(front, back);
-        f_c = b_c
-
-
-<span class="kwa">def</span> <span class="kwd">interpolate_at</span>(ts):
-    <span class="kwa">for</span> i <span class="kwa">in</span> <span class="kwb">range</span>(<span class="num">0</span>, f_c):
-        <span class="kwa">if</span> front&lsqb;i&rsqb;.ts &lt;= ts &amp;&amp; front&lsqb;i+<span class="num">1</span>&rsqb;.ts &gt;= ts:
-            α = (ts - front&lsqb;i&rsqb;.ts) / (front&lsqb;i+<span class="num">1</span>&rsqb;.ts - front&lsqb;i&rsqb;.ts)
-            <span class="kwa">return</span> <span class="kwd">lerp</span>(front&lsqb;i&rsqb;, front&lsqb;i+<span class="num">1</span>&rsqb;, α)
-
-    <span class="kwa">return</span> front&lsqb;f_c+<span class="num">1</span>&rsqb;	</code>
-</pre>
-Very basic interpolation, for longer time periods, could use an Extended Kalman Filter that handles non linear data.<br/>
-<br/>
-</p>
+    <span class="k">return</span> <span class="n">front</span><span class="p">[</span><span class="n">f_c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+</code></pre>
+<p>Very basic interpolation, for longer time periods, could use an Extended Kalman Filter that handles non linear data.</p>
 <h3 id="core-allocation">Core Allocation</h3>
-<p>
-<br/>
-<table class=" table-prose core-allocation">
-<thead><tr>
-<th>Core(s)</th>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Core(s)</th>
 <th>Task / Responsibility</th>
-<th>Priority</th>
-<th>Scheduling Policy</th>
+<th style="text-align:center">Priority</th>
+<th style="text-align:center">Scheduling Policy</th>
 </tr>
-</thead><tbody><tr>
-<td>0</td>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
 <td>Linux OS, ROS 2 middleware, logging, non-RT housekeeping</td>
-<td>Default</td>
-<td>SCHED_OTHER<br/></td>
+<td style="text-align:center">Default</td>
+<td style="text-align:center">SCHED_OTHER</td>
 </tr>
 <tr>
-<td>1</td>
+<td style="text-align:center">1</td>
 <td>Lidar driver (UDP rx), Camera driver (GMSL2/Argus), PTP trigger thread (30Hz FSYNC)</td>
-<td>70–80</td>
-<td>SCHED_FIFO<br/></td>
+<td style="text-align:center">70–80</td>
+<td style="text-align:center">SCHED_FIFO</td>
 </tr>
 <tr>
-<td>2</td>
-<td><b>500Hz RTDE Control Loop, URHardwareInterface plugin</b><br/><i>(ISOLATED — isolcpus=2)</i></td>
-<td>99</td>
-<td>SCHED_FIFO<br/></td>
+<td style="text-align:center">2</td>
+<td><strong>500Hz RTDE Control Loop, URHardwareInterface plugin</strong><br/><em>(ISOLATED — isolcpus=2)</em></td>
+<td style="text-align:center">99</td>
+<td style="text-align:center">SCHED_FIFO</td>
 </tr>
 <tr>
-<td>3</td>
+<td style="text-align:center">3</td>
 <td>Health monitor watchdog, UR clock drift tracker, Trajectory buffer manager</td>
-<td>50–60</td>
-<td>SCHED_FIFO<br/></td>
+<td style="text-align:center">50–60</td>
+<td style="text-align:center">SCHED_FIFO</td>
 </tr>
 <tr>
-<td>4–7</td>
+<td style="text-align:center">4–7</td>
 <td>ROS 2 executor threads, Mission planner, API services, Correlated timestamp driver</td>
-<td>Default</td>
-<td>SCHED_OTHER<br/></td>
+<td style="text-align:center">Default</td>
+<td style="text-align:center">SCHED_OTHER</td>
 </tr>
 <tr>
-<td>8–11</td>
+<td style="text-align:center">8–11</td>
 <td>TensorRT inference (CPU side), Point cloud preprocessing, nvblox / scene reconstruction</td>
-<td>Default</td>
-<td>SCHED_OTHER<br/></td>
+<td style="text-align:center">Default</td>
+<td style="text-align:center">SCHED_OTHER</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <ul>
-<li>GPU (CUDA Cores): TensorRT inference graph, point cloud voxelization<br/>
-</li>
-<li>GPU (DLA Core 0): Primary TensorRT engine (routed via Isaac ROS)<br/>
-</li>
-<li>GPU (DLA Core 1): Fallback / secondary model<br/>
-</li>
-<li>Kernel boot params: <code>isolcpus=2 nohz_full=2 rcu_nocbs=2</code><br/>
-</li>
-<li>RT thread startup: <code>mlockall(MCL_CURRENT | MCL_FUTURE)</code> + stack prefault<br/>
-</li>
-</ul><br/></p>
+<li>GPU (CUDA Cores): TensorRT inference graph, point cloud voxelization</li>
+<li>GPU (DLA Core 0): Primary TensorRT engine (routed via Isaac ROS)</li>
+<li>GPU (DLA Core 1): Fallback / secondary model</li>
+<li>Kernel boot params: <code>isolcpus=2 nohz_full=2 rcu_nocbs=2</code></li>
+<li>RT thread startup: <code>mlockall(MCL_CURRENT | MCL_FUTURE)</code> + stack prefault</li>
+</ul>
 <h2 id="robot-arm-interface">Robot Arm Interface</h2>
-<p>
-<br/>
-</p>
 <h3 id="actions">Actions</h3>
-<p>
-<br/>
-<table class=" table-prose">
-<thead><tr>
+<table>
+<thead>
+<tr>
 <th>Action Name</th>
 <th>Goal (Inputs)</th>
 <th>Feedback (Progress)</th>
 <th>Result (Final Output)</th>
 </tr>
-</thead><tbody><tr>
-<td><b>TriggerScan</b></td>
+</thead>
+<tbody>
+<tr>
+<td><strong>TriggerScan</strong></td>
 <td>quality_level (0-2)<br/>require_lidar (bool)</td>
 <td>percent_complete<br/>stage (MOVING, etc.)</td>
-<td>point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason<br/></td>
+<td>point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason</td>
 </tr>
 <tr>
-<td><b>ExecuteTrajectory</b></td>
+<td><strong>ExecuteTrajectory</strong></td>
 <td>trajectory<br/>max_velocity_scale<br/>safety_mode (0-2)</td>
 <td>percent_complete<br/>tcp_velocity_m_s</td>
-<td>success, failure_reason<br/>final_joint_state<br/></td>
+<td>success, failure_reason<br/>final_joint_state</td>
 </tr>
-</tbody></table>
-</p>
+</tbody>
+</table>
 <h3 id="services">Services</h3>
-<p>
-<table class=" table-prose">
-<thead><tr>
+<table>
+<thead>
+<tr>
 <th>Service Name</th>
 <th>Request Parameters</th>
 <th>Response Fields</th>
 </tr>
-</thead><tbody><tr>
-<td><b>GetSystemHealth</b></td>
-<td><i>(None)</i></td>
-<td>health, ready_for_command<br/>active_faults<br/></td>
+</thead>
+<tbody>
+<tr>
+<td><strong>GetSystemHealth</strong></td>
+<td><em>(None)</em></td>
+<td>health, ready_for_command<br/>active_faults</td>
 </tr>
 <tr>
-<td><b>RequestEStop</b></td>
+<td><strong>RequestEStop</strong></td>
 <td>reason (string)</td>
-<td>acknowledged (bool)<br/>robot_state (0-2)<br/></td>
+<td>acknowledged (bool)<br/>robot_state (0-2)</td>
 </tr>
 <tr>
-<td><b>ClearEStop</b></td>
+<td><strong>ClearEStop</strong></td>
 <td>cleared_by (string)</td>
-<td>acknowledged (bool)<br/>robot_state (0-2)<br/></td>
+<td>acknowledged (bool)<br/>robot_state (0-2)</td>
 </tr>
-</tbody></table>
-</p>
+</tbody>
+</table>
 <h3 id="safety-handshake">Safety Handshake</h3>
-<p>
 <figure>
   <img src="/assets/origin-safety-sequence-3f599343fb.avif" alt="UR7e Control System Operation &amp; Fault Handling Sequence Diagram" loading="lazy" />
 </figure>
+
 </article>
 </body>
 </html>

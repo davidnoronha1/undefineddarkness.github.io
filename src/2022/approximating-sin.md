@@ -1,9 +1,11 @@
-#HEADER Approximating sin(x) image=/assets/images/icon-sin.png
-A look into various methods of approximating the sine function
-#END HEADER
+---
+title: Approximating sin(x)
+description: A look into various methods of approximating the sine function
+image: /assets/images/icon-sin.png
+---
+
 We all know calculating \(\sin(x)\) for anything other than simple multiples of \(\pi\) is a pain in the neck.
 Even for something like \(\sin(\pi/12)\),
-
 
 ```math
 \begin{aligned}
@@ -15,16 +17,20 @@ Even for something like \(\sin(\pi/12)\),
 
 Fortunatley, many brilliant mathematicians have come with approximations for these functions, Some which we humans can use and some which we cant.
 
-#PLOT xrange=-10:10 yrange=-2:2
-sin(x)	sin(x)	#FFB3BA
-x	1st order	#BAE1FF
-x - x**3/6	3rd order	#BAFFC9
-x - x**3/6 + x**5/120	5th order	#FFFFBA
-x - x**3/6 + x**5/120 - x**7/5040	7th order	#D7BAFF
-#END PLOT
-#PLOT xrange=-10:10
-sin(x) - (x - x**3/6 + x**5/120 - x**7/5040)	sin(x) - f(x)	#D7BAFF
-#END PLOT
+<fn-plot x="-10:10" y="-2:2">
+
+- `sin(x)` sin(x)
+- `x` 1st order
+- `x - x**3/6` 3rd order
+- `x - x**3/6 + x**5/120` 5th order
+- `x - x**3/6 + x**5/120 - x**7/5040` 7th order
+
+</fn-plot>
+<fn-plot x="-10:10">
+
+- `sin(x) - (x - x**3/6 + x**5/120 - x**7/5040)` sin(x) - f(x)
+
+</fn-plot>
 
 ## Taylor Series
 Probably the one most are familiar with, This is a really understandable way of expressing sin(x) in terms of a polynomial
@@ -72,9 +78,11 @@ While taylor series are extremely useful and a variant is used to calculate sin(
 
 There is a wonderful video by 3blue1brown, visually demonstrating this: https://youtu.be/3d6DsjIBzJ4
 
-#PLOT xrange=-10:10 yrange=-1000:1000
-abs(sin(x) - (x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880))	e(x)	#D7BAFF
-#END PLOT
+<fn-plot x="-10:10" y="-1000:1000">
+
+- `abs(sin(x) - (x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880))` e(x)
+
+</fn-plot>
 
 ## Bhaskara's Approximation
 This is a formula for calculating sin(x) discovered by 7th centuary Indian mathematician Baskara,
@@ -124,7 +132,9 @@ Which it does, achieving some 10^4 times smaller error in comparison (for 7 term
 [Wikipedia Article](https://en.wikipedia.org/wiki/Minimax_approximation_algorithm)
 [Original Source](http://lolengine.net/blog/2011/12/21/better-function-approximations)
 
-#f Standard sin(x) - How does it work
+<details>
+<summary>Standard sin(x) - How does it work</summary>
+
 Looking at the implementation of sin in musl, We get:
 ```c
 
@@ -180,7 +190,7 @@ Source for   sin(x): https://git.musl-libc.org/cgit/musl/tree/src/math/sin.c
 
 **NOTE:** If you couldn't tell, this code really confuses me and I cant fully tell whats happening, The glibc source is even more confounded.
 
-#END f
+</details>
 
 ## Conclusion
 The results from my very naive implementation are as follows, This is without any effort made to optimize the code and most is copied from here and there so the comparison isn't entirely fair,
@@ -197,7 +207,6 @@ Minmax Polynomial (7T):
 Libmvec (4xD):
         took 565 ms
 ```
-
 
 ---
 https://git.musl-libc.org/cgit/musl/tree/src/math/sin.c - sin(x) implementation in musl std c lib

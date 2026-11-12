@@ -5,63 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fast Inverse Square Root (Quake III Arena)</title>
 <meta name="description" content="Breaking down the famous Quake III fast inverse square root trick.">
-<link rel="canonical" href="https://nes.is-a.dev/todo/fisr.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/todo/fisr.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="Fast Inverse Square Root (Quake III Arena)">
 <meta property="og:description" content="Breaking down the famous Quake III fast inverse square root trick.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/todo/fisr.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/todo/fisr.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,svg{height:auto;max-width:100%}img{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.num{color:#dca3a3}.slc{color:#7f9f7f;font-style:italic}img.inline{float:left;margin:0 1em 1em 0;max-width:18em}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><h1>Fast Inverse Square Root (Quake III Arena)</h1></header>
+<img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/OpenArena-Rocket.jpg/1024px-OpenArena-Rocket.jpg" class="inline">
+In 1999, The Source code for the game quake 3 arena was released, containing a rather ingenious algoritm for calculating the inverse square root of a number (\(\frac{1}{\sqrt{x}}\)), In a case, its required to calculate this very often for vector calculations and when quake 3 was being made, it was an expensive calculation that required approximation.
+<pre><code class="language-c"><span class="kt">float</span><span class="w"> </span><span class="nf">Q_rsqrt</span><span class="p">(</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">	</span><span class="kt">int32_t</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">	</span><span class="kt">float</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">	</span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">threehalfs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5F</span><span class="p">;</span>
 
-<header>
-  <h1>Fast Inverse Square Root (Quake III Arena)</h1>
-  <!-- post_description="Breaking down the famous Quake III fast inverse square root trick." -->
-</header>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/OpenArena-Rocket.jpg/1024px-OpenArena-Rocket.jpg" class="inline">
-In 1999, The Source code for the game quake 3 arena was released, containing a rather ingenious algoritm for calculating the inverse square root of a number (<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -1.334ex;" xmlns="http://www.w3.org/2000/svg" width="3.275ex" height="3.291ex" role="img" focusable="false" viewBox="0 -864.9 1447.6 1454.5"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mfrac"><g data-mml-node="mn" transform="translate(547,394) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="msqrt" transform="translate(220,-436.1) scale(0.707)"><g transform="translate(853,0)"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g></g><g data-mml-node="mo" transform="translate(0,-34.6)"><path data-c="221A" d="M95 178Q89 178 81 186T72 200T103 230T169 280T207 309Q209 311 212 311H213Q219 311 227 294T281 177Q300 134 312 108L397 -77Q398 -77 501 136T707 565T814 786Q820 800 834 800Q841 800 846 794T853 782V776L620 293L385 -193Q381 -200 366 -200Q357 -200 354 -197Q352 -195 256 15L160 225L144 214Q129 202 113 190T95 178Z"></path></g><rect width="572" height="42.4" x="853" y="723"></rect></g><rect width="1207.6" height="60" x="120" y="220"></rect></g></g></g></svg></mjx-container>), In a case, its required to calculate this very often for vector calculations and when quake 3 was being made, it was an expensive calculation that required approximation.
+<span class="w">	</span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="w">	</span><span class="n">y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">;</span>
+<span class="w">	</span><span class="n">i</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">;</span><span class="w">                       </span><span class="c1">// evil floating point bit level hacking</span>
+<span class="w">	</span><span class="n">i</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">0x5f3759df</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span><span class="w">               </span><span class="c1">// what the fuck? </span>
+<span class="w">	</span><span class="n">y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">i</span><span class="p">;</span>
+<span class="w">	</span><span class="n">y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">threehalfs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w">   </span><span class="c1">// 1st iteration</span>
+<span class="c1">//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed</span>
 
-<pre>
-<code class="language-c"><span class="kwb">float</span> <span class="kwd">Q_rsqrt</span>( <span class="kwb">float</span> number )
-{
-	<span class="kwb">int32_t</span> i;
-	<span class="kwb">float</span> x2, y;
-	<span class="kwb">const float</span> threehalfs = <span class="num">1.5</span>F;
-
-	x2 = number &ast; <span class="num">0.5</span>F;
-	y  = number;
-	i  = &ast; ( <span class="kwb">int32_t</span> &ast; ) &amp;y;                       <span class="slc">// evil floating point bit level hacking</span>
-	i  = <span class="num">0x5f3759df</span> - ( i &gt;&gt; <span class="num">1</span> );               <span class="slc">// what the fuck? </span>
-	y  = &ast; ( <span class="kwb">float</span> &ast; ) &amp;i;
-	y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   <span class="slc">// 1st iteration</span>
-<span class="slc">//	y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   // 2nd iteration, this can be removed</span>
-
-	<span class="kwa">return</span> y;
-}	</code>
-</pre>
-
-To understand this bit of trickery, we need to know a few things,
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>To understand this bit of trickery, we need to know a few things,</p>
 <ul>
-<li>Binary reprensentation of integers and floating point numbers
-</li>
-<li>Math behind it
-</li>
-<li>C trickery
-</li>
-</ul><br/><h2 id="binary-reprentation-of-numbers">Binary Reprentation of Numbers</h2>
+<li>Binary reprensentation of integers and floating point numbers</li>
+<li>Math behind it</li>
+<li>C trickery</li>
+</ul>
+<h2 id="binary-reprentation-of-numbers">Binary Reprentation of Numbers</h2>
 <h3 id="integers">Integers</h3>
-<p>
-A <code>int32_t</code> as the name implies is 32 bits long
-<figure><img src="/assets/binary.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure>
+<p>A <code>int32_t</code> as the name implies is 32 bits long</p>
+<figure><img loading="lazy" src="/assets/binary.svg" alt="" /></figure>
 
 
-<mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="0.036ex" height="0.036ex" role="img" focusable="false" viewBox="0 0 16 16"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"></g></g></svg></mjx-container>
 </article>
 </body>
 </html>

@@ -5,308 +5,330 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>C Compiler Binary Optimization</title>
 <meta name="description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags">
-<link rel="canonical" href="https://nes.is-a.dev/2021/small-c.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/small-c.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="C Compiler Binary Optimization">
 <meta property="og:description" content="I attempt to see how small I can get a C program using OpenGL with only compiler flags">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2021/small-c.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/small-c.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,svg{height:auto;max-width:100%}img{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.num{color:#dca3a3}.sng{color:#cc9393}.com{color:#7f9f7f;font-style:italic}.ppc,.pps{color:#ffcfaf}.ipl{color:#c07abe}table{border-collapse:collapse;display:block;margin:1em 0;overflow-x:auto}td,th{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}summary{cursor:pointer}.chart{width:100%}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><h1>C Compiler Binary Optimization</h1></header>
 
-<header>
-  <h1>C Compiler Binary Optimization</h1>
-  <!-- post_description="I attempt to see how small I can get a C program using OpenGL with only compiler flags" -->
-</header>
-I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.<br/>
-I might be using "non trivial" wrongly here but I mean a program that can actually do something.<br/>
-<br/>
-Well, let us start with a non trivial program and go from there,<br/>
-For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a><br/>
-<pre>
-<code class="language-c"><span class="ppc">&#35;include &lt;stdlib.h&gt;</span>
-<span class="ppc">&#35;include</span> <span class="pps">&quot;tigr.h&quot;</span><span class="ppc"></span>
-<span class="ppc">&#35;include &lt;time.h&gt;</span>
-<span class="ppc">&#35;include &lt;stdio.h&gt;</span>
+<p>I was wondering how small it was possible to make could get a non trivial program, without actually changing the code itself, ie: mostly compiler flags and such.<br />
+I might be using &quot;non trivial&quot; wrongly here but I mean a program that can actually do something.</p>
+<p>Well, let us start with a non trivial program and go from there,<br />
+For this I will make use of the wonderful <a href="https://github.com/erkkah/tigr">tigr graphics library</a></p>
+<pre><code class="language-c"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"tigr.h"</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 
-<span class="kwb">int</span> <span class="kwd">randomNo</span>(<span class="kwb">int</span> min, <span class="kwb">int</span> max) {
-  <span class="kwa">return</span> min + <span class="kwd">rand</span>() / (RAND_MAX / (max - min + <span class="num">1</span>) + <span class="num">1</span>);
-}
+<span class="kt">int</span><span class="w"> </span><span class="nf">randomNo</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rand</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">RAND_MAX</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span class="kwb">int</span> <span class="kwd">main</span>() {
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-  <span class="kwd">srand</span>(<span class="kwd">time</span>(NULL));
+<span class="w">  </span><span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
 
-  Tigr &ast;screen = <span class="kwd">tigrWindow</span>(<span class="num">320</span>, <span class="num">240</span>, <span class="sng">&quot;Hello&quot;</span>, <span class="num">0</span>);
-  <span class="kwb">int</span> x, y;
-  <span class="kwb">char</span> &ast;fmt = <span class="kwd">malloc</span>(<span class="num">100</span>);
-  <span class="kwa">while</span> (!<span class="kwd">tigrClosed</span>(screen)) {
-    <span class="kwd">tigrClear</span>(screen, <span class="kwd">tigrRGB</span>(<span class="num">0x11</span>, <span class="num">0x11</span>, <span class="num">0x11</span>));
+<span class="w">  </span><span class="n">Tigr</span><span class="w"> </span><span class="o">*</span><span class="n">screen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tigrWindow</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">,</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">fmt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">tigrClosed</span><span class="p">(</span><span class="n">screen</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">tigrClear</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">,</span><span class="w"> </span><span class="mh">0x11</span><span class="p">));</span>
 
-    <span class="kwd">tigrPrint</span>(screen, tfont, <span class="num">120</span>, <span class="num">110</span>, <span class="kwd">tigrRGB</span>(<span class="num">0xf0</span>, <span class="num">0xf0</span>, <span class="num">0xf0</span>),
-              <span class="sng">&quot;Hello, world.&quot;</span>);
-	<span class="kwd">snprintf</span>(fmt, <span class="num">100</span>, <span class="sng">&quot;</span><span class="ipl">%d</span><span class="sng">,</span> <span class="ipl">%d</span><span class="sng">&quot;</span>, x, y);
-	<span class="kwd">tigrPrint</span>(screen, tfont, <span class="num">120</span>, <span class="num">110</span> + <span class="num">16</span>, <span class="kwd">tigrRGB</span>(<span class="num">0xf0</span>, <span class="num">0xf0</span>, <span class="num">0xf0</span>), fmt);
+<span class="w">    </span><span class="n">tigrPrint</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">tfont</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">110</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">),</span>
+<span class="w">              </span><span class="s">"Hello, world."</span><span class="p">);</span>
+<span class="w">	</span><span class="n">snprintf</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="s">"%d, %d"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<span class="w">	</span><span class="n">tigrPrint</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">tfont</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w"> </span><span class="mi">110</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0</span><span class="p">),</span><span class="w"> </span><span class="n">fmt</span><span class="p">);</span>
 
-    <span class="kwd">tigrMouse</span>(screen, &amp;x, &amp;y, NULL);
-    <span class="kwd">tigrFillCircle</span>(screen, x, y, <span class="num">8</span>, <span class="kwd">tigrRGB</span>(<span class="num">0xff</span>, <span class="num">0x00</span>, <span class="num">0x00</span>));
+<span class="w">    </span><span class="n">tigrMouse</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tigrFillCircle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0xff</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">));</span>
 
-    <span class="kwa">for</span> (<span class="kwb">int</span> i = <span class="num">0</span>; i &lt; <span class="num">100</span>; i++) {
-      <span class="kwb">int</span> x = <span class="kwd">randomNo</span>(<span class="num">0</span>, <span class="num">320</span>);
-      <span class="kwb">int</span> y = <span class="kwd">randomNo</span>(<span class="num">0</span>, <span class="num">240</span>);
-      <span class="kwd">tigrLine</span>(screen, x, y, x, y + <span class="num">10</span>, <span class="kwd">tigrRGB</span>(<span class="num">0x00</span>, <span class="num">0x00</span>, <span class="num">0xff</span>));
-    }
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randomNo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">320</span><span class="p">);</span>
+<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randomNo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">);</span>
+<span class="w">      </span><span class="n">tigrLine</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">tigrRGB</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
 
-    <span class="kwd">tigrUpdate</span>(screen);
-  }
-  <span class="kwd">free</span>(fmt);
-  <span class="kwd">tigrFree</span>(screen);
-  <span class="kwa">return</span> <span class="num">0</span>;
-}	</code>
-</pre>
-Nothing flashy, it just opens a window, draws some text and some rain.<br/>
-Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.<br/>
-<br/>
-For such a simple program, surely we can do better right?<br/>
+<span class="w">    </span><span class="n">tigrUpdate</span><span class="p">(</span><span class="n">screen</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">fmt</span><span class="p">);</span>
+<span class="w">  </span><span class="n">tigrFree</span><span class="p">(</span><span class="n">screen</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>Nothing flashy, it just opens a window, draws some text and some rain.<br />
+Compiling with <code>cc app.c tigr.c -o app -lGl -lX11</code> gives us our executable, whose size is 76kb.</p>
+<p>For such a simple program, surely we can do better right?</p>
 <h2 id="compiler-flags">Compiler Flags</h2>
-<p>
-<br/>
-</p>
-<h3 id="os">-Os</h3>
-<p>
-How about telling the compiler to optimize for size with the <code>-Os</code> flag?<br/>
-With it, The new binary is 68kb, a decrease of 10.52%, Not bad if I say so myself.<br/>
-However in my experience this doesnt always happen, quite often the decrease is so small, that it won't even be measured.<br/>
-<br/>
-You can find out what it does by starting from here, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options</a><br/>
-<br/>
-</p>
-<h3 id="s">-s</h3>
-<p>
-Despite adding <code>-Os</code>, the compiler still adds in a bunch of debug information that we don't really need, so if we ask we can <code>strip</code> it from the binary.<br/>
-<br/>
-Adding it via the compiler flag <code>-s</code>, We get a binary 26% smaller than the 76kb original, not bad.<br/>
-(Instead of the compiler flag, you can use <code>-s</code> on a compiled binary.)<br/>
-<br/>
-You can sort of see this with the <code>strings</code> utility, initially our binary contained 1363 strings, after stripping it contained 339.<br/>
-<br/>
-Following the saying, "Good artists create, Great artists steal", Consulting <a href="https://github.com/johnthagen/min-sized-rust">https://github.com/johnthagen/min-sized-rust</a> , We find one thing of interest, Link Time Optimization (LTO)..<br/>
-<br/>
-</p>
-<h3 id="flto">-flto</h3>
-<p>
-Basically this tells the linker to apply optimizations during linking time. It's more complicated than that but I don't understand it.<br/>
-<br/>
-So what does it do for us?<br/>
-Quite a bit, Using it we have shaved off 16kb to reach 40kb, so in total (with -Os and -s) a 47% decrease of our initial 76kb, not bad at all.<br/>
-<br/>
-<b>NOTE</b>: Enabling <code>-flto</code> sometimes caused me a segfault at program start with clang, but this didnt occur with GCC, so it seems like GCC has a more mature implementation.<br/>
-<br/>
-</p>
+<h3 id="-os">-Os</h3>
+<p>How about telling the compiler to optimize for size with the <code>-Os</code> flag?<br />
+With it, The new binary is 68kb, a decrease of 10.52%, Not bad if I say so myself.<br />
+However in my experience this doesnt always happen, quite often the decrease is so small, that it won't even be measured.</p>
+<p>You can find out what it does by starting from here, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options</a></p>
+<h3 id="-s">-s</h3>
+<p>Despite adding <code>-Os</code>, the compiler still adds in a bunch of debug information that we don't really need, so if we ask we can <code>strip</code> it from the binary.</p>
+<p>Adding it via the compiler flag <code>-s</code>, We get a binary 26% smaller than the 76kb original, not bad.<br />
+(Instead of the compiler flag, you can use <code>-s</code> on a compiled binary.)</p>
+<p>You can sort of see this with the <code>strings</code> utility, initially our binary contained 1363 strings, after stripping it contained 339.</p>
+<p>Following the saying, &quot;Good artists create, Great artists steal&quot;, Consulting <a href="https://github.com/johnthagen/min-sized-rust">https://github.com/johnthagen/min-sized-rust</a> , We find one thing of interest, Link Time Optimization (LTO)..</p>
+<h3 id="-flto">-flto</h3>
+<p>Basically this tells the linker to apply optimizations during linking time. It's more complicated than that but I don't understand it.</p>
+<p>So what does it do for us?<br />
+Quite a bit, Using it we have shaved off 16kb to reach 40kb, so in total (with -Os and -s) a 47% decrease of our initial 76kb, not bad at all.</p>
+<p><strong>NOTE</strong>: Enabling <code>-flto</code> sometimes caused me a segfault at program start with clang, but this didnt occur with GCC, so it seems like GCC has a more mature implementation.</p>
 <h2 id="executable-packing">Executable Packing</h2>
-<p>
-If you wanted to go even furthur you could try <a href="https://upx.github.io/">UPX</a>, Which actually compresses your biniary and this works since<br/>
-the decompression code + compressed data ends up smaller than the initial binary.<br/>
-<br/>
-Although some would consider this cheating, It is still a legtimate method and does work,<br/>
-Running it with the highest compression level (-9) on our 40kb binary yields a binary size of 24kb, A decrease of 60% which is undeniably really impressive.<br/>
-<br/>
-<b>NOTE:</b> Since upx is often used in malware, There are chances it might get flagged by an antivirus,<br/>
-But running through virus total shows only <a href="https://is.gd/MtqIMG">results</a> from Google & Ikarus(?)<br/>
-<br/>
-<b>NOTE:</b> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.<br/>
-<br/>
-<figure><img src="/assets/size-chart.svg" alt="" title="" loading="lazy" /><figcaption></figcaption></figure> <br/>
-<br/>
-</p>
-<h2 id="compression-linker-update-19-08-2025">Compression & Linker [UPDATE - 19-08-2025]</h2>
-<p>
-Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings<br/>
-<br/>
-I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find<br/>
-<br/>
-<figure class="chart" data-w="700" data-h="400" data-unit="B"><table><thead><tr><th>build</th><th>size</th></tr></thead><tbody><tr><th>7z</th><td>14778</td></tr><tr><th>xz</th><td>15100</td></tr><tr><th>zst</th><td>16497</td></tr><tr><th>gz</th><td>17448</td></tr><tr><th>bz2</th><td>17998</td></tr><tr><th>upx</th><td>20320</td></tr><tr><th>linker</th><td>32312</td></tr><tr><th>-flto</th><td>32360</td></tr><tr><th>-s</th><td>39448</td></tr><tr><th>-Os</th><td>49088</td></tr><tr><th>source</th><td>53107</td></tr><tr><th>basic</th><td>68120</td></tr></tbody></table><figcaption>File size by compression/build type</figcaption></figure><script type="module" src="/assets/charts.js"></script>
-<table class="">
-<thead><tr>
+<p>If you wanted to go even furthur you could try <a href="https://upx.github.io/">UPX</a>, Which actually compresses your biniary and this works since<br />
+the decompression code + compressed data ends up smaller than the initial binary.</p>
+<p>Although some would consider this cheating, It is still a legtimate method and does work,<br />
+Running it with the highest compression level (-9) on our 40kb binary yields a binary size of 24kb, A decrease of 60% which is undeniably really impressive.</p>
+<p><strong>NOTE:</strong> Since upx is often used in malware, There are chances it might get flagged by an antivirus,<br />
+But running through virus total shows only <a href="https://is.gd/MtqIMG">results</a> from Google &amp; Ikarus(?)</p>
+<p><strong>NOTE:</strong> In a web enviroment, files are usually transferred while being gzip-compressed, UPX would be negligible for .wasm files and it doesnt support it anyway.</p>
+<figure><img loading="lazy" src="/assets/size-chart.svg" alt="" /></figure>
+<h2 id="compression--linker-update---19-08-2025">Compression &amp; Linker [UPDATE - 19-08-2025]</h2>
+<p>Seeing as I had put UPX as a possibility, It only felt right to also have other compression methods so I'm including some of the ones I had installed (<code>7z</code>, <code>zstd</code>, <code>xz</code>, <code>bzip2</code>, <code>gz</code>) which together should give a good idea of how much it can be further compressed, all were used at their highest settings</p>
+<p>I have re-run the experiment and noticed that using <code>lld</code> and <code>clang</code> gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for <code>lld</code> that I could find</p>
+<figure>
+<bar-chart unit="B">
+<table>
+<thead>
+<tr>
+<th>build</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7z</td>
+<td>14778</td>
+</tr>
+<tr>
+<td>xz</td>
+<td>15100</td>
+</tr>
+<tr>
+<td>zst</td>
+<td>16497</td>
+</tr>
+<tr>
+<td>gz</td>
+<td>17448</td>
+</tr>
+<tr>
+<td>bz2</td>
+<td>17998</td>
+</tr>
+<tr>
+<td>upx</td>
+<td>20320</td>
+</tr>
+<tr>
+<td>linker</td>
+<td>32312</td>
+</tr>
+<tr>
+<td>-flto</td>
+<td>32360</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>39448</td>
+</tr>
+<tr>
+<td>-Os</td>
+<td>49088</td>
+</tr>
+<tr>
+<td>source</td>
+<td>53107</td>
+</tr>
+<tr>
+<td>basic</td>
+<td>68120</td>
+</tr>
+</tbody>
+</table>
+</bar-chart>
+<figcaption>File size by compression/build type</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
 <th>size</th>
 <th>filename</th>
 </tr>
-</thead><tbody><tr>
+</thead>
+<tbody>
+<tr>
 <td>14778</td>
-<td>basic-optimized-stripped-lto-linker.7z<br/></td>
+<td>basic-optimized-stripped-lto-linker.7z</td>
 </tr>
 <tr>
 <td>15100</td>
-<td>basic-optimized-stripped-lto-linker.xz<br/></td>
+<td>basic-optimized-stripped-lto-linker.xz</td>
 </tr>
 <tr>
 <td>16497</td>
-<td>basic-optimized-stripped-lto-linker.zst<br/></td>
+<td>basic-optimized-stripped-lto-linker.zst</td>
 </tr>
 <tr>
 <td>17448</td>
-<td>basic-optimized-stripped-lto-linker.gz<br/></td>
+<td>basic-optimized-stripped-lto-linker.gz</td>
 </tr>
 <tr>
 <td>17998</td>
-<td>basic-optimized-stripped-lto-linker.bz2<br/></td>
+<td>basic-optimized-stripped-lto-linker.bz2</td>
 </tr>
 <tr>
 <td>20320</td>
-<td>basic-optimized-stripped-lto-linker-upx<br/></td>
+<td>basic-optimized-stripped-lto-linker-upx</td>
 </tr>
 <tr>
 <td>32312</td>
-<td>basic-optimized-stripped-lto-linker<br/></td>
+<td>basic-optimized-stripped-lto-linker</td>
 </tr>
 <tr>
 <td>32360</td>
-<td>basic-optimized-stripped-lto<br/></td>
+<td>basic-optimized-stripped-lto</td>
 </tr>
 <tr>
 <td>39448</td>
-<td>basic-optimized-stripped<br/></td>
+<td>basic-optimized-stripped</td>
 </tr>
 <tr>
 <td>49088</td>
-<td>basic-optimized<br/></td>
+<td>basic-optimized</td>
 </tr>
 <tr>
 <td>53107</td>
-<td>source-code.tar.gz<br/></td>
+<td>source-code.tar.gz</td>
 </tr>
 <tr>
 <td>68120</td>
-<td>basic<br/></td>
+<td>basic</td>
 </tr>
-</tbody></table>
-You can see all the commands that I used for each one here,<br/>
-
+</tbody>
+</table>
+<p>You can see all the commands that I used for each one here,</p>
 <details>
-	<summary>
-		Makefile
-	</summary>
-	<p>
-		<pre>
-<code class="language-make">CC=clang
-&#35; SOURCES=./hw.c
-SOURCES=./src.c ./tigr.c
-LIBS=-lGLU -lGL -lX11
-BASIC_CC = ${CC} ${SOURCES} ${LIBS} -march=native -fuse-ld=lld
+<summary>Makefile</summary>
+<pre><code class="language-make"><span class="nv">CC</span><span class="o">=</span>clang
+<span class="c"># SOURCES=./hw.c</span>
+<span class="nv">SOURCES</span><span class="o">=</span>./src.c<span class="w"> </span>./tigr.c
+<span class="nv">LIBS</span><span class="o">=</span>-lGLU<span class="w"> </span>-lGL<span class="w"> </span>-lX11
+<span class="nv">BASIC_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">CC</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">SOURCES</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">LIBS</span><span class="si">}</span><span class="w"> </span>-march<span class="o">=</span>native<span class="w"> </span>-fuse-ld<span class="o">=</span>lld
 
-all: build-all
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span><span class="n">build</span>-<span class="n">all</span>
 
-basic:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_CC} -o out/basic
-	
-BASIC_OPTIMIZED_CC = ${BASIC_CC}  -Oz -fno-ident -fno-asynchronous-unwind-tables 
-basic-optimized:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_CC} -o out/basic-optimized
+<span class="nf">basic</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic
+<span class="w">	</span>
+<span class="nv">BASIC_OPTIMIZED_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_CC</span><span class="si">}</span><span class="w">  </span>-Oz<span class="w"> </span>-fno-ident<span class="w"> </span>-fno-asynchronous-unwind-tables<span class="w"> </span>
+<span class="nf">basic-optimized</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized
 
-BASIC_OPTIMIZED_STRIPPED_CC = ${BASIC_OPTIMIZED_CC} -s
-basic-optimized-stripped:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_STRIPPED_CC} -o out/basic-optimized-stripped
+<span class="nv">BASIC_OPTIMIZED_STRIPPED_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_CC</span><span class="si">}</span><span class="w"> </span>-s
+<span class="nf">basic-optimized-stripped</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped
 
-BASIC_OPTIMIZED_STRIPPED_LTO_CC = ${BASIC_OPTIMIZED_STRIPPED_CC} -flto
-basic-optimized-stripped-lto:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -o out/basic-optimized-stripped-lto
+<span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_CC</span><span class="si">}</span><span class="w"> </span>-flto
+<span class="nf">basic-optimized-stripped-lto</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto
 
-BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC = ${BASIC_OPTIMIZED_STRIPPED_LTO_CC} -z noseparate-code -Wl,--gc-sections -Wl,--strip-all -Wl,--icf=all -Wl,--lto-O3 -Wl,-O2
-basic-optimized-stripped-lto-linker:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	${BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC} -o out/basic-optimized-stripped-lto-linker
+<span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_CC</span><span class="si">}</span><span class="w"> </span>-z<span class="w"> </span>noseparate-code<span class="w"> </span>-Wl,--gc-sections<span class="w"> </span>-Wl,--strip-all<span class="w"> </span>-Wl,--icf<span class="o">=</span>all<span class="w"> </span>-Wl,--lto-O3<span class="w"> </span>-Wl,-O2
+<span class="nf">basic-optimized-stripped-lto-linker</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span><span class="si">${</span><span class="nv">BASIC_OPTIMIZED_STRIPPED_LTO_LINKER_CC</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-zstd: basic-optimized-stripped-lto-linker
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	zstd -22 --ultra -f out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker.zst
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-zstd</span><span class="o">:</span><span class="w"> </span><span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>zstd<span class="w"> </span>-22<span class="w"> </span>--ultra<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker<span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto-linker.zst
 
-basic-optimized-stripped-lto-linker-compressed-gz:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.gz
-	gzip --best -f out/basic-optimized-stripped-lto-linker -c &gt; out/basic-optimized-stripped-lto-linker.gz
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-gz</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.gz
+<span class="w">	</span>gzip<span class="w"> </span>--best<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker<span class="w"> </span>-c<span class="w"> </span>&gt;<span class="w"> </span>out/basic-optimized-stripped-lto-linker.gz
 
-basic-optimized-stripped-lto-linker-compressed-xz:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.xz
-	xz -e -k -9 out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-xz</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.xz
+<span class="w">	</span>xz<span class="w"> </span>-e<span class="w"> </span>-k<span class="w"> </span>-9<span class="w"> </span>out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-bzip2:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.bz2
-	bzip2 -k --best ./out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-bzip2</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.bz2
+<span class="w">	</span>bzip2<span class="w"> </span>-k<span class="w"> </span>--best<span class="w"> </span>./out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-7z:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker.7z
-&#35; 	7z a -mx=9 -m0=LZMA2 -mfb=64 -md=64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
-	7z a -mx=9 out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-7z</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker.7z
+<span class="c"># 	7z a -mx=9 -m0=LZMA2 -mfb=64 -md=64k out/basic-optimized-stripped-lto-linker.7z out/basic-optimized-stripped-lto-linker</span>
+<span class="w">	</span>7z<span class="w"> </span>a<span class="w"> </span>-mx<span class="o">=</span><span class="m">9</span><span class="w"> </span>out/basic-optimized-stripped-lto-linker.7z<span class="w"> </span>out/basic-optimized-stripped-lto-linker
 
-basic-optimized-stripped-lto-linker-compressed-upx: basic-optimized-stripped-lto-linker
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -f out/basic-optimized-stripped-lto-linker-upx
-	upx --ultra-brute --no-lzma out/basic-optimized-stripped-lto-linker -o out/basic-optimized-stripped-lto-linker-upx
+<span class="nf">basic-optimized-stripped-lto-linker-compressed-upx</span><span class="o">:</span><span class="w"> </span><span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-f<span class="w"> </span>out/basic-optimized-stripped-lto-linker-upx
+<span class="w">	</span>upx<span class="w"> </span>--ultra-brute<span class="w"> </span>--no-lzma<span class="w"> </span>out/basic-optimized-stripped-lto-linker<span class="w"> </span>-o<span class="w"> </span>out/basic-optimized-stripped-lto-linker-upx
 
-source-code:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	mkdir -p out
-	cp makefile src.c tigr.c tigr.h out/
-	tar -czf out/source-code.tar.gz -C out makefile src.c tigr.c tigr.h
-	rm out/makefile out/src.c out/tigr.c out/tigr.h
+<span class="nf">source-code</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>mkdir<span class="w"> </span>-p<span class="w"> </span>out
+<span class="w">	</span>cp<span class="w"> </span>makefile<span class="w"> </span>src.c<span class="w"> </span>tigr.c<span class="w"> </span>tigr.h<span class="w"> </span>out/
+<span class="w">	</span>tar<span class="w"> </span>-czf<span class="w"> </span>out/source-code.tar.gz<span class="w"> </span>-C<span class="w"> </span>out<span class="w"> </span>makefile<span class="w"> </span>src.c<span class="w"> </span>tigr.c<span class="w"> </span>tigr.h
+<span class="w">	</span>rm<span class="w"> </span>out/makefile<span class="w"> </span>out/src.c<span class="w"> </span>out/tigr.c<span class="w"> </span>out/tigr.h
 
-build-all: basic \
-			basic-optimized basic-optimized-stripped \
-			basic-optimized-stripped-lto \
-			basic-optimized-stripped-lto-linker \
-			basic-optimized-stripped-lto-linker-compressed-zstd \
-			basic-optimized-stripped-lto-linker-compressed-upx \
-			basic-optimized-stripped-lto-linker-compressed-gz \
-			basic-optimized-stripped-lto-linker-compressed-xz \
-			basic-optimized-stripped-lto-linker-compressed-bzip2 \
-			basic-optimized-stripped-lto-linker-compressed-7z \
-			source-code
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	du -b out/&ast;
+<span class="nf">build-all</span><span class="o">:</span><span class="w"> </span><span class="n">basic</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span> <span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">zstd</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">upx</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">gz</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">xz</span> \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-<span class="n">bzip</span>2 \
+			<span class="n">basic</span>-<span class="n">optimized</span>-<span class="n">stripped</span>-<span class="n">lto</span>-<span class="n">linker</span>-<span class="n">compressed</span>-7<span class="n">z</span> \
+			<span class="n">source</span>-<span class="n">code</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>du<span class="w"> </span>-b<span class="w"> </span>out/*
 
-clean:
-	&#64;echo &quot;\033&lsqb;1m$&#64;:\033&lsqb;0m&quot;
-	rm -rf out	</code>
-</pre>
-	</p>
+<span class="nf">clean</span><span class="o">:</span>
+<span class="w">	</span>@echo<span class="w"> </span><span class="s2">"\033[1m</span><span class="nv">$@</span><span class="s2">:\033[0m"</span>
+<span class="w">	</span>rm<span class="w"> </span>-rf<span class="w"> </span>out
+</code></pre>
 </details>
-</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>
-So in total we managed to decrease our binary by <b>68%</b> without changing a single line of code, Less than half of its original size<br/>
-I am very pleased with that..<br/>
-<br/>
-Of course, even this isn't anything compared to marvellous feats of engineering like <a href="https://en.wikipedia.org/wiki/.kkrieger">.kkreiger</a>, A entire 3d fps game demo in a extremely impressive 95kb,<br/>
-When code is <i>actually written</i> to be small, and optimized to the limit towards that purpose.<br/>
-More on why:<br/>
+<p>So in total we managed to decrease our binary by <strong>68%</strong> without changing a single line of code, Less than half of its original size<br />
+I am very pleased with that..</p>
+<p>Of course, even this isn't anything compared to marvellous feats of engineering like <a href="https://en.wikipedia.org/wiki/.kkrieger">.kkreiger</a>, A entire 3d fps game demo in a extremely impressive 95kb,<br />
+When code is <em>actually written</em> to be small, and optimized to the limit towards that purpose.<br />
+More on why:</p>
 <ul>
-<li><a href="https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/">https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/</a><br/>
-</li>
-<li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a><br/>
-</li>
-<li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a><br/>
-</li>
-<li><a href="https://justine.lol/sizetricks/">https://justine.lol/sizetricks/</a><br/>
-</li>
-<li><a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">https://nathanotterness.com/2021/10/tiny_elf_modernized.html</a><br/>
+<li><a href="https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/">https://fgiesen.wordpress.com/2012/02/13/debris-opening-the-box/</a></li>
+<li><a href="https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/">https://fgiesen.wordpress.com/2012/04/08/metaprogramming-for-madmen/</a></li>
+<li><a href="https://www.youtube.com/watch?v=bD1wWY1YD-M">https://www.youtube.com/watch?v=bD1wWY1YD-M</a></li>
+<li><a href="https://justine.lol/sizetricks/">https://justine.lol/sizetricks/</a></li>
+<li><a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">https://nathanotterness.com/2021/10/tiny_elf_modernized.html</a></li>
+</ul>
+<script type="module" src="/assets/charts.js"></script>
+
 </article>
 </body>
 </html>

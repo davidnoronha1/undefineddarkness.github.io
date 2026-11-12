@@ -1,6 +1,7 @@
-#HEADER My custom markdown flavour
-A description of my custom markdown parser
-#END HEADER
+---
+title: My custom markdown flavour
+description: A description of my custom markdown parser
+---
 
 Markdown is nearly ubquitious now-a-days. Anytime you need a simple text format for documentation or formatting,
 It is at the ready.
@@ -21,10 +22,10 @@ It just barely colliding into inline HTML markup but processes any markdown it f
 
 So now something like this
 ```
-<div class='txt-c'>[View Page Source](/src/2022/nesdown.md)</div>
+<p class="txt-c"><a href="/src/2022/nesdown.md">View Page Source</a></p>
 ```
 will generate:
-<div class='txt-c'>[View Page Source](/src/2022/nesdown.md)</div>
+<p class="txt-c"><a href="/src/2022/nesdown.md">View Page Source</a></p>
 
 ### Block Quotes
 This isn't anything new either, but I cant ever remember the syntax for other flavours
@@ -45,7 +46,7 @@ Because I could, I barely use these...
 ==Pay attention to me==
 ```
 
-==You better==
+<mark>You better</mark>
 
 ### Syntax Highlighting
 This is nothing new, but the neat part is that its done entirely in the markdown generation step.
@@ -100,11 +101,12 @@ Since of course I could do a better job than all the bright people that have spe
 #END TABLE
 ```
 becomes
-#TABLE	Fruits	Vegetables
-		Apples	Carrot
-		Orange	Tomato
-		Banana	Eggplant
-#END TABLE
+
+| Fruits | Vegetables |
+| --- | --- |
+| Apples | Carrot |
+| Orange | Tomato |
+| Banana | Eggplant |
 
 where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)
 This syntax pretty much breaks the moment you want something really long though, but at that point, I think just using HTML Tables directly is the best idea.
@@ -121,9 +123,12 @@ I said it was a secret >:(
 #END f
 ```
 becomes
-#f It's a secret
+<details>
+<summary>It's a secret</summary>
+
 I said it was a secret >:(
-#END f
+
+</details>
 
 ## Problems
 Currently to make new lines break like I want, A lot of `<br>`s are scattered throughout the output.
@@ -136,7 +141,9 @@ EDIT: The poor browser has to choke down my trashy HTML but such is it's poor fa
 
 I know my little toy isn't remarkable in any particular way but I was hoping to showcare it since over the years, Ive spent a decent chunk of time on it.
 
-#f charmap for cozette
+<details>
+<summary>charmap for cozette</summary>
+
 <pre>
 <code>
          0 1 2 3 4 5 6 7 8 9 A B C D E F
@@ -861,4 +868,5 @@ I know my little toy isn't remarkable in any particular way but I was hoping to 
  U+F141_│              󱐗
 </code>
 </pre>
-#END f
+
+</details>

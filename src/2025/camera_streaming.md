@@ -1,7 +1,9 @@
+---
+title: Low Latency Camera Streaming in Robotics
+description: Lessons from debugging flaky, laggy camera streams on robots.
+---
+
 ![](/assets/IMX335-5MP-USB-Camera-A-details-1-removebg-preview.png)
-#HEADER Low Latency Camera Streaming in Robotics
-Lessons from debugging flaky, laggy camera streams on robots.
-#END HEADER
 So as part of my work at Dreadnought Robotics and a few other places since, I've often had to grapple with and sort out why a camera stream is not performing as it should and this can have many reasons like purely from my experience I've seen things 
 
 - like the USB / Ethernet cable being too fragile
@@ -20,14 +22,19 @@ So the camera is made up of a grid of photo cells, these cells can only measure 
 
 But as you can imagine, a grid of luminence sensors isnt exactly sufficient to percieve colour so this is where colour filters come in. Unlike the human eye which has cones and rods for colour & luminence respectivley, Camera sensors need some way to filter the luminence they recieve to a particular colour spectrum, This is usually done with a bayer filter.
 
-#COLUMNS
+<div class="row">
+
 ![bayer filter](https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Bayer_pattern_on_sensor.svg/1920px-Bayer_pattern_on_sensor.svg.png)
+
 ![human eye sensitivity](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Eyesensitivity.svg/1280px-Eyesensitivity.svg.png)
-#END COLUMNS
+
+</div>
 
 This seperates the colours coming into the sensor, and since the pattern is repeated you can take the image from the sensor with the filter applied and "debayer" it to compute the R, G, B values for each pixel. (If you notice there are twice as many green spots on the filter compared to red & blue, because we percieve green more strongly than red or blue)
 
-#f <h3> Image Signal Processor (ISP)</h3>
+<details>
+<summary><h3>Image Signal Processor (ISP)</h3></summary>
+
 This isn't something you need to worry about with USB or Ethernet cameras since they have an integrated ISP that takes care of reading data from the camera sensor, debayering it etc and presenting it in a format you can easily consume (USB is usually V4l2 & Ethernet can be custom), But if you are dealing with MIPI CSI cameras then you need to worry about this, since then, the sensor is directly connected to your devboard and the devboards internal ISP must be configured to communicate with the camera sensor, which if not included in your devices kernel (Raspi thankfully supports majority), can end up with you needing to edit files that look like this:
 
 ```dtb
@@ -75,7 +82,7 @@ This isn't something you need to worry about with USB or Ethernet cameras since 
 
 Suffice to say its a big hassle and when you need to handle it, it takes forever to properly integrate the camera hardware, especially if documentation is unsatisfactory
 
-#END f
+</details>
 
 ### Video4Linux (USB / Standards compliant cameras)
 So this is the linux subsystem that is in charge of all video device aquistion, enumeration and handling on linux, It is what lets you configure the camera properties like exposure, auto focus etc and for this article most importantly it lets you query all the devices and shows you all the different streams it supports, a *stream* is just a valid configuration of FORMAT, RESOLUTION & FPS that the device **currently** supports and is capable of publishing.
@@ -105,34 +112,40 @@ Media Driver Info:
 
 Here you can see all the different options exposed by the device to the `uvcvideo` driver. Typically cameras support a few image formats, I have so far only seen (rarely) H.264, MJPEG, YUV422 and NV12. These are all useful for different things, Typically unless you need the perfectly raw image from the camera, MJPEG will serve your needs very well, You can see how much bandwidth each of these consume:
 
-#CHART ylog=true unit=Mbps title=Bandwidth (log scale)
-category	1080p 30fps	1080p 60fps	720p 30fps	720p 60fps
-H.264	8	16	4	8
-H.265	4	8	2	4
-AV1	3	6	1.5	3
-VP9	4.5	9	2	4
-MJPEG	50	100	22	44
-NV12/I420	373	746	166	332
-YUV422	497	995	221	442
-YUV444	746	1493	332	664
-RAW10	715	1430	319	637
-RAW12	857	1714	382	764
-RGB24	1492	2985	664	1328
-#END CHART
+<figure>
+<bar-chart unit="Mbps" log>
 
-#TABLE	Format	Type	1080p/30fps	1080p/60fps	720p/30fps	720p/60fps
-H.264	Compressed	8 Mbps	16 Mbps	4 Mbps	8 Mbps
-H.265/HEVC	Compressed	4 Mbps	8 Mbps	2 Mbps	4 Mbps
-AV1	Compressed	3 Mbps	6 Mbps	1.5 Mbps	3 Mbps
-VP9	Compressed	4.5 Mbps	9 Mbps	2 Mbps	4 Mbps
-MJPEG	Compressed	50 Mbps	100 Mbps	22 Mbps	44 Mbps
-NV12 (YUV 4:2:0)	Uncompressed	373 Mbps	746 Mbps	166 Mbps	332 Mbps
-YUV 4:2:2 (YUYV)	Uncompressed	497 Mbps	995 Mbps	221 Mbps	442 Mbps
-YUV 4:4:4	Uncompressed	746 Mbps	1.46 Gbps	332 Mbps	664 Mbps
-RAW10 Bayer	Uncompressed	715 Mbps	1.40 Gbps	319 Mbps	637 Mbps
-RAW12 Bayer	Uncompressed	857 Mbps	1.67 Gbps	382 Mbps	764 Mbps
-RGB24	Uncompressed	1.46 Gbps	2.91 Gbps	664 Mbps	1.30 Gbps
-#END TABLE
+| category | 1080p 30fps | 1080p 60fps | 720p 30fps | 720p 60fps |
+|---|---|---|---|---|
+| H.264 | 8 | 16 | 4 | 8 |
+| H.265 | 4 | 8 | 2 | 4 |
+| AV1 | 3 | 6 | 1.5 | 3 |
+| VP9 | 4.5 | 9 | 2 | 4 |
+| MJPEG | 50 | 100 | 22 | 44 |
+| NV12/I420 | 373 | 746 | 166 | 332 |
+| YUV422 | 497 | 995 | 221 | 442 |
+| YUV444 | 746 | 1493 | 332 | 664 |
+| RAW10 | 715 | 1430 | 319 | 637 |
+| RAW12 | 857 | 1714 | 382 | 764 |
+| RGB24 | 1492 | 2985 | 664 | 1328 |
+
+</bar-chart>
+<figcaption>Bandwidth (log scale)</figcaption>
+</figure>
+
+| Format | Type | 1080p/30fps | 1080p/60fps | 720p/30fps | 720p/60fps |
+| --- | --- | --- | --- | --- | --- |
+| H.264 | Compressed | 8 Mbps | 16 Mbps | 4 Mbps | 8 Mbps |
+| H.265/HEVC | Compressed | 4 Mbps | 8 Mbps | 2 Mbps | 4 Mbps |
+| AV1 | Compressed | 3 Mbps | 6 Mbps | 1.5 Mbps | 3 Mbps |
+| VP9 | Compressed | 4.5 Mbps | 9 Mbps | 2 Mbps | 4 Mbps |
+| MJPEG | Compressed | 50 Mbps | 100 Mbps | 22 Mbps | 44 Mbps |
+| NV12 (YUV 4:2:0) | Uncompressed | 373 Mbps | 746 Mbps | 166 Mbps | 332 Mbps |
+| YUV 4:2:2 (YUYV) | Uncompressed | 497 Mbps | 995 Mbps | 221 Mbps | 442 Mbps |
+| YUV 4:4:4 | Uncompressed | 746 Mbps | 1.46 Gbps | 332 Mbps | 664 Mbps |
+| RAW10 Bayer | Uncompressed | 715 Mbps | 1.40 Gbps | 319 Mbps | 637 Mbps |
+| RAW12 Bayer | Uncompressed | 857 Mbps | 1.67 Gbps | 382 Mbps | 764 Mbps |
+| RGB24 | Uncompressed | 1.46 Gbps | 2.91 Gbps | 664 Mbps | 1.30 Gbps |
 
 *The numbers for the compressed formats vary depending on the compression settings and the actual content of the image*
 
@@ -259,9 +272,8 @@ version = 1
 ```
 
 Typically you should create a different `mempool` for each kind of message type you expect to have and give it a sufficient amount of reserved slots (`count`) to cope with traffic.
-#CALLOUT note
-ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile & build it from source then use `iox-roudi` from `/usr/local/bin` (which is where the source build installs it) instead of the one included in ROS2.
-#END CALLOUT
+> [!NOTE]
+> ROS2 sometimes includes an out of date version of iceoryx, I recommend to compile & build it from source then use `iox-roudi` from `/usr/local/bin` (which is where the source build installs it) instead of the one included in ROS2.
 
 My senior did a [good writeup on this](https://medium.com/@kunalawari2709/zero-copy-robotics-breaking-the-ipc-bottleneck-with-ros-2-and-iceoryx-9c67efb443a6) workflow for transferring laser profiler data and camera image frames.
 
@@ -433,9 +445,8 @@ The parser knows that the content after the `mjpeg_boundry` is meant to replace 
 Here is a little demo that is being live streamed from a vercel service:
 ![mjpeg demo in a <img> tag](https://mjpeg-demo.vercel.app/api/mjpeg)
 
-#CALLOUT note
-Another advantage is that some cameras support directly outputting JPEG encoded frames so you can fully skip the encoding step of raw pixel format -> encoded jpeg image saving some latency when you can fully passthrough frames.
-#END CALLOUT
+> [!NOTE]
+> Another advantage is that some cameras support directly outputting JPEG encoded frames so you can fully skip the encoding step of raw pixel format -> encoded jpeg image saving some latency when you can fully passthrough frames.
 
 ## rtsp
 Mjpeg is good enough for many usecases but if you want to minimize bandwidth and not have to worry about latency of each individual copy you have to look into video codecs like H264, These leverage the fact that between 2 individual frames not much content actually changes, so you can store just the _delta_ of what exactly changed between 2 full frames and using these deltas and the *keyframes* you can fully reconstruct the original video. This also works really well if you have multiple clients for the same stream.
@@ -459,9 +470,8 @@ On my laptop this is available by default (use [this script](https://gist.github
 ```
 (I dont have AMF compiled into my ffmpeg)
 
-#CALLOUT note
-This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 200m long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.
-#END CALLOUT
+> [!NOTE]
+> This worked best for me when vieweing the video feed across multiple different nodes across multiple different machines connected through a 200m long tether. Iceoryx only works within the same machine and Mjpeg was having lag or fluctuating framerate so for multiple nodes on multiple machines this worked best.
 
 RTSP doesn't work to send media to the browser since if you are sending video you need WebRTC or HLS. But for any scripts on your local network you can use it and it is understood by OpenCV, ffmpeg and others (they also understand mjpeg), I've found that setting these flags for the reciever stream helps to priotize latency over perfect frames.
 ```

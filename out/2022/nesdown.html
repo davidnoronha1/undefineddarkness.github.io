@@ -5,203 +5,153 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My custom markdown flavour</title>
 <meta name="description" content="A description of my custom markdown parser">
-<link rel="canonical" href="https://nes.is-a.dev/2022/nesdown.html">
+<link rel="canonical" href="https://nes.is-a.dev/out/2022/nesdown.html">
 <link rel="icon" href="/favicon.png">
 <link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
 <meta property="og:title" content="My custom markdown flavour">
 <meta property="og:description" content="A description of my custom markdown parser">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://nes.is-a.dev/2022/nesdown.html">
+<meta property="og:url" content="https://nes.is-a.dev/out/2022/nesdown.html">
 <meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
 <meta name="twitter:card" content="summary_large_image">
-<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{border-left:3px solid var(--white-darker);color:var(--gray);padding-left:1em}blockquote,figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}mark{background:var(--white-darker);color:inherit;padding:0 .2em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.esc,.num{color:#dca3a3}.sng{color:#cc9393}.com,.slc{color:#7f9f7f;font-style:italic}.ppc{color:#ffcfaf}table{border-collapse:collapse;display:block;margin:1em 0;overflow-x:auto}td,th{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}summary{cursor:pointer}.card{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}</style>
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font-weight:600}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav{margin-bottom:2rem;color:var(--gray)}body>nav a{text-decoration:none;margin-right:1em}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.posts{list-style:none;padding:0}.posts li{margin:0 0 .9em}.posts p{margin:0;color:var(--gray);font-size:.9em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions{width:100%;display:table}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{margin:1em 0;padding:.6em 1em;border-left:3px solid var(--gray);background:#191919}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert-title{margin:0 0 .3em;font-weight:600}.markdown-alert-note{border-color:#6a9ef2}.markdown-alert-tip{border-color:#5fb87a}.markdown-alert-important{border-color:#b483e8}.markdown-alert-warning{border-color:#d6a72b}.markdown-alert-caution{border-color:#e0605c}bar-chart,fn-plot{display:block;margin:1em 0}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
 <body>
 <nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
 <article>
+<header><h1>My custom markdown flavour</h1></header>
 
-<header>
-  <h1>My custom markdown flavour</h1>
-  <!-- post_description="A description of my custom markdown parser" -->
-</header>
-Markdown is nearly ubquitious now-a-days. Anytime you need a simple text format for documentation or formatting,<br/>
-It is at the ready.<br/>
-<br/>
-I like it's simplicity a lot too but how strict some of the syntax rules end up being, They kind of rub me the wrong way.<br/>
-So when making this site, I decided I would finally fix it myself, Of course, It wouldn't do if it was written in a "normal" language like Python or C or Rust or something, No It had to be different, and so it was written in Bash. (Not posix cause writing something perfectly in posix makes me pine for bash builtins)<br/>
-<br/>
-The result is ~600 lines of barely unreadable sphagetti, Even I can't read what<br/>
-it's doing sometimes. But as the old adeage goes, What's not broken don't fix, and believe me I've tried to replace it entirely but then give up because of how much effort it would be.<br/>
-<br/>
-So here are some of the things I added to <i>nesdown</i>:<br/>
-You can find it here, <a href="https://github.com/undefinedDarkness/undefineddarkness.github.io/tree/master/.tooling">https://github.com/undefinedDarkness/undefineddarkness.github.io/tree/master/.tooling</a><br/>
+<p>Markdown is nearly ubquitious now-a-days. Anytime you need a simple text format for documentation or formatting,<br />
+It is at the ready.</p>
+<p>I like it's simplicity a lot too but how strict some of the syntax rules end up being, They kind of rub me the wrong way.<br />
+So when making this site, I decided I would finally fix it myself, Of course, It wouldn't do if it was written in a &quot;normal&quot; language like Python or C or Rust or something, No It had to be different, and so it was written in Bash. (Not posix cause writing something perfectly in posix makes me pine for bash builtins)</p>
+<p>The result is ~600 lines of barely unreadable sphagetti, Even I can't read what<br />
+it's doing sometimes. But as the old adeage goes, What's not broken don't fix, and believe me I've tried to replace it entirely but then give up because of how much effort it would be.</p>
+<p>So here are some of the things I added to <em>nesdown</em>:<br />
+You can find it here, <a href="https://github.com/undefinedDarkness/undefineddarkness.github.io/tree/master/.tooling">https://github.com/undefinedDarkness/undefineddarkness.github.io/tree/master/.tooling</a></p>
 <h3 id="markdown-in-html-blocks">Markdown in HTML blocks</h3>
-<p>
-Since I couldn't be bothered to implement the correct logic and this works just as well,<br/>
-<br/>
-It just barely colliding into inline HTML markup but processes any markdown it finds within.<br/>
-<br/>
-So now something like this<br/>
-<pre>
-<code class="language-plaintext">&lt;div class&equals;'txt-c'&gt;&lsqb;View Page Source&rsqb;(/src/2022/nesdown.md)&lt;/div&gt;
-</code>
-</pre>
-will generate:<br/>
-<div class='txt-c'><a href="/src/2022/nesdown.md">View Page Source</a></div><br/>
-</p>
+<p>Since I couldn't be bothered to implement the correct logic and this works just as well,</p>
+<p>It just barely colliding into inline HTML markup but processes any markdown it finds within.</p>
+<p>So now something like this</p>
+<pre><code>&lt;p class=&quot;txt-c&quot;&gt;&lt;a href=&quot;/src/2022/nesdown.md&quot;&gt;View Page Source&lt;/a&gt;&lt;/p&gt;
+</code></pre>
+<p>will generate:</p>
+<p class="txt-c"><a href="/src/2022/nesdown.md">View Page Source</a></p>
 <h3 id="block-quotes">Block Quotes</h3>
-<p>
-This isn't anything new either, but I cant ever remember the syntax for other flavours<br/>
-<pre>
-<code class="language-plaintext">&gt;&gt;&gt;
+<p>This isn't anything new either, but I cant ever remember the syntax for other flavours</p>
+<pre><code>&gt;&gt;&gt;
 Be the change you want to see in the world.
 &gt;&gt;&gt; Mahtma Gandhi
-</code>
-</pre>
-becomes<br/>
-<figure>
+</code></pre>
+<p>becomes</p>
 <blockquote>
-Be the change you want to see in the world.<br/>
+<blockquote>
+<blockquote></blockquote>
 </blockquote>
-<figcaption>Mahtma Gandhi</figcaption>
-</figure>
-<br/>
-<br/>
-</p>
+</blockquote>
+<p>Be the change you want to see in the world.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>Mahtma Gandhi</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <h3 id="inlines">Inlines</h3>
-<p>
-Because I could, I barely use these...<br/>
-<pre>
-<code class="language-plaintext">&equals;&equals;Pay attention to me&equals;&equals;
-</code>
-</pre>
-<br/>
-<mark>You better</mark><br/>
-<br/>
-</p>
+<p>Because I could, I barely use these...</p>
+<pre><code>==Pay attention to me==
+</code></pre>
+<p><mark>You better</mark></p>
 <h3 id="syntax-highlighting">Syntax Highlighting</h3>
-<p>
-This is nothing new, but the neat part is that its done entirely in the markdown generation step.<br/>
-So no javascript library is required later, <br/>
-EDIT: Actually I lied, I've shifted to using highlight js because getting source-highlight working on windows is a PITA and I want my site to be able to be developed no matter what software I'm using at the time, I might look into a Python based solution later, will have to see.<br/>
-EDIT: Initially I was doing syntax highlighting using <code>vim</code> but the HTML export from vim doesnt support treesitter and I eventually figured it's too much post processing pipeline to bother maintaining<br/>
-<pre>
-<code class="language-c"><span class="ppc">&#35;include &lt;stdio.h&gt;</span>
+<p>This is nothing new, but the neat part is that its done entirely in the markdown generation step.<br />
+So no javascript library is required later,<br />
+EDIT: Actually I lied, I've shifted to using highlight js because getting source-highlight working on windows is a PITA and I want my site to be able to be developed no matter what software I'm using at the time, I might look into a Python based solution later, will have to see.<br />
+EDIT: Initially I was doing syntax highlighting using <code>vim</code> but the HTML export from vim doesnt support treesitter and I eventually figured it's too much post processing pipeline to bother maintaining</p>
+<pre><code class="language-c"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 
-<span class="kwb">float</span> <span class="kwd">Q_rsqrt</span>( <span class="kwb">float</span> number )
-{
-    <span class="kwb">long</span> i;
-    <span class="kwb">float</span> x2, y;
-    <span class="kwb">const float</span> threehalfs = <span class="num">1.5</span>F;
+<span class="kt">float</span><span class="w"> </span><span class="nf">Q_rsqrt</span><span class="p">(</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">threehalfs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5F</span><span class="p">;</span>
 
-    x2 = number &ast; <span class="num">0.5</span>F;
-    y  = number;
-    i  = &ast; ( <span class="kwb">long</span> &ast; ) &amp;y;                       <span class="slc">// evil floating point bit level hacking</span>
-    i  = <span class="num">0x5f3759df</span> - ( i &gt;&gt; <span class="num">1</span> );               <span class="slc">// what the fuck? </span>
-    y  = &ast; ( <span class="kwb">float</span> &ast; ) &amp;i;
-    y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   <span class="slc">// 1st iteration</span>
-<span class="slc">//  y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   // 2nd iteration, this can be removed</span>
+<span class="w">    </span><span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5F</span><span class="p">;</span>
+<span class="w">    </span><span class="n">y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">;</span>
+<span class="w">    </span><span class="n">i</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y</span><span class="p">;</span><span class="w">                       </span><span class="c1">// evil floating point bit level hacking</span>
+<span class="w">    </span><span class="n">i</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">0x5f3759df</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span><span class="w">               </span><span class="c1">// what the fuck? </span>
+<span class="w">    </span><span class="n">y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="n">y</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">threehalfs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w">   </span><span class="c1">// 1st iteration</span>
+<span class="c1">//  y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed</span>
 
-    <span class="kwa">return</span> y;
-}
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="kwb">int</span> <span class="kwd">main</span> () {
-    <span class="kwd">printf</span>(<span class="sng">&quot;Hello world</span><span class="esc">\n</span><span class="sng">&quot;</span>);
-}	</code>
-</pre>
-<br/>
-</p>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"Hello world</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
 <h2 id="transformers">Transformers</h2>
-<p>
-I built it initially around the idea of these, but essentially they're like functions that take raw text as input and output html.<br/>
-The raw text can really be anything, which is where I find them really useful.<br/>
-<br/>
-And making a transformer is as simply as creating a new bash function.<br/>
-<br/>
-EDIT: If I knew TCL existed before I would have simply used TCL 😢 but now I have to live with this mostrosity<br/>
-<br/>
-</p>
+<p>I built it initially around the idea of these, but essentially they're like functions that take raw text as input and output html.<br />
+The raw text can really be anything, which is where I find them really useful.</p>
+<p>And making a transformer is as simply as creating a new bash function.</p>
+<p>EDIT: If I knew TCL existed before I would have simply used TCL 😢 but now I have to live with this mostrosity</p>
 <h3 id="table-transformer">Table Transformer</h3>
-<p>
-Markdown table syntax is just painful. Sure, it's readable in text form but thats only if you don't have a mess of differently sized columns and data values. (which is really easy) And if you do, its painful to edit manually,<br/>
-you always gotta delegate to some tool which is a whole mess<br/>
-<br/>
-Since of course I could do a better job than all the bright people that have spent a lot of time thinking about the markdown syntax, This was what I came up with and to be entirely honestly, I'm quite happy with it, It's not very clear but it's decently readable and fortunatley easy to modify as well.<br/>
-<pre>
-<code class="language-plaintext">&#35;TABLE Fruits   Vegetables
+<p>Markdown table syntax is just painful. Sure, it's readable in text form but thats only if you don't have a mess of differently sized columns and data values. (which is really easy) And if you do, its painful to edit manually,<br />
+you always gotta delegate to some tool which is a whole mess</p>
+<p>Since of course I could do a better job than all the bright people that have spent a lot of time thinking about the markdown syntax, This was what I came up with and to be entirely honestly, I'm quite happy with it, It's not very clear but it's decently readable and fortunatley easy to modify as well.</p>
+<pre><code>#TABLE Fruits   Vegetables
        Apple    Carrot
        Orange   Tomato
        Banana   Eggplant
-&#35;END TABLE
-</code>
-</pre>
-becomes<br/>
-<table class="">
-<thead><tr>
+#END TABLE
+</code></pre>
+<p>becomes</p>
+<table>
+<thead>
+<tr>
 <th>Fruits</th>
 <th>Vegetables</th>
 </tr>
-</thead><tbody><tr>
+</thead>
+<tbody>
+<tr>
 <td>Apples</td>
-<td>Carrot<br/></td>
+<td>Carrot</td>
 </tr>
 <tr>
 <td>Orange</td>
-<td>Tomato<br/></td>
+<td>Tomato</td>
 </tr>
 <tr>
 <td>Banana</td>
-<td>Eggplant<br/></td>
+<td>Eggplant</td>
 </tr>
-</tbody></table>
-where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)<br/>
-This syntax pretty much breaks the moment you want something really long though, but at that point, I think just using HTML Tables directly is the best idea.<br/>
-<br/>
-</p>
-<h3 id="verbatim-transformer">Verbatim Transformer </h3>
-<p>
-A crutch to deal with nesdown not having any idea of what its doing when transforming markdown syntax, Just spits out the input its given and ~sort of~ guarrentes that it wont be changed in any way.<br/>
-<br/>
-</p>
+</tbody>
+</table>
+<p>where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)<br />
+This syntax pretty much breaks the moment you want something really long though, but at that point, I think just using HTML Tables directly is the best idea.</p>
+<h3 id="verbatim-transformer">Verbatim Transformer</h3>
+<p>A crutch to deal with nesdown not having any idea of what its doing when transforming markdown syntax, Just spits out the input its given and <s>sort of</s> guarrentes that it wont be changed in any way.</p>
 <h3 id="f-fold-transformer">(f) Fold Transformer</h3>
-<p>
-A slight syntactic sugar over <code>&lt;detail&gt;</code> & <code>&lt;summary&gt;</code><br/>
-<pre>
-<code class="language-plaintext">&#35;f It's a secret
+<p>A slight syntactic sugar over <code>&lt;detail&gt;</code> &amp; <code>&lt;summary&gt;</code></p>
+<pre><code>#f It&#x27;s a secret
 I said it was a secret &gt;:(
-&#35;END f
-</code>
-</pre>
-becomes<br/>
-
+#END f
+</code></pre>
+<p>becomes</p>
 <details>
-	<summary>
-		It's a secret
-	</summary>
-	<p>
-		I said it was a secret >:(<br/>
-	</p>
+<summary>It's a secret</summary>
+<p>I said it was a secret &gt;:(</p>
 </details>
-</p>
 <h2 id="problems">Problems</h2>
-<p>
-Currently to make new lines break like I want, A lot of <code>&lt;br&gt;</code>s are scattered throughout the output.<br/>
-<br/>
-Besides that, the output is really quite ugly, I know its not meant for a person to read but still...<br/>
-<br/>
-EDIT: The poor browser has to choke down my trashy HTML but such is it's poor fate<br/>
-<br/>
+<p>Currently to make new lines break like I want, A lot of <code>&lt;br&gt;</code>s are scattered throughout the output.</p>
+<p>Besides that, the output is really quite ugly, I know its not meant for a person to read but still...</p>
+<p>EDIT: The poor browser has to choke down my trashy HTML but such is it's poor fate</p>
 <hr />
-<br/>
-I know my little toy isn't remarkable in any particular way but I was hoping to showcare it since over the years, Ive spent a decent chunk of time on it.<br/>
-<br/>
-
+<p>I know my little toy isn't remarkable in any particular way but I was hoping to showcare it since over the years, Ive spent a decent chunk of time on it.</p>
 <details>
-	<summary>
-		charmap for cozette
-	</summary>
-	<p>
-		<pre>
+<summary>charmap for cozette</summary>
+<pre>
 <code>
          0 1 2 3 4 5 6 7 8 9 A B C D E F
         ┌───────────────────────────────
@@ -925,8 +875,8 @@ I know my little toy isn't remarkable in any particular way but I was hoping to 
  U+F141_│              󱐗
 </code>
 </pre>
-	</p>
 </details>
+
 </article>
 </body>
 </html>
