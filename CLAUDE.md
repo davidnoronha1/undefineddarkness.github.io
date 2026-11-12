@@ -32,7 +32,8 @@ make                     # rebuild JS bundles (bun) then ./generate
 | `portfolio.html`, `404.html`, `experiments/` | Hand-written pages at the repo root, linking `/assets/styles.css` |
 | `assets_src/styles/styles.css` | The one stylesheet. Token names are legacy (`--white*` = backgrounds, `--black*` = text) because experiments/ use them |
 | `assets_src/other/charts.ts` | `<bar-chart>` / `<fn-plot>` custom elements (uPlot). They read the table / formula list build.py generates inside them (from ```` ```chart ````/```` ```plot ```` fences); without JS that content is shown as-is |
-| `assets_src/other/*model-viewer.ts` | three.js viewers (`model-viewer.js` used by the portfolio) |
+| `assets_src/other/model-viewer.ts` | three.js `<model-viewer>` element; the portfolio loads it on click |
+| `assets_src/other/about.css`, `interaction.js`, `chevron*.svg`, `VictorMono-*.woff2` | Assets of the standalone `src/about_fancy.html` page (referenced relatively, since `assets.py` flattens them into `/assets/`) |
 | `assets_src/Makefile` | `bun build` for the JS bundles above, committed under `out/.assets/` |
 | `.tooling/assets.py` | Media pipeline: walks `assets_src/` + images next to posts in `src/`, content-hashes and AVIF-transcodes raster images (`avifenc`), transcodes video to AV1 `.webm` (`ffmpeg`), copies the rest flat into `out/.assets/`, then rewrites asset references across `out/`, `experiments/`, `rss.xml` and `index.html`. `assets_src/models/` is skipped: models are Git LFS (repo is over budget) and are served from Vercel blob URLs |
 | `.tooling/hs.py` | Dev server for `./generate live` (aiohttp + watchfiles; rebuilds changed files via `./generate <file>`) |

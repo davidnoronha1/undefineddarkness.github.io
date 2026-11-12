@@ -58,7 +58,7 @@ SKIP_SUFFIXES = {".ts"}
 
 # Build outputs that live in the same flat output folder but aren't
 # produced by this script (postcss/bun handle these) — never prune them.
-PROTECTED_NAMES = {"styles.css", "charts.js", "model-viewer.js", "wireframe-model-viewer.js"}
+PROTECTED_NAMES = {"styles.css", "charts.js", "model-viewer.js"}
 
 HASH_HEXLEN = 10
 

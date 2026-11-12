@@ -382,7 +382,7 @@ span.special {
     border-radius: 0 50% 50% 0;
     width: 4em;
     height: 4em;
-    background-image: url(/assets/other/chevron.svg);
+    background-image: url(./chevron.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -399,10 +399,10 @@ span.special {
 
 @keyframes foldoutbtn-rotate {
 	from {
-    background-image: url(/assets/other/chevron.svg);
+    background-image: url(./chevron.svg);
 	}
 	to {
-		background-image: url(/assets/other/chevron-inv.svg);
+		background-image: url(./chevron-inv.svg);
 	}
 }
 

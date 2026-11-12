@@ -228,7 +228,7 @@ disagreed with (and still do) but now I understand what they were
 talking about, It is really amazing how flexible org mode is.
 
 It is the more powerful / flexible markdown I had always wanted, and
-tried to achieve with [nesdown](../lorem.html). And it actually looks /
+tried to achieve with [nesdown](/out/2021/lorem.html). And it actually looks /
 feels good to edit too, since you can smartly hide almost all of the
 syntactic visual noise and get a very clean experience editing it.
 

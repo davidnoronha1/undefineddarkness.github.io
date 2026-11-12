@@ -35,7 +35,7 @@ Might be a fun read.
 - <a href="https://github.com/lambdalisue/fern.vim">🌵 Fern</a>
   Great alternative to NERDTree / netrw and imo a much better one
   Feels pretty clean and nice to use,
-  If you're using neovim, [nvim-tree](kyazdani42/nvim-tree.lua) will work much better for you & it has some nicer features.
+  If you're using neovim, [nvim-tree](https://github.com/nvim-tree/nvim-tree.lua) will work much better for you & it has some nicer features.
 
 <!-- Replace with something better -->
 
@@ -45,7 +45,7 @@ Might be a fun read.
 - <a href="https://github.com/nvim-telescope/telescope.nvim">🔭 Telescope</a>
   I wish I had learnt about this before, its a really nice plugin, it generates a menu for you that allows to
   search through files, content of files, anything and it can be mightly handy instead of fiddling with the wildmenu all day.
-  Vim users have [fzf.vim](junegunn/fzf.vim) which does some similar stuff.
+  Vim users have [fzf.vim](https://github.com/junegunn/fzf.vim) which does some similar stuff.
 
 - <a href="https://github.com/folke/zen-mode.nvim">Zen Mode</a>
   This is an interesting one, What it does is slim down vim's UI so it becomes very bare bones, this is really useful
