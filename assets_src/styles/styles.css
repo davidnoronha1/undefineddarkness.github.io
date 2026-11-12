@@ -97,8 +97,12 @@ h3 { color: var(--gray); }
 .posts li { display: grid; grid-template-columns: 40px 1fr auto; gap: .2em 1em; margin: 0 0 1em; align-items: start; }
 .posts li > div { grid-column: 2; }
 .posts img { width: 40px; height: 40px; object-fit: contain; image-rendering: pixelated; }
-/* Posts without an icon get the site's asterisk instead. */
-.posts li:not(:has(img))::before { content: "*"; color: var(--accent); font: 2em/1 var(--serif); text-align: center; }
+/* Posts without an icon get a pastel "pixel" (the chart palette, cycling). */
+.posts li:not(:has(img))::before { content: ""; width: 10px; height: 10px; margin: .55em auto 0; border-radius: 2px; background: var(--dot, #ffb3ba); }
+.posts li:nth-child(5n+2) { --dot: #bae1ff; }
+.posts li:nth-child(5n+3) { --dot: #baffc9; }
+.posts li:nth-child(5n+4) { --dot: #ffffba; }
+.posts li:nth-child(5n+5) { --dot: #d7baff; }
 .posts a { font: 1.15em var(--serif); text-decoration: none;
 	background: linear-gradient(var(--white-darker), var(--white-darker)) 0 0 / 0 100% no-repeat;
 	transition: background-size .25s, color .15s; }
