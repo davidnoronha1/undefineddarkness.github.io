@@ -1,557 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Portfolio</title>
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<link rel="stylesheet" href="/assets/styles.css">
-	<style>
-		.experiments-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-			gap: 2em;
-			margin-top: 2em;
-		}
-
-		/* Prevent flex/grid children from forcing overflow on tiny viewports */
-		.experiment-card-wrapper,
-		.experiment-card,
-		.flagship-card {
-			min-width: 0;
-		}
-
-		article {
-			min-width: 0;
-			overflow-wrap: break-word;
-		}
-
-		/* Grid items stretch to the row's tallest cell by default, which
-		   would otherwise force every card to that same height. The wrapper
-		   takes that stretch instead (full cell height, full cell width);
-		   align-items: flex-start keeps the card itself sized to its own
-		   content, top-aligned within the taller wrapper. */
-		.experiment-card-wrapper {
-			display: flex;
-			align-items: flex-start;
-			height: 100%;
-		}
-
-		.experiment-card {
-			width: 100%;
-			border: 1px solid #444;
-			border-radius: 5px;
-			overflow: hidden;
-			transition: transform 0.2s ease;
-		}
-
-		.experiment-card:hover {
-			transform: translateY(-4px);
-		}
-
-		.experiment-preview {
-			width: 100%;
-			height: 200px;
-			border: none;
-			border-bottom: 1px solid #444;
-			background: var(--white-lighter);
-			pointer-events: none;
-			overflow: hidden;
-		}
-
-		.experiment-preview img,
-		.experiment-preview video {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block;
-		}
-		
-		.experiment-preview::-webkit-scrollbar {
-			display: none;
-		}
-
-		.experiment-preview.live {
-			pointer-events: auto;
-		}
-
-		model-viewer {
-			display: block;
-			width: 100%;
-			height: 200px;
-		}
-
-		.experiment-info {
-			padding: 1em;
-		}
-
-		.experiment-info h3 {
-			margin-top: 0;
-			margin-bottom: 0.5em;
-		}
-
-		.experiment-info h3 a {
-			color: inherit;
-			text-decoration: none;
-		}
-
-		.experiment-info h3 a:hover {
-			text-decoration: underline;
-		}
-
-		.experiment-info p {
-			margin: 0.5em 0;
-			color: var(--gray);
-			font-size: 0.9em;
-		}
-
-		.experiment-footer {
-			display: flex;
-			align-items: center;
-			gap: 0.8em;
-		}
-
-		.experiment-footer p {
-			flex: 1;
-			margin: 0;
-		}
-
-		.experiment-link {
-			display: inline-flex;
-			align-items: center;
-			flex-shrink: 0;
-			color: var(--black);
-			text-decoration: none;
-			font-weight: 600;
-			font-size: 1.2em;
-		}
-
-		.experiment-link:hover {
-			text-decoration: underline;
-		}
-
-		.github-link {
-			display: inline-flex;
-			align-items: center;
-			flex-shrink: 0;
-			color: var(--black);
-			text-decoration: none;
-			opacity: 0.75;
-			transition: opacity 0.15s ease;
-		}
-
-		.github-link:hover {
-			opacity: 1;
-		}
-
-		.github-link svg {
-			width: 1.2em;
-			height: 1.2em;
-			fill: currentColor;
-		}
-
-		/* Article padding is 12vw/16vw globally — on narrow viewports that
-		   leaves < 260px for content while cards want 300px, causing
-		   horizontal overflow. Collapse padding and stack grids early. */
-		@media only screen and (max-width: 768px) {
-			article {
-				padding-left: 5vw !important;
-				padding-right: 5vw !important;
-			}
-			.experiments-grid,
-			.flagship-grid {
-				grid-template-columns: 1fr;
-				gap: 1.25em;
-			}
-			.experiment-preview,
-			model-viewer {
-				height: 180px;
-			}
-		}
-
-		@media only screen and (max-width: 400px) {
-			article {
-				padding-left: 3vw !important;
-				padding-right: 3vw !important;
-			}
-			.tag-filters {
-				gap: 0.35em;
-			}
-			.tag-filter {
-				padding: 0.25em 0.65em;
-				font-size: 0.78em;
-			}
-			.callout {
-				flex-wrap: wrap;
-				font-size: 0.88em;
-				padding: 0.7em 0.85em;
-			}
-			.experiment-preview,
-			model-viewer {
-				height: 160px;
-			}
-			.experiment-info {
-				padding: 0.85em;
-			}
-			.experiment-info h3 {
-				font-size: 1em;
-			}
-		}
-
-		.callout {
-			display: flex;
-			align-items: center;
-			gap: 0.6em;
-			margin-top: 1.5em;
-			padding: 0.9em 1.1em;
-			border: 1px solid var(--white-darker);
-			border-left: 4px solid coral;
-			border-radius: 5px;
-			background: var(--white-lighter);
-			font-size: 0.95em;
-		}
-
-		.callout a {
-			color: inherit;
-			font-weight: 600;
-		}
-
-		.tag-filters {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.5em;
-			margin-top: 1.5em;
-		}
-
-		.tag-filter {
-			/* the global `button` rule (extras.css) sets its own outline
-			   1px inset -6px on top of border: 0 — left alone, that outline
-			   still draws inside this pill's own border, showing up as a
-			   second ring just inside the first. Reset it here. */
-			outline: none;
-			border: 1px solid var(--gray);
-			border-radius: 999px;
-			background: none;
-			color: var(--black);
-			padding: 0.3em 0.9em;
-			font-size: 0.85em;
-			cursor: pointer;
-			font-family: inherit;
-			transition: background 0.15s ease, color 0.15s ease;
-		}
-
-		.tag-filter:hover {
-			border-color: var(--black);
-		}
-
-		.tag-filter.active {
-			background: var(--black);
-			color: var(--white);
-			border-color: var(--black);
-		}
-
-		.experiment-card-wrapper.hidden {
-			display: none;
-		}
-
-		.flagship-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-			gap: 2em;
-			margin-top: 1.5em;
-		}
-
-		.flagship-card {
-			border: 1px dashed #444;
-			border-radius: 5px;
-			overflow: hidden;
-		}
-
-		.flagship-card .experiment-preview {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: var(--gray);
-			font-size: 1.1em;
-		}
-
-		h2 {
-			margin-top: 2.5em;
-		}
-
-		.project-section {
-			margin-top: 2em;
-		}
-
-		.project-section h2 {
-			margin-top: 2.5em;
-			margin-bottom: 0.15em;
-		}
-
-		.section-desc {
-			margin: 0;
-			color: var(--gray);
-			font-size: 0.92em;
-		}
-
-		.project-section.hidden {
-			display: none;
-		}
-
-		/* Selected Work placeholders use dashed cards like flagship */
-		#section-selected .experiment-card {
-			border-style: dashed;
-		}
-		#section-selected .experiment-card .experiment-preview {
-			border-bottom-style: dashed;
-		}
-	</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio</title>
+<meta name="description" content="Projects by David (nes): AUVs, humanoids, inspection robots, simulators and web tools.">
+<link rel="canonical" href="https://nes.is-a.dev/portfolio.html">
+<link rel="icon" href="/favicon.png">
+<meta property="og:title" content="Portfolio">
+<meta property="og:description" content="Projects by David (nes): AUVs, humanoids, inspection robots, simulators and web tools.">
+<meta property="og:url" content="https://nes.is-a.dev/portfolio.html">
+<link rel="stylesheet" href="/assets/styles.css" />
+<style>
+.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}
+.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}
+.grid img,model-viewer,.model{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}
+.model{display:grid;place-items:center}.model button{font:inherit;background:none;color:inherit;border:1px solid var(--gray);padding:.3em .8em;cursor:pointer}
+</style>
 </head>
 <body>
-	<article>
-		<h1>Portfolio</h1>
-		<p><a href="https://resume.neswk.workers.dev/resumes/robotics">Resume</a> - <a href="/out/about.html">Contact</a></p>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
+<main>
+<h1>Portfolio</h1>
+<p><a href="https://resume.neswk.workers.dev/resumes/robotics">Resume</a> · <a href="/out/about.html">Contact</a> · <a href="/experiments/index.html">Full project listing</a></p>
 
-		<div class="flagship-grid">
-			<div class="flagship-card">
-				<model-viewer class="experiment-preview live" src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/simple-auv-v1-rdL8VlgzFLShvNrPAw7LAPCceCpyuW.glb" scale="4" rot="20,-25,0" disable-pan aria-label="Interactive 3D model of Mira"></model-viewer>
-				<div class="experiment-info">
-					<h3><a href="/out/2025/mira.html">Mira</a></h3>
-					<div class="experiment-footer">
-						<p>Dreadnought Robotics's Flagship AUV</p>
-						<a href="/out/2025/mira.html" class="experiment-link" aria-label="Read article on Mira">→</a>
-					</div>
-				</div>
-			</div>
+<section data-tags="Robotics">
+<h2>Flagship</h2>
+<div class="grid">
+<div>
+<div class="model" data-src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/simple-auv-v1-rdL8VlgzFLShvNrPAw7LAPCceCpyuW.glb" data-scale="4" data-rot="20,-25,0"><button>View 3D model</button></div>
+<h3><a href="/out/2025/mira.html">Mira</a></h3>
+<p>Dreadnought Robotics's flagship AUV.</p>
+</div>
+<div>
+<img src="/assets/ericrobotics-2502326fa0.avif" alt="Railway Mitra inspection robot" loading="lazy">
+<h3>Railway Mitra</h3>
+<p>ERIC Robotics — railway inspection robot.</p>
+</div>
+<div>
+<div class="model" data-src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/spaceo_kneeling_draco-1pMlNpd8zbEV4J5sNYwC9cR0UOfp1R.glb" data-scale="2.6" data-rot="-90,0,-25"><button>View 3D model</button></div>
+<h3>Spaceo Prime</h3>
+<p>Muks Robotics's flagship bipedal humanoid.</p>
+</div>
+</div>
+</section>
 
-			<div class="flagship-card">
-				<div class="experiment-preview">
-					<img src="/assets/ericrobotics-2502326fa0.avif" />
-				</div>
-				<div class="experiment-info">
-					<h3>Railway Mitra</h3>
-					<p>ERIC Robotics - Railway Inspection Robot</p>
-				</div>
-			</div>
+<section>
+<h2>Selected work</h2>
+<div class="grid">
+<div data-tags="Robotics">
+<img src="https://github.com/user-attachments/assets/3ae59602-d557-415d-a915-ce183217f785" alt="mira_sim" loading="lazy">
+<h3><a href="https://github.com/davidnoronha1/mira_sim/tree/gazebo">mira_sim</a></h3>
+<p>Gazebo-based simulator for Mira AUV — Stonefish + ArduPilot SITL, Dockerized.</p>
+</div>
+</div>
+</section>
 
-			<div class="flagship-card">
-				<model-viewer class="experiment-preview live" src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/spaceo_kneeling_draco-1pMlNpd8zbEV4J5sNYwC9cR0UOfp1R.glb" scale="2.6" rot="-90,0,-25" disable-pan aria-label="Interactive 3D model of Spaceo Prime"></model-viewer>
-				<div class="experiment-info">
-					<h3>Spaceo Prime</h3>
-					<p>Muks Robotic's Flagship Bipedal Humanoid</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="tag-filters" id="tag-filters"></div>
-
-		<!-- Selected Work / Explorations -->
-		<section class="project-section" id="section-selected">
-			<h2>Selected Work</h2>
-			<p class="section-desc">Larger builds — polished, scoped, and maintained.</p>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-tags="Robotics">
-					<div class="experiment-card" style="border-style: solid;">
-						<img class="experiment-preview" src="https://github.com/user-attachments/assets/3ae59602-d557-415d-a915-ce183217f785" alt="mira_sim preview" style="object-fit: cover; border-bottom-style: solid;">
-						<div class="experiment-info">
-							<h3>mira_sim</h3>
-							<div class="experiment-footer">
-								<p>Gazebo-based simulator for Mira AUV — Stonefish + ArduPilot SITL, Dockerized.</p>
-								<a href="https://github.com/davidnoronha1/mira_sim/tree/gazebo" class="github-link" aria-label="View source on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="/experiments/github.svg#github"></use></svg></a>
-								<a href="https://github.com/davidnoronha1/mira_sim/tree/gazebo" class="experiment-link" aria-label="Open hosted version">→</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-tags="Placeholder">
-					<div class="experiment-card">
-						<div class="experiment-preview" style="display:flex;align-items:center;justify-content:center;color:var(--gray);">🚧 Coming soon</div>
-						<div class="experiment-info">
-							<h3>Project #2</h3>
-							<div class="experiment-footer">
-								<p>Placeholder — future selected work.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-tags="Placeholder">
-					<div class="experiment-card">
-						<div class="experiment-preview" style="display:flex;align-items:center;justify-content:center;color:var(--gray);">🚧 Coming soon</div>
-						<div class="experiment-info">
-							<h3>Project #3</h3>
-							<div class="experiment-footer">
-								<p>Placeholder — future selected work.</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="project-section" id="section-explorations">
-			<h2>Explorations</h2>
-			<p class="section-desc">Mid-size tools and systems — useful beyond a demo, still evolving.</p>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-tags="Web">
-					<div class="experiment-card">
-						<img class="experiment-preview" src="/experiments/crawly-demo.png" alt="Crawly demo" style="object-fit: cover;">
-						<div class="experiment-info">
-							<h3>Crawly</h3>
-							<div class="experiment-footer">
-								<p>A web extension to visualize how sites are connected to the wider web.</p>
-								<a href="https://github.com/davidnoronha1/crawly" class="github-link" aria-label="View source on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="/experiments/github.svg#github"></use></svg></a>
-								<a href="https://github.com/davidnoronha1/crawly" class="experiment-link" aria-label="Open hosted version">→</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="experiment-card-wrapper" data-tags="Web">
-					<div class="experiment-card">
-						<img class="experiment-preview" src="/experiments/tinyws-demo.png" alt="tinyws demo" style="object-fit: cover;">
-						<div class="experiment-info">
-							<h3>tinyws</h3>
-							<div class="experiment-footer">
-								<p>Tiny Widget System - a widget system for Linux leveraging GTK Webkit support to create complex interactive widgets with full support for web tech.</p>
-								<a href="https://github.com/davidnoronha1/tinyws" class="github-link" aria-label="View source on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="/experiments/github.svg#github"></use></svg></a>
-								<a href="https://github.com/davidnoronha1/tinyws" class="experiment-link" aria-label="Open hosted version">→</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="experiment-card-wrapper" data-tags="Web">
-					<div class="experiment-card">
-						<img class="experiment-preview" src="/experiments/notein-export-demo.png" alt="Notein Export demo" style="object-fit: cover; object-position: top;">
-						<div class="experiment-info">
-							<h3>Notein Export</h3>
-							<div class="experiment-footer">
-								<p>Browser-based viewer/exporter for Notein (.in) handwriting notes — Zig/WASM core, no upload, no backend.</p>
-								<a href="https://github.com/davidnoronha1/notein-export" class="github-link" aria-label="View source on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="/experiments/github.svg#github"></use></svg></a>
-								<a href="https://noteinexport.neswk.workers.dev" class="experiment-link" aria-label="Open hosted version">→</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="experiment-card-wrapper" data-tags="Robotics">
-					<div class="experiment-card">
-						<div class="experiment-preview" style="display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:2em;">📷</div>
-						<div class="experiment-info">
-							<h3>camera_driver</h3>
-							<div class="experiment-footer">
-								<p>ROS 2 camera driver using GStreamer — captures video from a camera and publishes it as a ROS topic.</p>
-								<a href="https://github.com/davidnoronha1/camera_driver/tree/new_arch" class="github-link" aria-label="View source on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="/experiments/github.svg#github"></use></svg></a>
-								<a href="https://github.com/davidnoronha1/camera_driver/tree/new_arch" class="experiment-link" aria-label="Open hosted version">→</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-
-
-		<div class="callout">
-			<span>🔭</span>
-			<span>Browse all my projects, tools, and experiments in the <a href="/experiments/index.html">Full Project Listing</a>.</span>
-		</div>
-	</article>
-
-	<footer>
-		<a href="/">← Back to home</a> · <a href="/experiments/index.html">Full Project Listing</a>
-	</footer>
-
-	<script defer src="/assets/model-viewer.js" type="module"></script>
-	<script>
-		(function () {
-			const cards = Array.from(document.querySelectorAll('.experiment-card-wrapper'));
-			const sections = Array.from(document.querySelectorAll('.project-section'));
-			const filterBar = document.getElementById('tag-filters');
-			// Exclude placeholder tags from the filter bar -- they are not real projects
-			const tags = Array.from(new Set(cards.flatMap(card => card.dataset.tags.split(',')).filter(t => t !== 'Placeholder'))).sort();
-			const active = new Set();
-
-			// Deep-link filters from the URL: ?robotics activates the Robotics
-			// tag (case-insensitive, ?robotics&web for several). Keys that
-			// don't match a tag (?sw) are ignored and everything stays visible.
-			new URLSearchParams(location.search).forEach((_, key) => {
-				const match = tags.find(t => t.toLowerCase() === key.toLowerCase());
-				if (match) active.add(match);
-			});
-
-			// A deep-linked filter already scopes the view — hide the tag
-			// selector so it can't fight the URL.
-			if (active.size) filterBar.style.display = 'none';
-
-			function syncUrl() {
-				const url = new URL(location.href);
-				url.search = Array.from(active).map(t => t.toLowerCase()).join('&');
-				history.replaceState(null, '', url);
-			}
-
-			function render() {
-				cards.forEach(card => {
-					const cardTags = card.dataset.tags.split(',');
-					const visible = active.size === 0 || cardTags.some(t => active.has(t));
-					card.classList.toggle('hidden', !visible);
-				});
-				// Hide sections where every card is hidden (keeps headings tidy when filtering)
-				sections.forEach(section => {
-					const sectionCards = Array.from(section.querySelectorAll('.experiment-card-wrapper'));
-					const anyVisible = sectionCards.some(c => !c.classList.contains('hidden'));
-					section.classList.toggle('hidden', !anyVisible);
-				});
-			}
-
-			const allBtn = document.createElement('button');
-			allBtn.className = 'tag-filter' + (active.size === 0 ? ' active' : '');
-			allBtn.textContent = 'All';
-			allBtn.addEventListener('click', () => {
-				active.clear();
-				filterBar.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
-				allBtn.classList.add('active');
-				render();
-				syncUrl();
-			});
-			filterBar.appendChild(allBtn);
-
-			tags.forEach(tag => {
-				const btn = document.createElement('button');
-				btn.className = 'tag-filter' + (active.has(tag) ? ' active' : '');
-				btn.textContent = tag;
-				btn.addEventListener('click', () => {
-					if (active.has(tag)) {
-						active.delete(tag);
-						btn.classList.remove('active');
-					} else {
-						active.add(tag);
-						btn.classList.add('active');
-					}
-					allBtn.classList.toggle('active', active.size === 0);
-					render();
-					syncUrl();
-				});
-				filterBar.appendChild(btn);
-			});
-
-			render();
-		})();
-	</script>
+<section>
+<h2>Explorations</h2>
+<div class="grid">
+<div data-tags="Web">
+<img src="/experiments/crawly-demo.png" alt="Crawly" loading="lazy">
+<h3><a href="https://github.com/davidnoronha1/crawly">Crawly</a></h3>
+<p>A web extension to visualize how sites are connected to the wider web.</p>
+</div>
+<div data-tags="Web">
+<img src="/experiments/tinyws-demo.png" alt="tinyws" loading="lazy">
+<h3><a href="https://github.com/davidnoronha1/tinyws">tinyws</a></h3>
+<p>Tiny Widget System — interactive Linux desktop widgets built on GTK WebKit.</p>
+</div>
+<div data-tags="Web">
+<img src="/experiments/notein-export-demo.png" alt="Notein Export" loading="lazy" style="object-position:top">
+<h3><a href="https://noteinexport.neswk.workers.dev">Notein Export</a></h3>
+<p>Browser-based viewer/exporter for Notein (.in) handwriting notes — Zig/WASM core, no upload, no backend. <a href="https://github.com/davidnoronha1/notein-export">Source</a></p>
+</div>
+<div data-tags="Robotics">
+<h3><a href="https://github.com/davidnoronha1/camera_driver/tree/new_arch">camera_driver</a></h3>
+<p>ROS 2 camera driver using GStreamer — captures video from a camera and publishes it as a ROS topic.</p>
+</div>
+</div>
+</section>
+</main>
+<script>
+// 3D viewer (~580KB) only loads when asked for.
+document.querySelectorAll('.model button').forEach(b => b.onclick = () => {
+	const d = b.parentNode, m = document.createElement('model-viewer');
+	m.setAttribute('src', d.dataset.src); m.setAttribute('scale', d.dataset.scale);
+	m.setAttribute('rot', d.dataset.rot); m.setAttribute('disable-pan', '');
+	d.replaceWith(m); import('/assets/model-viewer.js');
+});
+// Deep links: ?robotics or ?web shows only that tag. Unknown keys are ignored.
+const q = [...new URLSearchParams(location.search).keys()].map(k => k.toLowerCase()), els = document.querySelectorAll('[data-tags]');
+if ([...els].some(e => q.includes(e.dataset.tags.toLowerCase()))) {
+	els.forEach(e => e.hidden = !q.includes(e.dataset.tags.toLowerCase()));
+	document.querySelectorAll('section:not([data-tags])').forEach(s => s.hidden = [...s.querySelectorAll('[data-tags]')].every(e => e.hidden));
+}
+</script>
 </body>
 </html>

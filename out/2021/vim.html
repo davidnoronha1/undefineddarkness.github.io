@@ -1,62 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Vi IMproved</title>
-	<meta name="description" content="Cool vim stuff" />
-	<link rel="canonical" href="https://nes.is-a.dev/2021/vim.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Vi IMproved" />
-	<meta property="og:description" content="Cool vim stuff" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2021/vim.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103-dbeac97c67.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Vi IMproved" />
-	<meta name="twitter:description" content="Cool vim stuff" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103-dbeac97c67.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h4{font-family:var(--display-font)}h4{margin:0}h1,h2,h4{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h1,h2{hyphens:auto;overflow-wrap:break-word}h4{font-size:calc(var(--article-size)*1)}header .img-sml{image-rendering:pixelated}.img-sml{max-height:200px;max-width:200px}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}article img,article video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Vi IMproved",
-		"description": "Cool vim stuff",
-		"url": "https://nes.is-a.dev/2021/vim.html",
-		"image": "https://nes.is-a.dev/assets/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103-dbeac97c67.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vi IMproved</title>
+<meta name="description" content="Cool vim stuff">
+<link rel="canonical" href="https://nes.is-a.dev/2021/vim.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Vi IMproved">
+<meta property="og:description" content="Cool vim stuff">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/2021/vim.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103-dbeac97c67.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h4{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h4{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,video{height:auto;max-width:100%}img,video{display:block}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwc{color:#aae3b2}.kwd{color:#aabfe3}.num{color:#dca3a3}.sng{color:#cc9393}.com,.slc{color:#7f9f7f;font-style:italic}.ipl{color:#c07abe}summary{cursor:pointer}@font-face{font-display:swap;font-family:Octant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}.img-sml{max-height:200px;max-width:200px}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
+<article>
 
 <header>
   <img class='img-sml' src="/assets/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103-dbeac97c67.avif" />
@@ -135,10 +97,10 @@ Making the most out of vanilla vim features<br/>
 From <a href="https://shapeshed.com/vim-netrw/">this post</a><br/>
 tldr:<br/>
 <pre>
-<code class="language-vim"><span style="color:&#35;e3ceab">let</span> g<span style="color:&#35;dcdccc">:</span>netrw_banner <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span> <span style="color:&#35;7f9f7f; font-style:italic">&quot; Hide the banner</span>
-<span style="color:&#35;e3ceab">let</span> g<span style="color:&#35;dcdccc">:</span>netrw_browse_split <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">3</span> <span style="color:&#35;7f9f7f; font-style:italic">&quot; Open in new tab</span>
-<span style="color:&#35;e3ceab">let</span> g<span style="color:&#35;dcdccc">:</span>netrw_winsize <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">25</span> <span style="color:&#35;7f9f7f; font-style:italic">&quot; Size</span>
-<span style="color:&#35;e3ceab">let</span> g<span style="color:&#35;dcdccc">:</span>netrw_liststyle <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">3</span> <span style="color:&#35;7f9f7f; font-style:italic">&quot; Show files in tree form</span>	</code>
+<code class="language-vim"><span class="kwa">let</span> g:netrw_banner = <span class="num">0</span> <span class="slc">&quot; Hide the banner</span>
+<span class="kwa">let</span> g:netrw_browse_split = <span class="num">3</span> <span class="slc">&quot; Open in new tab</span>
+<span class="kwa">let</span> g:netrw_winsize = <span class="num">25</span> <span class="slc">&quot; Size</span>
+<span class="kwa">let</span> g:netrw_liststyle = <span class="num">3</span> <span class="slc">&quot; Show files in tree form</span>	</code>
 </pre>
 <br/>
 See what each option does with <code>:help netrw-browser-settings</code><br/>
@@ -154,16 +116,16 @@ See what each option does with <code>:help netrw-browser-settings</code><br/>
 See the <a href="https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3">full gist</a>, it explains everything<br/>
 final snippet:<br/>
 <pre>
-<code class="language-vim"><span style="color:&#35;e3ceab">function</span><span style="color:&#35;dcdccc">!</span> <span style="color:&#35;aabfe3">Grep</span><span style="color:&#35;dcdccc">(...)</span>
-	return <span style="color:&#35;aabfe3">system</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;aabfe3">join</span><span style="color:&#35;dcdccc">(&lsqb;</span><span style="color:&#35;aae3b2">&amp;grepprg</span><span style="color:&#35;dcdccc">&rsqb; + &lsqb;</span><span style="color:&#35;aabfe3">expandcmd</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;aabfe3">join</span><span style="color:&#35;dcdccc">(</span>a<span style="color:&#35;dcdccc">:</span><span style="color:&#35;dca3a3; font-weight:bold">000</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&#39; &#39;</span><span style="color:&#35;dcdccc">))&rsqb;,</span> <span style="color:&#35;cc9393">&#39; &#39;</span><span style="color:&#35;dcdccc">))</span>
-<span style="color:&#35;e3ceab">endfunction</span>
-command<span style="color:&#35;dcdccc">! -</span>nargs<span style="color:&#35;dcdccc">=+ -</span>complete<span style="color:&#35;dcdccc">=</span>file_in_path <span style="color:&#35;dcdccc">-</span>bar Grep  cgetexpr <span style="color:&#35;aabfe3">Grep</span><span style="color:&#35;dcdccc">(&lt;</span>f<span style="color:&#35;dcdccc">-</span>args<span style="color:&#35;dcdccc">&gt;)</span>
-command<span style="color:&#35;dcdccc">! -</span>nargs<span style="color:&#35;dcdccc">=+ -</span>complete<span style="color:&#35;dcdccc">=</span>file_in_path <span style="color:&#35;dcdccc">-</span>bar LGrep lgetexpr <span style="color:&#35;aabfe3">Grep</span><span style="color:&#35;dcdccc">(&lt;</span>f<span style="color:&#35;dcdccc">-</span>args<span style="color:&#35;dcdccc">&gt;)</span>
-<span style="color:&#35;e3ceab">augroup</span> quickfix
-	<span style="color:&#35;e3ceab">autocmd</span><span style="color:&#35;dcdccc">!</span>
-	<span style="color:&#35;e3ceab">autocmd</span> QuickFixCmdPost cgetexpr cwindow
-	<span style="color:&#35;e3ceab">autocmd</span> QuickFixCmdPost lgetexpr lwindow
-<span style="color:&#35;e3ceab">augroup END</span>	</code>
+<code class="language-vim"><span class="kwa">function</span>! <span class="kwd">Grep</span>(...)
+	return <span class="kwd">system</span>(<span class="kwd">join</span>(&lsqb;<span class="kwc">&amp;grepprg</span>&rsqb; + &lsqb;<span class="kwd">expandcmd</span>(<span class="kwd">join</span>(a:<span class="num">000</span>, <span class="sng">&#39; &#39;</span>))&rsqb;, <span class="sng">&#39; &#39;</span>))
+<span class="kwa">endfunction</span>
+command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr <span class="kwd">Grep</span>(&lt;f-args&gt;)
+command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr <span class="kwd">Grep</span>(&lt;f-args&gt;)
+<span class="kwa">augroup</span> quickfix
+	<span class="kwa">autocmd</span>!
+	<span class="kwa">autocmd</span> QuickFixCmdPost cgetexpr cwindow
+	<span class="kwa">autocmd</span> QuickFixCmdPost lgetexpr lwindow
+<span class="kwa">augroup END</span>	</code>
 </pre>
 <br/>
 	</p>
@@ -189,16 +151,16 @@ By the power of an included plugin, You can run <code>:TOhtml</code> to convert 
 syntax highlighted goodness,<br/>
 And you can script it! Like so:<br/>
 <pre>
-<code class="language-sh">lang<span style="color:&#35;dcdccc">=</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">$2</span><span style="color:&#35;cc9393">&quot;</span>
-f<span style="color:&#35;dcdccc">=</span><span style="color:&#35;aabfe3">$(mktemp)</span>
-<span style="color:&#35;dfdfbf; font-weight:bold">echo</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">$0</span><span style="color:&#35;cc9393">&quot;</span> <span style="color:&#35;dcdccc">|</span> <span style="color:&#35;aae3b2">head</span> <span style="color:&#35;dfdfbf; font-weight:bold">-n -1</span> <span style="color:&#35;dcdccc">|</span> nvim <span style="color:&#35;dfdfbf; font-weight:bold">-n --headless</span> \
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;let g:html_no_progress = 0&quot;</span>\
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;let g:html_ignore_folding = 0&quot;</span>\
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&#39;let g:html_prevent_copy = &quot;fn&quot;&#39;</span>\
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;set ft=</span><span style="color:&#35;c07abe">$1</span><span style="color:&#35;cc9393">&quot;</span>\
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;runtime! syntax/2html.vim&quot;</span>\
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;wq!</span> <span style="color:&#35;c07abe">$f</span><span style="color:&#35;cc9393">&quot;</span>\
-	<span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;q!&quot;</span> <span style="color:&#35;dcdccc">-</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">&gt; /</span>dev<span style="color:&#35;dcdccc">/</span>null	</code>
+<code class="language-sh">lang=<span class="sng">&quot;</span><span class="ipl">$2</span><span class="sng">&quot;</span>
+f=<span class="kwd">$(mktemp)</span>
+<span class="kwb">echo</span> <span class="sng">&quot;</span><span class="ipl">$0</span><span class="sng">&quot;</span> | <span class="kwc">head</span> <span class="kwb">-n -1</span> | nvim <span class="kwb">-n --headless</span> \
+	+<span class="sng">&quot;let g:html_no_progress = 0&quot;</span>\
+	+<span class="sng">&quot;let g:html_ignore_folding = 0&quot;</span>\
+	+<span class="sng">&#39;let g:html_prevent_copy = &quot;fn&quot;&#39;</span>\
+	+<span class="sng">&quot;set ft=</span><span class="ipl">$1</span><span class="sng">&quot;</span>\
+	+<span class="sng">&quot;runtime! syntax/2html.vim&quot;</span>\
+	+<span class="sng">&quot;wq!</span> <span class="ipl">$f</span><span class="sng">&quot;</span>\
+	+<span class="sng">&quot;q!&quot;</span> - <span class="num">1</span>&gt; /dev/null	</code>
 </pre>
 <br/>
 You can see more options for it here: <a href="https://vimhelp.org/syntax.txt.html#%3ATOhtml">https://vimhelp.org/syntax.txt.html#%3ATOhtml</a> ,<br/>
@@ -227,9 +189,9 @@ Here are some more nice shortcuts: <a href="https://vim.fandom.com/wiki/Learn_to
 There are lots of ways to do it (documented <a href="https://vim.fandom.com/wiki/Using_vim_as_a_man-page_viewer_under_Unix">here</a> but<br/>
 the simplest way I found is to simple alias <code>man</code>, like so in your shell configuration file:<br/>
 <pre>
-<code class="language-sh">man <span style="color:&#35;dcdccc">() {</span>
-	nvim <span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;Man</span> <span style="color:&#35;c07abe">$2</span> <span style="color:&#35;cc9393"></span><span style="color:&#35;c07abe">$1</span><span style="color:&#35;cc9393">&quot;</span> <span style="color:&#35;dcdccc">+</span><span style="color:&#35;cc9393">&quot;only&quot;</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+<code class="language-sh">man () {
+	nvim +<span class="sng">&quot;Man</span> <span class="ipl">$2</span> <span class="sng"></span><span class="ipl">$1</span><span class="sng">&quot;</span> +<span class="sng">&quot;only&quot;</span>
+}	</code>
 </pre>
 <br/>
 If you use vim, remember to add this to your vimrc:<br/>
@@ -287,27 +249,27 @@ But basically:<br/>
 </ul><br/>For dictionary completion, you can use the following snippet:<br/>
 You might need to rewrite it in vim script for vim...<br/>
 <pre>
-<code class="language-lua"><span style="color:&#35;e3ceab">local</span> spell_complete <span style="color:&#35;dcdccc">=</span> vim<span style="color:&#35;dcdccc">.</span>api<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">nvim_replace_termcodes</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;cc9393">&#39;&lt;C-x&gt;&lt;C-k&gt;&#39;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">true</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">true</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">true</span><span style="color:&#35;dcdccc">)</span>
-<span style="color:&#35;e3ceab">local</span> M <span style="color:&#35;dcdccc">= {}</span>
-<span style="color:&#35;e3ceab">function</span> M<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">spell</span><span style="color:&#35;dcdccc">()</span>
-	<span style="color:&#35;e3ceab">if</span> vim<span style="color:&#35;dcdccc">.</span>opt<span style="color:&#35;dcdccc">.</span>spell
-	<span style="color:&#35;e3ceab">and</span> <span style="color:&#35;dcdccc">(</span>vim<span style="color:&#35;dcdccc">.</span>fn<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">pumvisible</span><span style="color:&#35;dcdccc">() ==</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-	<span style="color:&#35;e3ceab">and</span> <span style="color:&#35;dcdccc">((</span>vim<span style="color:&#35;dcdccc">.</span>v<span style="color:&#35;dcdccc">.</span>char <span style="color:&#35;dcdccc">&gt;=</span> <span style="color:&#35;cc9393">&#39;a&#39;</span> <span style="color:&#35;e3ceab">and</span> vim<span style="color:&#35;dcdccc">.</span>v<span style="color:&#35;dcdccc">.</span>char <span style="color:&#35;dcdccc">&lt;=</span> <span style="color:&#35;cc9393">&#39;z&#39;</span><span style="color:&#35;dcdccc">)</span>
-	<span style="color:&#35;e3ceab">or</span> <span style="color:&#35;dcdccc">(</span>vim<span style="color:&#35;dcdccc">.</span>v<span style="color:&#35;dcdccc">.</span>char <span style="color:&#35;dcdccc">&gt;=</span> <span style="color:&#35;cc9393">&#39;A&#39;</span> <span style="color:&#35;e3ceab">and</span> vim<span style="color:&#35;dcdccc">.</span>v<span style="color:&#35;dcdccc">.</span>char <span style="color:&#35;dcdccc">&lt;=</span> <span style="color:&#35;cc9393">&#39;Z&#39;</span><span style="color:&#35;dcdccc">))</span> <span style="color:&#35;e3ceab">then</span>
-		vim<span style="color:&#35;dcdccc">.</span>fn<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">feedkeys</span><span style="color:&#35;dcdccc">(</span>spell_complete<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&#39;n&#39;</span><span style="color:&#35;dcdccc">)</span>
-	<span style="color:&#35;e3ceab">end</span>
-<span style="color:&#35;e3ceab">end</span>
-<span style="color:&#35;e3ceab">function</span> M<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">setup_spell</span><span style="color:&#35;dcdccc">()</span>
-	vim<span style="color:&#35;dcdccc">.</span>opt<span style="color:&#35;dcdccc">.</span>spell <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;e3ceab">true</span>
-	vim<span style="color:&#35;dcdccc">.</span>cmd <span style="color:&#35;cc9393">&lsqb;&lsqb;</span>
-<span style="color:&#35;cc9393">	autocmd InsertCharPre &ast; lua require(&#39;auto&#39;).spell() &quot; You&#39;ll need to change this</span>
-<span style="color:&#35;cc9393">	&rsqb;&rsqb;</span>
-<span style="color:&#35;e3ceab">end</span>
+<code class="language-lua"><span class="kwa">local</span> spell_complete = vim.api.<span class="kwd">nvim_replace_termcodes</span>(<span class="sng">&#39;&lt;C-x&gt;&lt;C-k&gt;&#39;</span>, <span class="kwa">true</span>, <span class="kwa">true</span>, <span class="kwa">true</span>)
+<span class="kwa">local</span> M = {}
+<span class="kwa">function</span> M.<span class="kwd">spell</span>()
+	<span class="kwa">if</span> vim.opt.spell
+	<span class="kwa">and</span> (vim.fn.<span class="kwd">pumvisible</span>() == <span class="num">0</span>)
+	<span class="kwa">and</span> ((vim.v.char &gt;= <span class="sng">&#39;a&#39;</span> <span class="kwa">and</span> vim.v.char &lt;= <span class="sng">&#39;z&#39;</span>)
+	<span class="kwa">or</span> (vim.v.char &gt;= <span class="sng">&#39;A&#39;</span> <span class="kwa">and</span> vim.v.char &lt;= <span class="sng">&#39;Z&#39;</span>)) <span class="kwa">then</span>
+		vim.fn.<span class="kwd">feedkeys</span>(spell_complete, <span class="sng">&#39;n&#39;</span>)
+	<span class="kwa">end</span>
+<span class="kwa">end</span>
+<span class="kwa">function</span> M.<span class="kwd">setup_spell</span>()
+	vim.opt.spell = <span class="kwa">true</span>
+	vim.cmd <span class="sng">&lsqb;&lsqb;</span>
+<span class="sng">	autocmd InsertCharPre &ast; lua require(&#39;auto&#39;).spell() &quot; You&#39;ll need to change this</span>
+<span class="sng">	&rsqb;&rsqb;</span>
+<span class="kwa">end</span>
 
-<span style="color:&#35;7f9f7f; font-style:italic">-- And this too:</span>
-vim<span style="color:&#35;dcdccc">.</span>cmd <span style="color:&#35;cc9393">&lsqb;&lsqb; au FileType markdown,html lua require(&#39;auto&#39;).setup_spell() &rsqb;&rsqb;</span>
+<span class="slc">-- And this too:</span>
+vim.cmd <span class="sng">&lsqb;&lsqb; au FileType markdown,html lua require(&#39;auto&#39;).setup_spell() &rsqb;&rsqb;</span>
 
-<span style="color:&#35;e3ceab">return</span> M	</code>
+<span class="kwa">return</span> M	</code>
 </pre>
 <br/>
 It works, fairly <strike>well.</strike> badly, it has lots of issues when you have multiple buffers open...<br/>
@@ -315,8 +277,6 @@ It works, fairly <strike>well.</strike> badly, it has lots of issues when you ha
 </details>
 <hr />
 <center><i>~ More to come.. Maybe 🚧 ~</i></center>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

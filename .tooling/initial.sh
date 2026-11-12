@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Dummy fallback. loaded_hljs starts unset (falsy) — it's only flipped on
-# inside __syntax_hl_dummy, i.e. only when the `highlight` CLI isn't
-# available and a page actually has a highlighted code block, so the
-# highlight.js CDN payload isn't shipped on every page regardless of
-# whether it's ever used.
-loaded_hljs=0
+# Fallback when the `highlight` CLI isn't installed: plain, escaped code.
 __syntax_hl_dummy () {
-	loaded_hljs=1
-	cat
+	sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g'
 }
 
 # Real one
@@ -20,11 +14,13 @@ __syntax_hl_highlight () {
 		--force \
 		--stdout \
 		-f \
-		--inline-css \
 		--no-trailing-nl \
 		--pretty-symbols \
-		--config-file=.tooling/syntax.theme \
-		--no-version-info | sed 's/*/\&ast;/g;'
+		--no-version-info | sed 's/*/\&ast;/g; s/<span class="hl opt">\([^<]*\)<\/span>/\1/g; s/class="hl /class="/g'
+	# Class-based output (colours live in styles.css, see "Syntax colours")
+	# instead of --inline-css: a style="color:..." on every token was most
+	# of the weight of code-heavy pages. Operator spans are unwrapped since
+	# they're the default text colour anyway.
 }
 
 
@@ -309,20 +305,5 @@ initial_transformer () {
 		<script>document.addEventListener("DOMContentLoaded", () => mermaid.initialize({startOnLoad:true}))</script>'
 	fi
 
-	if (( loaded_hljs )); then
-		prefix_ptr+='
-		<!-- HIGHLIGHTJS LOADING -->
-		<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css" as="style" onload="this.onload=null;this.rel='"'stylesheet'"'">
-		
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css"></noscript>
-		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
-		<script defer src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/languages/x86asm.min.js"></script>
-		<!-- ADD MORE LANGUAGES HERE IF NEEDED -->
-		<script>
-		document.addEventListener("DOMContentLoaded", (event) => {
-			hljs.highlightAll();
-		});
-		</script>
-		'
-	fi
+
 }

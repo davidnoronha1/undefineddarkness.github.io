@@ -217,17 +217,12 @@ generate_index() {
 
 			# extract post_description from HTML comment
 			desc=$(grep -Po '<!--\s*post_description=\K.*(?=-->)' "$file" | head -n1)
-			image=$(grep -Po '<!--\s*post_image=\K.*(?=-->)' "$file" | head -n1)
 
 			[ -z "${title/ /}" ] && continue
 
-			posts+="<li>"
-			if [ -n "$image" ]; then
-				posts+="<img loading='lazy' class='img-pxl' src='${image//'"'/}' alt='Post Image' />"
-			fi
-			posts+="<div><a class='special' href='/$file'>$title</a>"
-			[ -n "$desc" ] && posts+="<p class='description'>${desc//'"'/}</p>"
-			posts+="</div></li>"$'\n'
+			posts+="<li><a href='/$file'>$title</a>"
+			[ -n "$desc" ] && posts+="<p>${desc//'"'/}</p>"
+			posts+="</li>"$'\n'
 
 		done < <(printf '%s' "$article_lines" | sort -t $'\t' -k1,1 -rn)
 

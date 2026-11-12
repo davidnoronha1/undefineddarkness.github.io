@@ -1,62 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Approximating sin(x)</title>
-	<meta name="description" content="A look into various methods of approximating the sine function" />
-	<link rel="canonical" href="https://nes.is-a.dev/2022/approximating-sin.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Approximating sin(x)" />
-	<meta property="og:description" content="A look into various methods of approximating the sine function" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2022/approximating-sin.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/icon-sin-5708411f4d.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Approximating sin(x)" />
-	<meta name="twitter:description" content="A look into various methods of approximating the sine function" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/icon-sin-5708411f4d.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2{font-family:var(--display-font)}h1,h2{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h1,h2{hyphens:auto;overflow-wrap:break-word}.gnuplot-container{font-size:.8em;max-width:100%}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;letter-spacing:-.6px;line-height:.99;max-width:100%;overflow-x:auto;white-space:pre!important}.split>*{width:100%}.split{grid-template-columns:1fr 1fr}.split{display:grid;grid-column-gap:1em;grid-row-gap:1em}header .img-sml{image-rendering:pixelated}.img-sml{max-height:200px;max-width:200px}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}p{margin-top:0}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}article img,article video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Approximating sin(x)",
-		"description": "A look into various methods of approximating the sine function",
-		"url": "https://nes.is-a.dev/2022/approximating-sin.html",
-		"image": "https://nes.is-a.dev/assets/icon-sin-5708411f4d.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Approximating sin(x)</title>
+<meta name="description" content="A look into various methods of approximating the sine function">
+<link rel="canonical" href="https://nes.is-a.dev/2022/approximating-sin.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Approximating sin(x)">
+<meta property="og:description" content="A look into various methods of approximating the sine function">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/2022/approximating-sin.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/icon-sin-5708411f4d.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,svg,video{height:auto;max-width:100%}img,video{display:block}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.num{color:#dca3a3}.com,.slc{color:#7f9f7f;font-style:italic}summary{cursor:pointer}@font-face{font-display:swap;font-family:Octant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}.gnuplot-container{font-size:.8em}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background:none;font-family:Octant,var(--mono-font);letter-spacing:-.6px;line-height:.99;padding:0;white-space:pre}.img-sml{max-height:200px;max-width:200px}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){.split{grid-template-columns:1fr}header img{float:none;margin:0 0 1em}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
+<article>
 
 <header>
   <img class='img-sml' src="/assets/icon-sin-5708411f4d.avif" />
@@ -281,23 +243,23 @@ Exactly how its obtained via the Remez Algorithm, is something I haven't really 
 <br/>
 An implementation in C is given here:<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">static double</span> <span style="color:&#35;aabfe3">minimaxsin</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">double</span> x<span style="color:&#35;dcdccc">)</span>
-<span style="color:&#35;dcdccc">{</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">static const</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">double</span> a0 <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">1.0</span><span style="color:&#35;dcdccc">,</span>
-           a1 <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1.666666666640169148537065260055e-1</span><span style="color:&#35;dcdccc">,</span>
-           a2 <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">8.333333316490113523036717102793e-3</span><span style="color:&#35;dcdccc">,</span>
-           a3 <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1.984126600659171392655484413285e-4</span><span style="color:&#35;dcdccc">,</span>
-           a4 <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">2.755690114917374804474016589137e-6</span><span style="color:&#35;dcdccc">,</span>
-           a5 <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">2.502845227292692953118686710787e-8</span><span style="color:&#35;dcdccc">,</span>
-           a6 <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">1.538730635926417598443354215485e-10</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">double</span> x2 <span style="color:&#35;dcdccc">=</span> x <span style="color:&#35;dcdccc">&ast;</span> x<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;7f9f7f; font-style:italic">/&ast;</span>
-<span style="color:&#35;7f9f7f; font-style:italic">        a0x + a1x^3 + a2x^5 + a3x^7...</span>
-<span style="color:&#35;7f9f7f; font-style:italic">    &ast;/</span>
-    <span style="color:&#35;e3ceab">return</span> x <span style="color:&#35;dcdccc">&ast; (</span>a0 <span style="color:&#35;dcdccc">+</span> x2 <span style="color:&#35;dcdccc">&ast; (</span>a1 <span style="color:&#35;dcdccc">+</span> x2 <span style="color:&#35;dcdccc">&ast; (</span>a2 <span style="color:&#35;dcdccc">+</span> x2
-             <span style="color:&#35;dcdccc">&ast; (</span>a3 <span style="color:&#35;dcdccc">+</span> x2 <span style="color:&#35;dcdccc">&ast; (</span>a4 <span style="color:&#35;dcdccc">+</span> x2 <span style="color:&#35;dcdccc">&ast; (</span>a5 <span style="color:&#35;dcdccc">+</span> x2 <span style="color:&#35;dcdccc">&ast;</span> a6<span style="color:&#35;dcdccc">))))));</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+<code class="language-c"><span class="kwb">static double</span> <span class="kwd">minimaxsin</span>(<span class="kwb">double</span> x)
+{
+    <span class="kwb">static const</span>
+    <span class="kwb">double</span> a0 =  <span class="num">1.0</span>,
+           a1 = -<span class="num">1.666666666640169148537065260055e-1</span>,
+           a2 =  <span class="num">8.333333316490113523036717102793e-3</span>,
+           a3 = -<span class="num">1.984126600659171392655484413285e-4</span>,
+           a4 =  <span class="num">2.755690114917374804474016589137e-6</span>,
+           a5 = -<span class="num">2.502845227292692953118686710787e-8</span>,
+           a6 =  <span class="num">1.538730635926417598443354215485e-10</span>;
+    <span class="kwb">double</span> x2 = x &ast; x;
+    <span class="com">/&ast;</span>
+<span class="com">        a0x + a1x^3 + a2x^5 + a3x^7...</span>
+<span class="com">    &ast;/</span>
+    <span class="kwa">return</span> x &ast; (a0 + x2 &ast; (a1 + x2 &ast; (a2 + x2
+             &ast; (a3 + x2 &ast; (a4 + x2 &ast; (a5 + x2 &ast; a6))))));
+}	</code>
 </pre>
 <br/>
 It functions very similarly to the taylor polynomial, except the constants have been replaced to achieve greather accuracy,<br/>
@@ -315,49 +277,49 @@ Which it does, achieving some 10^4 times smaller error in comparison (for 7 term
 		Looking at the implementation of sin in musl, We get:<br/>
 <pre>
 <code class="language-c">
-<span style="color:&#35;7f9f7f; font-style:italic">/&ast;</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;      3. sin(x) is approximated by a polynomial of degree 13 on</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;         &lsqb;0,pi/4&rsqb;</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;                               3            13</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;              sin(x) ~ x + S1&ast;x + ... + S6&ast;x</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;         where</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;      |sin(x)         2     4     6     8     10     12  |     -58</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;      |----- - (1+S1&ast;x +S2&ast;x +S3&ast;x +S4&ast;x +S5&ast;x  +S6&ast;x   )| &lt;= 2</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;      |  x                                               |</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;      4. sin(x+y) = sin(x) + sin&#39;(x&#39;)&ast;y</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;                  ~ sin(x) + (1-x&ast;x/2)&ast;y</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;         For better accuracy, let</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;                   3      2      2      2      2</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;              r = x &ast;(S2+x &ast;(S3+x &ast;(S4+x &ast;(S5+x &ast;S6))))</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;         then                   3    2</span>
-<span style="color:&#35;7f9f7f; font-style:italic"> &ast;              sin(x) = x + (S1&ast;x + (x &ast;(r-y/2)+y))</span>
-<span style="color:&#35;7f9f7f; font-style:italic">&ast;/</span>
+<span class="com">/&ast;</span>
+<span class="com"> &ast;      3. sin(x) is approximated by a polynomial of degree 13 on</span>
+<span class="com"> &ast;         &lsqb;0,pi/4&rsqb;</span>
+<span class="com"> &ast;                               3            13</span>
+<span class="com"> &ast;              sin(x) ~ x + S1&ast;x + ... + S6&ast;x</span>
+<span class="com"> &ast;         where</span>
+<span class="com"> &ast;</span>
+<span class="com"> &ast;      |sin(x)         2     4     6     8     10     12  |     -58</span>
+<span class="com"> &ast;      |----- - (1+S1&ast;x +S2&ast;x +S3&ast;x +S4&ast;x +S5&ast;x  +S6&ast;x   )| &lt;= 2</span>
+<span class="com"> &ast;      |  x                                               |</span>
+<span class="com"> &ast;</span>
+<span class="com"> &ast;      4. sin(x+y) = sin(x) + sin&#39;(x&#39;)&ast;y</span>
+<span class="com"> &ast;                  ~ sin(x) + (1-x&ast;x/2)&ast;y</span>
+<span class="com"> &ast;         For better accuracy, let</span>
+<span class="com"> &ast;                   3      2      2      2      2</span>
+<span class="com"> &ast;              r = x &ast;(S2+x &ast;(S3+x &ast;(S4+x &ast;(S5+x &ast;S6))))</span>
+<span class="com"> &ast;         then                   3    2</span>
+<span class="com"> &ast;              sin(x) = x + (S1&ast;x + (x &ast;(r-y/2)+y))</span>
+<span class="com">&ast;/</span>
 
-<span style="color:&#35;dfdfbf; font-weight:bold">static const double</span>
-S1  <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1.66666666666666324348e-01</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;7f9f7f; font-style:italic">/&ast; 0xBFC55555, 0x55555549 &ast;/</span>
-S2  <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">8.33333333332248946124e-03</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;7f9f7f; font-style:italic">/&ast; 0x3F811111, 0x1110F8A6 &ast;/</span>
-S3  <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1.98412698298579493134e-04</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;7f9f7f; font-style:italic">/&ast; 0xBF2A01A0, 0x19C161D5 &ast;/</span>
-S4  <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">2.75573137070700676789e-06</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;7f9f7f; font-style:italic">/&ast; 0x3EC71DE3, 0x57B1FE7D &ast;/</span>
-S5  <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">2.50507602534068634195e-08</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;7f9f7f; font-style:italic">/&ast; 0xBE5AE5E6, 0x8A2B9CEB &ast;/</span>
-S6  <span style="color:&#35;dcdccc">=</span>  <span style="color:&#35;dca3a3; font-weight:bold">1.58969099521155010221e-10</span><span style="color:&#35;dcdccc">;</span> <span style="color:&#35;7f9f7f; font-style:italic">/&ast; 0x3DE5D93A, 0x5ACFD57C &ast;/</span>
+<span class="kwb">static const double</span>
+S1  = -<span class="num">1.66666666666666324348e-01</span>, <span class="com">/&ast; 0xBFC55555, 0x55555549 &ast;/</span>
+S2  =  <span class="num">8.33333333332248946124e-03</span>, <span class="com">/&ast; 0x3F811111, 0x1110F8A6 &ast;/</span>
+S3  = -<span class="num">1.98412698298579493134e-04</span>, <span class="com">/&ast; 0xBF2A01A0, 0x19C161D5 &ast;/</span>
+S4  =  <span class="num">2.75573137070700676789e-06</span>, <span class="com">/&ast; 0x3EC71DE3, 0x57B1FE7D &ast;/</span>
+S5  = -<span class="num">2.50507602534068634195e-08</span>, <span class="com">/&ast; 0xBE5AE5E6, 0x8A2B9CEB &ast;/</span>
+S6  =  <span class="num">1.58969099521155010221e-10</span>; <span class="com">/&ast; 0x3DE5D93A, 0x5ACFD57C &ast;/</span>
 
-<span style="color:&#35;dfdfbf; font-weight:bold">double</span> <span style="color:&#35;aabfe3">__sin</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">double</span> x<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">double</span> dx<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">int</span> is_dx_not_zero<span style="color:&#35;dcdccc">)</span>
-<span style="color:&#35;dcdccc">{</span>
-	double_t x2<span style="color:&#35;dcdccc">,</span>x3<span style="color:&#35;dcdccc">,</span>x4<span style="color:&#35;dcdccc">,</span>r<span style="color:&#35;dcdccc">;</span>
+<span class="kwb">double</span> <span class="kwd">__sin</span>(<span class="kwb">double</span> x, <span class="kwb">double</span> dx, <span class="kwb">int</span> is_dx_not_zero)
+{
+	double_t x2,x3,x4,r;
 
-	x2 <span style="color:&#35;dcdccc">=</span> x<span style="color:&#35;dcdccc">&ast;</span>x<span style="color:&#35;dcdccc">;</span>
-	x4 <span style="color:&#35;dcdccc">=</span> x2<span style="color:&#35;dcdccc">&ast;</span>x2<span style="color:&#35;dcdccc">;</span>
-	r <span style="color:&#35;dcdccc">=</span> S2 <span style="color:&#35;dcdccc">+</span> x2<span style="color:&#35;dcdccc">&ast;(</span>S3 <span style="color:&#35;dcdccc">+</span> x2<span style="color:&#35;dcdccc">&ast;</span>S4<span style="color:&#35;dcdccc">) +</span> x2<span style="color:&#35;dcdccc">&ast;</span>x4<span style="color:&#35;dcdccc">&ast;(</span>S5 <span style="color:&#35;dcdccc">+</span> x2<span style="color:&#35;dcdccc">&ast;</span>S6<span style="color:&#35;dcdccc">);</span>
-	x3 <span style="color:&#35;dcdccc">=</span> x2<span style="color:&#35;dcdccc">&ast;</span>x<span style="color:&#35;dcdccc">;</span>
-	<span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>is_dx_not_zero <span style="color:&#35;dcdccc">==</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;7f9f7f; font-style:italic">// This unwraps to a taylor expansion of 6 terms</span>
-		<span style="color:&#35;e3ceab">return</span> x <span style="color:&#35;dcdccc">+</span> x3<span style="color:&#35;dcdccc">&ast;(</span>S1 <span style="color:&#35;dcdccc">+</span> x2<span style="color:&#35;dcdccc">&ast;</span>r<span style="color:&#35;dcdccc">);</span>
-	<span style="color:&#35;e3ceab">else</span>
+	x2 = x&ast;x;
+	x4 = x2&ast;x2;
+	r = S2 + x2&ast;(S3 + x2&ast;S4) + x2&ast;x4&ast;(S5 + x2&ast;S6);
+	x3 = x2&ast;x;
+	<span class="kwa">if</span> (is_dx_not_zero == <span class="num">0</span>)
+        <span class="slc">// This unwraps to a taylor expansion of 6 terms</span>
+		<span class="kwa">return</span> x + x3&ast;(S1 + x2&ast;r);
+	<span class="kwa">else</span>
         
-		<span style="color:&#35;e3ceab">return</span> x <span style="color:&#35;dcdccc">- ((</span>x2<span style="color:&#35;dcdccc">&ast;(</span><span style="color:&#35;dca3a3; font-weight:bold">0.5</span><span style="color:&#35;dcdccc">&ast;</span>dx <span style="color:&#35;dcdccc">-</span> x3<span style="color:&#35;dcdccc">&ast;</span>r<span style="color:&#35;dcdccc">) -</span> dx<span style="color:&#35;dcdccc">) -</span> x3<span style="color:&#35;dcdccc">&ast;</span>S1<span style="color:&#35;dcdccc">);</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+		<span class="kwa">return</span> x - ((x2&ast;(<span class="num">0.5</span>&ast;dx - x3&ast;r) - dx) - x3&ast;S1);
+}	</code>
 </pre>
 <br/>
 Although I am not sure what is happening in the 2nd if branch, It seems to use a polynomial approximation of degree 13 to get results for x in the range <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="12.888ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 5696.7 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path></g><g data-mml-node="mo" transform="translate(278,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mi" transform="translate(1056,0)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(1626,0)"><g data-mml-node="mo"><path data-c="2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path></g></g><g data-mml-node="mn" transform="translate(2126,0)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g><g data-mml-node="mo" transform="translate(2626,0)"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g><g data-mml-node="mo" transform="translate(3070.7,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mi" transform="translate(3848.7,0)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(4418.7,0)"><g data-mml-node="mo"><path data-c="2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path></g></g><g data-mml-node="mn" transform="translate(4918.7,0)"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g><g data-mml-node="mo" transform="translate(5418.7,0)"><path data-c="5D" d="M22 710V750H159V-250H22V-210H119V710H22Z"></path></g></g></g></svg></mjx-container>, Which is obtained in the parent sin(x) function with argument reduction (dividing by <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="3.552ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 1570 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(570,0)"><g data-mml-node="mo"><path data-c="2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path></g></g><g data-mml-node="mn" transform="translate(1070,0)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g></g></svg></mjx-container> and getting the remainder), And the final result from said sin(x) is obtained with a combination of __sin(x) and similarly __cos(x) depending on the quadrant of the function (there is also a case for sin x ~= x for small x).<br/>
@@ -394,8 +356,6 @@ Libmvec (4xD):
 <a href="https://www.youtube.com/watch?v=yV52TMdGkng">https://www.youtube.com/watch?v=yV52TMdGkng</a><br/>
 <a href="https://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/">https://allenchou.net/2014/02/game-math-faster-sine-cosine-with-polynomial-curves/</a><br/>
 <a href="http://users.ece.utexas.edu/~adnan/comm/fast-trigonometric-functions-using.pdf">http://users.ece.utexas.edu/~adnan/comm/fast-trigonometric-functions-using.pdf</a><br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

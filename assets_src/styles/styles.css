@@ -1,413 +1,163 @@
-@import url("typography.css");
-@import url("extras.css");
-@import url("minor.css");
+/* Single, minimal, dark-only stylesheet.
+   Every page inlines only the rules it uses (purgecss, see
+   assets_src/.tooling/optimize_page.sh), so rules here cost nothing on
+   pages that don't use them.
 
-/* -- GLOBAL -- */
-
-* {
-    box-sizing: border-box;
-    position: relative;
-    scroll-behavior: smooth;
-}
+   Token names are legacy (from the old light theme, where "white" was the
+   background): kept because experiments/ and inline styles in posts still
+   reference them. --white* = backgrounds, --black* = text. */
 
 :root {
-    /* Without this, browsers that don't see an explicit color-scheme
-       declaration assume the page is light-only and apply their own
-       "force dark" heuristic on top of it (Chrome/Android WebView do this) —
-       that heuristic includes an invert-ish filter over color glyphs like
-       emoji, which is what was washing them out. Declaring "dark" tells the
-       browser this page IS dark and it already matches native dark UI
-       (scrollbars, form controls), so it leaves rendering alone instead of
-       trying to force it. */
-    color-scheme: dark;
-    --margin: -0.8em;
-    /* Dark mode only — these used to be the light-mode defaults, overridden
-       by a prefers-color-scheme: dark media query; that query's values are
-       now just the permanent values, and the media query itself is gone. */
-    --black: #fafafa;
-    --white: #181818;
-    --white-lighter: #111;
-    --black-darker: #fdfdfd;
-    --white-darker: #333;
-    --black-lighter: #f0f0f0;
-    --nv-black: #181818;
-    --nv-white: #fafafa;
-    --nv-black-darker: #111;
-    --nv-gray: #555;
-    --gray: color-mix(in srgb, var(--black) 60%, var(--white) 40%);
+	color-scheme: dark;
+	--white: #111;
+	--white-lighter: #111;
+	--white-darker: #222;
+	--black: #ddd;
+	--black-darker: #eee;
+	--gray: #999;
+	--display-font: system-ui, sans-serif;
+	--mono-font: ui-monospace, Menlo, Consolas, monospace;
 }
 
-pre {
-    background-color: var(--nv-black-darker);
-    color: var(--nv-white);
-}
+/* -- Base -- */
 
-.hljs {
-    background-color: inherit !important;
-    background: inherit !important;
-}
+*, ::before, ::after { box-sizing: border-box; }
 
-/* -- DOCUMENT -- */
-
-body::-webkit-scrollbar {
-    width: 0.5em;
-}
-
-body::-webkit-scrollbar-track {
-    background-color: var(--white);
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: var(--black);
-}
-
-html,
-body {
-    height: 100%;
-}
+html { scroll-behavior: smooth; }
 
 body {
-    tab-size: 4;
-    scrollbar-color: var(--white-darker) var(--white-lighter) ;
-    scrollbar-width: 0.5em;
-    overflow-x: hidden;
-    margin: 0;
-    background-color: var(--white-lighter);
-    color: var(--black);
-
-    display: flex;
-    flex-direction: column;
+	max-width: 46rem;
+	margin: 0 auto;
+	padding: 1.5rem 1rem 3rem;
+	background: var(--white);
+	color: var(--black);
+	font: 1.0625rem/1.6 var(--display-font);
+	tab-size: 4;
+	overflow-wrap: break-word;
 }
 
-kbd {
-    display: inline-block;
-    background: var(--black);
-    color: var(--gray);
-    padding: 0 5px;
-    border-radius: 5px;
+h1, h2, h3, h4, h5, h6 { line-height: 1.25; margin: 1.6em 0 .5em; font-weight: 600; }
+h1 { font-size: 1.75rem; margin-top: 0; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+h4, h5, h6 { font-size: 1rem; }
+
+a { color: inherit; text-underline-offset: .15em; }
+a:hover { color: var(--gray); }
+
+img, video, svg { max-width: 100%; height: auto; }
+img, video { display: block; }
+
+hr { border: 0; border-top: 1px solid var(--white-darker); margin: 2em 0; }
+
+blockquote { margin: 1em 0; padding-left: 1em; border-left: 3px solid var(--white-darker); color: var(--gray); }
+
+figure { margin: 1em 0; }
+figcaption { font-size: .875em; color: var(--gray); }
+
+mark { background: var(--white-darker); color: inherit; padding: 0 .2em; }
+
+kbd { font: .875em var(--mono-font); border: 1px solid var(--white-darker); border-radius: 3px; padding: 0 .3em; }
+
+/* -- Site chrome -- */
+
+body > nav { margin-bottom: 2rem; color: var(--gray); }
+body > nav a { text-decoration: none; margin-right: 1em; }
+body > nav a:first-child { color: var(--black); font-weight: 600; }
+
+header img { float: right; margin: 0 0 1em 1em; }
+
+.posts { list-style: none; padding: 0; }
+.posts li { margin: 0 0 .9em; }
+.posts p { margin: 0; color: var(--gray); font-size: .9em; }
+
+/* -- Code -- */
+
+code, pre { font-family: var(--mono-font); font-size: .875em; }
+pre code { font-size: inherit; }
+:not(pre) > code { background: var(--white-darker); padding: .1em .3em; border-radius: 3px; }
+pre { background: #191919; padding: .8em 1em; overflow-x: auto; border-radius: 4px; line-height: 1.45; }
+pre[data-language]::before { content: attr(data-language); float: right; color: var(--gray); font-size: .8em; }
+/* Syntax colours (zenburn), class names emitted by the `highlight` CLI in
+   .tooling/initial.sh */
+.kwa { color: #e3ceab; } .kwb { color: #dfdfbf; } .kwc { color: #aae3b2; }
+.kwd { color: #aabfe3; } .kwe { color: #84d2d4; } .kwf { color: #84aad4; }
+.num, .esc { color: #dca3a3; } .sng { color: #cc9393; }
+.com, .slc { color: #7f9f7f; font-style: italic; }
+.ppc, .pps { color: #ffcfaf; } .ipl { color: #c07abe; }
+
+/* -- Tables -- */
+
+table { border-collapse: collapse; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--white-darker); padding: .35em .7em; text-align: left; vertical-align: top; }
+th { background: var(--white-darker); }
+.table-full, .table-prose, .initial-conditions { width: 100%; display: table; }
+.initial-conditions img { margin: 0 auto; }
+.action-matrix td:nth-child(2), .core-allocation td:not(:nth-child(2)) { text-align: center; }
+
+.tierlist td:first-child { color: #111; }
+.tierlist tr:nth-child(1) td:first-child { background: #ff7f7f; }
+.tierlist tr:nth-child(2) td:first-child { background: #ffbf7f; }
+.tierlist tr:nth-child(3) td:first-child { background: #ffdf7f; }
+.tierlist tr:nth-child(4) td:first-child { background: #ffff7f; }
+.tierlist tr:nth-child(5) td:first-child { background: #bfff7f; }
+
+/* -- Details / folds -- */
+
+summary { cursor: pointer; }
+.minor-fold summary { color: var(--gray); font-size: .9em; }
+
+/* -- Callouts (#CALLOUT) -- */
+
+aside, .callout { margin: 1em 0; padding: .6em 1em; border-left: 3px solid var(--gray); background: #191919; }
+.callout-title { margin: 0 0 .3em; font-weight: 600; }
+.callout-content > :last-child { margin-bottom: 0; }
+.callout-note { border-color: #6a9ef2; }
+.callout-tip { border-color: #5fb87a; }
+.callout-important { border-color: #b483e8; }
+.callout-warning { border-color: #d6a72b; }
+.callout-caution { border-color: #e0605c; }
+
+/* -- Charts (#GNUPLOT / #CHART) -- */
+
+/* Octant/braille glyphs aren't in most system fonts; this ~25KB subset is
+   only downloaded on pages that actually contain a chart. */
+@font-face {
+	font-family: Octant;
+	src: url('/assets/LegacySymbols.woff2') format('woff2');
+	unicode-range: U+0000-007F, U+2580-259F, U+1FB00-1FBFF, U+1CC00-1CEBF, U+2800-28FF;
+	font-display: swap;
 }
+.gnuplot-container { font-size: .8em; }
+.gnuplot-container svg { width: 100%; height: 100%; }
+.gnuplot-container pre { background: none; padding: 0; font-family: Octant, var(--mono-font); white-space: pre; line-height: .99; letter-spacing: -.6px; }
 
+/* -- Media -- */
 
-h3 {
-    margin-bottom: 0.1em;
-}
+.slides { display: flex; gap: 1em; overflow-x: auto; scroll-snap-type: x mandatory; }
+.slides > div { flex: 0 0 100%; scroll-snap-align: start; }
+.slides img { margin: 0 auto; max-height: 70vh; }
+.pdf-container img { max-height: none; }
+.img-sml { max-width: 200px; max-height: 200px; }
+.img-pxl, .pxl, .pxl-art { image-rendering: pixelated; }
+img.inline { float: left; max-width: 18em; margin: 0 1em 1em 0; }
 
-img {
-    display: block;
-}
+/* -- Layout helpers used by posts -- */
 
-pre,
-code {
-    line-height: initial;
-    /* pre's background is always dark (--nv-black-darker, never theme-swapped),
-       so its scrollbar should stay dark too instead of following the page theme. */
-    scrollbar-color: var(--nv-gray) var(--nv-black-darker);
-}
+.split, .split-e, .split-3, .quad, .quad-e { display: grid; gap: 1em; grid-template-columns: 1fr 1fr; }
+.split-3 { grid-template-columns: repeat(3, 1fr); }
+.quad, .quad-e { grid-template-columns: repeat(auto-fit, minmax(15em, 1fr)); }
+.split-f, .row, .horizontal { display: flex; flex-wrap: wrap; gap: 1em; }
+.split-f > * { flex: 1; }
+.stack { display: flex; flex-direction: column; gap: 1em; }
+.card, .box { border: 1px solid var(--white-darker); padding: .5em 1em; }
+.txt-c { text-align: center; }
+.whitespace-pre { white-space: pre-line; }
+.ovr-x { overflow-x: auto; }
+.hidden { display: none !important; }
 
-pre::-webkit-scrollbar {
-    height: 0.6em;
-}
-
-pre::-webkit-scrollbar-track {
-    background-color: var(--nv-black-darker);
-}
-
-pre::-webkit-scrollbar-thumb {
-    background-color: var(--nv-gray);
-    border-radius: 5px;
-}
-
-img.inline {
-    max-width: 18em;
-    float: left;
-    margin-right: 1em;
-    margin-bottom: 1em;
-    width: unset;
-}
-
-pre {
-    overflow-y: hidden;
-    overflow-x: auto;
-    text-align: left;
-    margin: 0.5em 0;
-    padding: 0.6em 0.8em;
-    white-space: normal;
-    border-radius: 5px;
-}
-
-pre:has(code:not(.language-plaintext)) {
-    /* pre's background/text stay fixed dark/white in both site themes (see
-       the nv- prefixed vars above), but this border had no explicit color
-       so it used currentColor — white. That's invisible against the light
-       theme's page background, but in dark mode the page background goes
-       dark too, so the same white border suddenly reads as a glowing
-       outline. Pin it to the same fixed gray already used for pre's
-       scrollbar so it stays a subtle, theme-independent line. */
-    border: 1px solid var(--nv-gray);
-}
-
-.whitespace-pre {
-    white-space: pre-line;
-}
-
-pre>code {
-    white-space: pre;
-}
-
-figure {
-    display: inline-block;
-}
-
-article,
-main {
-    width: 100%;
-    padding-right: 16vw;
-    padding-left: 12vw;
-    line-height: 1.5;
-}
-
-/* `nav.toc` precedes `article` in the markup, so `:first-child` here never
-   matched anything — article is always the second child of body. */
-body > article {
-    padding-top: 2em;
-}
-
-main ul,
-article ul,
-p {
-    margin-top: 0;
-}
-
-li > ul {
-    margin-top: 0;
-}
-
-li > ul:not(:empty) {
-    margin-bottom: 1em;
-}
-
-iframe {
-    border: 1px dashed;
-    width: 100%;
-    height: 100%;
-}
-
-iframe.nb {
-    border: 0;
-}
-
-a {
-    color: var(--gray);
-    text-decoration: underline;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-}
-
-a.special {
-    color: inherit;
-}
-
-
-
-figcaption {
-    text-align: right;
-    font-size: 0.8em;
-    font-style: italic;
-    color: color-mix(in srgb, var(--black) 70%, var(--white) 30%);
-}
-
-hr {
-    border: none;
-    border-top: 1px solid var(--gray);
-    margin: 0.5em 0 0 0;
-}
-
-blockquote {
-    margin: 1em 0 0 5em;
-}
-
-li>blockquote {
-    margin: 1em 0 0 1em;
-}
-
-blockquote::before {
-    content: "❝";
-    position: absolute;
-    left: -1.5em;
-    font-size: 2.5em;
-    top: -0.4em;
-}
-
-figcaption {
-    margin-left: 1em;
-}
-
-figure {
-    margin: 0;
-}
-
-
-/* Animate <summary> icon */
-summary::marker {
-    content: "";
-}
-
-summary::before {
-    /* Plain ASCII '>' rather than ▶ — a real glyph outside ASCII risks
-       being picked up by whatever emoji-capable font is installed instead
-       of rendering as plain text. */
-    content: url("data:image/svg+xml,%3Csvg clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='32' heigh='32'%3E%3Cpath d='m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z'/%3E%3C/svg%3E");
-    position: absolute;
-    font-size: 0.8em;
-    left: -1.4em;
-    /* Center vertically against the summary's actual height rather than a
-       fixed offset tuned for single-line text — a heading (or anything
-       taller) inside <summary> would otherwise push the marker toward the
-       top of the box instead of centering it. */
-    top: 50%;
-    transform: translateY(-40%);
-    transition: transform 0.3s ease;
-}
-
-details[open] summary::before {
-    transform: translateY(-50%) rotate(90deg);
-}
-
-summary::before {
-    /* The arrow is a solid-black SVG baked into a data URI — content:
-       url(...) is replaced content, so it doesn't inherit currentColor
-       the way an inline <svg> would. Invert it here instead of encoding
-       a second copy of the same path just to swap the fill color. Dark
-       mode is the only mode now, so this is unconditional. */
-    filter: invert(1);
-}
-
-/*
-li:not(:first-child) {
-    margin: 1em 0;
-}
-*/
-
-mark {
-    background: var(--white-darker);
-    padding: 1em;
-    color: inherit;
-    /* border-radius: 5px; */
-    display: inline-block;
-}
-
-/* ARTICLE FOOTER */
-
-footer {
-    margin-left: 5vw;
-    padding: 2em 0 0 0;
-    display: flex;
-    align-items: center;
-}
-
-/* Class selector (not an attribute selector) so purgecss's critical-CSS
-   pass reliably keeps this rule when inlining per-page styles. */
-.return-index {
-    text-decoration: none;
-}
-
-.return-index::before {
-    content: "✈";
-    padding-right: 10px;
-}
-
-main footer,
-article footer {
-    margin-left: 0;
-}
-
-/* TABLE */
-
-table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    /* Was a heavy 10px double frame around the table, on top of the 1px
-       solid grid lines every cell already draws — matching it to the same
-       1px solid the cells use lets border-collapse merge them into one
-       clean line instead of a border-within-a-border. */
-    border: 1px solid var(--gray);
-}
-
-table * {
-    text-align: center;
-    margin: 0;
-}
-
-td {
-	padding: 0.3em 1em;
-}
-
-tr {
-	border-bottom: 1px solid var(--gray);
-}
-
-td:not(:last-of-type), th:not(:last-of-type) {
-	border-right: 1px solid var(--gray);
-}
-
-/* Footnotes */
-
-h2.footnotes {
-    display: none;
-}
-
-#footnotes {
-    border-top: 1px solid;
-    padding-top: 0.5em;
-}
-
-.footpara {
-    display: inline;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-article img,
-main img,
-article video,
-main video {
-    object-fit: contain;
-    object-position: left;
-    max-height: 60vh;
-    width: 100%;
-}
-
-/* Style heading image to the right */
-header img {
-    float: right;
-    border-radius: 5px;
-}
-
-li .in-margin {
-    top: 0;
-    left: -3em;
-}
-
-@media only screen and (max-width: 600px) {
-
-    /*-- Mobile Styles --*/
-    article {
-        padding-left: 8vw;
-        padding-right: 0;
-    }
-
-    header img {
-        float: revert;
-    }
-
-    blockquote {
-        margin-left: 1em;
-    }
-
-    blockquote::before {
-        left: -0.7em;
-    }
+@media (max-width: 600px) {
+	.split, .split-e, .split-3 { grid-template-columns: 1fr; }
+	.hide-m { display: none; }
+	header img { float: none; margin: 0 0 1em; }
 }

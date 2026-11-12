@@ -1,62 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>My custom markdown flavour</title>
-	<meta name="description" content="A description of my custom markdown parser" />
-	<link rel="canonical" href="https://nes.is-a.dev/2022/nesdown.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="My custom markdown flavour" />
-	<meta property="og:description" content="A description of my custom markdown parser" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2022/nesdown.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="My custom markdown flavour" />
-	<meta name="twitter:description" content="A description of my custom markdown parser" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.txt-c{text-align:center}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}p{margin-top:0}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}blockquote{margin:1em 0 0 5em}blockquote:before{content:"❝";font-size:2.5em;left:-1.5em;position:absolute;top:-.4em}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}mark{background:var(--white-darker);color:inherit;display:inline-block;padding:1em}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}blockquote{margin-left:1em}blockquote:before{left:-.7em}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "My custom markdown flavour",
-		"description": "A description of my custom markdown parser",
-		"url": "https://nes.is-a.dev/2022/nesdown.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My custom markdown flavour</title>
+<meta name="description" content="A description of my custom markdown parser">
+<link rel="canonical" href="https://nes.is-a.dev/2022/nesdown.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="My custom markdown flavour">
+<meta property="og:description" content="A description of my custom markdown parser">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/2022/nesdown.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{border-left:3px solid var(--white-darker);color:var(--gray);padding-left:1em}blockquote,figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}mark{background:var(--white-darker);color:inherit;padding:0 .2em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.esc,.num{color:#dca3a3}.sng{color:#cc9393}.com,.slc{color:#7f9f7f;font-style:italic}.ppc{color:#ffcfaf}table{border-collapse:collapse;display:block;margin:1em 0;overflow-x:auto}td,th{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}summary{cursor:pointer}@font-face{font-display:swap;font-family:Octant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}.card{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
+<article>
 
 <header>
   <h1>My custom markdown flavour</h1>
@@ -124,28 +86,28 @@ So no javascript library is required later, <br/>
 EDIT: Actually I lied, I've shifted to using highlight js because getting source-highlight working on windows is a PITA and I want my site to be able to be developed no matter what software I'm using at the time, I might look into a Python based solution later, will have to see.<br/>
 EDIT: Initially I was doing syntax highlighting using <code>vim</code> but the HTML export from vim doesnt support treesitter and I eventually figured it's too much post processing pipeline to bother maintaining<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;ffcfaf; font-weight:bold">&#35;include &lt;stdio.h&gt;</span>
+<code class="language-c"><span class="ppc">&#35;include &lt;stdio.h&gt;</span>
 
-<span style="color:&#35;dfdfbf; font-weight:bold">float</span> <span style="color:&#35;aabfe3">Q_rsqrt</span><span style="color:&#35;dcdccc">(</span> <span style="color:&#35;dfdfbf; font-weight:bold">float</span> number <span style="color:&#35;dcdccc">)</span>
-<span style="color:&#35;dcdccc">{</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">long</span> i<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">float</span> x2<span style="color:&#35;dcdccc">,</span> y<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">const float</span> threehalfs <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1.5</span>F<span style="color:&#35;dcdccc">;</span>
+<span class="kwb">float</span> <span class="kwd">Q_rsqrt</span>( <span class="kwb">float</span> number )
+{
+    <span class="kwb">long</span> i;
+    <span class="kwb">float</span> x2, y;
+    <span class="kwb">const float</span> threehalfs = <span class="num">1.5</span>F;
 
-    x2 <span style="color:&#35;dcdccc">=</span> number <span style="color:&#35;dcdccc">&ast;</span> <span style="color:&#35;dca3a3; font-weight:bold">0.5</span>F<span style="color:&#35;dcdccc">;</span>
-    y  <span style="color:&#35;dcdccc">=</span> number<span style="color:&#35;dcdccc">;</span>
-    i  <span style="color:&#35;dcdccc">= &ast; (</span> <span style="color:&#35;dfdfbf; font-weight:bold">long</span> <span style="color:&#35;dcdccc">&ast; ) &amp;</span>y<span style="color:&#35;dcdccc">;</span>                       <span style="color:&#35;7f9f7f; font-style:italic">// evil floating point bit level hacking</span>
-    i  <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0x5f3759df</span> <span style="color:&#35;dcdccc">- (</span> i <span style="color:&#35;dcdccc">&gt;&gt;</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span> <span style="color:&#35;dcdccc">);</span>               <span style="color:&#35;7f9f7f; font-style:italic">// what the fuck? </span>
-    y  <span style="color:&#35;dcdccc">= &ast; (</span> <span style="color:&#35;dfdfbf; font-weight:bold">float</span> <span style="color:&#35;dcdccc">&ast; ) &amp;</span>i<span style="color:&#35;dcdccc">;</span>
-    y  <span style="color:&#35;dcdccc">=</span> y <span style="color:&#35;dcdccc">&ast; (</span> threehalfs <span style="color:&#35;dcdccc">- (</span> x2 <span style="color:&#35;dcdccc">&ast;</span> y <span style="color:&#35;dcdccc">&ast;</span> y <span style="color:&#35;dcdccc">) );</span>   <span style="color:&#35;7f9f7f; font-style:italic">// 1st iteration</span>
-<span style="color:&#35;7f9f7f; font-style:italic">//  y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   // 2nd iteration, this can be removed</span>
+    x2 = number &ast; <span class="num">0.5</span>F;
+    y  = number;
+    i  = &ast; ( <span class="kwb">long</span> &ast; ) &amp;y;                       <span class="slc">// evil floating point bit level hacking</span>
+    i  = <span class="num">0x5f3759df</span> - ( i &gt;&gt; <span class="num">1</span> );               <span class="slc">// what the fuck? </span>
+    y  = &ast; ( <span class="kwb">float</span> &ast; ) &amp;i;
+    y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   <span class="slc">// 1st iteration</span>
+<span class="slc">//  y  = y &ast; ( threehalfs - ( x2 &ast; y &ast; y ) );   // 2nd iteration, this can be removed</span>
 
-    <span style="color:&#35;e3ceab">return</span> y<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dcdccc">}</span>
+    <span class="kwa">return</span> y;
+}
 
-<span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">main</span> <span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;aabfe3">printf</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;cc9393">&quot;Hello world</span><span style="color:&#35;dca3a3; font-weight:bold">\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">);</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+<span class="kwb">int</span> <span class="kwd">main</span> () {
+    <span class="kwd">printf</span>(<span class="sng">&quot;Hello world</span><span class="esc">\n</span><span class="sng">&quot;</span>);
+}	</code>
 </pre>
 <br/>
 </p>
@@ -965,8 +927,6 @@ I know my little toy isn't remarkable in any particular way but I was hoping to 
 </pre>
 	</p>
 </details>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

@@ -19,6 +19,10 @@ Everything goes through `./generate`, which — when run *outside* Docker — tr
 
 `make` at the repo root wraps the CSS/JS asset build + `./generate` into a single `make build` (see root `Makefile`).
 
+## Design constraints
+
+The site is deliberately minimal: dark-only, system fonts, one small stylesheet (`assets_src/styles/styles.css`, purged + inlined per page), no JS unless a feature can't work without it (and then loaded on demand — e.g. the portfolio's three.js viewer loads only on click). Keep new features in that spirit.
+
 ## Docker image (tools available at build time)
 
 `Dockerfile` is based on `ghcr.io/astral-sh/uv:debian-slim` (so `uv`/`uv run` is always available for the `.tooling/*.py` scripts, each of which is a PEP 723 inline-metadata script run via `uv run --script`). Installed on top:
@@ -28,7 +32,7 @@ Everything goes through `./generate`, which — when run *outside* Docker — tr
 - `imagemagick` — raster image processing
 - `libavif-bin` — AVIF transcoding for images (`assets.py`'s image pipeline hashes + converts raster assets to `.avif`)
 - `gnuplot-nox` — renders `#GNUPLOT`/`#CHART` directives (including the octant/braille terminal-text charts)
-- `highlight` — server-side syntax highlighting for fenced code blocks (falls back to a dummy/CDN highlight.js path if unavailable, see `.tooling/initial.sh`)
+- `highlight` — server-side syntax highlighting for fenced code blocks, emitted as short class names (`kwa`, `sng`, ...) coloured by `styles.css`; without it code renders plain (see `.tooling/initial.sh`)
 - `fontforge-nox` — font manipulation/subsetting for custom glyph work (e.g. the octant font used by `ascii-model-viewer`)
 - `jq`, `curl`, `unzip`, `ca-certificates` — general scripting/fetch utilities
 - `python3` — python3 stdlib is what most `.tooling/*.py` scripts actually need; `uv run` handles any extra deps per-script
@@ -46,7 +50,7 @@ Everything goes through `./generate`, which — when run *outside* Docker — tr
 |---|---|
 | `generate` | The SSG driver. Host/container dispatch, per-file build loop, index/RSS/sitemap generation, HTML minification, `deploy` |
 | `generate.cmd` | Windows equivalent (just shells out to `docker compose exec`) |
-| `template.html` | Page shell. Split by the generator on the `!CONTENT!` marker into pre/post-content halves; per-page placeholders (`!TITLE!`, `!URL!`, `!DESCRIPTION!`, `!IMAGE!`, `!DOCUMENT-PATH!`) get substituted in |
+| `template.html` | Minimal page shell (essential meta + og tags, one favicon, top nav). Split by the generator on the `!CONTENT!` marker into pre/post-content halves; per-page placeholders (`!TITLE!`, `!URL!`, `!DESCRIPTION!`, `!IMAGE!`, `!DOCUMENT-PATH!`) get substituted in |
 | `Makefile` | `make build` = `assets_src` CSS + other-asset build, then `./generate` |
 
 ### `.tooling/` — the markup pipeline ("pond")
@@ -55,8 +59,8 @@ Everything goes through `./generate`, which — when run *outside* Docker — tr
 |---|---|
 | `pond.sh` | Entry point for converting one `.md`/`.html` source file to markup. Sources the other `.sh` files, runs `initial_transformer` then dispatches `#DIRECTIVE` blocks to functions in `transformers.sh`, then `final_transformer` |
 | `initial.sh` | Line-by-line pre-pass: detects `#DIRECTIVE ... #END DIRECTIVE` blocks and code fences, tracks nesting, handles inline `\(...\)` math via `render_math.ts`, hands off matched blocks to `transformers.sh` functions |
-| `transformers.sh` | One bash function per directive: `box`, `callout` (`#CALLOUT`), `f` (`#FOLD`), `right_align`/`center`/`preserve_center`, `header` (`#HEADER`), `gnuplot` (`#GNUPLOT`), `chart` (`#CHART`, data-driven wrapper around `chart.py`+gnuplot), `pdf`/`pdfi` (`#PDF`), `redirect`, `video` (`#VIDEO`), `wip`, `verbatim`, `carousel`, `columns`, `table` |
-| `final.sh` | Post-pass: inline code spans, `**bold**`/`*italic*`/`~~strike~~`/`==mark==`, `![alt](src)` -> `<figure>`, `[text](url)` -> `<a>`, bare-URL autolinking, optional carousel `<script>` injection |
+| `transformers.sh` | One bash function per directive: `box`, `callout` (`#CALLOUT`), `f` (`#FOLD`), `right_align`/`center`/`preserve_center`, `header` (`#HEADER`), `gnuplot` (`#GNUPLOT`), `chart` (`#CHART`, data-driven wrapper around `chart.py`+gnuplot), `pdf`/`pdfi` (`#PDF`, native `<object>` embed — no JS), `redirect`, `video` (`#VIDEO`), `wip`, `verbatim`, `carousel` (CSS-only scroll-snap strip), `columns`, `table` |
+| `final.sh` | Post-pass: inline code spans, `**bold**`/`*italic*`/`~~strike~~`/`==mark==`, `![alt](src)` -> `<figure>`, `[text](url)` -> `<a>`, bare-URL autolinking |
 | `helpers.sh` | Shared utilities: logging (`warn`/`err`/`dbg`), `slice`/`snip`/`trim`, `get-functions` (directive dispatch table), `calc`/`ms`/`timer`, `escape_code_block`, `protect_raw_block` (shields chart/gnuplot HTML output from the markdown-lite regex pass in `final.sh`) |
 | `assets.py` | `uv run` script. Single-pass asset pipeline: walks `assets_src/` + co-located post images in `src/`, content-hashes + AVIF-transcodes raster images, transcodes raw video to AV1/Opus `.webm` in place, copies everything else through flattened into `out/.assets/`, then rewrites every asset reference (`src=`, `href=`, `url()`, `import`, etc.) across `out/`, `rss.xml`, and root `index.html` to match. Invoked as `assets.py sync <dirs...>` at the end of every `./generate` run |
 | `chart.py` | `uv run` script backing `#CHART`: turns tab-separated category/series data into a gnuplot script (grouped boxes + hypertext anchors), rendered as SVG or octant/braille terminal text |
@@ -65,7 +69,6 @@ Everything goes through `./generate`, which — when run *outside* Docker — tr
 | `render_math.ts` | Build-time TeX rendering (MathJax) for `\(...\)` inline math and fenced math blocks |
 | `hs.py` | `uv run` script: the dev server behind `./generate live` — aiohttp static server with gzip/br compression, a `/ws` endpoint, and a `watchfiles`-driven live-reload loop that re-invokes `fsw.py`/`generate` on source changes |
 | `fsw.py` | Tiny `watchfiles` watcher over `src/` that prints changed `.md`/`.html` paths, one per line, for `hs.py` to consume |
-| `syntax.theme` | Theme file for the `highlight` CLI's syntax-highlighted code blocks |
 | `sync_with_personal.sh` | One-off script to mirror `.tooling`, `generate`, and CSS between this repo and a sibling personal fork |
 | `generate.py` | Unused/incomplete argparse stub — not wired into `generate` |
 

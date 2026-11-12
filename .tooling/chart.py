@@ -141,7 +141,7 @@ def main() -> None:
         cols, char_rows = pixels_to_char_grid(args.width, args.height, categories=categories, has_key=True)
         terminal_line = f"set terminal block octant ansirgb noenhanced size {cols},{char_rows}"
         # The octant path is embedded in .gnuplot-container pre, styled via
-        # var(--white-lighter)/var(--black-darker) (see minor.css) — the
+        # var(--white-lighter)/var(--black-darker) (see styles.css) — the
         # site is dark-mode only now, so those resolve to a dark background
         # and light text, same as the svg path above.
         text_color = "white"

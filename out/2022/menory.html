@@ -1,62 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Why</title>
-	<meta name="description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<link rel="canonical" href="https://nes.is-a.dev/2022/menory.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Why" />
-	<meta property="og:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2022/menory.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Why" />
-	<meta name="twitter:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages." />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3,h4{font-family:var(--display-font)}h4{margin:0}h1,h2,h3,h4{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}h4{font-size:calc(var(--article-size)*1)}.callout{background:var(--white-darker);border-left:3px solid var(--gray);margin:1em 0;padding:.7em 1em}.callout-title{font-weight:700;margin:0 0 .4em}.callout-content>:last-child{margin-bottom:0}.callout-note{border-left-color:#6a9ef2}.stack{flex-direction:column;gap:1em}.stack{display:flex}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Why",
-		"description": "A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.",
-		"url": "https://nes.is-a.dev/2022/menory.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why</title>
+<meta name="description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.">
+<link rel="canonical" href="https://nes.is-a.dev/2022/menory.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Why">
+<meta property="og:description" content="A primer on diagnosing and fixing memory bugs in C/C++, for readers coming from garbage-collected languages.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/2022/menory.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3,h4{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4{font-size:1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img{height:auto;max-width:100%}img{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.num{color:#dca3a3}.sng{color:#cc9393}.slc{color:#7f9f7f;font-style:italic}.ipl{color:#c07abe}.callout{background:#191919;border-left:3px solid var(--gray);margin:1em 0;padding:.6em 1em}.callout-title{font-weight:600;margin:0 0 .3em}.callout-content>:last-child{margin-bottom:0}.callout-note{border-color:#6a9ef2}@font-face{font-display:swap;font-family:Octant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}.stack{display:flex;flex-direction:column;gap:1em}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
+<article>
 
 <header>
   <h1>Basic Memory Introduction</h1>
@@ -64,9 +26,9 @@
 </header>
 An introduction to low-level programming and how to avoid<br/>
 <pre>
-<code class="language-c">$<span style="color:&#35;dcdccc">./</span>a<span style="color:&#35;dcdccc">.</span>out
-<span style="color:&#35;dca3a3; font-weight:bold">105</span>
-Core Dumped<span style="color:&#35;dcdccc">.</span>	</code>
+<code class="language-c">$./a.out
+<span class="num">105</span>
+Core Dumped.	</code>
 </pre>
 <br/>
 <div class="callout callout-note">
@@ -84,11 +46,11 @@ I wrote assuming the reader has experience in some garbage collected language li
 <br/>
 In many languages deemed high level or easy to use the main thing allowing this easy development without directly caring about the underlying memory & addresses is a garbage collector, on a very high level they work like this:<br/>
 <pre>
-<code class="language-csharp"><span style="color:&#35;e3ceab">int</span> <span style="color:&#35;aabfe3">func</span><span style="color:&#35;dcdccc">() {</span>
-String x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;APPLE&quot;</span><span style="color:&#35;dcdccc">;</span> → <span style="color:&#35;cc9393">&quot;APPLE&quot;</span> allocated
-<span style="color:&#35;aabfe3">func2</span><span style="color:&#35;dcdccc">(</span>x<span style="color:&#35;dcdccc">);</span> → Copy of x made <span style="color:&#35;dcdccc">&amp;</span> tracked<span style="color:&#35;dcdccc">.</span>
-x <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;ORANGE&quot;</span><span style="color:&#35;dcdccc">;</span> → <span style="color:&#35;cc9393">&quot;APPLE&quot;</span> removed <span style="color:&#35;dcdccc">&amp;</span> <span style="color:&#35;cc9393">&quot;ORANGE&quot;</span> allocated
-<span style="color:&#35;dcdccc">}</span>	</code>
+<code class="language-csharp"><span class="kwa">int</span> <span class="kwd">func</span>() {
+String x = <span class="sng">&quot;APPLE&quot;</span>; → <span class="sng">&quot;APPLE&quot;</span> allocated
+<span class="kwd">func2</span>(x); → Copy of x made &amp; tracked.
+x = <span class="sng">&quot;ORANGE&quot;</span>; → <span class="sng">&quot;APPLE&quot;</span> removed &amp; <span class="sng">&quot;ORANGE&quot;</span> allocated
+}	</code>
 </pre>
 This is a very rough example to give out an idea of its purpose, there are many different ways a garbage collector can function. See the working of the Java or the C# GC if you're interested in the engineering behind them.<br/>
 <br/>
@@ -175,11 +137,11 @@ I feel the easiest way to go at will be to re-tread common issues you could face
 <br/>
 Lets take the following:<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">.</span> <span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;</span> <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">( ) {</span>
-<span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">.</span>     <span style="color:&#35;dfdfbf; font-weight:bold">char</span> timestamp<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">&rsqb;;</span>
-<span style="color:&#35;dca3a3; font-weight:bold">3</span><span style="color:&#35;dcdccc">.</span>     <span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%l</span><span style="color:&#35;cc9393">lu&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>
-<span style="color:&#35;dca3a3; font-weight:bold">4</span><span style="color:&#35;dcdccc">.</span>		<span style="color:&#35;e3ceab">return</span> timestamp<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dca3a3; font-weight:bold">5</span><span style="color:&#35;dcdccc">. }</span>	</code>
+<code class="language-c"><span class="num">1</span>. <span class="kwb">char</span>&ast; <span class="kwd">getTimestampStr</span>( ) {
+<span class="num">2</span>.     <span class="kwb">char</span> timestamp&lsqb;<span class="num">100</span>&rsqb;;
+<span class="num">3</span>.     <span class="kwd">snprintf</span>(timestamp, <span class="kwa">sizeof</span>(timestamp), <span class="sng">&quot;</span><span class="ipl">%l</span><span class="sng">lu&quot;</span>, <span class="kwd">time</span>(NULL));
+<span class="num">4</span>.		<span class="kwa">return</span> timestamp;
+<span class="num">5</span>. }	</code>
 </pre>
 <br/>
 In line 2, we declare a variable ‘timestamp’ to be 100 chars [ notice theres no allocation so this a stack variable ] -> Using sprintf()In this we put the UNIX timestamp into that variable<br/>
@@ -260,10 +222,10 @@ The main problem w/ this approach is that you cant use it on-demand.<br/>
 <br/>
 The storage is attached to this storage so if you did this:<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">()</span>
-    <span style="color:&#35;dcdccc">|-&gt;</span> Stores <span style="color:&#35;cc9393">&quot;T+0&quot;</span> in <span style="color:&#35;dfdfbf; font-weight:bold">static</span> variable space <span style="color:&#35;dcdccc">&amp;</span> returns pointer to it
-<span style="color:&#35;aabfe3">getTimestamp</span><span style="color:&#35;dcdccc">()</span>
-    <span style="color:&#35;dcdccc">|-&gt;</span> Stores <span style="color:&#35;cc9393">&quot;T+1&quot;</span> in <span style="color:&#35;dfdfbf; font-weight:bold">static</span> variable	</code>
+<code class="language-c"><span class="kwd">getTimestampStr</span>()
+    |-&gt; Stores <span class="sng">&quot;T+0&quot;</span> in <span class="kwb">static</span> variable space &amp; returns pointer to it
+<span class="kwd">getTimestamp</span>()
+    |-&gt; Stores <span class="sng">&quot;T+1&quot;</span> in <span class="kwb">static</span> variable	</code>
 </pre>
 After the 2nd call, the first functions output is removed/replaced.<br/>
 <br/>
@@ -271,7 +233,7 @@ After the 2nd call, the first functions output is removed/replaced.<br/>
 <br/>
 In our example, we have a timestamp array (max 100 bytes in size), that we've determined to be max 100 bytes in size, we can get a pointer to 100 bytes of space on the heap using malloc() (MAN).<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;</span> timestamp <span style="color:&#35;dcdccc">= (</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;)</span> <span style="color:&#35;aabfe3">malloc</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">) &ast;</span> <span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">);</span>	</code>
+<code class="language-c"><span class="kwb">char</span>&ast; timestamp = (<span class="kwb">char</span>&ast;) <span class="kwd">malloc</span>(<span class="kwa">sizeof</span>(<span class="kwb">char</span>) &ast; <span class="num">100</span>);	</code>
 </pre>
 Notice that we can no longer keep the array size w/ its type since the compiler is unaware of what malloc() is doing, It only knows it will return a void* pointer.<br/>
 <br/>
@@ -279,15 +241,15 @@ So its up to us to make sure we are always in bounds of our heap variables or we
 <br/>
 So since sizeof(timestamp) no longer knows the size of our array, we have to hardcode it:<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%l</span><span style="color:&#35;cc9393">lu&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>	</code>
+<code class="language-c"><span class="kwd">snprintf</span>(timestamp, <span class="num">100</span>, <span class="sng">&quot;</span><span class="ipl">%l</span><span class="sng">lu&quot;</span>, <span class="kwd">time</span>(NULL));	</code>
 </pre>
 For this reason of often associating the size of our obtained pointer its very common to see a struct like this:<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">struct</span> slice_t <span style="color:&#35;dcdccc">{</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">void</span><span style="color:&#35;dcdccc">&ast;</span> ptr<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size_t</span> len<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dcdccc">}</span>
-<span style="color:&#35;7f9f7f; font-style:italic">// The correctly sized int type to hold any possible memory size</span>	</code>
+<code class="language-c"><span class="kwb">struct</span> slice_t {
+    <span class="kwb">void</span>&ast; ptr;
+    <span class="kwb">size_t</span> len;
+}
+<span class="slc">// The correctly sized int type to hold any possible memory size</span>	</code>
 </pre>
 This is very often used type in Zig or other languages.<br/>
 <br/>
@@ -295,14 +257,14 @@ Once we are done using the heap memory object, Its common to free() it. This ret
 <br/>
 If you continually allocate memory without freeing it, thats called a memory leak & eventually the system wont allocate any more memory (OOM).<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;aabfe3">free</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">);</span>	</code>
+<code class="language-c"><span class="kwd">free</span>(timestamp);	</code>
 </pre>
 <br/>
 Remember to only call free() once after the memory is used. If you call free again on a already freed pointer that is a double free error. The pointer that is freed is no longer valid after its freed. Using a freed pointer will cause a use after free error or a segfault.<br/>
 <br/>
 If you want to resize the block given by malloc() use realloc()<br/>
 <pre>
-<code class="language-c">timestamp <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">realloc</span><span style="color:&#35;dcdccc">(</span>timestamp<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">2000</span><span style="color:&#35;dcdccc">);</span>	</code>
+<code class="language-c">timestamp = <span class="kwd">realloc</span>(timestamp, <span class="num">2000</span>);	</code>
 </pre>
 <br/>
 timestamp is now 2kb - Original data is reserved<br/>
@@ -311,26 +273,26 @@ timestamp is now 2kb - Original data is reserved<br/>
 <br/>
 The function can be changed to:<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;</span> buf<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">size_t</span> buf_s<span style="color:&#35;dcdccc">) {</span>
-    <span style="color:&#35;aabfe3">snprintf</span><span style="color:&#35;dcdccc">(</span>buf<span style="color:&#35;dcdccc">,</span> buf_s<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;c07abe">%l</span><span style="color:&#35;cc9393">lu&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">time</span><span style="color:&#35;dcdccc">(</span>NULL<span style="color:&#35;dcdccc">));</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+<code class="language-c"><span class="kwb">void</span> <span class="kwd">getTimestampStr</span>(<span class="kwb">char</span>&ast; buf, <span class="kwb">size_t</span> buf_s) {
+    <span class="kwd">snprintf</span>(buf, buf_s, <span class="sng">&quot;</span><span class="ipl">%l</span><span class="sng">lu&quot;</span>, <span class="kwd">time</span>(NULL));
+}	</code>
 </pre>
 & it would be called like this:<br/>
 <br/>
 STACK<br/>
 <pre>
-<code class="language-c"><span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">main</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">char</span> ts<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">100</span><span style="color:&#35;dcdccc">&rsqb;;</span>
-    <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">&rsqb;,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">));</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+<code class="language-c"><span class="kwb">int</span> <span class="kwd">main</span>() {
+    <span class="kwb">char</span> ts&lsqb;<span class="num">100</span>&rsqb;;
+    <span class="kwd">getTimestampStr</span>(ts&lsqb;<span class="num">0</span>&rsqb;, <span class="kwa">sizeof</span>(ts));
+}	</code>
 </pre>
 <br/>
 HEAP<br/>
 <pre>
-<code class="language-C"><span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">main</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">char</span> ts<span style="color:&#35;dcdccc">&ast; = (</span><span style="color:&#35;dfdfbf; font-weight:bold">char</span><span style="color:&#35;dcdccc">&ast;)</span><span style="color:&#35;aabfe3">malloc</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">1024</span><span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;aabfe3">getTimestampStr</span><span style="color:&#35;dcdccc">(</span>ts<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">1024</span><span style="color:&#35;dcdccc">);</span>
-<span style="color:&#35;dcdccc">}</span>	</code>
+<code class="language-C"><span class="kwb">int</span> <span class="kwd">main</span>() {
+    <span class="kwb">char</span> ts&ast; = (<span class="kwb">char</span>&ast;)<span class="kwd">malloc</span>(<span class="num">1024</span>);
+    <span class="kwd">getTimestampStr</span>(ts, <span class="num">1024</span>);
+}	</code>
 </pre>
 <br/>
 This one is best if you want the buffer size to be configurable or if the function directly writes to a byte array.<br/>
@@ -390,8 +352,6 @@ You can also set breakpts. for the prog. to auto stop w/n reached & watch variab
 Tools like ClangD w/ Clang Format turned on can help you catch errors early.<br/>
 <br/>
 Simple Rule of Thumb is whenever passing a pointer to MULTIPLE elements, pass in a length parameter as well.<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

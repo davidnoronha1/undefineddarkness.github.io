@@ -1,62 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Low Latency Camera Streaming in Robotics</title>
-	<meta name="description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<link rel="canonical" href="https://nes.is-a.dev/2025/camera_streaming.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Low Latency Camera Streaming in Robotics" />
-	<meta property="og:description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2025/camera_streaming.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Low Latency Camera Streaming in Robotics" />
-	<meta name="twitter:description" content="Lessons from debugging flaky, laggy camera streams on robots." />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}summary{font-size:calc(var(--article-size)*1.2)}.human,h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.row{display:flex;gap:1em}.callout{background:var(--white-darker);border-left:3px solid var(--gray);margin:1em 0;padding:.7em 1em}.callout-title{font-weight:700;margin:0 0 .4em}.callout-content>:last-child{margin-bottom:0}.callout-note{border-left-color:#6a9ef2}.gnuplot-container{font-size:.8em;max-width:100%}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background-color:var(--white-lighter);color:var(--black-darker)!important;font-family:"FairfaxOctant",var(--mono-font);overflow-wrap:unset!important;padding:0;word-wrap:unset!important;letter-spacing:-.6px;line-height:.99;max-width:100%;overflow-x:auto;white-space:pre!important}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}figcaption{margin-left:1em}figure{margin:0}summary::marker{content:""}summary:before{content:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' clip-rule='evenodd' viewBox='0 0 24 24'%3E%3Cpath d='M10.211 7.155A.75.75 0 0 0 9 7.747v8.501a.75.75 0 0 0 1.212.591l5.498-4.258a.746.746 0 0 0-.001-1.183z'/%3E%3C/svg%3E");font-size:.8em;left:-1.4em;position:absolute;top:50%;transform:translateY(-40%);transition:transform .3s ease}details[open] summary:before{transform:translateY(-50%) rotate(90deg)}summary:before{filter:invert(1)}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type),th:not(:last-of-type){border-right:1px solid var(--gray)}article img,article video,main img,main video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Low Latency Camera Streaming in Robotics",
-		"description": "Lessons from debugging flaky, laggy camera streams on robots.",
-		"url": "https://nes.is-a.dev/2025/camera_streaming.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Low Latency Camera Streaming in Robotics</title>
+<meta name="description" content="Lessons from debugging flaky, laggy camera streams on robots.">
+<link rel="canonical" href="https://nes.is-a.dev/2025/camera_streaming.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Low Latency Camera Streaming in Robotics">
+<meta property="og:description" content="Lessons from debugging flaky, laggy camera streams on robots.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/2025/camera_streaming.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,:after,:before{box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);margin:0 auto;max-width:46rem;overflow-wrap:break-word;padding:1.5rem 1rem 3rem;tab-size:4}h1,h2,h3{font-weight:600;line-height:1.25;margin:1.6em 0 .5em}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}a{color:inherit;text-underline-offset:.15em}a:hover{color:var(--gray)}img,svg,video{height:auto;max-width:100%}img,video{display:block}figure{margin:1em 0}figcaption{color:var(--gray);font-size:.875em}body>nav{color:var(--gray);margin-bottom:2rem}body>nav a{margin-right:1em;text-decoration:none}body>nav a:first-child{color:var(--black);font-weight:600}header img{float:right;margin:0 0 1em 1em}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);border-radius:3px;padding:.1em .3em}pre{background:#191919;border-radius:4px;line-height:1.45;overflow-x:auto;padding:.8em 1em}.kwa{color:#e3ceab}.kwb{color:#dfdfbf}.kwd{color:#aabfe3}.kwe{color:#84d2d4}.esc,.num{color:#dca3a3}.sng{color:#cc9393}.com,.slc{color:#7f9f7f;font-style:italic}table{border-collapse:collapse;display:block;margin:1em 0;overflow-x:auto}td,th{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}summary{cursor:pointer}.callout{background:#191919;border-left:3px solid var(--gray);margin:1em 0;padding:.6em 1em}.callout-title{font-weight:600;margin:0 0 .3em}.callout-content>:last-child{margin-bottom:0}.callout-note{border-color:#6a9ef2}@font-face{font-display:swap;font-family:Octant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}.gnuplot-container{font-size:.8em}.gnuplot-container svg{height:100%;width:100%}.gnuplot-container pre{background:none;font-family:Octant,var(--mono-font);letter-spacing:-.6px;line-height:.99;padding:0;white-space:pre}.row{display:flex;flex-wrap:wrap;gap:1em}.card{border:1px solid var(--white-darker);padding:.5em 1em}@media (max-width:600px){header img{float:none;margin:0 0 1em}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a></nav>
+<article>
 
 <figure><img src="/assets/imx335-5mp-usb-camera-a-details-1-removebg-preview-ba964aa74b.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
 <header>
@@ -398,30 +360,30 @@ Even just avoiding sending the image over the network and keeping it on the same
 <br/>
 So I have mostly been using <a href="https://github.com/eclipse-iceoryx/iceoryx">iceoryx</a> as a separate pub-sub system alongside ROS for larger data (like laser profiler batches) with a config like this:<br/>
 <pre>
-<code class="language-toml"><span style="color:&#35;e3ceab">&lsqb;general&rsqb;</span>
-<span style="color:&#35;dfdfbf; font-weight:bold">version </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span>
+<code class="language-toml"><span class="kwa">&lsqb;general&rsqb;</span>
+<span class="kwb">version </span>= <span class="num">1</span>
 
-<span style="color:&#35;e3ceab">&lsqb;&lsqb;segment&rsqb;&rsqb;</span>
+<span class="kwa">&lsqb;&lsqb;segment&rsqb;&rsqb;</span>
 
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; ── Small pools (iceoryx internal: service discovery, heartbeats, routing) ──</span>
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">128</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1000</span>
+    <span class="slc">&#35; ── Small pools (iceoryx internal: service discovery, heartbeats, routing) ──</span>
+    <span class="kwa">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
+    <span class="kwb">size  </span>= <span class="num">128</span>
+    <span class="kwb">count </span>= <span class="num">1000</span>
 
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1024</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">500</span>
+    <span class="kwa">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
+    <span class="kwb">size  </span>= <span class="num">1024</span>
+    <span class="kwb">count </span>= <span class="num">500</span>
 
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">16384</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">200</span>
+    <span class="kwa">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
+    <span class="kwb">size  </span>= <span class="num">16384</span>
+    <span class="kwb">count </span>= <span class="num">200</span>
 
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; ── camera payload pool ─────────────────────────────────────────────</span>
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; Covers 1440×1080 BayerRG8 (1.5 MB + iceoryx overhead). Increase size to</span>
-    <span style="color:&#35;7f9f7f; font-style:italic">&#35; ~16 MiB if running 2448×2048 RGB8 cameras; reduce count if RAM is tight.</span>
-    <span style="color:&#35;e3ceab">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">size  </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">2097152</span>     <span style="color:&#35;7f9f7f; font-style:italic">&#35; 2 MiB</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">count </span><span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">300</span>         <span style="color:&#35;7f9f7f; font-style:italic">&#35; 300 × 2 MiB = 600 MB</span>	</code>
+    <span class="slc">&#35; ── camera payload pool ─────────────────────────────────────────────</span>
+    <span class="slc">&#35; Covers 1440×1080 BayerRG8 (1.5 MB + iceoryx overhead). Increase size to</span>
+    <span class="slc">&#35; ~16 MiB if running 2448×2048 RGB8 cameras; reduce count if RAM is tight.</span>
+    <span class="kwa">&lsqb;&lsqb;segment.mempool&rsqb;&rsqb;</span>
+    <span class="kwb">size  </span>= <span class="num">2097152</span>     <span class="slc">&#35; 2 MiB</span>
+    <span class="kwb">count </span>= <span class="num">300</span>         <span class="slc">&#35; 300 × 2 MiB = 600 MB</span>	</code>
 </pre>
 <br/>
 Typically you should create a different <code>mempool</code> for each kind of message type you expect to have and give it a sufficient amount of reserved slots (<code>count</code>) to cope with traffic.<br/>
@@ -447,145 +409,145 @@ So you need <i>another</i> server besides the main publishing server and the who
 <br/>
 motion jpeg is much simpler, the whole infrastructure to publish a mjpeg stream is this<br/>
 <pre>
-<code class="language-cpp"><span style="color:&#35;aabfe3">class</span> MjpegStreamer <span style="color:&#35;dcdccc">{</span>
-<span style="color:&#35;aabfe3">public</span><span style="color:&#35;dcdccc">:</span>
-  <span style="color:&#35;aabfe3">MjpegStreamer</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span> port<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dfdfbf; font-weight:bold">int</span> quality<span style="color:&#35;dcdccc">)</span>
-      <span style="color:&#35;dcdccc">:</span> <span style="color:&#35;aabfe3">port_</span><span style="color:&#35;dcdccc">(</span>port<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;aabfe3">quality_</span><span style="color:&#35;dcdccc">(</span>quality<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;aabfe3">running_</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">false</span><span style="color:&#35;dcdccc">),</span> <span style="color:&#35;aabfe3">listenFd_</span><span style="color:&#35;dcdccc">(-</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">),</span>
-        <span style="color:&#35;aabfe3">currentFrameId_</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {}</span>
+<code class="language-cpp"><span class="kwd">class</span> MjpegStreamer {
+<span class="kwd">public</span>:
+  <span class="kwd">MjpegStreamer</span>(<span class="kwb">int</span> port, <span class="kwb">int</span> quality)
+      : <span class="kwd">port_</span>(port), <span class="kwd">quality_</span>(quality), <span class="kwd">running_</span>(<span class="kwa">false</span>), <span class="kwd">listenFd_</span>(-<span class="num">1</span>),
+        <span class="kwd">currentFrameId_</span>(<span class="num">0</span>) {}
 
-  <span style="color:&#35;dcdccc">~</span><span style="color:&#35;aabfe3">MjpegStreamer</span><span style="color:&#35;dcdccc">() {</span> <span style="color:&#35;aabfe3">stop</span><span style="color:&#35;dcdccc">(); }</span>
+  ~<span class="kwd">MjpegStreamer</span>() { <span class="kwd">stop</span>(); }
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">start</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">exchange</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">true</span><span style="color:&#35;dcdccc">))</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    acceptThread_ <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">thread</span><span style="color:&#35;dcdccc">(&lsqb;</span><span style="color:&#35;e3ceab">this</span><span style="color:&#35;dcdccc">&rsqb; {</span> <span style="color:&#35;aabfe3">acceptLoop</span><span style="color:&#35;dcdccc">(); });</span>
-  <span style="color:&#35;dcdccc">}</span>
+  <span class="kwb">void</span> <span class="kwd">start</span>() {
+    <span class="kwa">if</span> (running_.<span class="kwd">exchange</span>(<span class="kwa">true</span>))
+      <span class="kwa">return</span>;
+    acceptThread_ = <span class="kwe">std</span>::<span class="kwd">thread</span>(&lsqb;<span class="kwa">this</span>&rsqb; { <span class="kwd">acceptLoop</span>(); });
+  }
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">stop</span><span style="color:&#35;dcdccc">() {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(!</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">exchange</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">false</span><span style="color:&#35;dcdccc">))</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>listenFd_ <span style="color:&#35;dcdccc">&gt;=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">shutdown</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> SHUT_RDWR<span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;dcdccc">}</span>
-    frameCv_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">notify_all</span><span style="color:&#35;dcdccc">();</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>acceptThread_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">joinable</span><span style="color:&#35;dcdccc">()) {</span>
-      acceptThread_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">join</span><span style="color:&#35;dcdccc">();</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>listenFd_ <span style="color:&#35;dcdccc">&gt;=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">);</span>
-      listenFd_ <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-  <span style="color:&#35;dcdccc">}</span>
+  <span class="kwb">void</span> <span class="kwd">stop</span>() {
+    <span class="kwa">if</span> (!running_.<span class="kwd">exchange</span>(<span class="kwa">false</span>))
+      <span class="kwa">return</span>;
+    <span class="kwa">if</span> (listenFd_ &gt;= <span class="num">0</span>) {
+      ::<span class="kwd">shutdown</span>(listenFd_, SHUT_RDWR);
+    }
+    frameCv_.<span class="kwd">notify_all</span>();
+    <span class="kwa">if</span> (acceptThread_.<span class="kwd">joinable</span>()) {
+      acceptThread_.<span class="kwd">join</span>();
+    }
+    <span class="kwa">if</span> (listenFd_ &gt;= <span class="num">0</span>) {
+      ::<span class="kwd">close</span>(listenFd_);
+      listenFd_ = -<span class="num">1</span>;
+    }
+  }
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> <span style="color:&#35;aabfe3">getPort</span><span style="color:&#35;dcdccc">()</span> <span style="color:&#35;dfdfbf; font-weight:bold">const</span> <span style="color:&#35;dcdccc">{</span> <span style="color:&#35;e3ceab">return</span> port_<span style="color:&#35;dcdccc">; }</span>
+  <span class="kwb">int</span> <span class="kwd">getPort</span>() <span class="kwb">const</span> { <span class="kwa">return</span> port_; }
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">pushFrame</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">const</span> <span style="color:&#35;84d2d4">cv</span><span style="color:&#35;dcdccc">::</span>Mat <span style="color:&#35;dcdccc">&amp;</span>bgr<span style="color:&#35;dcdccc">) {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>bgr<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">empty</span><span style="color:&#35;dcdccc">()) {</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
+  <span class="kwb">void</span> <span class="kwd">pushFrame</span>(<span class="kwb">const</span> <span class="kwe">cv</span>::Mat &amp;bgr) {
+    <span class="kwa">if</span> (bgr.<span class="kwd">empty</span>()) {
+      <span class="kwa">return</span>;
+    }
 
-    <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint8_t</span><span style="color:&#35;dcdccc">&gt;</span> jpegBuf<span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span><span style="color:&#35;dcdccc">&gt;</span> params <span style="color:&#35;dcdccc">= {</span><span style="color:&#35;84d2d4">cv</span><span style="color:&#35;dcdccc">::</span>IMWRITE_JPEG_QUALITY<span style="color:&#35;dcdccc">,</span> quality_<span style="color:&#35;dcdccc">};</span>
-    <span style="color:&#35;84d2d4">cv</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">imencode</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;cc9393">&quot;.jpg&quot;</span><span style="color:&#35;dcdccc">,</span> bgr<span style="color:&#35;dcdccc">,</span> jpegBuf<span style="color:&#35;dcdccc">,</span> params<span style="color:&#35;dcdccc">);</span>
+    <span class="kwe">std</span>::vector&lt;<span class="kwb">uint8_t</span>&gt; jpegBuf;
+    <span class="kwe">std</span>::vector&lt;<span class="kwb">int</span>&gt; params = {<span class="kwe">cv</span>::IMWRITE_JPEG_QUALITY, quality_};
+    <span class="kwe">cv</span>::<span class="kwd">imencode</span>(<span class="sng">&quot;.jpg&quot;</span>, bgr, jpegBuf, params);
 
-    <span style="color:&#35;dcdccc">{</span>
-      <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>lock_guard<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>mutex<span style="color:&#35;dcdccc">&gt;</span> <span style="color:&#35;aabfe3">lk</span><span style="color:&#35;dcdccc">(</span>frameMtx_<span style="color:&#35;dcdccc">);</span>
-      frame_ <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">move</span><span style="color:&#35;dcdccc">(</span>jpegBuf<span style="color:&#35;dcdccc">);</span>
-      currentFrameId_<span style="color:&#35;dcdccc">++;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    frameCv_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">notify_all</span><span style="color:&#35;dcdccc">();</span>
-  <span style="color:&#35;dcdccc">}</span>
+    {
+      <span class="kwe">std</span>::lock_guard&lt;<span class="kwe">std</span>::mutex&gt; <span class="kwd">lk</span>(frameMtx_);
+      frame_ = <span class="kwe">std</span>::<span class="kwd">move</span>(jpegBuf);
+      currentFrameId_++;
+    }
+    frameCv_.<span class="kwd">notify_all</span>();
+  }
 
-<span style="color:&#35;aabfe3">private</span><span style="color:&#35;dcdccc">:</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">static</span> <span style="color:&#35;e3ceab">constexpr</span> <span style="color:&#35;dfdfbf; font-weight:bold">const char</span> <span style="color:&#35;dcdccc">&ast;</span>kHttpHdr <span style="color:&#35;dcdccc">=</span>
-      <span style="color:&#35;cc9393">&quot;HTTP/1.1 200 OK</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;Cache-Control: no-cache</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;Connection: close</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-      <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">;</span>
+<span class="kwd">private</span>:
+  <span class="kwb">static</span> <span class="kwa">constexpr</span> <span class="kwb">const char</span> &ast;kHttpHdr =
+      <span class="sng">&quot;HTTP/1.1 200 OK</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+      <span class="sng">&quot;Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+      <span class="sng">&quot;Cache-Control: no-cache</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+      <span class="sng">&quot;Connection: close</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+      <span class="sng">&quot;</span><span class="esc">\r\n</span><span class="sng">&quot;</span>;
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">acceptLoop</span><span style="color:&#35;dcdccc">() {</span>
-    listenFd_ <span style="color:&#35;dcdccc">= ::</span><span style="color:&#35;aabfe3">socket</span><span style="color:&#35;dcdccc">(</span>AF_INET<span style="color:&#35;dcdccc">,</span> SOCK_STREAM<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">);</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>listenFd_ <span style="color:&#35;dcdccc">&lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">int</span> opt <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">setsockopt</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> SOL_SOCKET<span style="color:&#35;dcdccc">,</span> SO_REUSEADDR<span style="color:&#35;dcdccc">, &amp;</span>opt<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>opt<span style="color:&#35;dcdccc">));</span>
-    sockaddr_in addr<span style="color:&#35;dcdccc">{};</span>
-    addr<span style="color:&#35;dcdccc">.</span>sin_family <span style="color:&#35;dcdccc">=</span> AF_INET<span style="color:&#35;dcdccc">;</span>
-    addr<span style="color:&#35;dcdccc">.</span>sin_addr<span style="color:&#35;dcdccc">.</span>s_addr <span style="color:&#35;dcdccc">=</span> INADDR_ANY<span style="color:&#35;dcdccc">;</span>
-    addr<span style="color:&#35;dcdccc">.</span>sin_port <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;aabfe3">htons</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;e3ceab">static_cast</span><span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint16_t</span><span style="color:&#35;dcdccc">&gt;(</span>port_<span style="color:&#35;dcdccc">));</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">bind</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">reinterpret_cast</span><span style="color:&#35;dcdccc">&lt;</span>sockaddr <span style="color:&#35;dcdccc">&ast;&gt;(&amp;</span>addr<span style="color:&#35;dcdccc">),</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>addr<span style="color:&#35;dcdccc">))</span> 
-        <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">);</span>
-      listenFd_ <span style="color:&#35;dcdccc">= -</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">listen</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">8</span><span style="color:&#35;dcdccc">);</span>
+  <span class="kwb">void</span> <span class="kwd">acceptLoop</span>() {
+    listenFd_ = ::<span class="kwd">socket</span>(AF_INET, SOCK_STREAM, <span class="num">0</span>);
+    <span class="kwa">if</span> (listenFd_ &lt; <span class="num">0</span>) {
+      <span class="kwa">return</span>;
+    }
+    <span class="kwb">int</span> opt = <span class="num">1</span>;
+    ::<span class="kwd">setsockopt</span>(listenFd_, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="kwa">sizeof</span>(opt));
+    sockaddr_in addr{};
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = INADDR_ANY;
+    addr.sin_port = <span class="kwd">htons</span>(<span class="kwa">static_cast</span>&lt;<span class="kwb">uint16_t</span>&gt;(port_));
+    <span class="kwa">if</span> (::<span class="kwd">bind</span>(listenFd_, <span class="kwa">reinterpret_cast</span>&lt;sockaddr &ast;&gt;(&amp;addr), <span class="kwa">sizeof</span>(addr)) 
+        <span class="num">0</span>) {
+      ::<span class="kwd">close</span>(listenFd_);
+      listenFd_ = -<span class="num">1</span>;
+      <span class="kwa">return</span>;
+    }
+    ::<span class="kwd">listen</span>(listenFd_, <span class="num">8</span>);
 
-    <span style="color:&#35;e3ceab">while</span> <span style="color:&#35;dcdccc">(</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">()) {</span>
-      sockaddr_in ca<span style="color:&#35;dcdccc">{};</span>
-      socklen_t cl <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>ca<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">int</span> fd <span style="color:&#35;dcdccc">= ::</span><span style="color:&#35;aabfe3">accept</span><span style="color:&#35;dcdccc">(</span>listenFd_<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">reinterpret_cast</span><span style="color:&#35;dcdccc">&lt;</span>sockaddr <span style="color:&#35;dcdccc">&ast;&gt;(&amp;</span>ca<span style="color:&#35;dcdccc">), &amp;</span>cl<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>fd <span style="color:&#35;dcdccc">&lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;dcdccc">}</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">char</span> rbuf<span style="color:&#35;dcdccc">&lsqb;</span><span style="color:&#35;dca3a3; font-weight:bold">2048</span><span style="color:&#35;dcdccc">&rsqb;;</span>
-      <span style="color:&#35;dfdfbf; font-weight:bold">int</span> received <span style="color:&#35;dcdccc">= ::</span><span style="color:&#35;aabfe3">recv</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> rbuf<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;e3ceab">sizeof</span><span style="color:&#35;dcdccc">(</span>rbuf<span style="color:&#35;dcdccc">) -</span> <span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>received <span style="color:&#35;dcdccc">&gt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-        <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">thread</span><span style="color:&#35;dcdccc">(&lsqb;</span><span style="color:&#35;e3ceab">this</span><span style="color:&#35;dcdccc">,</span> fd<span style="color:&#35;dcdccc">&rsqb; {</span> <span style="color:&#35;aabfe3">serveClient</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">); }).</span><span style="color:&#35;aabfe3">detach</span><span style="color:&#35;dcdccc">();</span>
-      <span style="color:&#35;dcdccc">}</span> <span style="color:&#35;e3ceab">else</span> <span style="color:&#35;dcdccc">{</span>
-        <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dcdccc">}</span>
-  <span style="color:&#35;dcdccc">}</span>
+    <span class="kwa">while</span> (running_.<span class="kwd">load</span>()) {
+      sockaddr_in ca{};
+      socklen_t cl = <span class="kwa">sizeof</span>(ca);
+      <span class="kwb">int</span> fd = ::<span class="kwd">accept</span>(listenFd_, <span class="kwa">reinterpret_cast</span>&lt;sockaddr &ast;&gt;(&amp;ca), &amp;cl);
+      <span class="kwa">if</span> (fd &lt; <span class="num">0</span>) {
+        <span class="kwa">break</span>;
+      }
+      <span class="kwb">char</span> rbuf&lsqb;<span class="num">2048</span>&rsqb;;
+      <span class="kwb">int</span> received = ::<span class="kwd">recv</span>(fd, rbuf, <span class="kwa">sizeof</span>(rbuf) - <span class="num">1</span>, <span class="num">0</span>);
+      <span class="kwa">if</span> (received &gt; <span class="num">0</span>) {
+        <span class="kwe">std</span>::<span class="kwd">thread</span>(&lsqb;<span class="kwa">this</span>, fd&rsqb; { <span class="kwd">serveClient</span>(fd); }).<span class="kwd">detach</span>();
+      } <span class="kwa">else</span> {
+        ::<span class="kwd">close</span>(fd);
+      }
+    }
+  }
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">void</span> <span style="color:&#35;aabfe3">serveClient</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dfdfbf; font-weight:bold">int</span> fd<span style="color:&#35;dcdccc">) {</span>
-    <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> kHttpHdr<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;aabfe3">strlen</span><span style="color:&#35;dcdccc">(</span>kHttpHdr<span style="color:&#35;dcdccc">),</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">) {</span>
-      <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">);</span>
-      <span style="color:&#35;e3ceab">return</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span> lastSentId <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;e3ceab">while</span> <span style="color:&#35;dcdccc">(</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">()) {</span>
-      <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint8_t</span><span style="color:&#35;dcdccc">&gt;</span> jpeg<span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;dcdccc">{</span>
-        <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>unique_lock<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>mutex<span style="color:&#35;dcdccc">&gt;</span> <span style="color:&#35;aabfe3">lk</span><span style="color:&#35;dcdccc">(</span>frameMtx_<span style="color:&#35;dcdccc">);</span>
-        frameCv_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">wait_for</span><span style="color:&#35;dcdccc">(</span>lk<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;84d2d4">chrono</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">seconds</span><span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">), &lsqb;</span><span style="color:&#35;e3ceab">this</span><span style="color:&#35;dcdccc">,</span> lastSentId<span style="color:&#35;dcdccc">&rsqb; {</span>
-          <span style="color:&#35;e3ceab">return</span> currentFrameId_ <span style="color:&#35;dcdccc">&gt;</span> lastSentId <span style="color:&#35;dcdccc">|| !</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">();</span>
-        <span style="color:&#35;dcdccc">});</span>
-        <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(!</span>running_<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">load</span><span style="color:&#35;dcdccc">())</span>
-          <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-        <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(</span>currentFrameId_ <span style="color:&#35;dcdccc">&lt;=</span> lastSentId<span style="color:&#35;dcdccc">)</span>
-          <span style="color:&#35;e3ceab">continue</span><span style="color:&#35;dcdccc">;</span>
-        jpeg <span style="color:&#35;dcdccc">=</span> frame_<span style="color:&#35;dcdccc">;</span>
-        lastSentId <span style="color:&#35;dcdccc">=</span> currentFrameId_<span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;dcdccc">}</span>
-      <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>string hdr <span style="color:&#35;dcdccc">=</span> <span style="color:&#35;cc9393">&quot;--mjpeg_boundary</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-                        <span style="color:&#35;cc9393">&quot;Content-Type: image/jpeg</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-                        <span style="color:&#35;cc9393">&quot;Content-Length: &quot;</span> <span style="color:&#35;dcdccc">+</span>
-                        <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">to_string</span><span style="color:&#35;dcdccc">(</span>jpeg<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">size</span><span style="color:&#35;dcdccc">()) +</span>
-                        <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span>
-                        <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> hdr<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">data</span><span style="color:&#35;dcdccc">(),</span> hdr<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">size</span><span style="color:&#35;dcdccc">(),</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> jpeg<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">data</span><span style="color:&#35;dcdccc">(),</span> jpeg<span style="color:&#35;dcdccc">.</span><span style="color:&#35;aabfe3">size</span><span style="color:&#35;dcdccc">(),</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-      <span style="color:&#35;e3ceab">if</span> <span style="color:&#35;dcdccc">(::</span><span style="color:&#35;aabfe3">send</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">,</span> <span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dca3a3; font-weight:bold">\r\n</span><span style="color:&#35;cc9393">&quot;</span><span style="color:&#35;dcdccc">,</span> <span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">,</span> MSG_NOSIGNAL<span style="color:&#35;dcdccc">) &lt;</span> <span style="color:&#35;dca3a3; font-weight:bold">0</span><span style="color:&#35;dcdccc">)</span>
-        <span style="color:&#35;e3ceab">break</span><span style="color:&#35;dcdccc">;</span>
-    <span style="color:&#35;dcdccc">}</span>
-    <span style="color:&#35;dcdccc">::</span><span style="color:&#35;aabfe3">close</span><span style="color:&#35;dcdccc">(</span>fd<span style="color:&#35;dcdccc">);</span>
-  <span style="color:&#35;dcdccc">}</span>
+  <span class="kwb">void</span> <span class="kwd">serveClient</span>(<span class="kwb">int</span> fd) {
+    <span class="kwa">if</span> (::<span class="kwd">send</span>(fd, kHttpHdr, <span class="kwd">strlen</span>(kHttpHdr), MSG_NOSIGNAL) &lt; <span class="num">0</span>) {
+      ::<span class="kwd">close</span>(fd);
+      <span class="kwa">return</span>;
+    }
+    <span class="kwb">uint64_t</span> lastSentId = <span class="num">0</span>;
+    <span class="kwa">while</span> (running_.<span class="kwd">load</span>()) {
+      <span class="kwe">std</span>::vector&lt;<span class="kwb">uint8_t</span>&gt; jpeg;
+      {
+        <span class="kwe">std</span>::unique_lock&lt;<span class="kwe">std</span>::mutex&gt; <span class="kwd">lk</span>(frameMtx_);
+        frameCv_.<span class="kwd">wait_for</span>(lk, <span class="kwe">std</span>::<span class="kwe">chrono</span>::<span class="kwd">seconds</span>(<span class="num">2</span>), &lsqb;<span class="kwa">this</span>, lastSentId&rsqb; {
+          <span class="kwa">return</span> currentFrameId_ &gt; lastSentId || !running_.<span class="kwd">load</span>();
+        });
+        <span class="kwa">if</span> (!running_.<span class="kwd">load</span>())
+          <span class="kwa">break</span>;
+        <span class="kwa">if</span> (currentFrameId_ &lt;= lastSentId)
+          <span class="kwa">continue</span>;
+        jpeg = frame_;
+        lastSentId = currentFrameId_;
+      }
+      <span class="kwe">std</span>::string hdr = <span class="sng">&quot;--mjpeg_boundary</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+                        <span class="sng">&quot;Content-Type: image/jpeg</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+                        <span class="sng">&quot;Content-Length: &quot;</span> +
+                        <span class="kwe">std</span>::<span class="kwd">to_string</span>(jpeg.<span class="kwd">size</span>()) +
+                        <span class="sng">&quot;</span><span class="esc">\r\n</span><span class="sng">&quot;</span>
+                        <span class="sng">&quot;</span><span class="esc">\r\n</span><span class="sng">&quot;</span>;
+      <span class="kwa">if</span> (::<span class="kwd">send</span>(fd, hdr.<span class="kwd">data</span>(), hdr.<span class="kwd">size</span>(), MSG_NOSIGNAL) &lt; <span class="num">0</span>)
+        <span class="kwa">break</span>;
+      <span class="kwa">if</span> (::<span class="kwd">send</span>(fd, jpeg.<span class="kwd">data</span>(), jpeg.<span class="kwd">size</span>(), MSG_NOSIGNAL) &lt; <span class="num">0</span>)
+        <span class="kwa">break</span>;
+      <span class="kwa">if</span> (::<span class="kwd">send</span>(fd, <span class="sng">&quot;</span><span class="esc">\r\n</span><span class="sng">&quot;</span>, <span class="num">2</span>, MSG_NOSIGNAL) &lt; <span class="num">0</span>)
+        <span class="kwa">break</span>;
+    }
+    ::<span class="kwd">close</span>(fd);
+  }
 
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> port_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> quality_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>atomic<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">bool</span><span style="color:&#35;dcdccc">&gt;</span> running_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">int</span> listenFd_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>thread acceptThread_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>mutex frameMtx_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>condition_variable frameCv_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;84d2d4">std</span><span style="color:&#35;dcdccc">::</span>vector<span style="color:&#35;dcdccc">&lt;</span><span style="color:&#35;dfdfbf; font-weight:bold">uint8_t</span><span style="color:&#35;dcdccc">&gt;</span> frame_<span style="color:&#35;dcdccc">;</span>
-  <span style="color:&#35;dfdfbf; font-weight:bold">uint64_t</span> currentFrameId_<span style="color:&#35;dcdccc">;</span>
-<span style="color:&#35;dcdccc">};</span>	</code>
+  <span class="kwb">int</span> port_;
+  <span class="kwb">int</span> quality_;
+  <span class="kwe">std</span>::atomic&lt;<span class="kwb">bool</span>&gt; running_;
+  <span class="kwb">int</span> listenFd_;
+  <span class="kwe">std</span>::thread acceptThread_;
+  <span class="kwe">std</span>::mutex frameMtx_;
+  <span class="kwe">std</span>::condition_variable frameCv_;
+  <span class="kwe">std</span>::vector&lt;<span class="kwb">uint8_t</span>&gt; frame_;
+  <span class="kwb">uint64_t</span> currentFrameId_;
+};	</code>
 </pre>
 <br/>
 This works by the <code>Content-Type: multipart/x-mixed-replace; boundary=mjpeg_boundary</code> header, which tells the client to expect a stream of data that is separated by a boundary, and that each part of the stream should replace the previous part. <br/>
@@ -647,8 +609,6 @@ RTSP doesn't work to send media to the browser since if you are sending video yo
 </code>
 </pre>
 Which tells ffmpeg to focus on dropping frames and not buffering in order to always provide the latest frame, the above line is to set it for opencv when using the ffmpeg backend but the same flags can be replicated for raw ffmpeg.<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

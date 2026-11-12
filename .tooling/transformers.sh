@@ -247,7 +247,7 @@ gnuplot() {
     # gnuplot_block.py. Measured against this project's own gnuplot 6.0: a
     # plain (non-interactive, no embedded JS) SVG ran ~1.6x heavier than
     # octant text plus the one-time cost of the LegacySymbols.woff2 font
-    # subset it needs (see typography.css), and several times heavier once
+    # subset it needs (see styles.css), and several times heavier once
     # that font is cached (shared across every octant/braille chart on the
     # site) — plain SVG had no interactivity to justify the extra weight,
     # so it's no longer the default. Pass svg=true or interactive=true if
@@ -270,7 +270,7 @@ gnuplot() {
         local char_rows=$(( height / 16 )); (( char_rows < 15 )) && char_rows=15; (( char_rows > 60 )) && char_rows=60
         size_line="set terminal block octant ansirgb noenhanced size ${cols},${char_rows}"
         # The octant path is embedded in .gnuplot-container pre, styled via
-        # var(--white-lighter)/var(--black-darker) (see minor.css) — the
+        # var(--white-lighter)/var(--black-darker) (see styles.css) — the
         # site is dark-mode only now, so those resolve to a dark background
         # and light text, same as the svg path above.
         text_color="white"
@@ -388,9 +388,8 @@ chart () {
 # }
 
 pdf () {
-    export want_pdf_object=1
-    export pdfs_to_embed+=("$3")
-    # printf '<iframe class="pdfobject" title="Embedded PDF" src="%s" allow="fullscreen" style="border: none; position: absolute; inset: 0px; width: 100%; height: 100%;"></iframe>' "${3}"
+    # Native browser PDF viewer; the link is the fallback where none exists (most mobile browsers).
+    printf '<object data="%s" type="application/pdf" width="100%%" height="600"><a href="%s">Open PDF</a></object>' "$3" "$3"
 }
 
 redirect () {
@@ -456,7 +455,6 @@ video () {
 
 pdfi () {
     local pdf_path="$3"
-    export want_pdfi=1
     local temp_folder="./out/.pond-gen/$(basename "$pdf_path" .pdf)"
     if ! [ -d "${temp_folder}" ]; then
         mkdir -p "${temp_folder}"
@@ -485,17 +483,13 @@ verbatim () {
 # https://css-tricks.com/css-only-carousel/
 # TODO: Allow multile carousels in one page
 carousel () {
-    export want_carousel_script=1
+	# CSS-only: horizontal scroll-snap strip (see .slides in styles.css), no script.
 	content="$1"
-	printf '
-	<div class="gallery-container">
-	<div class="thumbnails"></div>
-		<div class="slides">\n'
+	printf '<div class="slides">'
 	while read -r line; do
-		printf '<div><img src="%s"></div>' "${line%'<br/>'}"
+		printf '<div><img src="%s" loading="lazy"></div>' "${line%'<br/>'}"
 	done <<< "$content"
-	printf '</div>
-	</div>'
+	printf '</div>'
 }
 
 columns () {
