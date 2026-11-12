@@ -16,6 +16,8 @@
 	--black-darker: #eee;
 	--gray: #999;
 	--display-font: system-ui, sans-serif;
+	--serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+	--accent: #ff7f50;
 	--mono-font: ui-monospace, Menlo, Consolas, monospace;
 }
 
@@ -36,14 +38,14 @@ body {
 	overflow-wrap: break-word;
 }
 
-h1, h2, h3, h4, h5, h6 { line-height: 1.25; margin: 1.6em 0 .5em; font-weight: 600; }
+h1, h2, h3, h4, h5, h6 { line-height: 1.25; margin: 1.6em 0 .5em; font: 400 1em/1.25 var(--serif); }
 h1 { font-size: 1.75rem; margin-top: 0; }
 h2 { font-size: 1.35rem; }
 h3 { font-size: 1.1rem; }
 h4, h5, h6 { font-size: 1rem; }
 
-a { color: inherit; text-underline-offset: .15em; }
-a:hover { color: var(--gray); }
+a { color: inherit; text-underline-offset: .15em; transition: color .15s; }
+a:hover { color: var(--accent); }
 
 img, video, svg { max-width: 100%; height: auto; }
 img, video { display: block; max-height: 80vh; }
@@ -68,12 +70,30 @@ body > nav a:first-child { color: var(--black); font-weight: 600; }
 /* Optional `image:` from a post's front matter (small pixel-art icons). */
 header img { float: right; max-width: 128px; margin: 0 0 1em 1em; image-rendering: pixelated; }
 
-.posts { list-style: none; padding: 0; }
-.posts li { margin: 0 0 .9em; }
+/* Home page: mark, greeting, emoji links, post list with icons. */
+.home { text-align: center; margin-bottom: 2.5rem; }
+.home .mark { width: 2.2rem; color: var(--accent); }
+.home .kao { margin: .2em 0 0; font-size: 1.2em; }
+.home h1 { margin: .1em 0 .2em; }
+.home p { margin: 0; }
+.links { display: flex; flex-wrap: wrap; justify-content: center; gap: .4em 1.2em; margin-top: 1em; }
+.links a { text-decoration: none; }
+
+.posts { list-style: none; padding: 0; margin: 0 0 2em; }
+.posts li { display: grid; grid-template-columns: 40px 1fr auto; gap: .2em 1em; margin: 0 0 1em; align-items: start; }
+.posts li > div { grid-column: 2; }
+.posts img { width: 40px; height: 40px; object-fit: contain; image-rendering: pixelated; }
+/* Posts without an icon get the site's asterisk instead. */
+.posts li:not(:has(img))::before { content: "*"; color: var(--accent); font: 2em/1 var(--serif); text-align: center; }
+.posts a { font: 1.15em var(--serif); text-decoration: none;
+	background: linear-gradient(var(--white-darker), var(--white-darker)) 0 0 / 0 100% no-repeat;
+	transition: background-size .25s, color .15s; }
+.posts a:hover { background-size: 100% 100%; }
 .posts p { margin: 0; color: var(--gray); font-size: .9em; }
+.posts time { color: var(--gray); font: .8em var(--mono-font); padding-top: .3em; }
 
 /* Line breaks in the Markdown source show as line breaks (no <br> needed). */
-p, li { white-space: pre-line; }
+article p, article li { white-space: pre-line; }
 
 /* -- Code -- */
 

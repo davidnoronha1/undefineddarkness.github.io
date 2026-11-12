@@ -303,7 +303,11 @@ def build_index(posts: list[dict], style: str) -> list[dict]:
         for p in (p for p in posts if p["rel"].parts[0] == folder):
             public.append(p)
             t, d = html.escape(p["meta"].get("title", p["rel"].stem)), p["meta"].get("description", "")
-            items.append(f'<li><a href="/out/{p["rel"]}">{t}</a>' + (f"<p>{html.escape(d)}</p>" if d else "") + "</li>")
+            icon = p["meta"].get("icon") or p["meta"].get("image")
+            img = f'<img src="{html.escape(icon)}" alt="" width="40" height="40" loading="lazy">' if icon else ""
+            when = datetime.fromtimestamp(p["date"], timezone.utc)
+            items.append(f'<li>{img}<div><a href="/out/{p["rel"]}">{t}</a>' + (f"<p>{html.escape(d)}</p>" if d else "")
+                         + f'</div><time datetime="{when:%Y-%m-%d}">{when:%b}</time></li>')
         text = text.replace(key, "\n".join(items))
     text = text.replace(CSS_LINK, f"<style>{style}</style>")
     (OUT / "index.html").write_text(text)

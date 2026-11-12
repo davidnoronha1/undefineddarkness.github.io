@@ -14,8 +14,7 @@
 <style>
 .grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}
 .grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}
-.grid img,model-viewer,.model{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}
-.model{display:grid;place-items:center}.model button{font:inherit;background:none;color:inherit;border:1px solid var(--gray);padding:.3em .8em;cursor:pointer}
+.grid img,model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}
 </style>
 </head>
 <body>
@@ -28,7 +27,7 @@
 <h2>Flagship</h2>
 <div class="grid">
 <div>
-<div class="model" data-src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/simple-auv-v1-rdL8VlgzFLShvNrPAw7LAPCceCpyuW.glb" data-scale="4" data-rot="20,-25,0"><button>View 3D model</button></div>
+<model-viewer src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/simple-auv-v1-rdL8VlgzFLShvNrPAw7LAPCceCpyuW.glb" scale="4" rot="20,-25,0" disable-pan aria-label="Interactive 3D model"></model-viewer>
 <h3><a href="/out/2025/mira.html">Mira</a></h3>
 <p>Dreadnought Robotics's flagship AUV.</p>
 </div>
@@ -38,7 +37,7 @@
 <p>ERIC Robotics — railway inspection robot.</p>
 </div>
 <div>
-<div class="model" data-src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/spaceo_kneeling_draco-1pMlNpd8zbEV4J5sNYwC9cR0UOfp1R.glb" data-scale="2.6" data-rot="-90,0,-25"><button>View 3D model</button></div>
+<model-viewer src="https://doqywovpmkxpckln.public.blob.vercel-storage.com/spaceo_kneeling_draco-1pMlNpd8zbEV4J5sNYwC9cR0UOfp1R.glb" scale="2.6" rot="-90,0,-25" disable-pan aria-label="Interactive 3D model"></model-viewer>
 <h3>Spaceo Prime</h3>
 <p>Muks Robotics's flagship bipedal humanoid.</p>
 </div>
@@ -81,14 +80,8 @@
 </div>
 </section>
 </main>
+<script type="module" src="/assets/model-viewer.js"></script>
 <script>
-// 3D viewer (~580KB) only loads when asked for.
-document.querySelectorAll('.model button').forEach(b => b.onclick = () => {
-	const d = b.parentNode, m = document.createElement('model-viewer');
-	m.setAttribute('src', d.dataset.src); m.setAttribute('scale', d.dataset.scale);
-	m.setAttribute('rot', d.dataset.rot); m.setAttribute('disable-pan', '');
-	d.replaceWith(m); import('/assets/model-viewer.js');
-});
 // Deep links: ?robotics or ?web shows only that tag. Unknown keys are ignored.
 const q = [...new URLSearchParams(location.search).keys()].map(k => k.toLowerCase()), els = document.querySelectorAll('[data-tags]');
 if ([...els].some(e => q.includes(e.dataset.tags.toLowerCase()))) {

@@ -6,7 +6,7 @@ OUT := ../out/.assets
 all: $(OUT)/elements.js $(OUT)/charts.js $(OUT)/code.js $(OUT)/model-viewer.js
 
 # elements.js: the x- custom elements; lazy-loads charts.js (uPlot) and code.js (highlight.js).
-# model-viewer.js: three.js viewer, the portfolio loads it on click.
+# model-viewer.js: three.js viewer used by the portfolio.
 $(OUT)/%.js: other/%.ts
 	bun build $< --outfile $@ --bundle --minify
 

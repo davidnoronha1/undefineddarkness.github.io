@@ -6,7 +6,7 @@ Personal site. Posts are GitHub-flavoured Markdown in `src/`, built to `out/` by
 
 The owner dislikes Markdown tables, two-element folds and Markdown syntax extensions: use the reusable custom elements `<x-fold>`, `<x-table>`, `<x-chart>`, `<x-plot>`, `<x-code>` (runtime web components), not GFM pipe tables, `<details>` or new fence/`:::` syntax.
 
-Deliberately minimal: dark-only, system fonts, one small stylesheet inlined into every page, no JS unless a feature can't work without it — and then it's a self-contained module loaded only by pages that use it (charts), or on demand (the portfolio's three.js viewer loads on click). Prefer plain HTML elements (`<video>`, `<object>`, MathML) over new custom syntax. Keep new features in that spirit.
+Deliberately minimal but not generic: dark-only, system fonts (sans body, Georgia-style serif headings and post titles, a coral `--accent`), the home page keeps its personality (asterisk mark, ʕっ•ᴥ•ʔっ greeting, emoji links, per-post pixel icons from front matter `image`/`icon`, hover fills); one small stylesheet inlined into every page, no JS unless a feature can't work without it — and then it's a self-contained module loaded only by pages that use it (charts), or on demand (the portfolio's three.js viewer). Prefer plain HTML elements (`<video>`, `<object>`, MathML) over new custom syntax. Keep new features in that spirit.
 
 ## Running things
 
@@ -34,7 +34,7 @@ make                     # rebuild JS bundles (bun) then ./generate
 | `assets_src/other/elements.ts` | The reusable custom elements `<x-fold>`, `<x-table>`, `<x-chart>`, `<x-plot>`, `<x-code>` -> `out/.assets/elements.js` (~1 KB gz). Usable on any page; chart/plot lazy-load `charts.js` relative to `import.meta.url`. Without JS: raw rows shown preformatted (`:not(:defined)` CSS), folds open |
 | `assets_src/other/charts.ts` | uPlot renderers (`chart`, `plot` exports) lazy-loaded by elements.js |
 | `assets_src/other/code.ts` | highlight.js (core + ~20 languages, zenburn colours) lazy-loaded by `<x-code>` on pages build.py didn't pre-highlight |
-| `assets_src/other/model-viewer.ts` | three.js `<model-viewer>` element; the portfolio loads it on click |
+| `assets_src/other/model-viewer.ts` | three.js `<model-viewer>` element used by the portfolio's flagship models |
 | `assets_src/other/about.css`, `interaction.js`, `chevron*.svg`, `VictorMono-*.woff2` | Assets of the standalone `src/about_fancy.html` page (referenced relatively, since `assets.py` flattens them into `/assets/`) |
 | `assets_src/Makefile` | `bun build` for the JS bundles above, committed under `out/.assets/` |
 | `.tooling/assets.py` | Media pipeline: walks `assets_src/` + images next to posts in `src/`, content-hashes and AVIF-transcodes raster images (`avifenc`), transcodes video to AV1 `.webm` (`ffmpeg`), copies the rest flat into `out/.assets/`, then rewrites asset references across `out/`, `experiments/`, `rss.xml` and `index.html`. `assets_src/models/` is skipped: models are Git LFS (repo is over budget) and are served from Vercel blob URLs |
