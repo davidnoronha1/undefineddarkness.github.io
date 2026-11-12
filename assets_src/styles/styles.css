@@ -100,7 +100,7 @@ h3 { color: var(--gray); }
 /* Posts without an icon get a 2x2 pixel glyph; build.py lights a different
    combination of the four pixels per post (data-tl/tr/bl/br). */
 .posts li:not(:has(img))::before { content: ""; width: 13px; height: 13px; margin: .45em auto 0;
-	--px: #5fd3b0; --tl: transparent; --tr: transparent; --bl: transparent; --br: transparent;
+	--px: #4f8f7f; --tl: transparent; --tr: transparent; --bl: transparent; --br: transparent;
 	background: linear-gradient(var(--tl), var(--tl)) 0 0 / 6px 6px no-repeat, linear-gradient(var(--tr), var(--tr)) 7px 0 / 6px 6px no-repeat,
 		linear-gradient(var(--bl), var(--bl)) 0 7px / 6px 6px no-repeat, linear-gradient(var(--br), var(--br)) 7px 7px / 6px 6px no-repeat; }
 .posts li[data-tl]::before { --tl: var(--px); }
