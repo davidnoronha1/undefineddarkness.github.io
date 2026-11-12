@@ -10,20 +10,24 @@
 # ///
 """The site generator: src/**/*.md (GitHub-flavoured Markdown) -> out/.
 
-Posts are plain Markdown plus raw HTML where Markdown has no syntax:
+Posts are Markdown plus a few shortcuts (see README.md for examples):
   - front matter: title, description, date, image (header image), icon (social image)
   - callouts:   > [!NOTE] / [!TIP] / [!IMPORTANT] / [!WARNING] / [!CAUTION]
-  - folds:      <details><summary>...</summary> ... </details>
+  - folds:      ::: Title  ...  :::            (-> <details><summary>)
+  - tables:     ```table  tab-separated rows, first row = header
+  - charts:     ```chart (bars) / ```plot (functions) -> <bar-chart>/<fn-plot>
   - math:       \\( inline \\), \\[ display \\] and ```math fences -> MathML (no JS)
   - code:       fenced blocks, highlighted at build time (pygments)
-  - charts:     <bar-chart> / <fn-plot> custom elements (assets_src/other/charts.ts)
-  - video/pdf:  <video>, <object>; image galleries: <div class="slides">
-An image alone in a paragraph becomes a <figure> captioned by its alt text.
+  - anything else is plain HTML (<video>, <object>, <div class="split">, ...);
+    Markdown inside HTML tags works without the usual blank-line rules.
+Line breaks in the source are kept; an image on its own line becomes a
+<figure> captioned by its alt text.
 
 Usage: build.py [src files...]   (no args: build everything)
 """
 import html
 import re
+import shlex
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -66,11 +70,64 @@ def mathml(tex: str, display: bool) -> str:
         return f"<code>{html.escape(tex)}</code>"
 
 
+def fence_args(info: str) -> tuple[str, list[str], dict]:
+    """```name .class flag key=value key="quoted value" -> (name, classes, opts)"""
+    words = shlex.split(info) or [""]
+    classes = [w[1:] for w in words[1:] if w.startswith(".")]
+    opts = dict((w.split("=", 1) + [""])[:2] for w in words[1:] if not w.startswith("."))
+    return words[0], classes, opts
+
+
+def rows(text: str) -> list[list[str]]:
+    """Tab-separated rows (runs of 2+ spaces also work, for editors that expand tabs)."""
+    return [[c.strip() for c in re.split(r"\t+| {2,}", line.strip())] for line in text.splitlines() if line.strip()]
+
+
+def table(text: str, classes: list[str], opts: dict) -> str:
+    """```table [.class] [noheader] [center=2,3] -- first row is the header."""
+    data = rows(text)
+    center = {int(c) - 1 for c in opts.get("center", "").split(",") if c.strip().isdigit()}
+    centred = ' style="text-align:center"'
+
+    def cell(tag: str, i: int, c: str) -> str:
+        return f"<{tag}{centred if i in center else ''}>{md.renderInline(c)}</{tag}>"
+
+    out = f'<table class="{" ".join(classes)}">' if classes else "<table>"
+    if "noheader" not in opts and data:
+        out += "<thead><tr>" + "".join(cell("th", i, c) for i, c in enumerate(data.pop(0))) + "</tr></thead>"
+    out += "<tbody>" + "".join("<tr>" + "".join(cell("td", i, c) for i, c in enumerate(r)) + "</tr>" for r in data)
+    return out + "</tbody></table>\n"
+
+
+def figure(inner: str, opts: dict) -> str:
+    cap = f"<figcaption>{md.renderInline(opts['title'])}</figcaption>" if opts.get("title") else ""
+    return f"<figure>{inner}{cap}</figure>\n"
+
+
+def chart(text: str, opts: dict) -> str:
+    """```chart [unit=MB] [log] [title=...] -- a ```table drawn as grouped bars."""
+    attrs = (f' unit="{html.escape(opts["unit"])}"' if opts.get("unit") else "") + (" log" if "log" in opts else "")
+    return figure(f"<bar-chart{attrs}>{table(text, [], {})}</bar-chart>", opts)
+
+
+def plot(text: str, opts: dict) -> str:
+    """```plot [x=-10:10] [y=-2:2] [title=...] -- one `expression<TAB>label` per line."""
+    attrs = "".join(f' {k}="{html.escape(opts[k])}"' for k in ("x", "y") if opts.get(k))
+    items = "".join(f"<li><code>{html.escape(r[0])}</code> {html.escape(r[1] if len(r) > 1 else '')}</li>" for r in rows(text))
+    return figure(f"<fn-plot{attrs}><ul>{items}</ul></fn-plot>", opts)
+
+
 def fence(self, tokens, idx, options, env):
     tok = tokens[idx]
-    lang = tok.info.strip().split(" ")[0]
+    lang, classes, opts = fence_args(tok.info.strip())
     if lang == "math":
         return mathml(tok.content, True) + "\n"
+    if lang == "table":
+        return table(tok.content, classes, opts)
+    if lang == "chart":
+        return chart(tok.content, opts)
+    if lang == "plot":
+        return plot(tok.content, opts)
     code = tok.content
     try:
         body = pyg_highlight(code, get_lexer_by_name(lang), HtmlFormatter(nowrap=True)) if lang else html.escape(code)
@@ -128,18 +185,44 @@ def pad_html(text: str) -> str:
             fence = None if s.startswith(fence) else fence
             out.append(line)
             continue
-        if s.startswith(("```", "~~~")):
-            fence = s[:3]
-        elif BLOCK_TAG.match(line) and out and out[-1].strip() and not out[-1].lstrip().startswith("<"):
+        if BLOCK_TAG.match(line) and out and out[-1].strip() and not out[-1].lstrip().startswith("<"):
             out.append("")  # Markdown line followed by a block tag
         elif s and not s.startswith("<") and out and BLOCK_TAG.match(out[-1]):
-            out.append("")  # block tag followed by a Markdown line
+            out.append("")  # block tag followed by Markdown (incl. a code fence)
+        if s.startswith(("```", "~~~")):
+            fence = s[:3]
+        out.append(line)
+    return "\n".join(out)
+
+
+def folds(text: str) -> str:
+    """`::: Title` ... `:::` -> <details><summary>Title</summary> ... </details>.
+    A title starting with #'s becomes a heading (so it can be linked to)."""
+    out, fence = [], None
+    for line in text.split("\n"):
+        s = line.strip()
+        if fence:
+            fence = None if s.startswith(fence) else fence
+        elif s.startswith(("```", "~~~")):
+            fence = s[:3]
+        elif s == ":::":
+            line = "</details>"
+        elif s.startswith("::: "):
+            title = s[4:].strip()
+            h = re.match(r"(#{1,6})\s+(.*)", title)
+            if h:
+                n, t = len(h[1]), h[2]
+                slug = re.sub(r"[^\w\- ]", "", t.lower()).strip().replace(" ", "-")
+                title = f'<h{n} id="{slug}">{md.renderInline(t)}</h{n}>'
+            else:
+                title = md.renderInline(title)
+            line = f"<details>\n<summary>{title}</summary>"
         out.append(line)
     return "\n".join(out)
 
 
 def render(text: str) -> tuple[dict, str]:
-    tokens = md.parse(pad_html(text))
+    tokens = md.parse(pad_html(folds(text)))
     meta = {}
     if tokens and tokens[0].type == "front_matter":
         for line in tokens[0].content.splitlines():

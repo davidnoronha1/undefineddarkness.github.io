@@ -58,12 +58,9 @@ int main () {
 }
 ```
 <!-- Folds can be created with the 'f'old transformer -->
-<details>
-<summary>Do folds work?</summary>
-
+::: Do folds work?
 I guess they do :)
-
-</details>
+:::
 
 <!-- IM:... will add `...` to the article margin -->
 I should be next to a percent sign IM:%
@@ -75,11 +72,12 @@ Rows are separated by lines
 Columns are seperated by any amount of spaces and at least 1 tab.
 -->
 
-| Fruits | Vegetables |
-| --- | --- |
-| Apple | Carrot |
-| Orange | Tomato |
-| Banana | Eggplant |
+```table
+Fruits	Vegetables
+Apple	Carrot
+Orange	Tomato
+Banana	Eggplant
+```
 
 Block Quotes & Captions:
 <!-- Pretty simple here too, the last line automatically becomes the caption -->

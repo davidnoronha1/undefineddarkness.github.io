@@ -26,11 +26,7 @@
 <hr><div style="text-align: center; margin: 2.5em 0 1.5em 0;">
   <h2 style="margin-bottom: 0.25em;">Embedded Software &amp; Controls Assignment</h2>
   <p style="margin-top: 0; font-size: 1.05em;">David Noronha &mdash; <a href="mailto:davidnoronha@outlook.in">davidnoronha@outlook.in</a></p></div>
-<h3 id="initial-conditions">Initial Conditions</h3><table class="initial-conditions">
-<tr><td><strong>Jetson AGX Orin</strong></td><td><img loading="lazy" src="/assets/origin-jetson-e81f0481ec.avif" alt="Jetson AGX Orin" style="max-height: 80px;" /></td><td><a href="https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf">Datasheet</a></td></tr>
-<tr><td><strong>Livox Mid 360 Lidar</strong></td><td><img loading="lazy" src="/assets/origin-livox-4a6a5af24a.avif" alt="Livox Mid 360 Lidar" style="max-height: 80px;" /></td><td><a href="https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf">Datasheet</a></td></tr>
-<tr><td><strong>ECon Systems<br/>STURDeCAM25</strong></td><td><img loading="lazy" src="/assets/origin-sturdacam-a66371b936.avif" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" /></td><td><a href="https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M">Datasheet</a></td></tr>
-<tr><td><strong>Universal Robots UR7e</strong></td><td><img loading="lazy" src="/assets/origin-ur7e-c5f9496298.avif" alt="Universal Robots UR7e" style="max-height: 80px;" /></td><td><a href="https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf">Datasheet</a></td></tr></table>
+<h3 id="initial-conditions">Initial Conditions</h3><table class="initial-conditions"><tbody><tr><td><strong>Jetson AGX Orin</strong></td><td><img loading="lazy" src="/assets/origin-jetson-e81f0481ec.avif" alt="Jetson AGX Orin" style="max-height: 80px;" /></td><td><a href="https://www.mouser.com/datasheet/2/744/Seeed_Studio_06132023_102110758-3216382.pdf">Datasheet</a></td></tr><tr><td><strong>Livox Mid 360 Lidar</strong></td><td><img loading="lazy" src="/assets/origin-livox-4a6a5af24a.avif" alt="Livox Mid 360 Lidar" style="max-height: 80px;" /></td><td><a href="https://terra-1-g.djicdn.com/851d20f7b9f64838a34cd02351370894/Livox/Livox_Mid-360_User_Manual_EN.pdf">Datasheet</a></td></tr><tr><td><strong>ECon Systems<br/>STURDeCAM25</strong></td><td><img loading="lazy" src="/assets/origin-sturdacam-a66371b936.avif" alt="ECon Systems STURDeCAM25" style="max-height: 80px;" /></td><td><a href="https://vitacin-my.sharepoint.com/:b:/g/personal/david_john2023_vitstudent_ac_in/IQB3ZBRFHI8rRbj82wDRcqg8ASJgORB96lVxFGKwQTOPHis?e=rVLf0M">Datasheet</a></td></tr><tr><td><strong>Universal Robots UR7e</strong></td><td><img loading="lazy" src="/assets/origin-ur7e-c5f9496298.avif" alt="Universal Robots UR7e" style="max-height: 80px;" /></td><td><a href="https://www.universal-robots.com/manuals/EN/TechSheets/UR7e_techsheet_pdf_online/UR7e_techsheet_en.pdf">Datasheet</a></td></tr></tbody></table>
 <h2 id="data-pipeline">Data Pipeline</h2>
 <h3 id="vision">Vision</h3><figure>
   <img src="/assets/origin-camera-stack-5b7b3c2694.avif" alt="Kernel / Userspace drivers for camera in Jetson" loading="lazy" />
@@ -54,41 +50,7 @@ This eats up memory bandwidth.</li><li>The TensorRT inference node can automatic
   <img src="/assets/origin-clock-rates-db64fda667.avif" alt="Device Clock Rates" loading="lazy" />
   <figcaption>All devices functioning at different clock speeds, Continuous, 30Hz, 500Hz</figcaption></figure><p>Using the Orin's Timestamp Clock (TSC) as the reference to all other clocks, we can synchronize the LIDAR &amp; Camera timestamps to the TSC and can estimate the drift between the motor controller clock and synchronized TSC clock, We can also propagate this clock to the network using PTP (Precision Time Protocol) which is responsible for synchronizing any connected ethernet devices using the following logic:</p><figure>
   <img src="/assets/origin-ptp-b5184ebb35.avif" alt="Precision Time Protocol (PTP) synchronization logic" loading="lazy" /></figure><p>⠀</p>
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>D</mi><mo>&#x0003D;</mo><mfrac><mrow><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>4</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">&#x00029;</mo><mo>&#x02212;</mo><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>3</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>2</mn></msub><mo stretchy="false">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></mfrac><mspace width="2em" /><mi>O</mi><mo>&#x0003D;</mo><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>2</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">&#x00029;</mo><mo>&#x02212;</mo><mi>D</mi></mrow></math><p>Where D is the transmission delay between the slave &amp; master clock and O is the clock offset</p><p>Using ptp4l, we can configure the Jetson to be the grandmaster &amp; synchronize the LIDAR to its own clock &amp; other PTP slaves.</p><p>Taking advantage of Jetson hardware features, it has a feature to sync the PTP clock with the TSC using PPS from the network card.</p><p>This is very useful for applications like this one (sensor fusion &amp; camera frame timestamping).</p><p>The Orin also includes the Generic Timestamp Engine, which provides hardware timestamping for state changes of specific interrupt lines.</p><p>This is used by LibArgus (the Linux API for cameras on Tegra) to obtain SOF / EOF timestamps that are synchronized to TSC.</p><p>In this way, all the sensors are synchronized to the same clock domain.</p><p>Alternatively, you could trigger camera frames using FSYNC / PPS based on the TSC clock, but you must handle finite timeouts in the Argus driver &amp; connect to the Jetson's GPIO pins.*</p><p><em>I couldn't find good documentation for the e-con camera, so I'm just going over keywords I've found.</em></p><table>
-<thead>
-<tr>
-<th>Device</th>
-<th>Clock</th>
-<th>Method</th>
-<th>Accuracy</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Jetson</strong></td>
-<td>TSC / PTP grandmaster</td>
-<td>phc2sys</td>
-<td>reference</td>
-</tr>
-<tr>
-<td><strong>Livox Mid-360</strong></td>
-<td>PTP slave</td>
-<td><a href="https://livox-wiki-en.readthedocs.io/en/latest/tutorials/new_product/common/time_sync.html">Native PTP client</a></td>
-<td>±500ns</td>
-</tr>
-<tr>
-<td><strong>STURDeCAM25</strong></td>
-<td>TSC</td>
-<td><a href="https://docs.nvidia.com/jetson/l4t-multimedia/classArgus_1_1Ext_1_1ISensorTimestampTsc.html">LibArgus Hardware Timestamps</a></td>
-<td>&lt;10µs</td>
-</tr>
-<tr>
-<td><strong>UR7e joints</strong></td>
-<td>UR internal clock</td>
-<td>RTDE round-trip correlation + drift tracking</td>
-<td>~1ms</td>
-</tr>
-</tbody></table><ul><li><a href="https://developer.nvidia.com/docs/drive/drive-os/6.0.8/public/drive-os-linux-sdk/common/topics/network_stub/time_sync_details.html">Orin Time Sync | NVIDIA Docs</a></li><li><a href="https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/SD/Kernel/GenericTimestampEngine.html">Generic Timestamp Engine — Jetson Linux Developer Guide documentation</a></li></ul>
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>D</mi><mo>&#x0003D;</mo><mfrac><mrow><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>4</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">&#x00029;</mo><mo>&#x02212;</mo><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>3</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>2</mn></msub><mo stretchy="false">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></mfrac><mspace width="2em" /><mi>O</mi><mo>&#x0003D;</mo><mo stretchy="false">&#x00028;</mo><msub><mi>t</mi><mn>2</mn></msub><mo>&#x02212;</mo><msub><mi>t</mi><mn>1</mn></msub><mo stretchy="false">&#x00029;</mo><mo>&#x02212;</mo><mi>D</mi></mrow></math><p>Where D is the transmission delay between the slave &amp; master clock and O is the clock offset</p><p>Using ptp4l, we can configure the Jetson to be the grandmaster &amp; synchronize the LIDAR to its own clock &amp; other PTP slaves.</p><p>Taking advantage of Jetson hardware features, it has a feature to sync the PTP clock with the TSC using PPS from the network card.</p><p>This is very useful for applications like this one (sensor fusion &amp; camera frame timestamping).</p><p>The Orin also includes the Generic Timestamp Engine, which provides hardware timestamping for state changes of specific interrupt lines.</p><p>This is used by LibArgus (the Linux API for cameras on Tegra) to obtain SOF / EOF timestamps that are synchronized to TSC.</p><p>In this way, all the sensors are synchronized to the same clock domain.</p><p>Alternatively, you could trigger camera frames using FSYNC / PPS based on the TSC clock, but you must handle finite timeouts in the Argus driver &amp; connect to the Jetson's GPIO pins.*</p><p><em>I couldn't find good documentation for the e-con camera, so I'm just going over keywords I've found.</em></p><table><thead><tr><th>Device</th><th>Clock</th><th>Method</th><th>Accuracy</th></tr></thead><tbody><tr><td><strong>Jetson</strong></td><td>TSC / PTP grandmaster</td><td>phc2sys</td><td>reference</td></tr><tr><td><strong>Livox Mid-360</strong></td><td>PTP slave</td><td><a href="https://livox-wiki-en.readthedocs.io/en/latest/tutorials/new_product/common/time_sync.html">Native PTP client</a></td><td>±500ns</td></tr><tr><td><strong>STURDeCAM25</strong></td><td>TSC</td><td><a href="https://docs.nvidia.com/jetson/l4t-multimedia/classArgus_1_1Ext_1_1ISensorTimestampTsc.html">LibArgus Hardware Timestamps</a></td><td>&lt;10µs</td></tr><tr><td><strong>UR7e joints</strong></td><td>UR internal clock</td><td>RTDE round-trip correlation + drift tracking</td><td>~1ms</td></tr></tbody></table><ul><li><a href="https://developer.nvidia.com/docs/drive/drive-os/6.0.8/public/drive-os-linux-sdk/common/topics/network_stub/time_sync_details.html">Orin Time Sync | NVIDIA Docs</a></li><li><a href="https://docs.nvidia.com/jetson/archives/r35.2.1/DeveloperGuide/text/SD/Kernel/GenericTimestampEngine.html">Generic Timestamp Engine — Jetson Linux Developer Guide documentation</a></li></ul>
 <h2 id="clock-synchronization-architecture">Clock Synchronization Architecture</h2><figure>
   <img src="/assets/origin-clock-sync-ab323d763c.avif" alt="Clock Synchronization Architecture" loading="lazy" />
   <figcaption>Clock Synchronization Architecture</figcaption></figure>
@@ -159,36 +121,7 @@ offset = (e / 1e9) - ur
 <span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">GREEN</span><span class="p">,</span><span class="w"> </span><span class="n">YELLOW</span><span class="p">,</span><span class="w"> </span><span class="n">RED</span><span class="p">,</span><span class="w"> </span><span class="n">ESTOP</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">overall_status</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre>
-<h3 id="action-matrix">Action Matrix</h3><table>
-<thead>
-<tr>
-<th>Fault Condition</th>
-<th style="text-align:center">Severity</th>
-<th>Action / Mitigation Strategy</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Camera Frame Dropped</strong></td>
-<td style="text-align:center">Warning</td>
-<td>Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner.</td>
-</tr>
-<tr>
-<td><strong>Lidar PTP Offset &gt; 5ms</strong></td>
-<td style="text-align:center">Error</td>
-<td>Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL &amp; command robot to [stop].</td>
-</tr>
-<tr>
-<td><strong>Inference Latency &gt; 100ms</strong></td>
-<td style="text-align:center">Critical</td>
-<td>Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming.</td>
-</tr>
-<tr>
-<td><strong>GPU Temp &gt; 85°C</strong></td>
-<td style="text-align:center">Critical</td>
-<td>Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp &lt; 75°C for 30s.</td>
-</tr>
-</tbody></table>
+<h3 id="action-matrix">Action Matrix</h3><table><thead><tr><th>Fault Condition</th><th style="text-align:center">Severity</th><th>Action / Mitigation Strategy</th></tr></thead><tbody><tr><td><strong>Camera Frame Dropped</strong></td><td style="text-align:center">Warning</td><td>Log Event. Tag current frame as STALE. Use last valid frame with dead reckoning estimation for 1 cycle. Increment drop counter. If counter ≥ 3, escalate to Error. Pause Inference. Alert mission planner.</td></tr><tr><td><strong>Lidar PTP Offset &gt; 5ms</strong></td><td style="text-align:center">Error</td><td>Reject incoming point cloud; Attempt PTP re-sync. Pause trajectory updater. If not resolved in 2s, escalate to CRITICAL &amp; command robot to [stop].</td></tr><tr><td><strong>Inference Latency &gt; 100ms</strong></td><td style="text-align:center">Critical</td><td>Immediately freeze trajectory buffer at current waypoint. Engage deceleration trajectory toward safe park pose. Wait for Clear Fault before resuming.</td></tr><tr><td><strong>GPU Temp &gt; 85°C</strong></td><td style="text-align:center">Critical</td><td>Reduce GPU clock to min. power state. Drop inference to 10Hz fallback mode (from skip). Command robot to request safe park pose. Wait till temp &lt; 75°C for 30s.</td></tr></tbody></table>
 <h2 id="core-control-logic">Core Control Logic</h2><figure>
   <img src="/assets/origin-control-loop-1cab85fb4e.avif" alt="Core Control Loop" loading="lazy" /></figure>
 <h3 id="trajectory-estimation-pseudocode">Trajectory Estimation Pseudocode</h3><pre><code class="language-python"><span class="n">MAX_WAYPOINTS</span> <span class="o">=</span> <span class="mi">64</span>
@@ -220,102 +153,10 @@ offset = (e / 1e9) - ur
 
     <span class="k">return</span> <span class="n">front</span><span class="p">[</span><span class="n">f_c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
 </code></pre><p>Very basic interpolation, for longer time periods, could use an Extended Kalman Filter that handles non linear data.</p>
-<h3 id="core-allocation">Core Allocation</h3><table>
-<thead>
-<tr>
-<th style="text-align:center">Core(s)</th>
-<th>Task / Responsibility</th>
-<th style="text-align:center">Priority</th>
-<th style="text-align:center">Scheduling Policy</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0</td>
-<td>Linux OS, ROS 2 middleware, logging, non-RT housekeeping</td>
-<td style="text-align:center">Default</td>
-<td style="text-align:center">SCHED_OTHER</td>
-</tr>
-<tr>
-<td style="text-align:center">1</td>
-<td>Lidar driver (UDP rx), Camera driver (GMSL2/Argus), PTP trigger thread (30Hz FSYNC)</td>
-<td style="text-align:center">70–80</td>
-<td style="text-align:center">SCHED_FIFO</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td><strong>500Hz RTDE Control Loop, URHardwareInterface plugin</strong><br/><em>(ISOLATED — isolcpus=2)</em></td>
-<td style="text-align:center">99</td>
-<td style="text-align:center">SCHED_FIFO</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td>Health monitor watchdog, UR clock drift tracker, Trajectory buffer manager</td>
-<td style="text-align:center">50–60</td>
-<td style="text-align:center">SCHED_FIFO</td>
-</tr>
-<tr>
-<td style="text-align:center">4–7</td>
-<td>ROS 2 executor threads, Mission planner, API services, Correlated timestamp driver</td>
-<td style="text-align:center">Default</td>
-<td style="text-align:center">SCHED_OTHER</td>
-</tr>
-<tr>
-<td style="text-align:center">8–11</td>
-<td>TensorRT inference (CPU side), Point cloud preprocessing, nvblox / scene reconstruction</td>
-<td style="text-align:center">Default</td>
-<td style="text-align:center">SCHED_OTHER</td>
-</tr>
-</tbody></table><ul><li>GPU (CUDA Cores): TensorRT inference graph, point cloud voxelization</li><li>GPU (DLA Core 0): Primary TensorRT engine (routed via Isaac ROS)</li><li>GPU (DLA Core 1): Fallback / secondary model</li><li>Kernel boot params: <code>isolcpus=2 nohz_full=2 rcu_nocbs=2</code></li><li>RT thread startup: <code>mlockall(MCL_CURRENT | MCL_FUTURE)</code> + stack prefault</li></ul>
+<h3 id="core-allocation">Core Allocation</h3><table><thead><tr><th style="text-align:center">Core(s)</th><th>Task / Responsibility</th><th style="text-align:center">Priority</th><th style="text-align:center">Scheduling Policy</th></tr></thead><tbody><tr><td style="text-align:center">0</td><td>Linux OS, ROS 2 middleware, logging, non-RT housekeeping</td><td style="text-align:center">Default</td><td style="text-align:center">SCHED_OTHER</td></tr><tr><td style="text-align:center">1</td><td>Lidar driver (UDP rx), Camera driver (GMSL2/Argus), PTP trigger thread (30Hz FSYNC)</td><td style="text-align:center">70–80</td><td style="text-align:center">SCHED_FIFO</td></tr><tr><td style="text-align:center">2</td><td><strong>500Hz RTDE Control Loop, URHardwareInterface plugin</strong><br/><em>(ISOLATED — isolcpus=2)</em></td><td style="text-align:center">99</td><td style="text-align:center">SCHED_FIFO</td></tr><tr><td style="text-align:center">3</td><td>Health monitor watchdog, UR clock drift tracker, Trajectory buffer manager</td><td style="text-align:center">50–60</td><td style="text-align:center">SCHED_FIFO</td></tr><tr><td style="text-align:center">4–7</td><td>ROS 2 executor threads, Mission planner, API services, Correlated timestamp driver</td><td style="text-align:center">Default</td><td style="text-align:center">SCHED_OTHER</td></tr><tr><td style="text-align:center">8–11</td><td>TensorRT inference (CPU side), Point cloud preprocessing, nvblox / scene reconstruction</td><td style="text-align:center">Default</td><td style="text-align:center">SCHED_OTHER</td></tr></tbody></table><ul><li>GPU (CUDA Cores): TensorRT inference graph, point cloud voxelization</li><li>GPU (DLA Core 0): Primary TensorRT engine (routed via Isaac ROS)</li><li>GPU (DLA Core 1): Fallback / secondary model</li><li>Kernel boot params: <code>isolcpus=2 nohz_full=2 rcu_nocbs=2</code></li><li>RT thread startup: <code>mlockall(MCL_CURRENT | MCL_FUTURE)</code> + stack prefault</li></ul>
 <h2 id="robot-arm-interface">Robot Arm Interface</h2>
-<h3 id="actions">Actions</h3><table>
-<thead>
-<tr>
-<th>Action Name</th>
-<th>Goal (Inputs)</th>
-<th>Feedback (Progress)</th>
-<th>Result (Final Output)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>TriggerScan</strong></td>
-<td>quality_level (0-2)<br/>require_lidar (bool)</td>
-<td>percent_complete<br/>stage (MOVING, etc.)</td>
-<td>point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason</td>
-</tr>
-<tr>
-<td><strong>ExecuteTrajectory</strong></td>
-<td>trajectory<br/>max_velocity_scale<br/>safety_mode (0-2)</td>
-<td>percent_complete<br/>tcp_velocity_m_s</td>
-<td>success, failure_reason<br/>final_joint_state</td>
-</tr>
-</tbody></table>
-<h3 id="services">Services</h3><table>
-<thead>
-<tr>
-<th>Service Name</th>
-<th>Request Parameters</th>
-<th>Response Fields</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>GetSystemHealth</strong></td>
-<td><em>(None)</em></td>
-<td>health, ready_for_command<br/>active_faults</td>
-</tr>
-<tr>
-<td><strong>RequestEStop</strong></td>
-<td>reason (string)</td>
-<td>acknowledged (bool)<br/>robot_state (0-2)</td>
-</tr>
-<tr>
-<td><strong>ClearEStop</strong></td>
-<td>cleared_by (string)</td>
-<td>acknowledged (bool)<br/>robot_state (0-2)</td>
-</tr>
-</tbody></table>
+<h3 id="actions">Actions</h3><table><thead><tr><th>Action Name</th><th>Goal (Inputs)</th><th>Feedback (Progress)</th><th>Result (Final Output)</th></tr></thead><tbody><tr><td><strong>TriggerScan</strong></td><td>quality_level (0-2)<br/>require_lidar (bool)</td><td>percent_complete<br/>stage (MOVING, etc.)</td><td>point_cloud, frame tcp_pose_at_capture<br/>confidence, timestamp<br/>success, failure_reason</td></tr><tr><td><strong>ExecuteTrajectory</strong></td><td>trajectory<br/>max_velocity_scale<br/>safety_mode (0-2)</td><td>percent_complete<br/>tcp_velocity_m_s</td><td>success, failure_reason<br/>final_joint_state</td></tr></tbody></table>
+<h3 id="services">Services</h3><table><thead><tr><th>Service Name</th><th>Request Parameters</th><th>Response Fields</th></tr></thead><tbody><tr><td><strong>GetSystemHealth</strong></td><td><em>(None)</em></td><td>health, ready_for_command<br/>active_faults</td></tr><tr><td><strong>RequestEStop</strong></td><td>reason (string)</td><td>acknowledged (bool)<br/>robot_state (0-2)</td></tr><tr><td><strong>ClearEStop</strong></td><td>cleared_by (string)</td><td>acknowledged (bool)<br/>robot_state (0-2)</td></tr></tbody></table>
 <h3 id="safety-handshake">Safety Handshake</h3><figure>
   <img src="/assets/origin-safety-sequence-3f599343fb.avif" alt="UR7e Control System Operation &amp; Fault Handling Sequence Diagram" loading="lazy" /></figure>
 

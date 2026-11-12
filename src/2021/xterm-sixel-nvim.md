@@ -22,31 +22,22 @@ To enable it launch it with `-ti vt340` or if you are using Xrdb to configure it
 
 You can watch a video using sixel or kitty by doing: `curl https://mjpeg-demo.vercel.app/sixel/256` (or 1024 if your terminal supports it) / `curl https://mjpeg-demo.vercel.app/kitty`
 
-<details>
-<summary>comparison of the different terminal graphics protocols with mjpeg & h264, h265</summary>
-
-<figure>
-<bar-chart unit="MB">
-
-| protocol | zstd_mb |
-|---|---|
-| jpeg | 56.22 |
-| h264 | 7.22 |
-| h265 | 4.23 |
-| sixel-256 | 90.97 |
-| sixel-1024 | 160.90 |
-| kitty | 177.11 |
-
-</bar-chart>
-<figcaption>Size</figcaption>
-</figure>
+::: comparison of the different terminal graphics protocols with mjpeg & h264, h265
+```chart unit=MB title="Size"
+protocol	zstd_mb
+jpeg	56.22
+h264	7.22
+h265	4.23
+sixel-256	90.97
+sixel-1024	160.90
+kitty	177.11
+```
 
 ### Protocol Notes
 * all sizes above are zstd-compressed; h264, jpeg, h265 dont compress much since they are already compressed formats, sixel compresses well and kitty is just pngs with some markers so it compresses a little also
 
 * **capture settings weren't uniform:** jpeg/h264/h265 were captured at 320px/30fps over 7089 frames, while sixel-256/sixel-1024/kitty were captured at 240px/15fps over 3545 frames (a quarter as much raw pixel data per second) — so the sizes above aren't apples-to-apples across those two groups, only within each
-
-</details>
+:::
 
 ### OSC 52
 One of my biggest peeves with tmux was that copy-paste was very unintuitive and especially to get it into the system clipboard was a pain even on the same machine, Let alone a machine that I am ssh'd into. This was the one thing that made me create like 8 different panes instead of using tmux but recently I found a feature that fully solves this but it requires both the terminal and tmux to be configured to use it.

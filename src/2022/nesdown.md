@@ -102,11 +102,12 @@ Since of course I could do a better job than all the bright people that have spe
 ```
 becomes
 
-| Fruits | Vegetables |
-| --- | --- |
-| Apples | Carrot |
-| Orange | Tomato |
-| Banana | Eggplant |
+```table
+Fruits	Vegetables
+Apples	Carrot
+Orange	Tomato
+Banana	Eggplant
+```
 
 where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)
 This syntax pretty much breaks the moment you want something really long though, but at that point, I think just using HTML Tables directly is the best idea.
@@ -123,12 +124,9 @@ I said it was a secret >:(
 #END f
 ```
 becomes
-<details>
-<summary>It's a secret</summary>
-
+::: It's a secret
 I said it was a secret >:(
-
-</details>
+:::
 
 ## Problems
 Currently to make new lines break like I want, A lot of `<br>`s are scattered throughout the output.
@@ -141,9 +139,7 @@ EDIT: The poor browser has to choke down my trashy HTML but such is it's poor fa
 
 I know my little toy isn't remarkable in any particular way but I was hoping to showcare it since over the years, Ive spent a decent chunk of time on it.
 
-<details>
-<summary>charmap for cozette</summary>
-
+::: charmap for cozette
 <pre>
 <code>
          0 1 2 3 4 5 6 7 8 9 A B C D E F
@@ -868,5 +864,4 @@ I know my little toy isn't remarkable in any particular way but I was hoping to 
  U+F141_│              󱐗
 </code>
 </pre>
-
-</details>
+:::

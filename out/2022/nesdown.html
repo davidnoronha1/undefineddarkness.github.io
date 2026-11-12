@@ -67,27 +67,7 @@ you always gotta delegate to some tool which is a whole mess</p><p>Since of cour
        Orange   Tomato
        Banana   Eggplant
 #END TABLE
-</code></pre><p>becomes</p><table>
-<thead>
-<tr>
-<th>Fruits</th>
-<th>Vegetables</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Apples</td>
-<td>Carrot</td>
-</tr>
-<tr>
-<td>Orange</td>
-<td>Tomato</td>
-</tr>
-<tr>
-<td>Banana</td>
-<td>Eggplant</td>
-</tr>
-</tbody></table><p>where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)
+</code></pre><p>becomes</p><table><thead><tr><th>Fruits</th><th>Vegetables</th></tr></thead><tbody><tr><td>Apples</td><td>Carrot</td></tr><tr><td>Orange</td><td>Tomato</td></tr><tr><td>Banana</td><td>Eggplant</td></tr></tbody></table><p>where columns are seperated by exactly 1 tab and any amount of spaces (for alignment)
 This syntax pretty much breaks the moment you want something really long though, but at that point, I think just using HTML Tables directly is the best idea.</p>
 <h3 id="verbatim-transformer">Verbatim Transformer</h3><p>A crutch to deal with nesdown not having any idea of what its doing when transforming markdown syntax, Just spits out the input its given and <s>sort of</s> guarrentes that it wont be changed in any way.</p>
 <h3 id="f-fold-transformer">(f) Fold Transformer</h3><p>A slight syntactic sugar over <code>&lt;detail&gt;</code> &amp; <code>&lt;summary&gt;</code></p><pre><code>#f It&#x27;s a secret

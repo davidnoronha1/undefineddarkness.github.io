@@ -101,47 +101,40 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 
 I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
 
-<figure>
-<bar-chart unit="B">
+```chart unit=B title="File size by compression/build type"
+build	size
+7z	14778
+xz	15100
+zst	16497
+gz	17448
+bz2	17998
+upx	20320
+linker	32312
+-flto	32360
+-s	39448
+-Os	49088
+source	53107
+basic	68120
+```
 
-| build | size |
-|---|---|
-| 7z | 14778 |
-| xz | 15100 |
-| zst | 16497 |
-| gz | 17448 |
-| bz2 | 17998 |
-| upx | 20320 |
-| linker | 32312 |
-| -flto | 32360 |
-| -s | 39448 |
-| -Os | 49088 |
-| source | 53107 |
-| basic | 68120 |
-
-</bar-chart>
-<figcaption>File size by compression/build type</figcaption>
-</figure>
-
-| size | filename |
-| --- | --- |
-| 14778 | basic-optimized-stripped-lto-linker.7z |
-| 15100 | basic-optimized-stripped-lto-linker.xz |
-| 16497 | basic-optimized-stripped-lto-linker.zst |
-| 17448 | basic-optimized-stripped-lto-linker.gz |
-| 17998 | basic-optimized-stripped-lto-linker.bz2 |
-| 20320 | basic-optimized-stripped-lto-linker-upx |
-| 32312 | basic-optimized-stripped-lto-linker |
-| 32360 | basic-optimized-stripped-lto |
-| 39448 | basic-optimized-stripped |
-| 49088 | basic-optimized |
-| 53107 | source-code.tar.gz |
-| 68120 | basic |
+```table
+size	filename
+14778	basic-optimized-stripped-lto-linker.7z
+15100	basic-optimized-stripped-lto-linker.xz
+16497	basic-optimized-stripped-lto-linker.zst
+17448	basic-optimized-stripped-lto-linker.gz
+17998	basic-optimized-stripped-lto-linker.bz2
+20320	basic-optimized-stripped-lto-linker-upx
+32312	basic-optimized-stripped-lto-linker
+32360	basic-optimized-stripped-lto
+39448	basic-optimized-stripped
+49088	basic-optimized
+53107	source-code.tar.gz
+68120	basic
+```
 
 You can see all the commands that I used for each one here,
-<details>
-<summary>Makefile</summary>
-
+::: Makefile
 ```make
 CC=clang
 # SOURCES=./hw.c
@@ -235,8 +228,7 @@ clean:
 	@echo "\033[1m$@:\033[0m"
 	rm -rf out
 ```
-
-</details>
+:::
 
 ## Conclusion
 So in total we managed to decrease our binary by **68%** without changing a single line of code, Less than half of its original size

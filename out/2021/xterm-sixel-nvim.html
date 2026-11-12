@@ -26,42 +26,8 @@
 like I had specified in it. After double checking that everything was fine from my configuration side, I resolved it to be something between neovim and the terminal.</p><p>An hour of googling and trying a bunch of different fixes ensue, But most nothing happens till I try running neovim through the <code>env</code> program, forcibly overriding the <code>XTERM_VERSION</code> variable to be empty, This finally gave the correct behaviour.</p>
 <h3 id="sixel">sixel</h3><p>Seems like some kind of bug?, Maybe its because my xterm is run in vt340 mode to allow sixel support (Yes, xterm has sixel!!!)</p><figure><img loading="lazy" src="/assets/image-4913a514fa.avif" alt="screenshot of xterm showcasing SIXEL support" /><figcaption>screenshot of xterm showcasing SIXEL support</figcaption></figure><p>To enable it launch it with <code>-ti vt340</code> or if you are using Xrdb to configure it
 <code>xterm*decTerminalID: vt340</code></p><p>You can watch a video using sixel or kitty by doing: <code>curl https://mjpeg-demo.vercel.app/sixel/256</code> (or 1024 if your terminal supports it) / <code>curl https://mjpeg-demo.vercel.app/kitty</code></p><details>
-<summary>comparison of the different terminal graphics protocols with mjpeg & h264, h265</summary><figure>
-<bar-chart unit="MB"><table>
-<thead>
-<tr>
-<th>protocol</th>
-<th>zstd_mb</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>jpeg</td>
-<td>56.22</td>
-</tr>
-<tr>
-<td>h264</td>
-<td>7.22</td>
-</tr>
-<tr>
-<td>h265</td>
-<td>4.23</td>
-</tr>
-<tr>
-<td>sixel-256</td>
-<td>90.97</td>
-</tr>
-<tr>
-<td>sixel-1024</td>
-<td>160.90</td>
-</tr>
-<tr>
-<td>kitty</td>
-<td>177.11</td>
-</tr>
-</tbody></table>
-</bar-chart>
-<figcaption>Size</figcaption></figure>
+<summary>comparison of the different terminal graphics protocols with mjpeg &amp; h264, h265</summary><figure><bar-chart unit="MB"><table><thead><tr><th>protocol</th><th>zstd_mb</th></tr></thead><tbody><tr><td>jpeg</td><td>56.22</td></tr><tr><td>h264</td><td>7.22</td></tr><tr><td>h265</td><td>4.23</td></tr><tr><td>sixel-256</td><td>90.97</td></tr><tr><td>sixel-1024</td><td>160.90</td></tr><tr><td>kitty</td><td>177.11</td></tr></tbody></table>
+</bar-chart><figcaption>Size</figcaption></figure>
 <h3 id="protocol-notes">Protocol Notes</h3><ul><li><p>all sizes above are zstd-compressed; h264, jpeg, h265 dont compress much since they are already compressed formats, sixel compresses well and kitty is just pngs with some markers so it compresses a little also</p></li><li><p><strong>capture settings weren't uniform:</strong> jpeg/h264/h265 were captured at 320px/30fps over 7089 frames, while sixel-256/sixel-1024/kitty were captured at 240px/15fps over 3545 frames (a quarter as much raw pixel data per second) — so the sizes above aren't apples-to-apples across those two groups, only within each</p></li></ul></details>
 <h3 id="osc-52">OSC 52</h3><p>One of my biggest peeves with tmux was that copy-paste was very unintuitive and especially to get it into the system clipboard was a pain even on the same machine, Let alone a machine that I am ssh'd into. This was the one thing that made me create like 8 different panes instead of using tmux but recently I found a feature that fully solves this but it requires both the terminal and tmux to be configured to use it.</p><p>The <a href="https://ghostty.org/docs/vt/osc/52">OSC 52</a> escape codes allow a terminal to copy into your clipboard and optionally read from it as well (this is usually disabled for security), The benefit of it being an escape code is that any application that is sending text to the terminal (through ssh, tmux or whatever) can copy into the clipboard so you can use it to copy text from tmux within an ssh session.</p><p>To enable it, you must have a supported terminal emulator and enable it in <a href="https://github.com/tmux/tmux/wiki/Clipboard">the terminal emulator</a> and in tmux with <code>set -g set-clipboard on</code></p><p>For xterm, it is: <code>XTerm*disallowedWindowOps: 20,21,SetXprop</code></p><p>Neovim by default will only use it <strong>in SSH</strong> sessions, to make it always use it so that it doesnt depend on any desktop tools like <code>xclip</code> or <code>wlclip</code> etc, you can use <code>vim.g.clipboard = &quot;osc52&quot;</code> in modern versions of neovim.</p><p><em>NOTE</em>: VTE (Gnome based, terminator etc) do not support it as of yet.</p><p>If you want to test if your terminal supports it, you can run this command:</p><pre><code class="language-sh"><span class="nb">printf</span><span class="w"> </span><span class="s1">'\033]52;c;%s\007'</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">'%s'</span><span class="w"> </span><span class="s1">'Hello from OSC 52'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">'\n'</span><span class="k">)</span><span class="s2">"</span>
 </code></pre><p>It should copy &quot;Hello from OSC52&quot; into your clipboard</p>
