@@ -32,7 +32,7 @@ But as you can imagine, a grid of luminence sensors isnt exactly sufficient to p
 
 This seperates the colours coming into the sensor, and since the pattern is repeated you can take the image from the sensor with the filter applied and "debayer" it to compute the R, G, B values for each pixel. (If you notice there are twice as many green spots on the filter compared to red & blue, because we percieve green more strongly than red or blue)
 
-::: ### Image Signal Processor (ISP)
+<x-fold title="Image Signal Processor (ISP)" level="3">
 This isn't something you need to worry about with USB or Ethernet cameras since they have an integrated ISP that takes care of reading data from the camera sensor, debayering it etc and presenting it in a format you can easily consume (USB is usually V4l2 & Ethernet can be custom), But if you are dealing with MIPI CSI cameras then you need to worry about this, since then, the sensor is directly connected to your devboard and the devboards internal ISP must be configured to communicate with the camera sensor, which if not included in your devices kernel (Raspi thankfully supports majority), can end up with you needing to edit files that look like this:
 
 ```dtb
@@ -79,7 +79,7 @@ This isn't something you need to worry about with USB or Ethernet cameras since 
 ```
 
 Suffice to say its a big hassle and when you need to handle it, it takes forever to properly integrate the camera hardware, especially if documentation is unsatisfactory
-:::
+</x-fold>
 
 ### Video4Linux (USB / Standards compliant cameras)
 So this is the linux subsystem that is in charge of all video device aquistion, enumeration and handling on linux, It is what lets you configure the camera properties like exposure, auto focus etc and for this article most importantly it lets you query all the devices and shows you all the different streams it supports, a *stream* is just a valid configuration of FORMAT, RESOLUTION & FPS that the device **currently** supports and is capable of publishing.
@@ -109,7 +109,7 @@ Media Driver Info:
 
 Here you can see all the different options exposed by the device to the `uvcvideo` driver. Typically cameras support a few image formats, I have so far only seen (rarely) H.264, MJPEG, YUV422 and NV12. These are all useful for different things, Typically unless you need the perfectly raw image from the camera, MJPEG will serve your needs very well, You can see how much bandwidth each of these consume:
 
-```chart unit=Mbps log title="Bandwidth (log scale)"
+<x-chart unit="Mbps" log title="Bandwidth (log scale)">
 category	1080p 30fps	1080p 60fps	720p 30fps	720p 60fps
 H.264	8	16	4	8
 H.265	4	8	2	4
@@ -122,9 +122,9 @@ YUV444	746	1493	332	664
 RAW10	715	1430	319	637
 RAW12	857	1714	382	764
 RGB24	1492	2985	664	1328
-```
+</x-chart>
 
-```table
+<x-table>
 Format	Type	1080p/30fps	1080p/60fps	720p/30fps	720p/60fps
 H.264	Compressed	8 Mbps	16 Mbps	4 Mbps	8 Mbps
 H.265/HEVC	Compressed	4 Mbps	8 Mbps	2 Mbps	4 Mbps
@@ -137,7 +137,7 @@ YUV 4:4:4	Uncompressed	746 Mbps	1.46 Gbps	332 Mbps	664 Mbps
 RAW10 Bayer	Uncompressed	715 Mbps	1.40 Gbps	319 Mbps	637 Mbps
 RAW12 Bayer	Uncompressed	857 Mbps	1.67 Gbps	382 Mbps	764 Mbps
 RGB24	Uncompressed	1.46 Gbps	2.91 Gbps	664 Mbps	1.30 Gbps
-```
+</x-table>
 
 *The numbers for the compressed formats vary depending on the compression settings and the actual content of the image*
 

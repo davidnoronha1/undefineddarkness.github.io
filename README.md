@@ -15,8 +15,9 @@ make                     # also rebuild the JS bundles (needs bun)
 
 ## Writing a post
 
-`src/<folder>/<slug>.md`: Markdown, plus a few shortcuts. Line breaks in the
-source are kept, and Markdown inside HTML tags works without blank lines.
+`src/<folder>/<slug>.md`: Markdown, plus a few reusable custom elements.
+Line breaks in the source are kept, and Markdown inside HTML tags works
+without blank lines.
 
 ````markdown
 ---
@@ -29,39 +30,51 @@ image: /assets/images/icon.png
 > [!NOTE]
 > Callouts: NOTE, TIP, IMPORTANT, WARNING, CAUTION
 
-::: Folded section
+<x-fold title="Folded section">
 Anything, including code blocks.
-:::
+</x-fold>
 
-::: ### A fold whose title is a linkable heading
-:::
+<x-fold title="A fold whose title is a linkable heading" level="3">
+</x-fold>
 
-```table
+<x-table>
 Name	Size	Notes
-h264	7.2 MB	**inline markdown works**
-```
+h264	7.2 MB	**bold**, *italic*, `code`, [links](https://example.com)
+</x-table>
 
-```table noheader .tierlist center=2
+<x-table noheader class="tierlist" center="2">
 first row is a normal row	centred
-```
+</x-table>
 
-```chart unit=MB log title="Size"
+<x-chart unit="MB" log title="Size">
 protocol	size
 jpeg	56.2
 h264	7.2
-```
+</x-chart>
 
-```plot x=-10:10 y=-2:2
+<x-plot x="-10:10" y="-2:2" title="Taylor series">
 sin(x)	sin(x)
 x - x**3/6	3rd order
-```
+</x-plot>
 
 Math: \(e^{i\pi} + 1 = 0\) inline, or a ```math block (rendered to MathML).
 
 ![Images on their own line become captioned figures](photo.png)
 ````
 
-`date` (defaults to the file's first git commit) and `image` (a small icon shown
-top-right) are optional. Table/chart/plot columns are separated by tabs (or 2+ spaces). Anything
-else is plain HTML: `<video>`, `<object>`, `<div class="split">`,
-`<div class="slides">`.
+`date` (defaults to the file's first git commit) and `image` (a small icon
+shown top-right) are optional. In `x-table`/`x-chart`/`x-plot`, columns are
+separated by tabs (or 2+ spaces) and there must be no blank lines.
+
+### Reusing the elements elsewhere
+
+They're plain web components in `out/.assets/elements.js` (~0.8 KB gzipped;
+source `assets_src/other/elements.ts`). On any page:
+
+```html
+<script type="module" src="elements.js"></script>
+```
+
+`<x-chart>`/`<x-plot>` load `charts.js` (uPlot) from next to `elements.js`,
+only when used, so copy both files together. Without JS, table/chart/plot
+rows show as preformatted text and folds show open.

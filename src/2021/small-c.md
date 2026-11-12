@@ -101,7 +101,7 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 
 I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
 
-```chart unit=B title="File size by compression/build type"
+<x-chart unit="B" title="File size by compression/build type">
 build	size
 7z	14778
 xz	15100
@@ -115,9 +115,9 @@ linker	32312
 -Os	49088
 source	53107
 basic	68120
-```
+</x-chart>
 
-```table
+<x-table>
 size	filename
 14778	basic-optimized-stripped-lto-linker.7z
 15100	basic-optimized-stripped-lto-linker.xz
@@ -131,10 +131,10 @@ size	filename
 49088	basic-optimized
 53107	source-code.tar.gz
 68120	basic
-```
+</x-table>
 
 You can see all the commands that I used for each one here,
-::: Makefile
+<x-fold title="Makefile">
 ```make
 CC=clang
 # SOURCES=./hw.c
@@ -228,7 +228,7 @@ clean:
 	@echo "\033[1m$@:\033[0m"
 	rm -rf out
 ```
-:::
+</x-fold>
 
 ## Conclusion
 So in total we managed to decrease our binary by **68%** without changing a single line of code, Less than half of its original size

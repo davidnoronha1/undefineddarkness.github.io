@@ -17,16 +17,16 @@ Even for something like \(\sin(\pi/12)\),
 
 Fortunatley, many brilliant mathematicians have come with approximations for these functions, Some which we humans can use and some which we cant.
 
-```plot x=-10:10 y=-2:2
+<x-plot x="-10:10" y="-2:2">
 sin(x)	sin(x)
 x	1st order
 x - x**3/6	3rd order
 x - x**3/6 + x**5/120	5th order
 x - x**3/6 + x**5/120 - x**7/5040	7th order
-```
-```plot x=-10:10
+</x-plot>
+<x-plot x="-10:10">
 sin(x) - (x - x**3/6 + x**5/120 - x**7/5040)	sin(x) - f(x)
-```
+</x-plot>
 
 ## Taylor Series
 Probably the one most are familiar with, This is a really understandable way of expressing sin(x) in terms of a polynomial
@@ -74,9 +74,9 @@ While taylor series are extremely useful and a variant is used to calculate sin(
 
 There is a wonderful video by 3blue1brown, visually demonstrating this: https://youtu.be/3d6DsjIBzJ4
 
-```plot x=-10:10 y=-1000:1000
+<x-plot x="-10:10" y="-1000:1000">
 abs(sin(x) - (x - x**3/6 + x**5/120 - x**7/5040 + x**9/362880))	e(x)
-```
+</x-plot>
 
 ## Bhaskara's Approximation
 This is a formula for calculating sin(x) discovered by 7th centuary Indian mathematician Baskara,
@@ -126,7 +126,7 @@ Which it does, achieving some 10^4 times smaller error in comparison (for 7 term
 [Wikipedia Article](https://en.wikipedia.org/wiki/Minimax_approximation_algorithm)
 [Original Source](http://lolengine.net/blog/2011/12/21/better-function-approximations)
 
-::: Standard sin(x) - How does it work
+<x-fold title="Standard sin(x) - How does it work">
 Looking at the implementation of sin in musl, We get:
 ```c
 
@@ -181,7 +181,7 @@ Source for __sin(x): https://git.musl-libc.org/cgit/musl/tree/src/math/__sin.c
 Source for   sin(x): https://git.musl-libc.org/cgit/musl/tree/src/math/sin.c
 
 **NOTE:** If you couldn't tell, this code really confuses me and I cant fully tell whats happening, The glibc source is even more confounded.
-:::
+</x-fold>
 
 ## Conclusion
 The results from my very naive implementation are as follows, This is without any effort made to optimize the code and most is copied from here and there so the comparison isn't entirely fair,

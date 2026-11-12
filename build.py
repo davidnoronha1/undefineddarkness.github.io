@@ -10,16 +10,16 @@
 # ///
 """The site generator: src/**/*.md (GitHub-flavoured Markdown) -> out/.
 
-Posts are Markdown plus a few shortcuts (see README.md for examples):
+Posts are Markdown, plus:
   - front matter: title, description, date, image (header image), icon (social image)
   - callouts:   > [!NOTE] / [!TIP] / [!IMPORTANT] / [!WARNING] / [!CAUTION]
-  - folds:      ::: Title  ...  :::            (-> <details><summary>)
-  - tables:     ```table  tab-separated rows, first row = header
-  - charts:     ```chart (bars) / ```plot (functions) -> <bar-chart>/<fn-plot>
   - math:       \\( inline \\), \\[ display \\] and ```math fences -> MathML (no JS)
   - code:       fenced blocks, highlighted at build time (pygments)
-  - anything else is plain HTML (<video>, <object>, <div class="split">, ...);
-    Markdown inside HTML tags works without the usual blank-line rules.
+  - <x-fold>, <x-table>, <x-chart>, <x-plot>: reusable custom elements
+    (assets_src/other/elements.ts); pages using them get /assets/elements.js
+  - anything else is plain HTML (<video>, <object>, <div class="split">, ...)
+Markdown inside HTML tags (e.g. <x-fold>, <div>) works without CommonMark's
+blank-line rules; <x-table>/<x-chart>/<x-plot> content is passed through raw.
 Line breaks in the source are kept; an image on its own line becomes a
 <figure> captioned by its alt text.
 
@@ -27,7 +27,6 @@ Usage: build.py [src files...]   (no args: build everything)
 """
 import html
 import re
-import shlex
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -70,64 +69,11 @@ def mathml(tex: str, display: bool) -> str:
         return f"<code>{html.escape(tex)}</code>"
 
 
-def fence_args(info: str) -> tuple[str, list[str], dict]:
-    """```name .class flag key=value key="quoted value" -> (name, classes, opts)"""
-    words = shlex.split(info) or [""]
-    classes = [w[1:] for w in words[1:] if w.startswith(".")]
-    opts = dict((w.split("=", 1) + [""])[:2] for w in words[1:] if not w.startswith("."))
-    return words[0], classes, opts
-
-
-def rows(text: str) -> list[list[str]]:
-    """Tab-separated rows (runs of 2+ spaces also work, for editors that expand tabs)."""
-    return [[c.strip() for c in re.split(r"\t+| {2,}", line.strip())] for line in text.splitlines() if line.strip()]
-
-
-def table(text: str, classes: list[str], opts: dict) -> str:
-    """```table [.class] [noheader] [center=2,3] -- first row is the header."""
-    data = rows(text)
-    center = {int(c) - 1 for c in opts.get("center", "").split(",") if c.strip().isdigit()}
-    centred = ' style="text-align:center"'
-
-    def cell(tag: str, i: int, c: str) -> str:
-        return f"<{tag}{centred if i in center else ''}>{md.renderInline(c)}</{tag}>"
-
-    out = f'<table class="{" ".join(classes)}">' if classes else "<table>"
-    if "noheader" not in opts and data:
-        out += "<thead><tr>" + "".join(cell("th", i, c) for i, c in enumerate(data.pop(0))) + "</tr></thead>"
-    out += "<tbody>" + "".join("<tr>" + "".join(cell("td", i, c) for i, c in enumerate(r)) + "</tr>" for r in data)
-    return out + "</tbody></table>\n"
-
-
-def figure(inner: str, opts: dict) -> str:
-    cap = f"<figcaption>{md.renderInline(opts['title'])}</figcaption>" if opts.get("title") else ""
-    return f"<figure>{inner}{cap}</figure>\n"
-
-
-def chart(text: str, opts: dict) -> str:
-    """```chart [unit=MB] [log] [title=...] -- a ```table drawn as grouped bars."""
-    attrs = (f' unit="{html.escape(opts["unit"])}"' if opts.get("unit") else "") + (" log" if "log" in opts else "")
-    return figure(f"<bar-chart{attrs}>{table(text, [], {})}</bar-chart>", opts)
-
-
-def plot(text: str, opts: dict) -> str:
-    """```plot [x=-10:10] [y=-2:2] [title=...] -- one `expression<TAB>label` per line."""
-    attrs = "".join(f' {k}="{html.escape(opts[k])}"' for k in ("x", "y") if opts.get(k))
-    items = "".join(f"<li><code>{html.escape(r[0])}</code> {html.escape(r[1] if len(r) > 1 else '')}</li>" for r in rows(text))
-    return figure(f"<fn-plot{attrs}><ul>{items}</ul></fn-plot>", opts)
-
-
 def fence(self, tokens, idx, options, env):
     tok = tokens[idx]
-    lang, classes, opts = fence_args(tok.info.strip())
+    lang = tok.info.strip().split(" ")[0]
     if lang == "math":
         return mathml(tok.content, True) + "\n"
-    if lang == "table":
-        return table(tok.content, classes, opts)
-    if lang == "chart":
-        return chart(tok.content, opts)
-    if lang == "plot":
-        return plot(tok.content, opts)
     code = tok.content
     try:
         body = pyg_highlight(code, get_lexer_by_name(lang), HtmlFormatter(nowrap=True)) if lang else html.escape(code)
@@ -172,15 +118,35 @@ def figures(m: re.Match) -> str:
 
 # Block-level tags that may wrap Markdown. CommonMark only parses Markdown
 # inside them when separated by blank lines; pad_html() adds those so posts
-# can be written without them.
+# can be written without them. RAW_TAG elements take tab-separated rows that
+# their custom element parses itself, so they're kept as one untouched HTML
+# block instead (blank line before and after, none added inside).
 BLOCK_TAG = re.compile(r"^\s*</?(div|section|aside|figure|figcaption|details|summary|header|footer|"
-                       r"nav|main|article|blockquote|center|bar-chart|fn-plot)\b[^>]*>.*>?\s*$", re.I)
+                       r"nav|main|article|blockquote|center|x-fold)\b[^>]*>.*>?\s*$", re.I)
+
+
+RAW_TAG = re.compile(r"^\s*<(x-table|x-chart|x-plot)\b")
 
 
 def pad_html(text: str) -> str:
-    out, fence = [], None
+    out, fence, raw = [], None, None
     for line in text.split("\n"):
         s = line.strip()
+        if raw:
+            out.append(line)
+            if s.startswith(f"</{raw}>"):
+                out.append("")
+                raw = None
+            continue
+        m = RAW_TAG.match(line) if not fence else None
+        if m:
+            if out and out[-1].strip():
+                out.append("")
+            out.append(line)
+            raw = None if f"</{m[1]}>" in s else m[1]
+            if not raw:
+                out.append("")
+            continue
         if fence:
             fence = None if s.startswith(fence) else fence
             out.append(line)
@@ -195,34 +161,8 @@ def pad_html(text: str) -> str:
     return "\n".join(out)
 
 
-def folds(text: str) -> str:
-    """`::: Title` ... `:::` -> <details><summary>Title</summary> ... </details>.
-    A title starting with #'s becomes a heading (so it can be linked to)."""
-    out, fence = [], None
-    for line in text.split("\n"):
-        s = line.strip()
-        if fence:
-            fence = None if s.startswith(fence) else fence
-        elif s.startswith(("```", "~~~")):
-            fence = s[:3]
-        elif s == ":::":
-            line = "</details>"
-        elif s.startswith("::: "):
-            title = s[4:].strip()
-            h = re.match(r"(#{1,6})\s+(.*)", title)
-            if h:
-                n, t = len(h[1]), h[2]
-                slug = re.sub(r"[^\w\- ]", "", t.lower()).strip().replace(" ", "-")
-                title = f'<h{n} id="{slug}">{md.renderInline(t)}</h{n}>'
-            else:
-                title = md.renderInline(title)
-            line = f"<details>\n<summary>{title}</summary>"
-        out.append(line)
-    return "\n".join(out)
-
-
 def render(text: str) -> tuple[dict, str]:
-    tokens = md.parse(pad_html(folds(text)))
+    tokens = md.parse(pad_html(text))
     meta = {}
     if tokens and tokens[0].type == "front_matter":
         for line in tokens[0].content.splitlines():
@@ -236,8 +176,8 @@ def render(text: str) -> tuple[dict, str]:
     # breaks show; drop the newlines markdown-it puts beside block tags so
     # they don't turn into blank lines (e.g. "<li>\n<p>" in loose lists).
     body = re.sub(r"\n+(?=</?(?:p|ul|ol|li|pre|div|figure|blockquote|table|details)\b)|(?<=<li>)\n+", "", body)
-    if "<bar-chart" in body or "<fn-plot" in body:
-        body += '<script type="module" src="/assets/charts.js"></script>\n'
+    if re.search(r"<x-(fold|table|chart|plot)\b", body):
+        body += '<script type="module" src="/assets/elements.js"></script>\n'
     return meta, body
 
 

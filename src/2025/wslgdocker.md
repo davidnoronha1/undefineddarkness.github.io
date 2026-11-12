@@ -41,7 +41,7 @@ docker run -it \
     -e PULSE_SERVER=$PULSE_SERVER xclock
 ```
 
-::: for docker compose
+<x-fold title="for docker compose">
 ```
   o3de-wsl-gpu:
     <<: *o3de-base
@@ -71,7 +71,7 @@ docker run -it \
               count: all
               capabilities: [gpu]
 ```
-:::
+</x-fold>
 
 ## vGPU & DirectX
 ![directx vgpu architecture](image-1.png)

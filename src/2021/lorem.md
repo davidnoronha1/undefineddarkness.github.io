@@ -55,23 +55,23 @@ float Q_rsqrt( float number )
 }
 ```
 
-::: Do folds work?
+<x-fold title="Do folds work?">
 I guess they do :)
 ```sh
 echo "even with code inside"
 ```
-:::
+</x-fold>
 
-::: ### A fold with a heading for a title
-:::
+<x-fold title="A fold with a heading for a title" level="3">
+</x-fold>
 
 What about tables?
-```table
+<x-table>
 Fruits	Vegetables
 Apple	Carrot
 Orange	**Tomato**
 Banana	Eggplant
-```
+</x-table>
 
 Math: \(e^{i\pi} + 1 = 0\) inline, and as a block:
 ```math
@@ -79,17 +79,17 @@ Math: \(e^{i\pi} + 1 = 0\) inline, and as a block:
 ```
 
 Charts:
-```chart unit=MB title="A bar chart"
+<x-chart unit="MB" title="A bar chart">
 protocol	size
 jpeg	56.22
 h264	7.22
 kitty	177.11
-```
+</x-chart>
 
-```plot x=-6:6 y=-2:2 title="A function plot"
+<x-plot x="-6:6" y="-2:2" title="A function plot">
 sin(x)	sin(x)
 x - x**3/6	3rd order
-```
+</x-plot>
 
 <div class="split">
 ![Images on their own line become figures](/assets/images/nes-export.avif)
@@ -103,10 +103,10 @@ export __OPENGL__=1
 printf '%d' $(( 2 * 3 * 5 ))
 ```
 
-Shortcuts inside code sections stay as text:
+Elements inside code sections stay as text:
 ```
-::: not a fold
-:::
+<x-fold title="not a fold">
+</x-fold>
 > [!NOTE]
 > not a callout
 ```
