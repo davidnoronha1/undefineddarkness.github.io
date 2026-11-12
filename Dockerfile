@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     imagemagick \
     highlight \
-    gnuplot-nox \
     perl \
     fontforge-nox \
     make \

@@ -66,8 +66,8 @@ get_temp_file_in_output_folder () {
 	echo "$tmpfile"
 }
 
-# Shields a block of raw, already-final HTML/SVG/JS (e.g. gnuplot's
-# embedded "mouse standalone" hover script) from final_transformer's
+# Shields a block of raw, already-final HTML/SVG/JS (e.g. #CHART/#PLOT
+# figures, whose formulas contain '**') from final_transformer's
 # markdown-lite regex pass, which runs over the *entire* built page and has
 # no concept of "this text is already markup" — a bare '*' pairing across a
 # line of JS becomes <i>...</i>, '==' becomes <mark>...</mark>, etc., and

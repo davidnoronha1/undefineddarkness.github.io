@@ -100,90 +100,21 @@ Seeing as I had put UPX as a possibility, It only felt right to also have other 
 
 I have re-run the experiment and noticed that using `lld` and `clang` gave the best results (now that clang's LTO has been resolved) I also put as many size optimization related flags for `lld` that I could find
 
-#GNUPLOT width=2000 height=800
-set boxwidth 0.6
-set style fill solid 1
-set key outside right
-set xtics nomirror
-set xtics ("7z" 0, "xz" 1, "zst" 2, "gz" 3, "bz2" 4, "upx" 5, "linker" 6, "-flto" 7, "-s" 8, "-Os" 9, "source" 10, "basic" 11)
-set xlabel "Compression/Build Type"
-set ylabel "File Size (bytes)"
-set grid ytics
-set style data boxes
-
-plot '-' using 1:2 with boxes lc rgb '#FFB3BA' title "basic-optimized-stripped-lto-linker.7z", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#FFDFBA' title "basic-optimized-stripped-lto-linker.xz", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#FFFFBA' title "basic-optimized-stripped-lto-linker.zst", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#BAFFC9' title "basic-optimized-stripped-lto-linker.gz", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#BAE1FF' title "basic-optimized-stripped-lto-linker.bz2", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#C9BAFF' title "basic-optimized-stripped-lto-linker-upx", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#FFBAF3' title "basic-optimized-stripped-lto-linker", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#E8A5A5' title "basic-optimized-stripped-lto", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#F5CBA7' title "basic-optimized-stripped", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#F7DC6F' title "basic-optimized", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#A9DFBF' title "source-code.tar.gz", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle, \
-    '-' using 1:2 with boxes lc rgb '#A9CCE3' title "basic", \
-    '-' using 1:2:3 with labels offset 0,1 tc rgb 'white' notitle
-0 14778 "14.43kB"
-e
-0 14778 "14.43kB"
-e
-1 15100 "14.74kB"
-e
-1 15100 "14.74kB"
-e
-2 16497 "16.11kB"
-e
-2 16497 "16.11kB"
-e
-3 17448 "17.04kB"
-e
-3 17448 "17.04kB"
-e
-4 17998 "17.58kB"
-e
-4 17998 "17.58kB"
-e
-5 20320 "19.84kB"
-e
-5 20320 "19.84kB"
-e
-6 32312 "31.56kB"
-e
-6 32312 "31.56kB"
-e
-7 32360 "31.60kB"
-e
-7 32360 "31.60kB"
-e
-8 39448 "38.52kB"
-e
-8 39448 "38.52kB"
-e
-9 49088 "47.94kB"
-e
-9 49088 "47.94kB"
-e
-10 53107 "51.86kB"
-e
-10 53107 "51.86kB"
-e
-11 68120 "66.52kB"
-e
-11 68120 "66.52kB"
-e
-#END GNUPLOT
+#CHART unit=B title=File size by compression/build type
+build	size
+7z	14778
+xz	15100
+zst	16497
+gz	17448
+bz2	17998
+upx	20320
+linker	32312
+-flto	32360
+-s	39448
+-Os	49088
+source	53107
+basic	68120
+#END CHART
 
 #TABLE size	filename
 14778	basic-optimized-stripped-lto-linker.7z

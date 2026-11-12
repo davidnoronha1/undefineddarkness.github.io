@@ -1,6 +1,6 @@
 # undefineddarkness.github.io
 
-Personal site + custom bash/python static site generator ("pond"/"generate"). Content is authored in Markdown/HTML with a custom directive syntax (`#HEADER`, `#GNUPLOT`, `#CHART`, etc.), transformed by a bash pipeline, and built into `out/`.
+Personal site + custom bash/python static site generator ("pond"/"generate"). Content is authored in Markdown/HTML with a custom directive syntax (`#HEADER`, `#CHART`, `#PLOT`, etc.), transformed by a bash pipeline, and built into `out/`.
 
 ## Running things
 
@@ -31,7 +31,6 @@ The site is deliberately minimal: dark-only, system fonts, one small stylesheet 
 - `bun` (installed via the official install script, not apt) — used for the TS asset bundling (`bun build`), running `postcss`/`html-minifier-terser` via `bunx`, and as `node_runner` fallback in `generate`
 - `imagemagick` — raster image processing
 - `libavif-bin` — AVIF transcoding for images (`assets.py`'s image pipeline hashes + converts raster assets to `.avif`)
-- `gnuplot-nox` — renders `#GNUPLOT`/`#CHART` directives (including the octant/braille terminal-text charts)
 - `highlight` — server-side syntax highlighting for fenced code blocks, emitted as short class names (`kwa`, `sng`, ...) coloured by `styles.css`; without it code renders plain (see `.tooling/initial.sh`)
 - `fontforge-nox` — font manipulation/subsetting for custom glyph work (e.g. the octant font used by `ascii-model-viewer`)
 - `jq`, `curl`, `unzip`, `ca-certificates` — general scripting/fetch utilities
@@ -59,12 +58,11 @@ The site is deliberately minimal: dark-only, system fonts, one small stylesheet 
 |---|---|
 | `pond.sh` | Entry point for converting one `.md`/`.html` source file to markup. Sources the other `.sh` files, runs `initial_transformer` then dispatches `#DIRECTIVE` blocks to functions in `transformers.sh`, then `final_transformer` |
 | `initial.sh` | Line-by-line pre-pass: detects `#DIRECTIVE ... #END DIRECTIVE` blocks and code fences, tracks nesting, handles inline `\(...\)` math via `render_math.ts`, hands off matched blocks to `transformers.sh` functions |
-| `transformers.sh` | One bash function per directive: `box`, `callout` (`#CALLOUT`), `f` (`#FOLD`), `right_align`/`center`/`preserve_center`, `header` (`#HEADER`), `gnuplot` (`#GNUPLOT`), `chart` (`#CHART`, data-driven wrapper around `chart.py`+gnuplot), `pdf`/`pdfi` (`#PDF`, native `<object>` embed — no JS), `redirect`, `video` (`#VIDEO`), `wip`, `verbatim`, `carousel` (CSS-only scroll-snap strip), `columns`, `table` |
+| `transformers.sh` | One bash function per directive: `box`, `callout` (`#CALLOUT`), `f` (`#FOLD`), `right_align`/`center`/`preserve_center`, `header` (`#HEADER`), `plot` (`#PLOT`, function plots: one `expression<TAB>label[<TAB>#colour]` per line, sampled in the browser), `chart` (`#CHART`, bar charts via `chart.py`), `pdf`/`pdfi` (`#PDF`, native `<object>` embed — no JS), `redirect`, `video` (`#VIDEO`), `wip`, `verbatim`, `carousel` (CSS-only scroll-snap strip), `columns`, `table` |
 | `final.sh` | Post-pass: inline code spans, `**bold**`/`*italic*`/`~~strike~~`/`==mark==`, `![alt](src)` -> `<figure>`, `[text](url)` -> `<a>`, bare-URL autolinking |
-| `helpers.sh` | Shared utilities: logging (`warn`/`err`/`dbg`), `slice`/`snip`/`trim`, `get-functions` (directive dispatch table), `calc`/`ms`/`timer`, `escape_code_block`, `protect_raw_block` (shields chart/gnuplot HTML output from the markdown-lite regex pass in `final.sh`) |
+| `helpers.sh` | Shared utilities: logging (`warn`/`err`/`dbg`), `slice`/`snip`/`trim`, `get-functions` (directive dispatch table), `calc`/`ms`/`timer`, `escape_code_block`, `protect_raw_block` (shields `#CHART`/`#PLOT` HTML output from the markdown-lite regex pass in `final.sh`) |
 | `assets.py` | `uv run` script. Single-pass asset pipeline: walks `assets_src/` + co-located post images in `src/`, content-hashes + AVIF-transcodes raster images, transcodes raw video to AV1/Opus `.webm` in place, copies everything else through flattened into `out/.assets/`, then rewrites every asset reference (`src=`, `href=`, `url()`, `import`, etc.) across `out/`, `rss.xml`, and root `index.html` to match. Invoked as `assets.py sync <dirs...>` at the end of every `./generate` run |
-| `chart.py` | `uv run` script backing `#CHART`: turns tab-separated category/series data into a gnuplot script (grouped boxes + hypertext anchors), rendered as SVG or octant/braille terminal text |
-| `gnuplot_block.py` | Converts gnuplot's `block`/octant terminal output (Unicode block glyphs + ANSI truecolor SGR) into an HTML `<pre>` with matching `<span>` colors — the non-SVG rendering path for `#GNUPLOT`/`#CHART` |
+| `chart.py` | Backs `#CHART`: turns tab-separated (or `csv=true`) category/series data into a `<figure class="chart">` holding a plain data `<table>` |
 | `gfm.py` | `uv run` script wrapping `cmarkgfm` — used instead of `pond.sh` when building inside `ricing-guide/` (plain GitHub-flavored markdown, no custom directives) |
 | `render_math.ts` | Build-time TeX rendering (MathJax) for `\(...\)` inline math and fenced math blocks |
 | `hs.py` | `uv run` script: the dev server behind `./generate live` — aiohttp static server with gzip/br compression, a `/ws` endpoint, and a `watchfiles`-driven live-reload loop that re-invokes `fsw.py`/`generate` on source changes |
@@ -78,8 +76,10 @@ The site is deliberately minimal: dark-only, system fonts, one small stylesheet 
 |---|---|
 | `Makefile` | Builds `styles/styles.css` -> `out/.assets/styles.css` via `postcss`; bundles `other/*.ts` (three.js custom elements) -> `out/.assets/*.js` via `bun build --bundle --minify` |
 | `.tooling/optimize_page.sh` | Per-page critical-CSS step: purges `out/.assets/styles.css` down to what a given built page actually uses (via `purgecss`) and inlines it, run on every page by `generate`'s `build_md`/`generate_index` |
+| `other/charts.ts` | uPlot renderer for `#CHART`/`#PLOT` figures -> `out/.assets/charts.js`. Each chart figure includes it as a module script (runs once per page), so only chart pages load it. The figure's table/formula list is the no-JS fallback |
 | `other/*.ts` | Custom elements bundled standalone (not through the main site JS, since there mostly isn't any) — e.g. `ascii-model-viewer.ts`, `wireframe-model-viewer.ts`, both three.js-based `<model-viewer>`-style web components that render 3D models as terminal/wireframe art |
-| `styles/`, `fonts/`, `icons/`, `images/`, `models/`, `documents/`, `videos/` | Raw asset sources picked up by `assets.py`'s sync pass — not symlinked, just walked and flattened into `out/.assets/` |
+| `fonts/`, `icons/`, `images/`, `documents/`, `videos/` | Raw asset sources picked up by `assets.py`'s sync pass — not symlinked, just walked and flattened into `out/.assets/` |
+| `models/` | 3D model sources (Git LFS). *Not* synced into `out/.assets/`: the repo is over its LFS budget and Pages would serve LFS pointers, so models are served from Vercel blob URLs instead |
 
 ## SSG structure
 
