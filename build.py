@@ -26,6 +26,7 @@ Line breaks in the source are kept; an image on its own line becomes a
 
 Usage: build.py [src files...]   (no args: build everything)
 """
+import hashlib
 import html
 import re
 import subprocess
@@ -306,7 +307,11 @@ def build_index(posts: list[dict], style: str) -> list[dict]:
             icon = p["meta"].get("icon") or p["meta"].get("image")
             img = f'<img src="{html.escape(icon)}" alt="" width="40" height="40" loading="lazy">' if icon else ""
             when = datetime.fromtimestamp(p["date"], timezone.utc)
-            items.append(f'<li>{img}<div><a href="/out/{p["rel"]}">{t}</a>' + (f"<p>{html.escape(d)}</p>" if d else "")
+            # Icon-less posts get a 2x2 "pixel" glyph: one of the 15 non-empty
+            # patterns, picked from the path so it stays put (see styles.css).
+            bits = int(hashlib.md5(str(p["rel"]).encode()).hexdigest(), 16) % 15 + 1
+            px = "" if icon else "".join(f" data-{q}" for i, q in enumerate(("tl", "tr", "bl", "br")) if bits >> i & 1)
+            items.append(f'<li{px}>{img}<div><a href="/out/{p["rel"]}">{t}</a>' + (f"<p>{html.escape(d)}</p>" if d else "")
                          + f'</div><time datetime="{when:%Y-%m-%d}">{when:%b}</time></li>')
         text = text.replace(key, "\n".join(items))
     text = text.replace(CSS_LINK, f"<style>{style}</style>")

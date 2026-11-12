@@ -97,12 +97,16 @@ h3 { color: var(--gray); }
 .posts li { display: grid; grid-template-columns: 40px 1fr auto; gap: .2em 1em; margin: 0 0 1em; align-items: start; }
 .posts li > div { grid-column: 2; }
 .posts img { width: 40px; height: 40px; object-fit: contain; image-rendering: pixelated; }
-/* Posts without an icon get a pastel "pixel" (the chart palette, cycling). */
-.posts li:not(:has(img))::before { content: ""; width: 10px; height: 10px; margin: .55em auto 0; border-radius: 2px; background: var(--dot, #ffb3ba); }
-.posts li:nth-child(5n+2) { --dot: #bae1ff; }
-.posts li:nth-child(5n+3) { --dot: #baffc9; }
-.posts li:nth-child(5n+4) { --dot: #ffffba; }
-.posts li:nth-child(5n+5) { --dot: #d7baff; }
+/* Posts without an icon get a 2x2 pixel glyph; build.py lights a different
+   combination of the four pixels per post (data-tl/tr/bl/br). */
+.posts li:not(:has(img))::before { content: ""; width: 13px; height: 13px; margin: .45em auto 0;
+	--px: #5fd3b0; --tl: transparent; --tr: transparent; --bl: transparent; --br: transparent;
+	background: linear-gradient(var(--tl), var(--tl)) 0 0 / 6px 6px no-repeat, linear-gradient(var(--tr), var(--tr)) 7px 0 / 6px 6px no-repeat,
+		linear-gradient(var(--bl), var(--bl)) 0 7px / 6px 6px no-repeat, linear-gradient(var(--br), var(--br)) 7px 7px / 6px 6px no-repeat; }
+.posts li[data-tl]::before { --tl: var(--px); }
+.posts li[data-tr]::before { --tr: var(--px); }
+.posts li[data-bl]::before { --bl: var(--px); }
+.posts li[data-br]::before { --br: var(--px); }
 .posts a { font: 1.15em var(--serif); text-decoration: none;
 	background: linear-gradient(var(--white-darker), var(--white-darker)) 0 0 / 0 100% no-repeat;
 	transition: background-size .25s, color .15s; }
