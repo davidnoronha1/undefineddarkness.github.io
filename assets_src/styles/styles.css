@@ -76,7 +76,7 @@ header img { float: right; max-width: 128px; margin: 0 0 1em 1em; image-renderin
 .home { position: relative; margin-bottom: 2.5rem; }
 .home .rss { position: absolute; top: 0; right: 0; margin: 0; font-size: .9em; }
 .home .mark { width: 2rem; color: var(--accent); }
-.home .kao { margin: .3em 0 0; font-size: 1.2em; }
+.home .kao { display: inline-block; margin: 0 .3em 0 0; height: .8em; width: auto; vertical-align: -.04em; } /* ʕっ•ᴥ•ʔっ as outlines (Noto Sans + Noto Sans JP): no CJK/IPA font needed */
 .home h1 { margin: .1em 0 .2em; }
 .home p { margin: 0; }
 .home nav { margin: 1em 0 0; }
@@ -154,14 +154,16 @@ summary > * { display: inline; }
 
 /* -- Callouts: > [!NOTE] etc. (GitHub alert syntax) -- */
 
-.markdown-alert { margin: 1em 0; padding: .6em 1em; border-left: 3px solid var(--gray); background: #191919; }
+.markdown-alert { --c: var(--gray); margin: 1em 0; padding: .6em 1em; border-left: 3px solid var(--c); background: #191919; }
+.markdown-alert > * { margin: .5em 0 0; }
+.markdown-alert > :first-child { margin-top: 0; }
 .markdown-alert > :last-child { margin-bottom: 0; }
-.markdown-alert-title { margin: 0 0 .3em; font-weight: 600; }
-.markdown-alert-note { border-color: #6a9ef2; }
-.markdown-alert-tip { border-color: #5fb87a; }
-.markdown-alert-important { border-color: #b483e8; }
-.markdown-alert-warning { border-color: #d6a72b; }
-.markdown-alert-caution { border-color: #e0605c; }
+.markdown-alert > .markdown-alert-title { margin-bottom: -.2em; color: var(--c); font-weight: 600; font-size: .875em; text-transform: uppercase; letter-spacing: .04em; }
+.markdown-alert-note { --c: #6a9ef2; }
+.markdown-alert-tip { --c: #5fb87a; }
+.markdown-alert-important { --c: #b483e8; }
+.markdown-alert-warning { --c: #d6a72b; }
+.markdown-alert-caution { --c: #e0605c; }
 
 /* -- Custom elements (assets_src/other/elements.ts) -- */
 

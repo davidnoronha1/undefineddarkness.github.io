@@ -99,3 +99,22 @@ A better example is
 </fontconfig>
 ```
 A way to convert BDF & PCF files to OTB (OpenType Bitmap), a format that has better support is [Documented here](https://gist.github.com/Earnestly/6bc5bad7666f7bf8816d054b7b76112e), You can also try using [Bits'nPicas](https://github.com/kreativekorp/bitsnpicas) to convert the font or even to make your own, it's just pixels on a grid after all 😉
+
+To enable **all** bitmaps, you can use this snippet (taken from [void linux wiki](https://docs.voidlinux.org/config/graphical-session/fonts.html)):
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <description>Accept bitmap fonts</description>
+<!-- Accept bitmap fonts -->
+ <selectfont>
+  <acceptfont>
+   <pattern>
+     <patelt name="outline"><bool>false</bool></patelt>
+   </pattern>
+  </acceptfont>
+ </selectfont>
+</fontconfig>
+```
+
+This is just the inverse of the no-bitmaps file that is enabled by default.

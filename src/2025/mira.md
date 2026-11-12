@@ -236,12 +236,7 @@ Sources:
 2. **Meurer et al.**, “Differential Pressure Sensor Speedometer for Autonomous Underwater Vehicle Velocity Estimation.” IEEE Journal of Oceanic Engineering.[https://doi.org/10.1109/JOE.2019.2907822](https://doi.org/10.1109/JOE.2019.2907822) [ttu](https://ws.lib.ttu.ee/publikatsioonid/en/Publ/Register/Item/142171)
 3. **Meurer, Fuentes-Pérez, Schwarzwälder, Ludvigsen, Sørensen, Kruusmaa**, “2D Estimation of Velocity Relative to Water and Tidal Currents Based on Differential Pressure for Autonomous Underwater Vehicles.” IEEE Robotics and Automation Letters (2020) vol. 5, 2, p. 3444−3451. This paper presents the DPSSv2, a low-cost, lightweight and energy efficient sensor to estimate fluid relative velocity in 2D based on differential pressure, validated in field trials on-board an AUV in the presence of tidal currents.[https://doi.org/10.1109/LRA.2020.2976318](https://doi.org/10.1109/LRA.2020.2976318)
 
-<aside>
-
-💡
-
-Work In Progress
-
-</aside>
+> [!WARNING]
+> This post is a work in progress.
 
 [Excalidraw Whiteboard](https://excalidraw.com/#json=RUzJmOxhKQD105-lvm3aR,IUyTBoduecWU85e1ujW5DQ)
