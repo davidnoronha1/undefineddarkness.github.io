@@ -4,7 +4,7 @@ Plain Markdown in `src/`, built to `out/` by `build.py`.
 
 ## Running
 
-Needs [uv](https://docs.astral.sh/uv/) (it fetches `build.py`'s Python deps itself). Media transcoding uses `avifenc`/`ffmpeg` when present; without uv, `./generate` uses the Docker container instead.
+Needs [uv](https://docs.astral.sh/uv/) (it fetches `build.py`'s Python deps itself). Media transcoding uses `avifenc`/`ffmpeg` when present and falls back to Pillow (bundled libavif) otherwise; without uv, `./generate` uses the Docker container instead.
 
 ```
 ./generate               # build everything

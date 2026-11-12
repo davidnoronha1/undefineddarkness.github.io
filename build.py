@@ -28,6 +28,7 @@ Usage: build.py [src files...]   (no args: build everything)
 """
 import hashlib
 import html
+import os
 import re
 import subprocess
 import sys
@@ -53,6 +54,11 @@ SITE_TITLE = "nes"
 SITE_DESC = "Notes on hardware, software, and whatever else I'm tinkering with."
 DEFAULT_IMAGE = f"{SITE}/assets/images/nes-export.avif"
 CSS_LINK = '<link rel="stylesheet" href="/assets/styles.css" />'
+
+DEBUG = os.environ.get("DEBUG") == "1"
+# Set by ./generate (the supported entry point) so build.py knows it's part
+# of a full build, not a lone run that would skip the asset sync step.
+RUN_VIA_GENERATE = os.environ.get("NES_GENERATE") == "1"
 
 
 # -- Markdown ---------------------------------------------------------------
@@ -344,6 +350,11 @@ def build_feeds(posts: list[dict]) -> None:
 
 
 def main(args: list[str]) -> None:
+    if not RUN_VIA_GENERATE:
+        print("warning: build.py was run directly, which skips the asset sync "
+              "step that rewrites /assets/... references to their hashed "
+              "output names — images will 404. Use ./generate instead "
+              "(set DEBUG=1 for verbose build output).", file=sys.stderr)
     template, style = (ROOT / "template.html").read_text(), css()
     (OUT / ".assets").mkdir(parents=True, exist_ok=True)
     (OUT / ".assets/styles.css").write_text(style)  # for hand-written pages (portfolio, experiments)
@@ -354,7 +365,8 @@ def main(args: list[str]) -> None:
             build_post(src, template, style)
         elif src.suffix == ".html" and src.name != "index.html":
             build_html(src, style)
-        print(f"built {src.relative_to(ROOT)}")
+        if DEBUG:
+            print(f"built {src.relative_to(ROOT)}")
 
     build_feeds(build_index(all_posts(), style))
 

@@ -20,7 +20,11 @@ import termios
 import os
 import threading
 
-prefix="\033[1m\033[31mHS\033[0m  " 
+prefix="\033[1m\033[31mHS\033[0m  "
+
+# Build output (built <file> lines, asset hashing, ...) is noise during live
+# editing — only show it (and stderr) when DEBUG=1, or when a build fails.
+DEBUG = os.environ.get("DEBUG") == "1"
 
 # A terribly simple little hot server
 
@@ -125,9 +129,12 @@ async def watch():
             fp = Path(change[1]).resolve()
 
             print(prefix + f" Rebuilding {fp.stem} ({str(fp)})")
-            process = subprocess.run([ bash_path, "./generate", fp.relative_to(script_dir) ], stdout=subprocess.PIPE)
-            print(process.stdout.decode('utf8').strip())
-            # print(process.stderr)
+            process = subprocess.run([ bash_path, "./generate", fp.relative_to(script_dir) ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if process.returncode != 0 or DEBUG:
+                if process.stderr:
+                    print(process.stderr.decode('utf8').strip())
+            if DEBUG and process.stdout:
+                print(process.stdout.decode('utf8').strip())
             applicable = [conn for conn in sockets if conn[0] == fp.stem] 
             for socket in applicable:
                 try:
@@ -139,9 +146,13 @@ async def rebuild():
     print(prefix + " Rebuilding all files")
     env = os.environ.copy()
     # env['GENERATE_NO_OPTIMIZE_PAGE'] = '1'
-    process = await asyncio.create_subprocess_exec(bash_path, "./generate", stdout=subprocess.PIPE, env=env)
-    stdout, _ = await process.communicate()
-    print(stdout.decode('utf8').strip())
+    process = await asyncio.create_subprocess_exec(bash_path, "./generate", stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+    stdout, stderr = await process.communicate()
+    if process.returncode != 0 or DEBUG:
+        if stderr:
+            print(stderr.decode('utf8').strip())
+    if DEBUG and stdout:
+        print(stdout.decode('utf8').strip())
     for socket in sockets:
         try:
             await socket[1].send_str("UPDATE")

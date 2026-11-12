@@ -12,6 +12,9 @@ cd "$(dirname "$0")"
 
 if ! command -v uv >/dev/null && [ ! -f /.dockerenv ]; then
 	docker compose up -d generate
+	if [ -n "${DEBUG:-}" ]; then
+		exec docker compose exec -e DEBUG generate ./generate "$@"
+	fi
 	exec docker compose exec generate ./generate "$@"
 fi
 
@@ -22,6 +25,7 @@ deploy) ./generate && exec bunx vercel ;;
 winfix) find src -type f -not -path '*/.*' -print0 | xargs -0 dos2unix; exit ;;
 esac
 
+export NES_GENERATE=1	# tell build.py it wasn't run directly
 ./build.py "$@"
 # Hash/transcode media into out/.assets and rewrite references to match.
 ./.tooling/assets.py sync out experiments
