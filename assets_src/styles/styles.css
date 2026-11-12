@@ -63,21 +63,35 @@ kbd { font: .875em var(--mono-font); border: 1px solid var(--white-darker); bord
 
 /* -- Site chrome -- */
 
-body > nav { margin-bottom: 2rem; color: var(--gray); }
-body > nav a { text-decoration: none; margin-right: 1em; }
+/* Header links: the top nav on every page, and the home page's nav/rss. */
+body > nav, .home nav { margin-bottom: 2rem; color: var(--gray); }
+body > nav a, .home nav a, .home .rss { text-decoration: none; margin-right: 1em; color: var(--gray); }
 body > nav a:first-child { color: var(--black); font-weight: 600; }
+body > nav a:hover, .home nav a:hover, .home .rss:hover { color: var(--accent); }
 
 /* Optional `image:` from a post's front matter (small pixel-art icons). */
 header img { float: right; max-width: 128px; margin: 0 0 1em 1em; image-rendering: pixelated; }
 
-/* Home page: mark, greeting, emoji links, post list with icons. */
-.home { text-align: center; margin-bottom: 2.5rem; }
-.home .mark { width: 2.2rem; color: var(--accent); }
-.home .kao { margin: .2em 0 0; font-size: 1.2em; }
+/* Home page: mark, greeting, nav, project highlights, post list. */
+.home { position: relative; margin-bottom: 2.5rem; }
+.home .rss { position: absolute; top: 0; right: 0; margin: 0; font-size: .9em; }
+.home .mark { width: 2rem; color: var(--accent); }
+.home .kao { margin: .3em 0 0; font-size: 1.2em; }
 .home h1 { margin: .1em 0 .2em; }
 .home p { margin: 0; }
-.links { display: flex; flex-wrap: wrap; justify-content: center; gap: .4em 1.2em; margin-top: 1em; }
-.links a { text-decoration: none; }
+.home nav { margin: 1em 0 0; }
+
+main > h2 { margin-top: 0; }
+h3 { color: var(--gray); }
+.highlights { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em 1.2em; }
+.highlights a { text-decoration: none; display: block; }
+.highlights img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; margin-bottom: .5em; filter: brightness(.85); transition: filter .2s; }
+.highlights a:hover img { filter: none; }
+.highlights b { font: 400 1.15em var(--serif); }
+.highlights p { margin: .1em 0 0; color: var(--gray); font-size: .9em; }
+.more { margin: 1em 0 2.5em; }
+.more a { text-decoration: none; color: var(--gray); }
+.more a:hover { color: var(--accent); }
 
 .posts { list-style: none; padding: 0; margin: 0 0 2em; }
 .posts li { display: grid; grid-template-columns: 40px 1fr auto; gap: .2em 1em; margin: 0 0 1em; align-items: start; }
