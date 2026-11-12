@@ -182,6 +182,12 @@ math[display=block] { display: block math; margin: 1em 0; overflow-x: auto; }
 
 /* -- Layout helpers used by posts -- */
 
+/* Project grids (portfolio, experiments/) */
+.grid { display: grid; gap: 1.5em; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+.grid h3 { margin: .5em 0 .2em; }
+.grid p { margin: 0; color: var(--gray); font-size: .9em; }
+.grid img, .grid model-viewer { display: block; width: 100%; height: 11rem; object-fit: cover; background: var(--white-darker); }
+
 .split { display: grid; gap: 1em; grid-template-columns: 1fr 1fr; }
 .split > * { min-width: 0; }
 .row { display: flex; flex-wrap: wrap; gap: 1em; }

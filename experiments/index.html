@@ -1,540 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Full Project Listing — Nes</title>
-	<meta name="description" content="Projects by David (nes): robotics, developer tools, desktop software, and graphics." />
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="stylesheet" href="/assets/styles.css">
-	<style>
-		:root {
-			--accent: coral;
-		}
-
-		article {
-			min-width: 0;
-			overflow-wrap: break-word;
-			padding: 2rem 16vw 4rem;
-		}
-
-		@media only screen and (max-width: 768px) {
-			article {
-				padding: 1.5rem 5vw 3rem !important;
-			}
-		}
-
-		.nav-links {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 1em;
-			margin: 0.5em 0 1.5em;
-			font-family: var(--display-font);
-		}
-
-		.nav-links a {
-			color: var(--gray);
-			text-decoration: underline;
-		}
-
-		.experiments-grid {
-			columns: 300px;
-			column-gap: 2em;
-			margin-top: 1.5em;
-		}
-
-		.experiment-card-wrapper {
-			display: inline-block;
-			width: 100%;
-			margin-bottom: 2em;
-			break-inside: avoid;
-			min-width: 0;
-		}
-
-		.experiment-card {
-			width: 100%;
-			border: 1px solid #444;
-			border-radius: 5px;
-			overflow: hidden;
-			background: var(--white-lighter);
-			transition: transform 0.2s ease, border-color 0.2s ease;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.experiment-card:hover {
-			transform: translateY(-4px);
-			border-color: #666;
-		}
-
-		.experiment-info {
-			padding: 1em;
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-		}
-
-		.experiment-info h3 {
-			margin: 0 0 0.4em 0;
-			font-size: 1.15em;
-		}
-
-		.experiment-info h3 a {
-			color: inherit;
-			text-decoration: none;
-		}
-
-		.experiment-info h3 a:hover {
-			text-decoration: underline;
-		}
-
-		.section-head {
-			margin-top: 1.5em;
-			margin-bottom: 0.2em;
-		}
-
-		.section-desc {
-			margin: 0 0 1em 0;
-			color: var(--gray);
-			font-size: 0.9em;
-		}
-
-		footer {
-			margin-top: 3em;
-			padding-top: 1.5em;
-			border-top: 1px solid #333;
-			color: var(--gray);
-			font-size: 0.9em;
-		}
-
-		footer a {
-			color: inherit;
-		}
-		.repository-image,
-		.repository-card video {
-			display: block;
-			width: 100%;
-			height: auto;
-			max-height: none;
-			flex-shrink: 0;
-			background: #171717;
-			border-bottom: 1px solid #444;
-		}
-		.repository-card p { font-size: 0.9em; line-height: 1.5; }
-		.repository-meta { color: var(--gray); margin: 0.25em 0 0.75em; font-size: 0.8em !important; }
-		.repository-links { display: flex; flex-wrap: wrap; gap: 1em; margin-top: auto; padding-top: 0.75em; font-size: 0.85em; }
-	</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects</title>
+<meta name="description" content="Projects by David (nes): robotics, developer tools, desktop software, and graphics.">
+<link rel="canonical" href="https://nes.is-a.dev/experiments/index.html">
+<link rel="icon" href="/favicon.png">
+<meta property="og:title" content="Projects">
+<meta property="og:description" content="Projects by David (nes): robotics, developer tools, desktop software, and graphics.">
+<meta property="og:url" content="https://nes.is-a.dev/experiments/index.html">
+<link rel="stylesheet" href="/assets/styles.css" />
+<style>.grid .meta{margin-top:.3em;font-size:.8em}</style>
 </head>
 <body>
-	<article>
-		<h1>Full Project Listing</h1>
-		<div class="nav-links">
-			<a href="/">← Home</a>
-			<a href="/portfolio.html">Portfolio</a>
-			<a href="/out/about.html">About</a>
-			<a href="/rss.xml">RSS</a>
-		</div>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<main>
+<h1>Projects</h1>
+<p>Projects from my <a href="https://github.com/davidnoronha1">GitHub</a>, covering robotics, developer tools, desktop software, and graphics.</p>
 
-		<p style="color: var(--gray); max-width: 700px; margin-top: 0;">
-			Projects from my GitHub, covering robotics, developer tools, desktop software, and graphics.
-		</p>
+<!-- GITHUB REPOSITORIES START -->
+<section aria-labelledby="projects-robotics">
+<h2 id="projects-robotics">Robotics</h2>
+<div class="grid">
+<div data-repository="androidino">
+<h3><a href="https://github.com/davidnoronha1/androidino">androidino</a></h3>
+<p>Android app for USB-connected microcontrollers, combining serial communication, Lua scripting, and sensor and camera input.</p>
+<p class="meta">Kotlin</p>
+</div>
+<div data-repository="camera_driver">
+<h3><a href="https://github.com/davidnoronha1/camera_driver">camera_driver</a></h3>
+<p>Configurable C++20 GStreamer camera framework with hardware encoding, recording, streaming, and optional ROS 2 integration.</p>
+<p class="meta">C++</p>
+</div>
+<div data-repository="gate-detection">
+<img src="https://raw.githubusercontent.com/davidnoronha1/gate-detection/main/image.png" alt="Multithreaded underwater gate-detection pipeline diagram" width="903" height="473" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/gate-detection">gate-detection</a></h3>
+<p>Multithreaded C++ gate detection and pose estimation for the SAUVC underwater navigation task.</p>
+<p class="meta">C++</p>
+</div>
+<div data-repository="meshmerize">
+<h3><a href="https://github.com/davidnoronha1/meshmerize">meshmerize</a></h3>
+<p>A C and Raylib simulator for testing maze-solving line followers, with competition notes from MeshMerize 2024.</p>
+<p class="meta">C</p>
+</div>
+<div data-repository="mira">
+<img src="https://github.com/user-attachments/assets/1f643f54-825b-4657-b129-be1897e39837" alt="Mira underwater robot beside a swimming pool" width="960" height="1280" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/mira">mira</a></h3>
+<p>Dreadnought Robotics’ Mira AUV software stack, with ROS 2 control, perception, navigation, and vehicle telemetry.</p>
+<p class="meta">Python</p>
+</div>
+<div data-repository="mira-control-a1">
+<img src="https://github.com/user-attachments/assets/e4dc372e-b92d-4a27-974f-8fb3b3c09561" alt="Diagram of Mira controller workers, MAVLink messages, and serial communication" width="1396" height="554" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/mira-control-a1">mira-control-a1</a></h3>
+<p>Go ROS 2 MAVLink controller for Mira, handling Pixhawk commands, telemetry, and emergency controls with concurrent workers.</p>
+<p class="meta">Go</p>
+</div>
+<div data-repository="mira_sim">
+<img src="https://raw.githubusercontent.com/davidnoronha1/mira_sim/master/Screenshot%20from%202026-08-31%2017-43-31.png" alt="Mira simulation in Gazebo with QGroundControl telemetry" width="1853" height="965" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/mira_sim">mira_sim</a></h3>
+<p>Containerized underwater simulation combining Gazebo Harmonic, ArduPilot SITL, competition worlds, and QGroundControl.</p>
+<p class="meta">Makefile</p>
+</div>
+<div data-repository="robotics-demos">
+<h3><a href="https://github.com/davidnoronha1/robotics-demos">robotics-demos</a></h3>
+<p>Browser-based IMU sensor fusion, webcam feature tracking, and an interactive map of NVIDIA robotics projects.</p>
+<p class="meta">TypeScript · <a href="https://robotics-demos.pages.dev/">Website</a></p>
+</div>
+<div data-repository="zed-jetson">
+<h3><a href="https://github.com/davidnoronha1/zed-jetson">zed-jetson</a></h3>
+<p>Docker environment for running ZED cameras and custom object detection on NVIDIA Jetson with ROS 2 Jazzy.</p>
+<p class="meta">Shell</p>
+</div>
+</div>
+</section>
 
+<section aria-labelledby="projects-web-apps">
+<h2 id="projects-web-apps">Web Apps</h2>
+<div class="grid">
+<div data-repository="av1pack">
+<img src="https://raw.githubusercontent.com/davidnoronha1/av1pack/master/chart.png" alt="av1pack compression benchmark comparing a photo album with ZIP and WebM output" width="600" height="371" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/av1pack">av1pack</a></h3>
+<p>Compress photo albums into WebM using browser video codecs, with embedded image metadata, slideshow playback, and ZIP extraction.</p>
+<p class="meta">TypeScript · <a href="https://av1pack.neswk.workers.dev">Website</a></p>
+</div>
+<div data-repository="mem">
+<img src="https://raw.githubusercontent.com/davidnoronha1/mem/master/public/screenshot.png" alt="mem canvas with handwritten notes, bookmarks, and document cards" width="1853" height="965" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/mem">mem</a></h3>
+<p>A local-first browser workspace combining an infinite canvas, local files, bookmarks, PDF viewing, and rich-text notes.</p>
+<p class="meta">JavaScript · <a href="https://mem-bay.vercel.app">Website</a></p>
+</div>
+<div data-repository="nhai-road-viz">
+<h3><a href="https://github.com/davidnoronha1/nhai-road-viz">nhai-road-viz</a></h3>
+<p>A responsive road-survey dashboard with route maps, chainage information, lane analysis, and synchronized video views.</p>
+<p class="meta">TypeScript</p>
+</div>
+<div data-repository="notein-export">
+<img src="https://raw.githubusercontent.com/davidnoronha1/notein-export/master/assets/screenshot.png" alt="Notein handwriting viewer displaying annotated engineering notes" width="1847" height="965" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/notein-export">notein-export</a></h3>
+<p>Local browser viewer for Notein and Nebo handwriting files, with WebAssembly parsing, media extraction, and PNG, PDF, and SVG export.</p>
+<p class="meta">Zig · <a href="https://noteinexport.neswk.workers.dev">Website</a></p>
+</div>
+</div>
+</section>
 
+<section aria-labelledby="projects-developer-tools">
+<h2 id="projects-developer-tools">Developer Tools</h2>
+<div class="grid">
+<div data-repository="bcd-table">
+<img src="https://raw.githubusercontent.com/davidnoronha1/bcd-table/master/docs/image.png" alt="Browser compatibility table showing API support across desktop and mobile browsers" width="734" height="600" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/bcd-table">bcd-table</a></h3>
+<p>Cloudflare Worker that turns MDN browser compatibility data into embeddable HTML tables for web documentation.</p>
+<p class="meta">TypeScript</p>
+</div>
+<div data-repository="bootstrap">
+<h3><a href="https://github.com/davidnoronha1/bootstrap">bootstrap</a></h3>
+<p>Interactive Linux workstation setup for development tools, shells, terminal configuration, Docker, and optional screen recording tools.</p>
+<p class="meta">Shell</p>
+</div>
+<div data-repository="crawly">
+<img src="https://raw.githubusercontent.com/davidnoronha1/crawly/master/image.png" alt="Crawly browser extension displaying a graph of linked websites" width="1826" height="1068" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/crawly">crawly</a></h3>
+<p>Browser extension that crawls page links and visualizes connections between websites as an interactive graph.</p>
+<p class="meta">CSS</p>
+</div>
+<div data-repository="dockercpp">
+<img src="https://github.com/user-attachments/assets/500f18ea-a971-4175-ac35-6bc971f80bb8" alt="VS Code running C++ code in the DockerCPP development environment" width="1825" height="1051" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/dockercpp">dockercpp</a></h3>
+<p>A Windows C/C++ development environment that installs VS Code and Docker, then opens a Linux dev container with clangd and LLDB.</p>
+<p class="meta">PowerShell</p>
+</div>
+<div data-repository="scpt">
+<img src="https://raw.githubusercontent.com/davidnoronha1/scpt/main/assets/Screenshot%20from%202026-08-25%2014-24-59.png" alt="scpt terminal connection menu alongside tmux shell panes" width="1850" height="1053" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/scpt">scpt</a></h3>
+<p>A tmux connection manager for SSH hosts, Docker containers, and local shells, with smart pane controls and companion file transfers.</p>
+<p class="meta">Shell</p>
+</div>
+<div data-repository="undefineddarkness.github.io">
+<h3><a href="https://github.com/davidnoronha1/undefineddarkness.github.io">undefineddarkness.github.io</a></h3>
+<p>A personal publishing site with a custom shell-based static-site generator, document markup, and live rebuilding.</p>
+<p class="meta">HTML · <a href="https://nes.is-a.dev">Website</a></p>
+</div>
+</div>
+</section>
 
+<section aria-labelledby="projects-desktop-linux">
+<h2 id="projects-desktop-linux">Desktop &amp; Linux</h2>
+<div class="grid">
+<div data-repository="awesome-firefox-integration">
+<img src="https://preview.redd.it/l42wrxgw59n71.png?width=1080&amp;crop=smart&amp;auto=webp&amp;s=d122bc3eee9a5bb7a2167a61e3480cb80a1a7d64" alt="Firefox tabs integrated into a customized AwesomeWM desktop" width="1080" height="1120" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/awesome-firefox-integration">awesome-firefox-integration</a></h3>
+<p>Firefox extension and Python bridge that expose browser tabs to AwesomeWM titlebars and window switching.</p>
+<p class="meta">Python</p>
+</div>
+<div data-repository="cello">
+<img src="https://github.com/user-attachments/assets/b7694288-eb72-4221-91a9-e826cadb87f8" alt="Cello music player showing playback controls, music directories, playlist settings, and visualizer options" width="1052" height="666" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/cello">cello</a></h3>
+<p>Godot music player with playlists and direct playback from ZIP archives, with Linux and Windows release builds.</p>
+<p class="meta">GDScript</p>
+</div>
+<div data-repository="colr">
+<img src="https://i.imgur.com/QudIqH1.png" alt="Colr color picker showing its palette and RGB, HEX, and HSV values" width="400" height="330" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/colr">colr</a></h3>
+<p>GTK color picker for X11, inspired by PowerToys, with packaged binaries and a Meson build.</p>
+<p class="meta">C</p>
+</div>
+<div data-repository="ewwxml">
+<h3><a href="https://github.com/davidnoronha1/ewwxml">ewwxml</a></h3>
+<p>Archived command-line converter that migrates Eww widget configurations from XML to the Yuck format.</p>
+<p class="meta">TypeScript</p>
+</div>
+<div data-repository="mkr">
+<h3><a href="https://github.com/davidnoronha1/mkr">mkr</a></h3>
+<p>A customizable GTK application launcher in C with modular modes for applications, emoji, scripts, and calculations.</p>
+<p class="meta">C</p>
+</div>
+<div data-repository="rice">
+<h3><a href="https://github.com/davidnoronha1/rice">rice</a></h3>
+<p>Personal AwesomeWM desktop setup with custom patches, widgets, Neovim configuration, and system integration scripts.</p>
+<p class="meta">Lua</p>
+</div>
+<div data-repository="ricing-guide">
+<h3><a href="https://github.com/davidnoronha1/ricing-guide">ricing-guide</a></h3>
+<p>Practical Linux desktop customization guide covering setup, visual design, terminals, and frequently asked questions.</p>
+<p class="meta">Shell · <a href="https://nes.is-a.dev/ricing-guide/">Website</a></p>
+</div>
+<div data-repository="stremio-mpris">
+<h3><a href="https://github.com/davidnoronha1/stremio-mpris">stremio-mpris</a></h3>
+<p>Node.js Stremio add-on that publishes playback metadata through MPRIS for Linux media controls such as playerctl.</p>
+<p class="meta">JavaScript</p>
+</div>
+<div data-repository="styllink">
+<img src="https://raw.githubusercontent.com/davidnoronha1/styllink/main/assets/demo.gif" alt="Android pen tablet connected to a Linux computer in the StylLink device demonstration" width="240" height="427" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/styllink">styllink</a></h3>
+<p>Use an Android stylus as a Linux pen tablet over USB or Wi-Fi, with pressure, tilt, eraser input, and screen sharing.</p>
+<p class="meta">Zig · <a href="https://styllink.vercel.app/">Website</a></p>
+</div>
+<div data-repository="tinyws">
+<img src="https://raw.githubusercontent.com/davidnoronha1/tinyws/main/p.png" alt="Tiny Widget System rendering a digital clock on the desktop" width="950" height="437" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/tinyws">tinyws</a></h3>
+<p>Python widget framework that connects HTML and JavaScript interfaces to Linux system capabilities through WebKit2GTK.</p>
+<p class="meta">Python</p>
+</div>
+</div>
+</section>
 
-		<!-- GITHUB REPOSITORIES START -->
-		<section class="project-section" aria-labelledby="projects-robotics">
-			<h2 class="section-head" id="projects-robotics">Robotics</h2>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-repository="androidino">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/androidino">androidino</a></h3>
-							<p class="repository-meta">Kotlin</p>
-							<p>Android app for USB-connected microcontrollers, combining serial communication, Lua scripting, and sensor and camera input.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/androidino">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="camera_driver">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/camera_driver">camera_driver</a></h3>
-							<p class="repository-meta">C++</p>
-							<p>Configurable C++20 GStreamer camera framework with hardware encoding, recording, streaming, and optional ROS 2 integration.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/camera_driver">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="gate-detection" style="max-width: 903px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/gate-detection/main/image.png" alt="Multithreaded underwater gate-detection pipeline diagram" width="903" height="473" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/gate-detection">gate-detection</a></h3>
-							<p class="repository-meta">C++</p>
-							<p>Multithreaded C++ gate detection and pose estimation for the SAUVC underwater navigation task.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/gate-detection">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="meshmerize">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/meshmerize">meshmerize</a></h3>
-							<p class="repository-meta">C</p>
-							<p>A C and Raylib simulator for testing maze-solving line followers, with competition notes from MeshMerize 2024.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/meshmerize">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="mira" style="max-width: 960px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://github.com/user-attachments/assets/1f643f54-825b-4657-b129-be1897e39837" alt="Mira underwater robot beside a swimming pool" width="960" height="1280" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/mira">mira</a></h3>
-							<p class="repository-meta">Python</p>
-							<p>Dreadnought Robotics’ Mira AUV software stack, with ROS 2 control, perception, navigation, and vehicle telemetry.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/mira">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="mira-control-a1" style="max-width: 1396px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://github.com/user-attachments/assets/e4dc372e-b92d-4a27-974f-8fb3b3c09561" alt="Diagram of Mira controller workers, MAVLink messages, and serial communication" width="1396" height="554" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/mira-control-a1">mira-control-a1</a></h3>
-							<p class="repository-meta">Go</p>
-							<p>Go ROS 2 MAVLink controller for Mira, handling Pixhawk commands, telemetry, and emergency controls with concurrent workers.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/mira-control-a1">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="mira_sim" style="max-width: 1853px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/mira_sim/master/Screenshot%20from%202026-08-31%2017-43-31.png" alt="Mira simulation in Gazebo with QGroundControl telemetry" width="1853" height="965" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/mira_sim">mira_sim</a></h3>
-							<p class="repository-meta">Makefile</p>
-							<p>Containerized underwater simulation combining Gazebo Harmonic, ArduPilot SITL, competition worlds, and QGroundControl.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/mira_sim">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="robotics-demos">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/robotics-demos">robotics-demos</a></h3>
-							<p class="repository-meta">TypeScript</p>
-							<p>Browser-based IMU sensor fusion, webcam feature tracking, and an interactive map of NVIDIA robotics projects.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/robotics-demos">Source ↗</a><a href="https://robotics-demos.pages.dev/">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="zed-jetson">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/zed-jetson">zed-jetson</a></h3>
-							<p class="repository-meta">Shell</p>
-							<p>Docker environment for running ZED cameras and custom object detection on NVIDIA Jetson with ROS 2 Jazzy.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/zed-jetson">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+<section aria-labelledby="projects-graphics-media">
+<h2 id="projects-graphics-media">Graphics &amp; Media</h2>
+<div class="grid">
+<div data-repository="dither-experiments">
+<img src="https://raw.githubusercontent.com/davidnoronha1/dither-experiments/master/output.png" alt="Black-and-white dithered portrait produced by the image-processing project" width="512" height="512" loading="lazy" decoding="async">
+<h3><a href="https://github.com/davidnoronha1/dither-experiments">dither-experiments</a></h3>
+<p>GPU image-processing tool built with Zig and Mach, supporting palette lookup, LUTs, grayscale, and several dithering methods.</p>
+<p class="meta">Zig</p>
+</div>
+</div>
+</section>
 
-		<section class="project-section" aria-labelledby="projects-web-apps">
-			<h2 class="section-head" id="projects-web-apps">Web Apps</h2>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-repository="av1pack" style="max-width: 600px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/av1pack/master/chart.png" alt="av1pack compression benchmark comparing a photo album with ZIP and WebM output" width="600" height="371" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/av1pack">av1pack</a></h3>
-							<p class="repository-meta">TypeScript</p>
-							<p>Compress photo albums into WebM using browser video codecs, with embedded image metadata, slideshow playback, and ZIP extraction.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/av1pack">Source ↗</a><a href="https://av1pack.neswk.workers.dev">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="mem" style="max-width: 1853px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/mem/master/public/screenshot.png" alt="mem canvas with handwritten notes, bookmarks, and document cards" width="1853" height="965" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/mem">mem</a></h3>
-							<p class="repository-meta">JavaScript</p>
-							<p>A local-first browser workspace combining an infinite canvas, local files, bookmarks, PDF viewing, and rich-text notes.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/mem">Source ↗</a><a href="https://mem-bay.vercel.app">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="nhai-road-viz">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/nhai-road-viz">nhai-road-viz</a></h3>
-							<p class="repository-meta">TypeScript</p>
-							<p>A responsive road-survey dashboard with route maps, chainage information, lane analysis, and synchronized video views.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/nhai-road-viz">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="notein-export" style="max-width: 1847px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/notein-export/master/assets/screenshot.png" alt="Notein handwriting viewer displaying annotated engineering notes" width="1847" height="965" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/notein-export">notein-export</a></h3>
-							<p class="repository-meta">Zig</p>
-							<p>Local browser viewer for Notein and Nebo handwriting files, with WebAssembly parsing, media extraction, and PNG, PDF, and SVG export.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/notein-export">Source ↗</a><a href="https://noteinexport.neswk.workers.dev">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="project-section" aria-labelledby="projects-developer-tools">
-			<h2 class="section-head" id="projects-developer-tools">Developer Tools</h2>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-repository="bcd-table" style="max-width: 734px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/bcd-table/master/docs/image.png" alt="Browser compatibility table showing API support across desktop and mobile browsers" width="734" height="600" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/bcd-table">bcd-table</a></h3>
-							<p class="repository-meta">TypeScript</p>
-							<p>Cloudflare Worker that turns MDN browser compatibility data into embeddable HTML tables for web documentation.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/bcd-table">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="bootstrap">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/bootstrap">bootstrap</a></h3>
-							<p class="repository-meta">Shell</p>
-							<p>Interactive Linux workstation setup for development tools, shells, terminal configuration, Docker, and optional screen recording tools.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/bootstrap">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="crawly" style="max-width: 1826px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/crawly/master/image.png" alt="Crawly browser extension displaying a graph of linked websites" width="1826" height="1068" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/crawly">crawly</a></h3>
-							<p class="repository-meta">CSS</p>
-							<p>Browser extension that crawls page links and visualizes connections between websites as an interactive graph.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/crawly">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="dockercpp" style="max-width: 1825px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://github.com/user-attachments/assets/500f18ea-a971-4175-ac35-6bc971f80bb8" alt="VS Code running C++ code in the DockerCPP development environment" width="1825" height="1051" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/dockercpp">dockercpp</a></h3>
-							<p class="repository-meta">PowerShell</p>
-							<p>A Windows C/C++ development environment that installs VS Code and Docker, then opens a Linux dev container with clangd and LLDB.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/dockercpp">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="scpt" style="max-width: 1850px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/scpt/main/assets/Screenshot%20from%202026-08-25%2014-24-59.png" alt="scpt terminal connection menu alongside tmux shell panes" width="1850" height="1053" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/scpt">scpt</a></h3>
-							<p class="repository-meta">Shell</p>
-							<p>A tmux connection manager for SSH hosts, Docker containers, and local shells, with smart pane controls and companion file transfers.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/scpt">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="undefineddarkness.github.io">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/undefineddarkness.github.io">undefineddarkness.github.io</a></h3>
-							<p class="repository-meta">HTML</p>
-							<p>A personal publishing site with a custom shell-based static-site generator, document markup, and live rebuilding.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/undefineddarkness.github.io">Source ↗</a><a href="https://nes.is-a.dev">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="project-section" aria-labelledby="projects-desktop-linux">
-			<h2 class="section-head" id="projects-desktop-linux">Desktop &amp; Linux</h2>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-repository="awesome-firefox-integration" style="max-width: 1080px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://preview.redd.it/l42wrxgw59n71.png?width=1080&amp;crop=smart&amp;auto=webp&amp;s=d122bc3eee9a5bb7a2167a61e3480cb80a1a7d64" alt="Firefox tabs integrated into a customized AwesomeWM desktop" width="1080" height="1120" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/awesome-firefox-integration">awesome-firefox-integration</a></h3>
-							<p class="repository-meta">Python</p>
-							<p>Firefox extension and Python bridge that expose browser tabs to AwesomeWM titlebars and window switching.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/awesome-firefox-integration">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="cello" style="max-width: 1052px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://github.com/user-attachments/assets/b7694288-eb72-4221-91a9-e826cadb87f8" alt="Cello music player showing playback controls, music directories, playlist settings, and visualizer options" width="1052" height="666" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/cello">cello</a></h3>
-							<p class="repository-meta">GDScript</p>
-							<p>Godot music player with playlists and direct playback from ZIP archives, with Linux and Windows release builds.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/cello">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="colr" style="max-width: 400px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://i.imgur.com/QudIqH1.png" alt="Colr color picker showing its palette and RGB, HEX, and HSV values" width="400" height="330" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/colr">colr</a></h3>
-							<p class="repository-meta">C</p>
-							<p>GTK color picker for X11, inspired by PowerToys, with packaged binaries and a Meson build.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/colr">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="ewwxml">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/ewwxml">ewwxml</a></h3>
-							<p class="repository-meta">TypeScript</p>
-							<p>Archived command-line converter that migrates Eww widget configurations from XML to the Yuck format.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/ewwxml">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="mkr">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/mkr">mkr</a></h3>
-							<p class="repository-meta">C</p>
-							<p>A customizable GTK application launcher in C with modular modes for applications, emoji, scripts, and calculations.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/mkr">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="rice">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/rice">rice</a></h3>
-							<p class="repository-meta">Lua</p>
-							<p>Personal AwesomeWM desktop setup with custom patches, widgets, Neovim configuration, and system integration scripts.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/rice">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="ricing-guide">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/ricing-guide">ricing-guide</a></h3>
-							<p class="repository-meta">Shell</p>
-							<p>Practical Linux desktop customization guide covering setup, visual design, terminals, and frequently asked questions.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/ricing-guide">Source ↗</a><a href="https://nes.is-a.dev/ricing-guide/">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="stremio-mpris">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/stremio-mpris">stremio-mpris</a></h3>
-							<p class="repository-meta">JavaScript</p>
-							<p>Node.js Stremio add-on that publishes playback metadata through MPRIS for Linux media controls such as playerctl.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/stremio-mpris">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="styllink" style="max-width: 240px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/styllink/main/assets/demo.gif" alt="Android pen tablet connected to a Linux computer in the StylLink device demonstration" width="240" height="427" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/styllink">styllink</a></h3>
-							<p class="repository-meta">Zig</p>
-							<p>Use an Android stylus as a Linux pen tablet over USB or Wi-Fi, with pressure, tilt, eraser input, and screen sharing.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/styllink">Source ↗</a><a href="https://styllink.vercel.app/">Website ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="tinyws" style="max-width: 950px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/tinyws/main/p.png" alt="Tiny Widget System rendering a digital clock on the desktop" width="950" height="437" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/tinyws">tinyws</a></h3>
-							<p class="repository-meta">Python</p>
-							<p>Python widget framework that connects HTML and JavaScript interfaces to Linux system capabilities through WebKit2GTK.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/tinyws">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="project-section" aria-labelledby="projects-graphics-media">
-			<h2 class="section-head" id="projects-graphics-media">Graphics &amp; Media</h2>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-repository="dither-experiments" style="max-width: 512px">
-					<div class="experiment-card repository-card">
-						<img class="repository-image" src="https://raw.githubusercontent.com/davidnoronha1/dither-experiments/master/output.png" alt="Black-and-white dithered portrait produced by the image-processing project" width="512" height="512" loading="lazy" decoding="async">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/dither-experiments">dither-experiments</a></h3>
-							<p class="repository-meta">Zig</p>
-							<p>GPU image-processing tool built with Zig and Mach, supporting palette lookup, LUTs, grayscale, and several dithering methods.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/dither-experiments">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="project-section" aria-labelledby="projects-systems-libraries">
-			<h2 class="section-head" id="projects-systems-libraries">Systems &amp; Libraries</h2>
-			<div class="experiments-grid">
-				<div class="experiment-card-wrapper" data-repository="gbz">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/gbz">gbz</a></h3>
-							<p class="repository-meta">C#</p>
-							<p>C# Game Boy emulator in progress, with an implemented SM83 CPU and memory model; graphics and other subsystems remain unfinished.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/gbz">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-				<div class="experiment-card-wrapper" data-repository="portmidi-lua">
-					<div class="experiment-card repository-card">
-						<div class="experiment-info">
-							<h3><a href="https://github.com/davidnoronha1/portmidi-lua">portmidi-lua</a></h3>
-							<p class="repository-meta">C</p>
-							<p>Lua bindings for PortMidi generated with SWIG, exposing MIDI device and event APIs to Lua programs.</p>
-							<div class="repository-links"><a href="https://github.com/davidnoronha1/portmidi-lua">Source ↗</a></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- GITHUB REPOSITORIES END -->
-
-		<footer>
-			<p><a href="/">← Return to Homepage</a> | <a href="/portfolio.html">Portfolio</a> | <a href="https://github.com/davidnoronha1">GitHub</a></p>
-		</footer>
-	</article>
-
+<section aria-labelledby="projects-systems-libraries">
+<h2 id="projects-systems-libraries">Systems &amp; Libraries</h2>
+<div class="grid">
+<div data-repository="gbz">
+<h3><a href="https://github.com/davidnoronha1/gbz">gbz</a></h3>
+<p>C# Game Boy emulator in progress, with an implemented SM83 CPU and memory model; graphics and other subsystems remain unfinished.</p>
+<p class="meta">C#</p>
+</div>
+<div data-repository="portmidi-lua">
+<h3><a href="https://github.com/davidnoronha1/portmidi-lua">portmidi-lua</a></h3>
+<p>Lua bindings for PortMidi generated with SWIG, exposing MIDI device and event APIs to Lua programs.</p>
+<p class="meta">C</p>
+</div>
+</div>
+</section>
+<!-- GITHUB REPOSITORIES END -->
+</main>
 </body>
 </html>
