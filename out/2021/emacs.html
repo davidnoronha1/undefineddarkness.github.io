@@ -1,423 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Emacs</title>
-	<meta name="description" content="My time with emacs and all the places you can take it to" />
-	<link rel="canonical" href="https://nes.is-a.dev/2021/emacs.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Emacs" />
-	<meta property="og:description" content="My time with emacs and all the places you can take it to" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2021/emacs.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Emacs" />
-	<meta name="twitter:description" content="My time with emacs and all the places you can take it to" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,i{font-style:italic}code,kbd,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}kbd{background:var(--black);border-radius:5px;color:var(--gray);display:inline-block;padding:0 5px}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}img.inline{float:left;margin-bottom:1em;margin-right:1em;max-width:18em;width:unset}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}blockquote{margin:1em 0 0 5em}li>blockquote{margin:1em 0 0 1em}blockquote:before{content:"❝";font-size:2.5em;left:-1.5em;position:absolute;top:-.4em}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}article img,main img{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}blockquote{margin-left:1em}blockquote:before{left:-.7em}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Emacs",
-		"description": "My time with emacs and all the places you can take it to",
-		"url": "https://nes.is-a.dev/2021/emacs.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emacs</title>
+<meta name="description" content="My time with emacs and all the places you can take it to">
+<link rel="canonical" href="https://nes.is-a.dev/out/2021/emacs.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Emacs">
+<meta property="og:description" content="My time with emacs and all the places you can take it to">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2021/emacs.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{display:inline-block;margin:0 .3em 0 0;height:.8em;width:auto;vertical-align:-.04em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{--c:var(--gray);margin:1em 0;padding:.6em 1em;border-left:3px solid var(--c);background:#191919}.markdown-alert>*{margin:.5em 0 0}.markdown-alert>:first-child{margin-top:0}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert>.markdown-alert-title{margin-bottom:-.2em;color:var(--c);font-weight:600;font-size:.875em;text-transform:uppercase;letter-spacing:.04em}.markdown-alert-note{--c:#6a9ef2}.markdown-alert-tip{--c:#5fb87a}.markdown-alert-important{--c:#b483e8}.markdown-alert-warning{--c:#d6a72b}.markdown-alert-caution{--c:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
-
-<header>
-  <h1>Emacs</h1>
-  <!-- post_description="My time with emacs and all the places you can take it to" -->
-</header>
-I suppose I should explain what I am comparing it with, The main editors<br/>
-I have used before this for any amount of time are, VS Code & Neovim,<br/>
-both very good editors, excellent at a lot of things.<br/>
-<br/>
-VS Code was something of a cushioned experiance, there was thought in a lot of<br/>
-places but it wasn't my thought, The UI is mostly set in stone, The<br/>
-configuration being done statically in JSON (Meaning, there is no way for me to<br/>
-script anything) limits a lot and I just didn't feel really comfortable using<br/>
-it, tho the way everything tends to just work<sup>tm</sup> is really nice. Even<br/>
-using CSS to modify the VS Code UI is a difficult task, You need to go through a<br/>
-few hoops to even inject CSS, which in my opinion should be a builtin feature;<br/>
-VS Code's predecessor Atom had a prettier UI and was more flexible in this<br/>
-respect :/<br/>
-<br/>
-Neovim, I really enjoyed my time using Neovim, it is a very polished<br/>
-editor and is very good at what it does (That is to say, good at editing<br/>
-text files quickly then exiting), But I found the restrictions placed by<br/>
-a Terminal User Interface to be a bit limiting with how I wanted my<br/>
-editor to look, It is still very good and much more customizable than VS<br/>
-Code. (All this applies to vanilla vim too)<br/>
-<br/>
-So the main reasons I was interested in Emacs, was the fully featured<br/>
-graphical user interface which was extremely flexible, The ability to<br/>
-use Emacs for much more than just text editing, It can do that too but it can do a lot of other things rather well and so can be used as a sort of <br/>
-integrated development enviroment for everything <br/>
-<a href="gui-in-godot.html">My time using godot</a> made me realize how nice of a experience that is,<br/>
-And of course since I like bringing pain onto myself, I decided to forgo <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and do a from scratch configuration.<br/>
-<br/>
-If you are starting out with Emacs, I recommend starting with DOOM,<br/>
-It's a good & fast configuration, You will have a much easier time.<br/>
-<h2 id="getting-used-to-it">Getting used to it</h2>
-<p>
-<br/>
-Getting used to Emacs wasn't really hard once I installed<br/>
-<a href="https://github.com/emacs-evil/evil">evil-mode</a>, That plugin makes Emacs<br/>
-follow vim's system of insert, normal & visual modes as well as follow<br/>
-vim's keybind system, Which is much more comfortable for me, and so I<br/>
-didn't really need to learn how to use Emacs for editing.<br/>
-<br/>
-After that, the main changes I had to get used to was getting rid of my<br/>
-habit of opening & closing vim many times when editing several files,<br/>
-Emacs isn't meant to be used like that, instead you open one Emacs<br/>
-instance and you leave it open for as long as you need.<br/>
-<br/>
-Moving around files from directly in the editor was something I needed<br/>
-to get used to as well, In neovim, I would just quit the editor / spawn<br/>
-a new terminal, <code>cd</code> to where I wanted to go, and open neovim again.<br/>
-<br/>
-Using Emacs's bookmark system with _Consult_ has helped with moving<br/>
-around a lot however.<br/>
-<br/>
-</p>
-<h3 id="compiling-emacs-for-great-good">Compiling Emacs for great good</h3>
-<p>
-<br/>
-Another reason I decided to try Emacs now of all times was that there<br/>
-were 3 exciting features that had just recently been implemented, Native<br/>
-Compilation, Pure GTK Support & Pixel Smooth Scrolling.<br/>
-<br/>
-<b>Native Compilation</b>: This implements gccjit in Emacs to speed up<br/>
-Elisp significantly, After using it personally I can't tell the<br/>
-difference but many people have noticed a difference and it's a good<br/>
-thing to have in the background.<br/>
-<br/>
-<a href="https://www.emacswiki.org/emacs/GccEmacs">Emacs Wiki page</a>, <br/>
-<a href="https://zenodo.org/record/3736363/files/GCCEMACS_proceeding.pdf?download=1">Paper talking about it</a><br/>
-<br/>
-<b>Pure GTK Support</b>: This one does not really affect me but it is<br/>
-exciting anyway, Emacs for some time now has been mostly stuck to the<br/>
-X11 environment since it uses a lot of Xorg specific functionality, Pure<br/>
-GTK does away with all that meaning Emacs can be run natively in Wayland<br/>
-too.<br/>
-<br/>
-<b>Smooth Scrolling</b>: This one is really really epic, Emacs has been<br/>
-known for shitty scrolling & I have even experienced it being shitty<br/>
-many times, It is really laggy and unnatural to use. This fixes all<br/>
-that, It allows for actually good smooth scrolling built right into<br/>
-emacs, It's not perfect, it still scrolls by lines instead of actual<br/>
-pixels but it is quite smooth and I don't hate using it.<br/>
-<pre>
-<code class="language-commonlisp">(pixel-scroll-precision-mode)	</code>
-</pre>
-<br/>
-All 3 of these required me to build Emacs 29 from source (At the time of<br/>
-writing, Emacs 28 hasn't been released yet), But building Emacs isnt<br/>
-really difficult, and if you use Debian Unstable (sid), You don't need<br/>
-to compile anything as [prebuilt<br/>
-binaries](<a href="http://emacs.secretsauce.net/">http://emacs.secretsauce.net/</a>) are available for you, Just do<br/>
-<pre>
-<code class="language-shell">&#35; Uncomment the deb-src lines in /etc/apt/sources.list
-sudo apt-get build-dep emacs
-sudo apt install libgccjit-10-dev
-git clone <a href="https://git.savannah.gnu.org/git/emacs.git">https://git.savannah.gnu.org/git/emacs.git</a> --depth 1 -b master
-cd emacs
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>Emacs</h1></header>
+<p>I suppose I should explain what I am comparing it with, The main editors
+I have used before this for any amount of time are, VS Code &amp; Neovim,
+both very good editors, excellent at a lot of things.</p><p>VS Code was something of a cushioned experiance, there was thought in a lot of
+places but it wasn't my thought, The UI is mostly set in stone, The
+configuration being done statically in JSON (Meaning, there is no way for me to
+script anything) limits a lot and I just didn't feel really comfortable using
+it, tho the way everything tends to just work<sup>tm</sup> is really nice. Even
+using CSS to modify the VS Code UI is a difficult task, You need to go through a
+few hoops to even inject CSS, which in my opinion should be a builtin feature;
+VS Code's predecessor Atom had a prettier UI and was more flexible in this
+respect :/</p><p>Neovim, I really enjoyed my time using Neovim, it is a very polished
+editor and is very good at what it does (That is to say, good at editing
+text files quickly then exiting), But I found the restrictions placed by
+a Terminal User Interface to be a bit limiting with how I wanted my
+editor to look, It is still very good and much more customizable than VS
+Code. (All this applies to vanilla vim too)</p><p>So the main reasons I was interested in Emacs, was the fully featured
+graphical user interface which was extremely flexible, The ability to
+use Emacs for much more than just text editing, It can do that too but it can do a lot of other things rather well and so can be used as a sort of
+integrated development enviroment for everything
+<a href="gui-in-godot.html">My time using godot</a> made me realize how nice of a experience that is,
+And of course since I like bringing pain onto myself, I decided to forgo <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and do a from scratch configuration.</p><p>If you are starting out with Emacs, I recommend starting with DOOM,
+It's a good &amp; fast configuration, You will have a much easier time.</p>
+<h2 id="getting-used-to-it">Getting used to it</h2><p>Getting used to Emacs wasn't really hard once I installed
+<a href="https://github.com/emacs-evil/evil">evil-mode</a>, That plugin makes Emacs
+follow vim's system of insert, normal &amp; visual modes as well as follow
+vim's keybind system, Which is much more comfortable for me, and so I
+didn't really need to learn how to use Emacs for editing.</p><p>After that, the main changes I had to get used to was getting rid of my
+habit of opening &amp; closing vim many times when editing several files,
+Emacs isn't meant to be used like that, instead you open one Emacs
+instance and you leave it open for as long as you need.</p><p>Moving around files from directly in the editor was something I needed
+to get used to as well, In neovim, I would just quit the editor / spawn
+a new terminal, <code>cd</code> to where I wanted to go, and open neovim again.</p><p>Using Emacs's bookmark system with <em>Consult</em> has helped with moving
+around a lot however.</p>
+<h3 id="compiling-emacs-for-great-good">Compiling Emacs for great good</h3><p>Another reason I decided to try Emacs now of all times was that there
+were 3 exciting features that had just recently been implemented, Native
+Compilation, Pure GTK Support &amp; Pixel Smooth Scrolling.</p><p><strong>Native Compilation</strong>: This implements gccjit in Emacs to speed up
+Elisp significantly, After using it personally I can't tell the
+difference but many people have noticed a difference and it's a good
+thing to have in the background.</p><p><a href="https://www.emacswiki.org/emacs/GccEmacs">Emacs Wiki page</a>,
+<a href="https://zenodo.org/record/3736363/files/GCCEMACS_proceeding.pdf?download=1">Paper talking about it</a></p><p><strong>Pure GTK Support</strong>: This one does not really affect me but it is
+exciting anyway, Emacs for some time now has been mostly stuck to the
+X11 environment since it uses a lot of Xorg specific functionality, Pure
+GTK does away with all that meaning Emacs can be run natively in Wayland
+too.</p><p><strong>Smooth Scrolling</strong>: This one is really really epic, Emacs has been
+known for shitty scrolling &amp; I have even experienced it being shitty
+many times, It is really laggy and unnatural to use. This fixes all
+that, It allows for actually good smooth scrolling built right into
+emacs, It's not perfect, it still scrolls by lines instead of actual
+pixels but it is quite smooth and I don't hate using it.</p><pre><code class="language-commonlisp">(pixel-scroll-precision-mode)</code></pre><p>All 3 of these required me to build Emacs 29 from source (At the time of
+writing, Emacs 28 hasn't been released yet), But building Emacs isnt
+really difficult, and if you use Debian Unstable (sid), You don't need
+to compile anything as <a href="http://emacs.secretsauce.net/">prebuilt
+binaries</a> are available for you, Just do</p><pre><code class="language-shell"><span class="c1"># Uncomment the deb-src lines in /etc/apt/sources.list</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>build-dep<span class="w"> </span>emacs
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libgccjit-10-dev
+git<span class="w"> </span>clone<span class="w"> </span>https://git.savannah.gnu.org/git/emacs.git<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-b<span class="w"> </span>master
+<span class="nb">cd</span><span class="w"> </span>emacs
 ./autogen.sh
-./configure.sh --with-native-compilation --with-pgtk --with-sqlite3
-sudo make install -j$(nproc)	</code>
-</pre>
-<br/>
-</p>
+./configure.sh<span class="w"> </span>--with-native-compilation<span class="w"> </span>--with-pgtk<span class="w"> </span>--with-sqlite3
+sudo<span class="w"> </span>make<span class="w"> </span>install<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span></code></pre>
 <h2 id="getting-comfortable-in-it">Getting comfortable in it</h2>
-<h3 id="lsp-completion">LSP Completion</h3>
-<p>
-<br/>
-Corfu is a very minimal Emacs plugin that offers wonderful in buffer<br/>
-completions, that just works<sup>TM</sup><br/>
-<br/>
-Eglot (unsurprisingly) is a mininal LSP client for Emacs. By default it<br/>
-won't do much but there is a sister plugin called cape that exports more<br/>
-functionality, like completing from ispell, completing file paths etc.<br/>
-<br/>
-The two were practically made for each other \<3. They both work really<br/>
-well and it was really simple to get Deno's LSP working once I figured<br/>
-out that I needed to "enable" it in eglot's initialization options. (Why<br/>
-isn't it enabled by default \>:( )<br/>
-<br/>
-Kind Icon is a small addition to corfu that shows the type of whatever<br/>
-item it is next to, which is pretty handy and it looks nice to boot.<br/>
-<br/>
-If you want a more powerful lsp client with more integration / options,<br/>
-You ought to check out lsp-mode. Similarly for corfu, try company-mode &<br/>
-company-box-mode, If your lsp needs are fairly simple like mine are,<br/>
-this duo should work just fine for you. EDIT: I have recently abandoned<br/>
-eglot for lsp-mode since it suits my needs better and I found it easier<br/>
-to configure<br/>
-<br/>
-</p>
-<h3 id="linting">Linting</h3>
-<p>
-<br/>
-I think there is only one correct answer to this and that is<br/>
-flycheck. It just works out of the box and will automatically pick<br/>
-up any linters you have installed, and generally its been a install<br/>
-once, and don't worry about it plugin.<br/>
-<br/>
-I am sure it's possible to make flymake entirely usable but it seems<br/>
-to be more trouble than it's worth to me.<br/>
-<br/>
-If you want to disable the default eldoc linter which is maybe the<br/>
-most stupid linter I have ever seen, do <code>(setq flycheck-disabled-checkers '(emacs-lisp-checkdoc))</code><br/>
-<br/>
-\*Haven't looked into formatting yet<br/>
-<br/>
-</p>
-<h3 id="speed">Speed</h3>
-<p>
-<br/>
-On average, For me Emacs takes around 1s to fully start up, This isn't<br/>
-bad at all considering I haven't gone out of my way to make it faster<br/>
-and I haven't made use of daemon mode (which would make startup time<br/>
-irrelevant), And since I don't close it often it matters even less. But<br/>
-here are a few tricks I used to speed it up from its vanilla state<br/>
-(Still not as extreme as DOOM Emacs does tho).<br/>
-<br/>
-<figure>
-<blockquote>
-Some of these techniques for fast startup I've documented in our <a href="https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly">FAQ</a>.<br/>
-<br/>
-The highlights are:<br/>
-<br/>
-<ul>
-<li>I suppress garbage collection during startup,<br/>
-</li>
-<li>I lazy load our package manager. This means avoiding<br/>
-  package-initialize or, if you use straight like Doom does,<br/>
-  bootstrapping straight. It also means no 200+ package-installed-p<br/>
-  checks on startup.<br/>
-</li>
-<li>Package autoloads files are concatenated into one, large file.<br/>
-  This saves on hundreds of file reads at startup (assuming you have<br/>
-  hundreds of packages installed). I byte-compile it too.<br/>
-</li>
-<li>Almost all our packages are lazy loaded (iirc, 2-3 out of 300 are<br/>
-  not).<br/>
-<br/>
-The biggest gains come from lazy loading packages. Especially the big<br/>
-ones, like org, helm, and magit. Doom goes a bit further with this. A<br/>
-couple examples:<br/>
-<br/>
-</li>
-<li>Dozens of packages (like recentf, savehist, autorevert, etc) are<br/>
-  deferred until your first input (pre-command-hook) or the first<br/>
-  file is opened (:before after-find-file).<br/>
-</li>
-<li>Org's babel packages aren't loaded all at once with<br/>
-  org-babel-do-load-languages, but on demand when their src blocks<br/>
-  are encountered (fontified) or executed. Same with its export<br/>
-  backends.<br/>
-</li>
-<li>Doom loads some larger packages incrementally while it is idle.<br/>
-  i.e. After 2s afk, it loads one of dash, f, s, with-editor,<br/>
-  git-commit, package, eieio, lv, then transient every second,<br/>
-  before finally loading magit (these are its dependencies). This<br/>
-  process bows out when it detects user activity, and continues<br/>
-  later when Emacs has been idle again for 2s. This helps with that<br/>
-  first-time-load delay when starting magit. org and helm get<br/>
-  similar treatment.<br/>
-</li>
-<li>If you use the daemon, the incremental-loader just loads them all<br/>
-  immediately.<br/>
-<br/>
-Besides that, I've collected tidbits of elisp over the years that<br/>
-appear to help startup time, sometimes inexplicably. Here are a couple<br/>
-off the top of my head:<br/>
-<br/>
-</li>
-<li><code>(add-to-list 'default-frame-alist '(font . "Fira Code-14"))</code><br/>
-  instead of <code>(set-frame-font "Fira Code-14" t t)</code>. The latter does<br/>
-  more work than the former, under the hood.<br/>
-<br/>
-</li>
-<li><code>(setq frame-inhibit-implied-resize t)</code> – Emacs resizes the (GUI)<br/>
-  frame when your newly set font is larger (or smaller) than the<br/>
-  system default. This seems to add 0.4-1s to startup.<br/>
-<br/>
-</li>
-<li><code>(setq initial-major-mode 'fundamental-mode)</code> – I don't need the<br/>
-  scratch buffer at startup. I have it a keybind away if I do.<br/>
-  Starting text-mode at startup circumvents a couple startup<br/>
-  optimizations (by eager-loading a couple packages associated with<br/>
-  text modes, like flyspell), so starting it in fundamental-mode<br/>
-  instead helps a bit.<br/>
-<br/>
-An odd one: tty-run-terminal-initialization adds a couple seconds to<br/>
-startup for tty Emacs users when it is run too early. After deferring<br/>
-it slightly, this doesn't appear to be an issue anymore. Not a big tty<br/>
-Emacs user, so YMMV.<br/>
-<br/>
-</blockquote>
-<figcaption>— Hlissner (Author of DOOM Emacs)</figcaption>
-</figure>
-<br/>
-</li>
-</ul><br/>I can't say how much of each has contributed to helping my start up<br/>
-times but in general, The best advice I (personally) can give is to<br/>
-async everything as much as possible. The garbage collector and the file<br/>
-alist trick help a fair bit as well.<br/>
-<br/>
-</p>
-<h3 id="org-mode">Org Mode</h3>
-<p>
-<br/>
-I was always skeptical of how good org mode would be, Cause I had seen<br/>
-emacs users proclaim org mode as the killer feature for Emacs which I<br/>
-disagreed with (and still do) but now I understand what they were<br/>
-talking about, It is really amazing how flexible org mode is.<br/>
-<br/>
-It is the more powerful / flexible markdown I had always wanted, and<br/>
-tried to achieve with <a href="../lorem.html">nesdown</a>. And it actually looks /<br/>
-feels good to edit too, since you can smartly hide almost all of the<br/>
-syntactic visual noise and get a very clean experience editing it.<br/>
-<br/>
-And if you want to send your document to someone, there are myriad of<br/>
-ways you can export your document, for example: this whole article was<br/>
-written in org mode and exported to HTML, I might consider abandoning<br/>
-nesdown entirely; Org does the same job and does it better with much<br/>
-better editor integration. Not being able to directly write html feels a<br/>
-bit stifling but I am going to consider it as a lesson in self control<br/>
-(yes, this is me just coping with it)<br/>
-<br/>
-Org has made me actually interested in taking digital notes, instead of<br/>
-ones with pen and paper, Its agenda features are really capable as well,<br/>
-Though I haven't been able to grasp them fully just yet.<br/>
-<br/>
-I have yet to try out org-roam, but I am excited to do so, It looks<br/>
-really interesting for note taking.<br/>
-<br/>
-I am going to try doing a thing I've wanted to do with it, I want to<br/>
-replicate the appearance of the document in my editor in my website so<br/>
-that WYSIWYG.<br/>
-<br/>
-Though I would like to see a _bit_ more flexibility when it comes to<br/>
-syntax, I much prefer some of markdown's syntax compared to what org has<br/>
-(though its not too bad) and would like to customize some parts of the<br/>
-export process. Example: I would like to display keybindings on my site<br/>
-from a document written in org, but Org has no way to export<br/>
-<code>&lt;kbd&gt;&lt;/kbd&gt;</code> tags out of the box, and the few SO solutions I have found<br/>
-seems to be pretty ugly hacks in my opinion, I'll have to try and see<br/>
-which one isn't broken yet. <code>M-x</code> doctor - Hey I got it to work :)<br/>
-<br/>
-</p>
-<h3 id="making-org-mode-pretty">Making Org Mode Pretty</h3>
-<p>
-<br/>
-    Before you delve any deeper, This is the end result in my Emacs<br/>
-    configuration,<br/>
-    <figure><img src="/assets/org-mode-190f448882.avif" alt="" title="" loading="lazy" /><figcaption></figcaption></figure><br/>
-    *Font used is<br/>
-    iA Writer Quattro - It's been made for iA writer which is a Markdown<br/>
-    editor for MacOS, that looks really good.*<br/>
-<br/>
-    <code>org-hide-emphasis-markers</code> automatically hides any inline<br/>
-    <b>emphasis</b> markers which leads to a much cleaner look.<br/>
-    <code>org-pretty-entities</code> converts text symbols into their unicode<br/>
-    counterparts to <code>&lt;backslash&gt;lambda</code> becomes <code>\lambda</code> For the list<br/>
-    bullets, Besides <code>org-hide-leading-stars</code>, I use org-superstar (a<br/>
-    improved version of org bullets), With all the heading stars changed<br/>
-    to <code>&ast;</code>; I originally had a space to hide most stars but that broke<br/>
-    indent mode too much. Then I set all the list bullets to use the<br/>
-    unicode bullet character (•)<br/>
-<br/>
-    The rest is just customizing highlight groups, with `customize-group<br/>
-    org-faces`.<br/>
-<br/>
-    EDIT: *I have found a plugin that does a lot of this in a much<br/>
-    better way than I could,<br/>
-    <a href="https://github.com/minad/org-modern/">org-modern</a>, It also replaces<br/>
-    org-superstar*<br/>
-<br/>
-    Besides that I have done some other tweaks in places to clean up the<br/>
-    experiance when editing, example: Using padding around the entire<br/>
-    emacs window, Disabling parts of the default UI, Showing word count<br/>
-    on the mode line.<br/>
-<br/>
-    You can see all the customizations I made in:<br/>
-    <a href="https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/appearance.el">appearance.el</a><br/>
-    <a href="https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/writing.el">writing.el</a><br/>
-    <a href="https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/custom.el">custom.el</a><br/>
-<br/>
-</p>
-<h3 id="consult">Consult</h3>
-<p>
-<br/>
-One thing I missed quite a lot from Neovim was telescope, That is an<br/>
-amazing plugin that allows you to very quickly search through and filter<br/>
-files, contents of files, buffers, tabs, functions in the file etc. It<br/>
-didn't take long till I found<br/>
-<a href="https://github.com/minad/vertico">consult</a> which combined with<br/>
-<a href="https://github.com/minad/vertico">vertico</a> replicates most of the<br/>
-experience I want as well if not better than telescope (Combining<br/>
-various useful things in the buffer selection menu),<br/>
-<br/>
-Tho since it runs the file searching functions in the same dir as the<br/>
-current file when I usually want it to run in the parent directory which<br/>
-is the actual project folder, It still needs some work, as does Emacs so<br/>
-it does not <code>cd</code> to the folder which contains my code, but opens it<br/>
-relative to the project folder.<br/>
-<br/>
-</p>
-<h3 id="other-stuff">Other Stuff</h3>
-<p>
-<br/>
-Vterm mode provides a excellent terminal that just works<sup>TM</sup>,<br/>
-and I didn't need to do any particular configuration for it.<br/>
-<br/>
-Neotree & Treemacs are only file trees I have tried, and I prefer the<br/>
-way neotree works more than treemacs, Speedtree would be decent if it<br/>
-didn't popup a new window and could use icons<br/>
-<br/>
-Parinfer becomes a bit of a pain when it disagrees with me, but when it<br/>
-does work, It is lisp editing heaven but your mileage may vary.<br/>
-<br/>
-My buddy nuxsh also wrote a similar article:<br/>
-<<a href="https://nuxsh.is-a.dev/blog/emacs.html>">https://nuxsh.is-a.dev/blog/emacs.html></a>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+<h3 id="lsp-completion">LSP Completion</h3><p>Corfu is a very minimal Emacs plugin that offers wonderful in buffer
+completions, that just works<sup>TM</sup></p><p>Eglot (unsurprisingly) is a mininal LSP client for Emacs. By default it
+won't do much but there is a sister plugin called cape that exports more
+functionality, like completing from ispell, completing file paths etc.</p><p>The two were practically made for each other &lt;3. They both work really
+well and it was really simple to get Deno's LSP working once I figured
+out that I needed to &quot;enable&quot; it in eglot's initialization options. (Why
+isn't it enabled by default &gt;:( )</p><p>Kind Icon is a small addition to corfu that shows the type of whatever
+item it is next to, which is pretty handy and it looks nice to boot.</p><p>If you want a more powerful lsp client with more integration / options,
+You ought to check out lsp-mode. Similarly for corfu, try company-mode &amp;
+company-box-mode, If your lsp needs are fairly simple like mine are,
+this duo should work just fine for you. EDIT: I have recently abandoned
+eglot for lsp-mode since it suits my needs better and I found it easier
+to configure</p>
+<h3 id="linting">Linting</h3><p>I think there is only one correct answer to this and that is
+flycheck. It just works out of the box and will automatically pick
+up any linters you have installed, and generally its been a install
+once, and don't worry about it plugin.</p><p>I am sure it's possible to make flymake entirely usable but it seems
+to be more trouble than it's worth to me.</p><p>If you want to disable the default eldoc linter which is maybe the
+most stupid linter I have ever seen, do <code>(setq flycheck-disabled-checkers '(emacs-lisp-checkdoc))</code></p><p>*Haven't looked into formatting yet</p>
+<h3 id="speed">Speed</h3><p>On average, For me Emacs takes around 1s to fully start up, This isn't
+bad at all considering I haven't gone out of my way to make it faster
+and I haven't made use of daemon mode (which would make startup time
+irrelevant), And since I don't close it often it matters even less. But
+here are a few tricks I used to speed it up from its vanilla state
+(Still not as extreme as DOOM Emacs does tho).</p><blockquote><blockquote><blockquote></blockquote></blockquote></blockquote><p>Some of these techniques for fast startup I've documented in our <a href="https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly">FAQ</a>.</p><p>The highlights are:</p><ul><li>I suppress garbage collection during startup,</li><li>I lazy load our package manager. This means avoiding
+package-initialize or, if you use straight like Doom does,
+bootstrapping straight. It also means no 200+ package-installed-p
+checks on startup.</li><li>Package autoloads files are concatenated into one, large file.
+This saves on hundreds of file reads at startup (assuming you have
+hundreds of packages installed). I byte-compile it too.</li><li>Almost all our packages are lazy loaded (iirc, 2-3 out of 300 are
+not).</li></ul><p>The biggest gains come from lazy loading packages. Especially the big
+ones, like org, helm, and magit. Doom goes a bit further with this. A
+couple examples:</p><ul><li>Dozens of packages (like recentf, savehist, autorevert, etc) are
+deferred until your first input (pre-command-hook) or the first
+file is opened (:before after-find-file).</li><li>Org's babel packages aren't loaded all at once with
+org-babel-do-load-languages, but on demand when their src blocks
+are encountered (fontified) or executed. Same with its export
+backends.</li><li>Doom loads some larger packages incrementally while it is idle.
+i.e. After 2s afk, it loads one of dash, f, s, with-editor,
+git-commit, package, eieio, lv, then transient every second,
+before finally loading magit (these are its dependencies). This
+process bows out when it detects user activity, and continues
+later when Emacs has been idle again for 2s. This helps with that
+first-time-load delay when starting magit. org and helm get
+similar treatment.</li><li>If you use the daemon, the incremental-loader just loads them all
+immediately.</li></ul><p>Besides that, I've collected tidbits of elisp over the years that
+appear to help startup time, sometimes inexplicably. Here are a couple
+off the top of my head:</p><ul><li><p><code>(add-to-list 'default-frame-alist '(font . &quot;Fira Code-14&quot;))</code>
+instead of <code>(set-frame-font &quot;Fira Code-14&quot; t t)</code>. The latter does
+more work than the former, under the hood.</p></li><li><p><code>(setq frame-inhibit-implied-resize t)</code> – Emacs resizes the (GUI)
+frame when your newly set font is larger (or smaller) than the
+system default. This seems to add 0.4-1s to startup.</p></li><li><p><code>(setq initial-major-mode 'fundamental-mode)</code> – I don't need the
+scratch buffer at startup. I have it a keybind away if I do.
+Starting text-mode at startup circumvents a couple startup
+optimizations (by eager-loading a couple packages associated with
+text modes, like flyspell), so starting it in fundamental-mode
+instead helps a bit.</p></li></ul><p>An odd one: tty-run-terminal-initialization adds a couple seconds to
+startup for tty Emacs users when it is run too early. After deferring
+it slightly, this doesn't appear to be an issue anymore. Not a big tty
+Emacs user, so YMMV.</p><blockquote><blockquote><blockquote><p>— Hlissner (Author of DOOM Emacs)</p></blockquote></blockquote></blockquote><p>I can't say how much of each has contributed to helping my start up
+times but in general, The best advice I (personally) can give is to
+async everything as much as possible. The garbage collector and the file
+alist trick help a fair bit as well.</p>
+<h3 id="org-mode">Org Mode</h3><p>I was always skeptical of how good org mode would be, Cause I had seen
+emacs users proclaim org mode as the killer feature for Emacs which I
+disagreed with (and still do) but now I understand what they were
+talking about, It is really amazing how flexible org mode is.</p><p>It is the more powerful / flexible markdown I had always wanted, and
+tried to achieve with <a href="/out/2021/lorem.html">nesdown</a>. And it actually looks /
+feels good to edit too, since you can smartly hide almost all of the
+syntactic visual noise and get a very clean experience editing it.</p><p>And if you want to send your document to someone, there are myriad of
+ways you can export your document, for example: this whole article was
+written in org mode and exported to HTML, I might consider abandoning
+nesdown entirely; Org does the same job and does it better with much
+better editor integration. Not being able to directly write html feels a
+bit stifling but I am going to consider it as a lesson in self control
+(yes, this is me just coping with it)</p><p>Org has made me actually interested in taking digital notes, instead of
+ones with pen and paper, Its agenda features are really capable as well,
+Though I haven't been able to grasp them fully just yet.</p><p>I have yet to try out org-roam, but I am excited to do so, It looks
+really interesting for note taking.</p><p>I am going to try doing a thing I've wanted to do with it, I want to
+replicate the appearance of the document in my editor in my website so
+that WYSIWYG.</p><p>Though I would like to see a <em>bit</em> more flexibility when it comes to
+syntax, I much prefer some of markdown's syntax compared to what org has
+(though its not too bad) and would like to customize some parts of the
+export process. Example: I would like to display keybindings on my site
+from a document written in org, but Org has no way to export
+<code>&lt;kbd&gt;&lt;/kbd&gt;</code> tags out of the box, and the few SO solutions I have found
+seems to be pretty ugly hacks in my opinion, I'll have to try and see
+which one isn't broken yet. <code>M-x</code> doctor - Hey I got it to work :)</p>
+<h3 id="making-org-mode-pretty">Making Org Mode Pretty</h3><p>Before you delve any deeper, This is the end result in my Emacs
+configuration,</p><figure><img loading="lazy" src="/assets/org-mode-190f448882.avif" alt="" /></figure><p><em>Font used is
+iA Writer Quattro - It's been made for iA writer which is a Markdown
+editor for MacOS, that looks really good.</em></p><p><code>org-hide-emphasis-markers</code> automatically hides any inline
+<strong>emphasis</strong> markers which leads to a much cleaner look.
+<code>org-pretty-entities</code> converts text symbols into their unicode
+counterparts to <code>&lt;backslash&gt;lambda</code> becomes <code>\lambda</code> For the list
+bullets, Besides <code>org-hide-leading-stars</code>, I use org-superstar (a
+improved version of org bullets), With all the heading stars changed
+to <code>*</code>; I originally had a space to hide most stars but that broke
+indent mode too much. Then I set all the list bullets to use the
+unicode bullet character (•)</p><p>The rest is just customizing highlight groups, with <code>customize-group org-faces</code>.</p><p>EDIT: <em>I have found a plugin that does a lot of this in a much
+better way than I could,
+<a href="https://github.com/minad/org-modern/">org-modern</a>, It also replaces
+org-superstar</em></p><p>Besides that I have done some other tweaks in places to clean up the
+experiance when editing, example: Using padding around the entire
+emacs window, Disabling parts of the default UI, Showing word count
+on the mode line.</p><p>You can see all the customizations I made in:
+<a href="https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/appearance.el">appearance.el</a>
+<a href="https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/writing.el">writing.el</a>
+<a href="https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/custom.el">custom.el</a></p>
+<h3 id="consult">Consult</h3><p>One thing I missed quite a lot from Neovim was telescope, That is an
+amazing plugin that allows you to very quickly search through and filter
+files, contents of files, buffers, tabs, functions in the file etc. It
+didn't take long till I found
+<a href="https://github.com/minad/vertico">consult</a> which combined with
+<a href="https://github.com/minad/vertico">vertico</a> replicates most of the
+experience I want as well if not better than telescope (Combining
+various useful things in the buffer selection menu),</p><p>Tho since it runs the file searching functions in the same dir as the
+current file when I usually want it to run in the parent directory which
+is the actual project folder, It still needs some work, as does Emacs so
+it does not <code>cd</code> to the folder which contains my code, but opens it
+relative to the project folder.</p>
+<h3 id="other-stuff">Other Stuff</h3><p>Vterm mode provides a excellent terminal that just works<sup>TM</sup>,
+and I didn't need to do any particular configuration for it.</p><p>Neotree &amp; Treemacs are only file trees I have tried, and I prefer the
+way neotree works more than treemacs, Speedtree would be decent if it
+didn't popup a new window and could use icons</p><p>Parinfer becomes a bit of a pain when it disagrees with me, but when it
+does work, It is lisp editing heaven but your mileage may vary.</p><p>My buddy nuxsh also wrote a similar article:
+<a href="https://nuxsh.is-a.dev/blog/emacs.html">https://nuxsh.is-a.dev/blog/emacs.html</a></p>
+
+</article>
 </body>
+</html>

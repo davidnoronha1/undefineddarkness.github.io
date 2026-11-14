@@ -1,6 +1,7 @@
-#HEADER ASUS TUF FA507RE
-A description of the bad time I've had with my new laptop
-#END HEADER
+---
+title: ASUS TUF FA507RE
+description: A description of the bad time I've had with my new laptop
+---
 
 A review of my new laptop but mostly a list of the issues I've had with it with a few graphs if I get the time hehe
 😅, The missing key in the above image is fully my fault so I'm not mentioning that
@@ -27,14 +28,16 @@ I'll admit I'm not the most careful laptop user on this planet, but this one fee
 Beside
 
 <div class="split">
-![My broken hinge bracket cover](/assets/images/hinge-bracket-broken.jpg)
-![The one that survived so far](/assets/images/hinge-bracket-ok.jpg)
-</div>
 
+![My broken hinge bracket cover](/assets/images/hinge-bracket-broken.jpg)
+
+![The one that survived so far](/assets/images/hinge-bracket-ok.jpg)
+
+</div>
 
 ### Screws falling out
 Apparently this isn't a thing just w/ my laptop but has happened with a friends laptop of the same model, The bottom screws (ESPECIALLY THE ONES NEAR THE HINGE) have a very frustrating tendancy to just FALL OUT whenever they feel like and since this usually happens w/h the laptop is being carried in a backpack, you'll pretty much never be able to find the screws again
 W/o any screws to hold it down the hinge just goes nuts and completley breaks and the laptop starts splitting apart w/h you try opening it normally so you have to kind of put pressure w/h the screw would be and then _very carefully_ open it, Till the screen opens and can start putting weight in the same area
 
-#WIP
-#END WIP
+> [!WARNING]
+> This post is a work in progress.

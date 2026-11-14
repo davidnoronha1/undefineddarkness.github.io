@@ -1,35 +1,38 @@
-#HEADER Lorem Ipsum
-Test page for all the various markup used on this site
-#END HEADER
+---
+title: Lorem Ipsum
+description: Test page for all the various markup used on this site
+---
 
-==TEST FOR GITHUB ACTION==
+<p class="txt-c"><a href="/src/2021/lorem.md">View Page Source</a></p>
 
-<!-- You can use markdown in HTML blocks, no problem  -->
-<div class='txt-c'>[View Page Source](/src/lorem.md)</div>
-
-<!-- These are as you'd expect -->
-Testing Inlines: 
-Normal text - *italic text* - **bold text**
+Testing Inlines:
+Normal text - *italic text* - **bold text** - ~~struck text~~
 I am a [link](https://example.com)
-
-==Pay attention to me==
-
+<mark>Pay attention to me</mark>
 `1 * 2 * 3 = 3!`
 https://www.youtube.com/watch?v=dQw4w9WgXcQ - Link is automatically generated
-> A quote
 Newlines should intuitively
 be preserved...
+
+> A quote,
+> over two lines
 
 ---
 
 Testing list
 - Pumpkin
 - Milk
-- Eggs
-- Flowers
-- Carrots
 - [Coriander](https://en.wikipedia.org/wiki/Coriander)
 is a spice.
+
+1. Numbered
+2. Lists
+
+> [!NOTE]
+> Callouts: NOTE, TIP, IMPORTANT, WARNING and CAUTION.
+
+> [!WARNING]
+> Like this one.
 
 Checking for Syntax Highlighting:
 ```c
@@ -44,48 +47,61 @@ float Q_rsqrt( float number )
     x2 = number * 0.5F;
     y  = number;
     i  = * ( long * ) &y;                       // evil floating point bit level hacking
-    i  = 0x5f3759df - ( i >> 1 );               // what the fuck? 
+    i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
     y  = * ( float * ) &i;
     y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-//    y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
 
     return y;
 }
-
-int main () {
-    printf("Hello world\n");
-}
 ```
-<!-- Folds can be created with the 'f'old transformer -->
-#f Do folds work?
-I guess they do :)
-#END f
 
-<!-- IM:... will add `...` to the article margin -->
-I should be next to a percent sign IM:%
+The same block as a reusable element:
+<x-code language="c">
+#include <stdio.h>
+
+int main() { printf("hi\n"); }
+</x-code>
+
+<x-fold title="Do folds work?">
+I guess they do :)
+```sh
+echo "even with code inside"
+```
+</x-fold>
+
+<x-fold title="A fold with a heading for a title" level="3">
+</x-fold>
 
 What about tables?
-<!-- 
-My own table syntax:
-Rows are separated by lines
-Columns are seperated by any amount of spaces and at least 1 tab.
--->
-#TABLE	Fruits	Vegetables
-		Apple	Carrot
-		Orange	Tomato
-		Banana	Eggplant
-#END TABLE
+<x-table>
+Fruits	Vegetables
+Apple	Carrot
+Orange	**Tomato**
+Banana	Eggplant
+</x-table>
 
-Block Quotes & Captions:
-<!-- Pretty simple here too, the last line automatically becomes the caption -->
->>>
-John wore clothing made of camel’s hair, with a leather belt around his waist,
-and he ate locusts and wild honey. 
-And this was his message: “After me comes the one more powerful than I, the straps of whose sandals I am not worthy to stoop down and untie.  I baptize you with water, but he will baptize you with the Holy Spirit.”
->>> Mark 1:6-8
+Math: \(e^{i\pi} + 1 = 0\) inline, and as a block:
+```math
+\sin(x) = \frac{x}{1!} - \frac{x^3}{3!} + \frac{x^5}{5!} \cdots
+```
 
-The design of the site was havily inspired by: https://www.kunisch.info/
-and some of the fonts were chosen with the help of cae
+Charts:
+<x-chart unit="MB" title="A bar chart">
+protocol	size
+jpeg	56.22
+h264	7.22
+kitty	177.11
+</x-chart>
+
+<x-plot x="-6:6" y="-2:2" title="A function plot">
+sin(x)	sin(x)
+x - x**3/6	3rd order
+</x-plot>
+
+<div class="split">
+![Images on their own line become figures](/assets/images/nes-export.avif)
+![Side by side in a split](/assets/images/pfp.avif)
+</div>
 
 ## Edge Cases
 Inline in code sections:
@@ -94,17 +110,12 @@ export __OPENGL__=1
 printf '%d' $(( 2 * 3 * 5 ))
 ```
 
-Tables & Transformers in code sections:
+Elements inside code sections stay as text:
 ```
-#TABLE	A	B
-		C	D
-#END TABLE
-
->quotes shouldnt work either
-
-___
-
-hr shouldnt work either
+<x-fold title="not a fold">
+</x-fold>
+> [!NOTE]
+> not a callout
 ```
 
 Inline in code inline:

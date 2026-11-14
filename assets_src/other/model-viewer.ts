@@ -1,4 +1,4 @@
-// Solid 3D model viewer, bundled independently of the ASCII and wireframe viewers.
+// 3D model viewer (<model-viewer> custom element), used by the portfolio.
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";

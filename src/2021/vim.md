@@ -1,6 +1,8 @@
-#HEADER Vi IMproved	image=/assets/images/dump/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103.avif
-Cool vim stuff
-#END HEADER
+---
+title: Vi IMproved
+description: Cool vim stuff
+image: /assets/images/dump/fd1bdbbb-2de7-4d24-ab5a-e883d5f2f103.avif
+---
 
 <i>This is just a bunch of neat stuff I find related to Vim, maybe plugins, scripts or just neat settings.</i>
 
@@ -33,7 +35,7 @@ Might be a fun read.
 - <a href="https://github.com/lambdalisue/fern.vim">🌵 Fern</a>
   Great alternative to NERDTree / netrw and imo a much better one
   Feels pretty clean and nice to use,
-  If you're using neovim, [nvim-tree](kyazdani42/nvim-tree.lua) will work much better for you & it has some nicer features.
+  If you're using neovim, [nvim-tree](https://github.com/nvim-tree/nvim-tree.lua) will work much better for you & it has some nicer features.
 
 <!-- Replace with something better -->
 
@@ -43,7 +45,7 @@ Might be a fun read.
 - <a href="https://github.com/nvim-telescope/telescope.nvim">🔭 Telescope</a>
   I wish I had learnt about this before, its a really nice plugin, it generates a menu for you that allows to
   search through files, content of files, anything and it can be mightly handy instead of fiddling with the wildmenu all day.
-  Vim users have [fzf.vim](junegunn/fzf.vim) which does some similar stuff.
+  Vim users have [fzf.vim](https://github.com/junegunn/fzf.vim) which does some similar stuff.
 
 - <a href="https://github.com/folke/zen-mode.nvim">Zen Mode</a>
   This is an interesting one, What it does is slim down vim's UI so it becomes very bare bones, this is really useful
@@ -54,7 +56,7 @@ Might be a fun read.
 
 Making the most out of vanilla vim features
 
-#f NetRW
+<x-fold title="NetRW">
 Using NetRW as a file tree.
 From <a href="https://shapeshed.com/vim-netrw/">this post</a>
 tldr:
@@ -67,9 +69,9 @@ let g:netrw_liststyle = 3 " Show files in tree form
 ```
 
 See what each option does with `:help netrw-browser-settings`
-#END f
+</x-fold>
 
-#f :Grep
+<x-fold title=":Grep">
 Improving the :grep command to work similar to how [ack.vim](https://github.com/mileszs/ack.vim) works
 See the <a href="https://gist.github.com/romainl/56f0c28ef953ffc157f36cc495947ab3">full gist</a>, it explains everything
 final snippet:
@@ -86,15 +88,14 @@ augroup quickfix
 	autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 ```
+</x-fold>
 
-#END f
-
-#f Tab Indicator
+<x-fold title="Tab Indicator">
 If and only if you indent with tabs, vim can bestow upon you a slick tab line:
 `set list lcs=tab:\│\ " There is a space here :)`
-#END f
+</x-fold>
 
-#f Export to HTML
+<x-fold title="Export to HTML">
 This is a pretty neat capability I did not know vim had,
 By the power of an included plugin, You can run `:TOhtml` to convert the entire current file to a HTML with all of vim's
 syntax highlighted goodness,
@@ -117,10 +118,9 @@ You can see more options for it here: https://vimhelp.org/syntax.txt.html#%3ATOh
 [Here](/assets/make.html) is a example file from the make script of this website.
 
 - ✏ ~~This is now used to generate code syntax highlighting for this site.~~ - Turns out it was way too slow
+</x-fold>
 
-#END f
-
-#f Improving :help and :Man
+<x-fold title="Improving :help and :Man">
 I find vim's help pages annoying to navigate since by default, its difficult to navigate between sections, this fixes it:
 `au FileType help,man nnoremap <buffer> <CR> <C-]>`
 This makes it so hitting enter in a help buffer will try to just to the currently selected word
@@ -142,10 +142,9 @@ If you use vim, remember to add this to your vimrc:
 as `:help ft-man-plugin` instructs you to.
 
 - This has some issues like files like `./local.man` but I do not often use this so its not a problem for me.
+</x-fold>
 
-#END f
-
-#f Linting
+<x-fold title="Linting">
 Here are a few useful gists on the topic:
 https://gist.github.com/romainl/2f748f0c0079769e9532924b117f9252<br>
 https://gist.github.com/romainl/ce55ce6fdc1659c5fbc0f4224fd6ad29
@@ -159,9 +158,9 @@ What I did to get `shellcheck` to work:
 
 ✏ Actually I have reconsidered this, its way too painful for anything complicated over multiple lines, its a lot
 simpler to just use ALE for those, fine for stuff like GCC or Shell check tho
-#END f
+</x-fold>
 
-#f Spell Checking & Dictionary Completion
+<x-fold title="Spell Checking &amp; Dictionary Completion">
 As much as I hate to link a luke smith video, this one actually explains stuff so here you go: https://www.youtube.com/watch?v=ez1XBUqbS68
 But basically:
 
@@ -198,7 +197,7 @@ return M
 ```
 
 It works, fairly ~~well.~~ badly, it has lots of issues when you have multiple buffers open...
-#END f
+</x-fold>
 
 ---
 

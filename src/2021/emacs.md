@@ -1,6 +1,7 @@
-#HEADER Emacs
-My time with emacs and all the places you can take it to
-#END HEADER
+---
+title: Emacs
+description: My time with emacs and all the places you can take it to
+---
 
 I suppose I should explain what I am comparing it with, The main editors
 I have used before this for any amount of time are, VS Code & Neovim,
@@ -227,7 +228,7 @@ disagreed with (and still do) but now I understand what they were
 talking about, It is really amazing how flexible org mode is.
 
 It is the more powerful / flexible markdown I had always wanted, and
-tried to achieve with [nesdown](../lorem.html). And it actually looks /
+tried to achieve with [nesdown](/out/2021/lorem.html). And it actually looks /
 feels good to edit too, since you can smartly hide almost all of the
 syntactic visual noise and get a very clean experience editing it.
 
@@ -261,40 +262,40 @@ which one isn't broken yet. `M-x` doctor - Hey I got it to work :)
 
 ### Making Org Mode Pretty
 
-    Before you delve any deeper, This is the end result in my Emacs
-    configuration,
-    ![](/assets/images/org-mode.avif)
-    *Font used is
-    iA Writer Quattro - It's been made for iA writer which is a Markdown
-    editor for MacOS, that looks really good.*
+Before you delve any deeper, This is the end result in my Emacs
+configuration,
+![](/assets/images/org-mode.avif)
+*Font used is
+iA Writer Quattro - It's been made for iA writer which is a Markdown
+editor for MacOS, that looks really good.*
 
-    `org-hide-emphasis-markers` automatically hides any inline
-    **emphasis** markers which leads to a much cleaner look.
-    `org-pretty-entities` converts text symbols into their unicode
-    counterparts to `<backslash>lambda` becomes `\lambda` For the list
-    bullets, Besides `org-hide-leading-stars`, I use org-superstar (a
-    improved version of org bullets), With all the heading stars changed
-    to `*`; I originally had a space to hide most stars but that broke
-    indent mode too much. Then I set all the list bullets to use the
-    unicode bullet character (•)
+`org-hide-emphasis-markers` automatically hides any inline
+**emphasis** markers which leads to a much cleaner look.
+`org-pretty-entities` converts text symbols into their unicode
+counterparts to `<backslash>lambda` becomes `\lambda` For the list
+bullets, Besides `org-hide-leading-stars`, I use org-superstar (a
+improved version of org bullets), With all the heading stars changed
+to `*`; I originally had a space to hide most stars but that broke
+indent mode too much. Then I set all the list bullets to use the
+unicode bullet character (•)
 
-    The rest is just customizing highlight groups, with `customize-group
-    org-faces`.
+The rest is just customizing highlight groups, with `customize-group
+org-faces`.
 
-    EDIT: *I have found a plugin that does a lot of this in a much
-    better way than I could,
-    [org-modern](https://github.com/minad/org-modern/), It also replaces
-    org-superstar*
+EDIT: *I have found a plugin that does a lot of this in a much
+better way than I could,
+[org-modern](https://github.com/minad/org-modern/), It also replaces
+org-superstar*
 
-    Besides that I have done some other tweaks in places to clean up the
-    experiance when editing, example: Using padding around the entire
-    emacs window, Disabling parts of the default UI, Showing word count
-    on the mode line.
+Besides that I have done some other tweaks in places to clean up the
+experiance when editing, example: Using padding around the entire
+emacs window, Disabling parts of the default UI, Showing word count
+on the mode line.
 
-    You can see all the customizations I made in:
-    [appearance.el](https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/appearance.el)
-    [writing.el](https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/writing.el)
-    [custom.el](https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/custom.el)
+You can see all the customizations I made in:
+[appearance.el](https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/appearance.el)
+[writing.el](https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/writing.el)
+[custom.el](https://github.com/undefinedDarkness/rice/blob/master/.config/emacs/modules/custom.el)
 
 ### Consult
 

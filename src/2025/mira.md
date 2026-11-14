@@ -1,7 +1,10 @@
+---
+title: Mira: Autonomous Underwater Vehicle for SAUVC & TAC
+description: Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC.
+date: 2026-10-09
+---
+
 ![](/assets/images/dump/Mira.png)
-#HEADER Mira: Autonomous Underwater Vehicle for SAUVC & TAC date=2026-10-09
-Lessons learned designing, building, and programming Mira, an autonomous underwater vehicle for SAUVC and TAC.
-#END HEADER
 
 ## Introduction
 
@@ -18,8 +21,11 @@ Around this time we also had our official board transfer and I was made Programm
 ### Mechanical
 
 <div class="split">
+
 ![BlueROV2 Heavy](mira-bluerov2.png)
+
 ![Mira V1](mira-v1.png)
+
 </div>
 
 Mira v1 initially followed a design based on the BlueROV2 Heavy design and it was reliable and gave us smooth 6DOF control. Wanting to improve speed and reduce bulkiness, we eventually attempted converting it into a VTC configuration.
@@ -60,11 +66,16 @@ There are 4 tasks in SAUVC (labels are our own):
 
 <div class="split">
 <div class="stack">
+
 ![Gate (Front View)](mira-sauvc-gate.png)
+
 ![Gate (Angled View)](mira-sauvc-gate-angle.png)
+
 </div>
 <div>
+
 ![Orange Flare](mira-sauvc-flare.png)
+
 </div>
 </div>
 
@@ -75,7 +86,6 @@ The bot must successfully avoid the orange flare that can be anywhere within the
 **Gate Task**
 
 The bot must find the gate and pass through it without touching any of the gate borders.
-
 
 ![Bucket (+Hydrophone) Task](mira-sauvc-bucket.png)
 
@@ -89,7 +99,6 @@ The bot must navigate to the buckets at the end of the pool, successfully detect
 
 The bot must find and bump the three coloured poles (red, yellow and blue) so that the ball on each one drops. For the bonus points this must be done in a given order, which is randomized for every attempt and only told to the team after the gate, so the bot must have some kind of tetherless communication with the surface to receive it.
 
-
 Source: [SAUVC Rulebook](https://sauvc.org/rulebook/)
 
 ### TAC
@@ -102,7 +111,6 @@ There are 4 tasks in TAC as well:
 
 The pipeline (yellow, 200mm diameter, no longer than 10m, with an unknown path) is placed on the seabed with an acoustic pinger (30kHz) at its start. The bot must find the pinger, follow the pipeline and report the list of ArUco marker IDs (4-10 of them) in the order they appear from the pinger end. For a full point run the bot must *autonomously* locate the pipeline, track it, detect the markers and return to the launch and recovery site.
 
-
 ![Underwater Structure Task](mira-tac-subsea-structure.png)
 
 **Underwater Structure Task**
@@ -114,7 +122,6 @@ The bot must find the underwater structure on the seabed and inspect it by ident
 **Valve Task**
 
 There are two valves on the underwater structure, one on the vertical surface and one on the horizontal surface. The bot must autonomously find each valve, properly align itself and its gripper and rotate the handle through its 90 degree range to the shut (S) or open (O) position given by the judges before the run. The starting position of the handle is not guaranteed.
-
 
 ![Docking Station in Training Pool](mira-tac-docking.png)
 
@@ -176,8 +183,9 @@ This is fine on its own the problem is that we need to manually tune the PID coe
 
 This is kind of a very specific complaint but for all our competitions, the water environment is very clear visually, so you can see to a far distance.
 
-#VIDEO /assets/videos/mira-cloudy-pool.webm
-#END VIDEO
+<figure>
+<video src="/assets/videos/mira-cloudy-pool.webm" controls preload="metadata" playsinline></video>
+</figure>
 
 Meanwhile this is what we were dealing with…, this is due to a combination of factors, bad lighting conditions in pool itself (it was best only during early morning with sunlight) and the chlorine / cleaning chemical they used that always clouded up the water visually. Meanwhile the SAUVC pools looked like [this](#sauvc).
 
@@ -202,8 +210,9 @@ Eventually we thought to experiment with gazebo (this was the time when claude e
 
 This is the depth map based SLAM navigation we wanted to do for SAUVC / TAC:
 
-#VIDEO /assets/videos/mira-slam-sim.webm
-#END VIDEO
+<figure>
+<video src="/assets/videos/mira-slam-sim.webm" controls preload="metadata" playsinline></video>
+</figure>
 
 Source: [mira_sim](https://github.com/davidnoronha1/mira_sim)
 
@@ -227,11 +236,7 @@ Sources:
 2. **Meurer et al.**, “Differential Pressure Sensor Speedometer for Autonomous Underwater Vehicle Velocity Estimation.” IEEE Journal of Oceanic Engineering.[https://doi.org/10.1109/JOE.2019.2907822](https://doi.org/10.1109/JOE.2019.2907822) [ttu](https://ws.lib.ttu.ee/publikatsioonid/en/Publ/Register/Item/142171)
 3. **Meurer, Fuentes-Pérez, Schwarzwälder, Ludvigsen, Sørensen, Kruusmaa**, “2D Estimation of Velocity Relative to Water and Tidal Currents Based on Differential Pressure for Autonomous Underwater Vehicles.” IEEE Robotics and Automation Letters (2020) vol. 5, 2, p. 3444−3451. This paper presents the DPSSv2, a low-cost, lightweight and energy efficient sensor to estimate fluid relative velocity in 2D based on differential pressure, validated in field trials on-board an AUV in the presence of tidal currents.[https://doi.org/10.1109/LRA.2020.2976318](https://doi.org/10.1109/LRA.2020.2976318)
 
-<aside>
-💡
-
-Work In Progress
-
-</aside>
+> [!WARNING]
+> This post is a work in progress.
 
 [Excalidraw Whiteboard](https://excalidraw.com/#json=RUzJmOxhKQD105-lvm3aR,IUyTBoduecWU85e1ujW5DQ)

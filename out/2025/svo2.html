@@ -1,126 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>Reverse-enginnering SVO2</title>
-	<meta name="description" content="The recording format from Stereolabs ZED cameras" />
-	<link rel="canonical" href="https://nes.is-a.dev/2025/svo2.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="Reverse-enginnering SVO2" />
-	<meta property="og:description" content="The recording format from Stereolabs ZED cameras" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2025/svo2.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="Reverse-enginnering SVO2" />
-	<meta name="twitter:description" content="The recording format from Stereolabs ZED cameras" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}figcaption,span.special{font-style:italic}code,pre{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2,h3{font-family:var(--display-font)}h1,h2,h3{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h3{font-size:calc(var(--article-size)*1.5);margin-top:0}h1,h2,h3{hyphens:auto;overflow-wrap:break-word}.row{display:flex;gap:1em}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}pre{background-color:var(--nv-black-darker);color:var(--nv-white)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}h3{margin-bottom:.1em}img{display:block}code,pre{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}pre::-webkit-scrollbar{height:.6em}pre::-webkit-scrollbar-track{background-color:var(--nv-black-darker)}pre::-webkit-scrollbar-thumb{background-color:var(--nv-gray);border-radius:5px}pre{border-radius:5px;margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:.6em .8em;text-align:left;white-space:normal}pre:has(code:not(.language-plaintext)){border:1px solid var(--nv-gray)}pre>code{white-space:pre}figure{display:inline-block}article,main{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,main ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}figcaption{color:color-mix(in srgb,var(--black) 70%,var(--white) 30%);font-size:.8em;font-style:italic;text-align:right}hr{border:none;border-top:1px solid var(--gray);margin:.5em 0 0}figcaption{margin-left:1em}figure{margin:0}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer,main footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}article img,article video,main img,main video{max-height:60vh;object-fit:contain;object-position:left;width:100%}header img{border-radius:5px;float:right}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}header img{float:revert}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "Reverse-enginnering SVO2",
-		"description": "The recording format from Stereolabs ZED cameras",
-		"url": "https://nes.is-a.dev/2025/svo2.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reverse-enginnering SVO2</title>
+<meta name="description" content="The recording format from Stereolabs ZED cameras">
+<link rel="canonical" href="https://nes.is-a.dev/out/2025/svo2.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="Reverse-enginnering SVO2">
+<meta property="og:description" content="The recording format from Stereolabs ZED cameras">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2025/svo2.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{display:inline-block;margin:0 .3em 0 0;height:.8em;width:auto;vertical-align:-.04em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{--c:var(--gray);margin:1em 0;padding:.6em 1em;border-left:3px solid var(--c);background:#191919}.markdown-alert>*{margin:.5em 0 0}.markdown-alert>:first-child{margin-top:0}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert>.markdown-alert-title{margin-bottom:-.2em;color:var(--c);font-weight:600;font-size:.875em;text-transform:uppercase;letter-spacing:.04em}.markdown-alert-note{--c:#6a9ef2}.markdown-alert-tip{--c:#5fb87a}.markdown-alert-important{--c:#b483e8}.markdown-alert-warning{--c:#d6a72b}.markdown-alert-caution{--c:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
-
-<header>
-  <h1>Reverse-enginnering SVO2</h1>
-  <!-- post_description="The recording format from Stereolabs ZED cameras" -->
-</header>
-Dreadnought Robotics, The team I'm part of recently got our hands on a very nice ZED 2i stereo depth camera, However the SDK is heavily dependent on CUDA so that it made difficult for some of us and some of our infra. to make full use of it, To slightly remedy this deficiency I tried reverse enginnering the SVO2 recording format so that we could more easily export it to other formats for ingestion<br/>
-<br/>
-<a href="https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQDa5IhGAGvCQJqSVbA8MtIXAQz2elW0FqXzF5e5PeemaaY?e=d80Ncn">Demo File</a><br/>
-<a href="https://www.stereolabs.com/docs/video/recording">Format Description from Stereolabs</a><br/>
-<h2 id="first-steps">First Steps</h2>
-<p>
-Initially I thought it might be a zip / tar archive, examination with <code>file</code> gave<br/>
-<pre>
-<code class="language-plaintext">HD720_SN38486288_18-52-52.mcap: dBase IV DBT, block length 4608, next free block index 1094929801, next free block 1131114360, next used block 810365233
-</code>
-</pre>
-Which is apparently some like really old <a href="https://www.independent-software.com/dbase-dbf-dbt-file-format.html">database table file format</a>, so since I was pretty sure that was wrong, I pulled out xxd and hoped I would have clues in the file header<br/>
-<pre>
-<code class="language-plaintext">00000000: 894d 4341 5030 0d0a 011a 0000 0000 0000  .MCAP0..........
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>Reverse-enginnering SVO2</h1></header>
+<p>Dreadnought Robotics, The team I'm part of recently got our hands on a very nice ZED 2i stereo depth camera, However the SDK is heavily dependent on CUDA so that it made difficult for some of us and some of our infra. to make full use of it, To slightly remedy this deficiency I tried reverse enginnering the SVO2 recording format so that we could more easily export it to other formats for ingestion</p><p><a href="https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQDa5IhGAGvCQJqSVbA8MtIXAQz2elW0FqXzF5e5PeemaaY?e=d80Ncn">Demo File</a>
+<a href="https://www.stereolabs.com/docs/video/recording">Format Description from Stereolabs</a></p>
+<h2 id="first-steps">First Steps</h2><p>Initially I thought it might be a zip / tar archive, examination with <code>file</code> gave</p><pre><code>HD720_SN38486288_18-52-52.mcap: dBase IV DBT, block length 4608, next free block index 1094929801, next free block 1131114360, next used block 810365233</code></pre><p>Which is apparently some like really old <a href="https://www.independent-software.com/dbase-dbf-dbt-file-format.html">database table file format</a>, so since I was pretty sure that was wrong, I pulled out xxd and hoped I would have clues in the file header</p><pre><code>00000000: 894d 4341 5030 0d0a 011a 0000 0000 0000  .MCAP0..........
 00000010: 0000 0000 0012 0000 006c 6962 6d63 6170  .........libmcap
 00000020: 2073 7465 7265 6f6c 6162 7306 b75c 0000   stereolabs..\..
 00000030: 0000 0000 f900 a68d 58e5 9218 0a71 30d7  ........X....q0.
 00000040: 58e5 9218 8f5c 0000 0000 0000 6e55 93f5  X....\......nU..
 00000050: 0000 0000 8f5c 0000 0000 0000 031b 0100  .....\..........
-00000060: 0000 0000                                ....
-</code>
-</pre>
-<br/>
-Which after triggering some vague memories of the ROS2 bag format, led me to the <a href="https://mcap.dev/guides">MCAP file format</a> for storing recordings of messages and topics that's used in ROS2 bag recordings.<br/>
-<br/>
-After dumping out whatever information I could from the bag, I was able to figure out this much<br/>
-<pre>
-<code class="language-sh">$ mcap info FILE
-channels<span style="color:&#35;dcdccc">:</span>
-        <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">1</span><span style="color:&#35;dcdccc">)</span> svo_header                                <span style="color:&#35;dca3a3; font-weight:bold">1</span> msgs                      <span style="color:&#35;dcdccc">:</span> sl_type <span style="color:&#35;dcdccc">&lsqb;</span>jsonschema<span style="color:&#35;dcdccc">&rsqb;</span>                              
-        <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">)</span> Camera_SN<span style="color:&#35;dca3a3; font-weight:bold">38486288</span><span style="color:&#35;dcdccc">/</span>side_by_side          <span style="color:&#35;dca3a3; font-weight:bold">762</span> msgs <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">14.64</span>.<span style="color:&#35;dca3a3; font-weight:bold">.14.66</span>Hz<span style="color:&#35;dcdccc">)     :</span> Camera_SN<span style="color:&#35;dca3a3; font-weight:bold">38486288</span><span style="color:&#35;dcdccc">/</span>side_by_side <span style="color:&#35;dcdccc">&lsqb;</span>zed_sdk_encoded<span style="color:&#35;dcdccc">&rsqb;</span>  
-        <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">3</span><span style="color:&#35;dcdccc">)</span> Camera_SN<span style="color:&#35;dca3a3; font-weight:bold">38486288</span><span style="color:&#35;dcdccc">/</span>sensors             <span style="color:&#35;dca3a3; font-weight:bold">16049</span> msgs <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">308.83</span>.<span style="color:&#35;dca3a3; font-weight:bold">.308.85</span>Hz<span style="color:&#35;dcdccc">)   :</span> sensors <span style="color:&#35;dcdccc">&lsqb;</span>jsonschema<span style="color:&#35;dcdccc">&rsqb;</span>                              
-        <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">4</span><span style="color:&#35;dcdccc">)</span> Camera_SN<span style="color:&#35;dca3a3; font-weight:bold">38486288</span><span style="color:&#35;dcdccc">/</span>integrated_sensors    <span style="color:&#35;dca3a3; font-weight:bold">762</span> msgs <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">14.64</span>.<span style="color:&#35;dca3a3; font-weight:bold">.14.66</span>Hz<span style="color:&#35;dcdccc">)     :</span> sensors <span style="color:&#35;dcdccc">&lsqb;</span>jsonschema<span style="color:&#35;dcdccc">&rsqb;</span>                              
-        <span style="color:&#35;dcdccc">(</span><span style="color:&#35;dca3a3; font-weight:bold">5</span><span style="color:&#35;dcdccc">)</span> svo_footer                                <span style="color:&#35;dca3a3; font-weight:bold">1</span> msgs                      <span style="color:&#35;dcdccc">:</span> sl_type <span style="color:&#35;dcdccc">&lsqb;</span>jsonschema<span style="color:&#35;dcdccc">&rsqb;</span>       	</code>
-</pre>
-On further examination & dumping the schema, the header contains the resolution of the camera images and a few other details,<br/>
-<pre>
-<code class="language-json"><span style="color:&#35;aae3b2">&quot;header_decoded&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;e3ceab">{</span>
-      <span style="color:&#35;aae3b2">&quot;width&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;dca3a3; font-weight:bold">1280</span><span style="color:&#35;dcdccc">,</span>
-      <span style="color:&#35;aae3b2">&quot;height&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;dca3a3; font-weight:bold">720</span><span style="color:&#35;dcdccc">,</span>
-      <span style="color:&#35;aae3b2">&quot;serial_number&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;dca3a3; font-weight:bold">38486288</span><span style="color:&#35;dcdccc">,</span>
-      <span style="color:&#35;aae3b2">&quot;unknown_0x0c&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;dca3a3; font-weight:bold">15</span><span style="color:&#35;dcdccc">,</span>
-      <span style="color:&#35;aae3b2">&quot;pixel_format&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;dca3a3; font-weight:bold">2</span><span style="color:&#35;dcdccc">,</span>
-      <span style="color:&#35;aae3b2">&quot;strip_count&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;dca3a3; font-weight:bold">4</span>
-    <span style="color:&#35;e3ceab">}</span>	</code>
-</pre>
-<br/>
-the footer contains the timestamps of the frames / messages and sensors and integrated sensors both contain the IMU data from the camera<br/>
-<br/>
-The sensor data is also stored in a binary format but I didn't spend too long trying to recover it since the main thing for me was getting out the images which were stored in Camera_SN*/side_by_side<br/>
-<br/>
-</p>
-<h2 id="recovering-images">Recovering images</h2>
-<p>
-Dumping the messages in that topic to individual files gives files like <a href="https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQD91KCBs-92TJDEP4HnuoGCARLxevOl27extjDVhuRujSg?e=HgeP9b">this</a><br/>
-<br/>
-Which on inspection with <code>binwalk</code> & <code>xxd</code> seems to contain a 40byte header followed by exactly 4 JFIF images with no padding inbetween, Each image has the following metadata:<br/>
-<pre>
-<code class="language-plaintext">ExifTool Version Number         : 12.76
+00000060: 0000 0000                                ....</code></pre><p>Which after triggering some vague memories of the ROS2 bag format, led me to the <a href="https://mcap.dev/guides">MCAP file format</a> for storing recordings of messages and topics that's used in ROS2 bag recordings.</p><p>After dumping out whatever information I could from the bag, I was able to figure out this much</p><pre><code class="language-sh">$<span class="w"> </span>mcap<span class="w"> </span>info<span class="w"> </span>FILE
+channels:
+<span class="w">        </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>svo_header<span class="w">                                </span><span class="m">1</span><span class="w"> </span>msgs<span class="w">                      </span>:<span class="w"> </span>sl_type<span class="w"> </span><span class="o">[</span>jsonschema<span class="o">]</span><span class="w">                              </span>
+<span class="w">        </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>Camera_SN38486288/side_by_side<span class="w">          </span><span class="m">762</span><span class="w"> </span>msgs<span class="w"> </span><span class="o">(</span><span class="m">14</span>.64..14.66Hz<span class="o">)</span><span class="w">     </span>:<span class="w"> </span>Camera_SN38486288/side_by_side<span class="w"> </span><span class="o">[</span>zed_sdk_encoded<span class="o">]</span><span class="w">  </span>
+<span class="w">        </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>Camera_SN38486288/sensors<span class="w">             </span><span class="m">16049</span><span class="w"> </span>msgs<span class="w"> </span><span class="o">(</span><span class="m">308</span>.83..308.85Hz<span class="o">)</span><span class="w">   </span>:<span class="w"> </span>sensors<span class="w"> </span><span class="o">[</span>jsonschema<span class="o">]</span><span class="w">                              </span>
+<span class="w">        </span><span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span>Camera_SN38486288/integrated_sensors<span class="w">    </span><span class="m">762</span><span class="w"> </span>msgs<span class="w"> </span><span class="o">(</span><span class="m">14</span>.64..14.66Hz<span class="o">)</span><span class="w">     </span>:<span class="w"> </span>sensors<span class="w"> </span><span class="o">[</span>jsonschema<span class="o">]</span><span class="w">                              </span>
+<span class="w">        </span><span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span>svo_footer<span class="w">                                </span><span class="m">1</span><span class="w"> </span>msgs<span class="w">                      </span>:<span class="w"> </span>sl_type<span class="w"> </span><span class="o">[</span>jsonschema<span class="o">]</span><span class="w">       </span></code></pre><p>On further examination &amp; dumping the schema, the header contains the resolution of the camera images and a few other details,</p><pre><code class="language-json"><span class="nt">"header_decoded"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"width"</span><span class="p">:</span><span class="w"> </span><span class="mi">1280</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"height"</span><span class="p">:</span><span class="w"> </span><span class="mi">720</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"serial_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">38486288</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"unknown_0x0c"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"pixel_format"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"strip_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">    </span><span class="p">}</span></code></pre><p>the footer contains the timestamps of the frames / messages and sensors and integrated sensors both contain the IMU data from the camera</p><p>The sensor data is also stored in a binary format but I didn't spend too long trying to recover it since the main thing for me was getting out the images which were stored in Camera_SN*/side_by_side</p>
+<h2 id="recovering-images">Recovering images</h2><p>Dumping the messages in that topic to individual files gives files like <a href="https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQD91KCBs-92TJDEP4HnuoGCARLxevOl27extjDVhuRujSg?e=HgeP9b">this</a></p><p>Which on inspection with <code>binwalk</code> &amp; <code>xxd</code> seems to contain a 40byte header followed by exactly 4 JFIF images with no padding inbetween, Each image has the following metadata:</p><pre><code>ExifTool Version Number         : 12.76
 File Name                       : 66D8D
 Directory                       : .
 File Size                       : 411 kB
@@ -141,74 +63,14 @@ Encoding Process                : Baseline DCT, Huffman coding
 Bits Per Sample                 : 8
 Color Components                : 1
 Image Size                      : 5120x180
-Megapixels                      : 0.922
-</code>
-</pre>
-<br/>
-At this point I had a feeling that it was going a bit too easy so far and I was to be proven right, After extracing the JFIFs, The images look like this<br/>
-<br/>
-<figure><img src="/assets/svo2-a-e5e70b8ab1.avif" alt="example svo2 image (raw)" title="example svo2 image (raw)" loading="lazy" /><figcaption>example svo2 image (raw)</figcaption></figure><br/>
-<br/>
-At this point I realized this project wasn't gonna be as easy as I had hoped, I didn't have any ideas at this point besides trying to reinterpret the JPEG as it being in another colourplane (the images extracted were in GRAY8 I was trying to make it YUV422 or the standard JPEG format)<br/>
-<br/>
-</p>
-<h3 id="side-quest-binary-reverse-enginnering">Side Quest: Binary Reverse Enginnering</h3>
-<p>
-<a href="https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQBTy__gTPnMQI5CrqlQgEklAVUk29Z-z3CydLrVarCrV54?e=NHe5xa">Executable</a><br/>
-<br/>
-<br/>
-While randomly googling this to see to if anyone had tried anything / found any information regarding this, I came across <a href="https://hub.docker.com/r/stereolabs/svo-conversion-tool">this docker container</a> from stereolabs which isnt linked anywhere and doesnt show up on my google results<br/>
-<br/>
-The description says the container is meant to export MP4s out from SVO2 sans CUDA, I was quite happy on finding it thinking I wouldnt have to finish the reverse enginnering after all, But apparently it only works with H265 encded SVO2s, (SVO2s can compress images with JPEG / H264 / H265), No matter I figured it gave me an executable that I should be able to reverse enginner and scavenge for more information<br/>
-<br/>
-After extracting out the executable, I saw that it wasn't <code>strip</code>ed which meant it would still have a decent amount of info leftover, looking through it there was a JPEGDecompresser class and it used <code>turbojpeg</code> -> Here I thought the file had the JPEG compressed in RAW mode from turbojpeg or would only be read by turbojpeg but then I figured that wouldnt be the case since its a fully valid JPEG file<br/>
-<br/>
-Also spent a while fiddling with Ghidra and GDB hoping to figure out as the program executed but the program not actually working on the files had was a big damper<br/>
-<br/>
-So this didnt go anywhere, but binary reverse enginnering is always fun<br/>
-<br/>
-</p>
-<h2 id="no-other-ideas">No other ideas</h2>
-<p>
-Being completley out of ideas and kind of tired of hitting my head against it with little progress, I asked a few agents about it to just compare responses, Microsoft Copilot had no idea, ditto for Gemini but Claude suggested the JPEGs could be storing the <a href="https://en.wikipedia.org/wiki/Bayer_filter">bayer pattern</a> and the 4 images had to be compared together somehow<br/>
-<br/>
-This sounded the most likely thing I'd heard so we pursued that path, me being too lazy to sit and figure it out myself, mostly just worked to give feedback to Claude and run & inspect the scripts it gave me<br/>
-<br/>
-After trying out a bunch of ideas with how the arrange the data to form the final 2x1280 : 720 image, we were finally able to see some kind of texture that looks about right<br/>
-<br/>
-<figure><img src="/assets/left-gray-acc72ae107.avif" alt="monochrome image of an underwater scene" title="monochrome image of an underwater scene" loading="lazy" /><figcaption>monochrome image of an underwater scene</figcaption></figure><br/>
-<br/>
-So we had the shape right and the size right but no luck on the colours, No matter what we did we couldn't get the colours to show up without some weird patterning<br/>
-<br/>
-<figure><img src="/assets/square-pattern-5cef8aef33.avif" alt="a square pattern" title="a square pattern" loading="lazy" /><figcaption>a square pattern</figcaption></figure><br/>
-<figure><img src="/assets/final-bggr-right-e0cfe9b6c2.avif" alt="a blue image of an underwater scene but with pattern on it" title="a blue image of an underwater scene but with pattern on it" loading="lazy" /><figcaption>a blue image of an underwater scene but with pattern on it</figcaption></figure><br/>
-<br/>
-Since we had gotten somewhere partly, we went about in circles trying to figure out what kind of layering they were doing to form the bayer pattern<br/>
-<br/>
-<a href="https://docs.kernel.org/userspace-api/media/v4l/pixfmt-packed-yuv.html">YUYV422 Description</a><br/>
-I revisited the initial idea I had of it being YUV data planes in the JPEG misinterpreted as monochrome, That seems to be the final clue because soon after that we were able to write a successful decoder<br/>
-<br/>
-<figure><img src="/assets/eg-output-c89f94df02.avif" alt="example output image" title="example output image" loading="lazy" /><figcaption>example output image</figcaption></figure><br/>
-<br/>
-In more detail -> The 4 strips of images (5120x180px) when stacked vertically give an image of the expected size 5120x720, this can then be reshaped to get the 2 channels for YUYV into 2x2560x720 which can then be given to OpenCV to get a BGR / RGB frame for encoding<br/>
-<br/>
-⚠️ - The format can also encode data with H264/H265 which I didn't get sample files to reverse engineer, I'll update this once I get my hands on some<br/>
-<br/>
-</p>
-<h2 id="format-description">Format Description</h2>
-<p>
-<q>Reverse engineered from ZED 2i recordings (SDK 5.1.2, firmware 2.0.5)</q><br/>
-<br/>
+Megapixels                      : 0.922</code></pre><p>At this point I had a feeling that it was going a bit too easy so far and I was to be proven right, After extracing the JFIFs, The images look like this</p><figure><img loading="lazy" src="/assets/svo2-a-e5e70b8ab1.avif" alt="example svo2 image (raw)" /><figcaption>example svo2 image (raw)</figcaption></figure><p>At this point I realized this project wasn't gonna be as easy as I had hoped, I didn't have any ideas at this point besides trying to reinterpret the JPEG as it being in another colourplane (the images extracted were in GRAY8 I was trying to make it YUV422 or the standard JPEG format)</p>
+<h3 id="side-quest-binary-reverse-enginnering">Side Quest: Binary Reverse Enginnering</h3><p><a href="https://vitacin-my.sharepoint.com/:u:/g/personal/david_john2023_vitstudent_ac_in/IQBTy__gTPnMQI5CrqlQgEklAVUk29Z-z3CydLrVarCrV54?e=NHe5xa">Executable</a></p><p>While randomly googling this to see to if anyone had tried anything / found any information regarding this, I came across <a href="https://hub.docker.com/r/stereolabs/svo-conversion-tool">this docker container</a> from stereolabs which isnt linked anywhere and doesnt show up on my google results</p><p>The description says the container is meant to export MP4s out from SVO2 sans CUDA, I was quite happy on finding it thinking I wouldnt have to finish the reverse enginnering after all, But apparently it only works with H265 encded SVO2s, (SVO2s can compress images with JPEG / H264 / H265), No matter I figured it gave me an executable that I should be able to reverse enginner and scavenge for more information</p><p>After extracting out the executable, I saw that it wasn't <code>strip</code>ed which meant it would still have a decent amount of info leftover, looking through it there was a JPEGDecompresser class and it used <code>turbojpeg</code> -&gt; Here I thought the file had the JPEG compressed in RAW mode from turbojpeg or would only be read by turbojpeg but then I figured that wouldnt be the case since its a fully valid JPEG file</p><p>Also spent a while fiddling with Ghidra and GDB hoping to figure out as the program executed but the program not actually working on the files had was a big damper</p><p>So this didnt go anywhere, but binary reverse enginnering is always fun</p>
+<h2 id="no-other-ideas">No other ideas</h2><p>Being completley out of ideas and kind of tired of hitting my head against it with little progress, I asked a few agents about it to just compare responses, Microsoft Copilot had no idea, ditto for Gemini but Claude suggested the JPEGs could be storing the <a href="https://en.wikipedia.org/wiki/Bayer_filter">bayer pattern</a> and the 4 images had to be compared together somehow</p><p>This sounded the most likely thing I'd heard so we pursued that path, me being too lazy to sit and figure it out myself, mostly just worked to give feedback to Claude and run &amp; inspect the scripts it gave me</p><p>After trying out a bunch of ideas with how the arrange the data to form the final 2x1280 : 720 image, we were finally able to see some kind of texture that looks about right</p><figure><img loading="lazy" src="/assets/left-gray-acc72ae107.avif" alt="monochrome image of an underwater scene" /><figcaption>monochrome image of an underwater scene</figcaption></figure><p>So we had the shape right and the size right but no luck on the colours, No matter what we did we couldn't get the colours to show up without some weird patterning</p><figure><img loading="lazy" src="/assets/square-pattern-5cef8aef33.avif" alt="a square pattern" /><figcaption>a square pattern</figcaption></figure><figure><img loading="lazy" src="/assets/final-bggr-right-e0cfe9b6c2.avif" alt="a blue image of an underwater scene but with pattern on it" /><figcaption>a blue image of an underwater scene but with pattern on it</figcaption></figure><p>Since we had gotten somewhere partly, we went about in circles trying to figure out what kind of layering they were doing to form the bayer pattern</p><p><a href="https://docs.kernel.org/userspace-api/media/v4l/pixfmt-packed-yuv.html">YUYV422 Description</a>
+I revisited the initial idea I had of it being YUV data planes in the JPEG misinterpreted as monochrome, That seems to be the final clue because soon after that we were able to write a successful decoder</p><figure><img loading="lazy" src="/assets/eg-output-c89f94df02.avif" alt="example output image" /><figcaption>example output image</figcaption></figure><p>In more detail -&gt; The 4 strips of images (5120x180px) when stacked vertically give an image of the expected size 5120x720, this can then be reshaped to get the 2 channels for YUYV into 2x2560x720 which can then be given to OpenCV to get a BGR / RGB frame for encoding</p><p>⚠️ - The format can also encode data with H264/H265 which I didn't get sample files to reverse engineer, I'll update this once I get my hands on some</p>
+<h2 id="format-description">Format Description</h2><blockquote><p>Reverse engineered from ZED 2i recordings (SDK 5.1.2, firmware 2.0.5)</p></blockquote>
 <hr />
-<br/>
-</p>
-<h2 id="container">Container</h2>
-<p>
-<br/>
-SVO2 files are standard <b>MCAP</b> files (a robotics data container format).<br/>
-The <code>.svo2</code> extension is ZED-specific but the file is fully valid MCAP.<br/>
-<pre>
-<code class="language-plaintext">┌─────────────────────────────────────────────────────────────┐
+<h2 id="container">Container</h2><p>SVO2 files are standard <strong>MCAP</strong> files (a robotics data container format).
+The <code>.svo2</code> extension is ZED-specific but the file is fully valid MCAP.</p><pre><code>┌─────────────────────────────────────────────────────────────┐
 │                        MCAP FILE                            │
 │                                                             │
 │  ┌──────────┐  ┌──────────────────────────────────────┐     │
@@ -219,17 +81,9 @@ The <code>.svo2</code> extension is ZED-specific but the file is fully valid MCA
 │  │ Summary  │  └──────────────────────────────────────┘     │
 │  │  Index   │                                               │
 │  └──────────┘                                               │
-└─────────────────────────────────────────────────────────────┘
-</code>
-</pre>
-<br/>
+└─────────────────────────────────────────────────────────────┘</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="topics-channels">Topics / Channels</h2>
-<p>
-<pre>
-<code class="language-plaintext">┌───────────────────────────────────────────────────────────────────────┐
+<h2 id="topics--channels">Topics / Channels</h2><pre><code>┌───────────────────────────────────────────────────────────────────────┐
 │ Topic                                  │ Encoding      │ Rate         │
 ├───────────────────────────────────────────────────────────────────────┤
 │ svo_header                             │ jsonschema     │ 1 msg       │
@@ -237,93 +91,30 @@ The <code>.svo2</code> extension is ZED-specific but the file is fully valid MCA
 │ Camera_SN&lt;serial&gt;/sensors              │ jsonschema     │ ~308 Hz     │
 │ Camera_SN&lt;serial&gt;/integrated_sensors   │ jsonschema     │ ~15 Hz      │
 │ svo_footer                             │ jsonschema     │ 1 msg       │
-└───────────────────────────────────────────────────────────────────────┘
-</code>
-</pre>
-<br/>
+└───────────────────────────────────────────────────────────────────────┘</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="svo-header">svo_header</h2>
-<p>
-<br/>
-JSON message. Contains camera configuration and a base64-encoded binary<br/>
-blob (<code>header</code>) with the following structure:<br/>
-<pre>
-<code class="language-plaintext">base64("header") binary layout — 128 bytes
+<h2 id="svo_header">svo_header</h2><p>JSON message. Contains camera configuration and a base64-encoded binary
+blob (<code>header</code>) with the following structure:</p><pre><code>base64(&quot;header&quot;) binary layout — 128 bytes
 ┌────────┬────────┬────────────────┬────────────┬────────────┬──────────────┐
 │  0..3  │  4..7  │     8..11      │   12..15   │   20..23   │   24..27     │
 │ uint32 │ uint32 │    uint32      │   uint32   │   uint32   │   uint32     │
 │ width  │ height │ serial_number  │  unknown   │ pix_format │ strip_count  │
 │  1280  │  720   │   38486288     │    0x0f    │     2      │     4        │
 └────────┴────────┴────────────────┴────────────┴────────────┴──────────────┘
-  remaining bytes: calibration floats (IMU, lens distortion, etc.)
-</code>
-</pre>
-<br/>
-Other JSON fields:<br/>
-<ul>
-<li><code>ZED_SDK_version</code>  — e.g. <code>"5.1.2"</code><br/>
-</li>
-<li><code>version</code>          — SVO2 format version, e.g. <code>"2.0.5"</code><br/>
-</li>
-<li><code>IMU_frequency</code>    — e.g. <code>400.0</code><br/>
-</li>
-<li><code>Calib_acc</code>        — base64 IMU accelerometer calibration<br/>
-</li>
-<li><code>Calib_gyro</code>       — base64 IMU gyroscope calibration<br/>
-</li>
-</ul><br/><hr />
-<br/>
-</p>
-<h2 id="svo-footer">svo_footer</h2>
-<p>
-<br/>
-JSON message. Contains a list of all frame timestamps (one per<br/>
-<code>side_by_side</code> message) in nanoseconds. Useful for index building<br/>
-but large — omitted from info.json export.<br/>
-<br/>
+  remaining bytes: calibration floats (IMU, lens distortion, etc.)</code></pre><p>Other JSON fields:</p><ul><li><code>ZED_SDK_version</code>  — e.g. <code>&quot;5.1.2&quot;</code></li><li><code>version</code>          — SVO2 format version, e.g. <code>&quot;2.0.5&quot;</code></li><li><code>IMU_frequency</code>    — e.g. <code>400.0</code></li><li><code>Calib_acc</code>        — base64 IMU accelerometer calibration</li><li><code>Calib_gyro</code>       — base64 IMU gyroscope calibration</li></ul>
 <hr />
-<br/>
-</p>
-<h2 id="sensors-integrated-sensors">sensors / integrated_sensors</h2>
-<p>
-<br/>
-JSON message with a single field <code>data</code> containing a <b>base64-encoded binary struct</b> (format not yet fully reverse engineered).<br/>
-<pre>
-<code class="language-json"><span style="color:&#35;e3ceab">{</span>
-  <span style="color:&#35;aae3b2">&quot;__title__&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;cc9393">&quot;sensors&quot;</span><span style="color:&#35;dcdccc">,</span>
-  <span style="color:&#35;aae3b2">&quot;data&quot;</span><span style="color:&#35;dcdccc">:</span> <span style="color:&#35;cc9393">&quot;&lt;base64 binary blob&gt;&quot;</span>
-<span style="color:&#35;e3ceab">}</span>	</code>
-</pre>
-<br/>
-The binary blob is believed to contain:<br/>
-<ul>
-<li>IMU accelerometer XYZ (float32, m/s²)<br/>
-</li>
-<li>IMU gyroscope XYZ    (float32, rad/s)<br/>
-</li>
-<li>Magnetometer XYZ     (float32, µT)<br/>
-</li>
-<li>Barometer            (float32, hPa)<br/>
-</li>
-<li>Temperature          (float32, °C)<br/>
-</li>
-<li>Timestamp(s)         (uint64, ns)<br/>
-</li>
-</ul><br/><code>integrated_sensors</code> is time-aligned to frames (~15 Hz).<br/>
-<code>sensors</code> is raw IMU rate (~308 Hz).<br/>
-<br/>
+<h2 id="svo_footer">svo_footer</h2><p>JSON message. Contains a list of all frame timestamps (one per
+<code>side_by_side</code> message) in nanoseconds. Useful for index building
+but large — omitted from info.json export.</p>
 <hr />
-<br/>
-</p>
-<h2 id="side-by-side-message-layout">side_by_side — Message Layout</h2>
-<p>
-<br/>
-This is the main video topic. Each message uses the custom<br/>
-<code>zed_sdk_encoded</code> encoding.<br/>
-<pre>
-<code class="language-plaintext">side_by_side message
+<h2 id="sensors--integrated_sensors">sensors / integrated_sensors</h2><p>JSON message with a single field <code>data</code> containing a <strong>base64-encoded binary struct</strong> (format not yet fully reverse engineered).</p><pre><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"__title__"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sensors"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;base64 binary blob&gt;"</span>
+<span class="p">}</span></code></pre><p>The binary blob is believed to contain:</p><ul><li>IMU accelerometer XYZ (float32, m/s²)</li><li>IMU gyroscope XYZ    (float32, rad/s)</li><li>Magnetometer XYZ     (float32, µT)</li><li>Barometer            (float32, hPa)</li><li>Temperature          (float32, °C)</li><li>Timestamp(s)         (uint64, ns)</li></ul><p><code>integrated_sensors</code> is time-aligned to frames (~15 Hz).
+<code>sensors</code> is raw IMU rate (~308 Hz).</p>
+<hr />
+<h2 id="side_by_side--message-layout">side_by_side — Message Layout</h2><p>This is the main video topic. Each message uses the custom
+<code>zed_sdk_encoded</code> encoding.</p><pre><code>side_by_side message
 ┌──────────────────────────────────────────────────────────────────┐
 │                     MESSAGE PAYLOAD                              │
 │                                                                  │
@@ -358,41 +149,21 @@ This is the main video topic. Each message uses the custom<br/>
   timestamp_A  — internal camera clock at start of capture
   timestamp_B  — internal camera clock at end of capture
                  (delta ~60 ticks per frame)
-  Sizes are exact byte lengths; strips are concatenated with no padding.
-</code>
-</pre>
-<br/>
+  Sizes are exact byte lengths; strips are concatenated with no padding.</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="jfif-strip-structure">JFIF Strip Structure</h2>
-<p>
-<br/>
-Each JFIF strip is a <b>standard baseline JPEG</b> with non-standard content:<br/>
-the pixel data is raw sensor bytes, not a normal image.<br/>
-<pre>
-<code class="language-plaintext">Each JFIF strip:
+<h2 id="jfif-strip-structure">JFIF Strip Structure</h2><p>Each JFIF strip is a <strong>standard baseline JPEG</strong> with non-standard content:
+the pixel data is raw sensor bytes, not a normal image.</p><pre><code>Each JFIF strip:
   Width:   5120 px
   Height:  180  px
   Channels: 1 (grayscale)
   Encoding: Baseline DCT, Huffman, very high quality (QT values 1–14)
 
 4 strips stacked vertically:
-  5120 × (180 × 4) &equals; 5120 × 720
-</code>
-</pre>
-<br/>
+  5120 × (180 × 4) = 5120 × 720</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="pixel-format-yuyv-4-2-2">Pixel Format: YUYV 4:2:2</h2>
-<p>
-<br/>
-After decoding and stacking the 4 JFIF strips you have a<br/>
-<code>(720, 5120)</code> uint8 array.<br/>
-it is YUYV 4:2:2 data packed into the JFIF container as grayscale data.<br/>
-<pre>
-<code class="language-plaintext">YUYV 4:2:2 encoding — 4 bytes encode 2 pixels:
+<h2 id="pixel-format-yuyv-422">Pixel Format: YUYV 4:2:2</h2><p>After decoding and stacking the 4 JFIF strips you have a
+<code>(720, 5120)</code> uint8 array.
+it is YUYV 4:2:2 data packed into the JFIF container as grayscale data.</p><pre><code>YUYV 4:2:2 encoding — 4 bytes encode 2 pixels:
 
   byte 0   byte 1   byte 2   byte 3
 ┌────────┬────────┬────────┬────────┐
@@ -401,20 +172,10 @@ it is YUYV 4:2:2 data packed into the JFIF container as grayscale data.<br/>
 └────────┴────────┴────────┴────────┘
   pixel 0           pixel 1
 
-  Period: 4 columns
-</code>
-</pre>
-<br/>
-The 5120-byte-wide row encodes <b>2560 color pixels</b> side by side<br/>
-(left eye + right eye).<br/>
-<br/>
+  Period: 4 columns</code></pre><p>The 5120-byte-wide row encodes <strong>2560 color pixels</strong> side by side
+(left eye + right eye).</p>
 <hr />
-<br/>
-</p>
-<h2 id="frame-reconstruction-pipeline">Frame Reconstruction Pipeline</h2>
-<p>
-<pre>
-<code class="language-plaintext">JFIF strip 1  (5120 × 180, grayscale)  ─┐
+<h2 id="frame-reconstruction-pipeline">Frame Reconstruction Pipeline</h2><pre><code>JFIF strip 1  (5120 × 180, grayscale)  ─┐
 JFIF strip 2  (5120 × 180, grayscale)  ─┤
 JFIF strip 3  (5120 × 180, grayscale)  ─┤─ vstack
 JFIF strip 4  (5120 × 180, grayscale)  ─┘
@@ -436,17 +197,9 @@ JFIF strip 4  (5120 × 180, grayscale)  ─┘
           │                    │
           ▼                    ▼
    LEFT EYE BGR          RIGHT EYE BGR
-    (720 × 1280)          (720 × 1280)
-</code>
-</pre>
-<br/>
+    (720 × 1280)          (720 × 1280)</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="full-file-structure-summary">Full File Structure Summary</h2>
-<p>
-<pre>
-<code class="language-plaintext">HD720_SN38486288_18-52-52.svo2
+<h2 id="full-file-structure-summary">Full File Structure Summary</h2><pre><code>HD720_SN38486288_18-52-52.svo2
 │
 ├── svo_header          (1 msg)   Camera config, calibration, SDK version
 │
@@ -459,47 +212,20 @@ JFIF strip 4  (5120 × 180, grayscale)  ─┘
 │
 ├── integrated_sensors  (762 msgs, ~15 Hz)      Frame-aligned IMU (binary blob)
 │
-└── svo_footer          (1 msg)   List of all frame timestamps (ns)
-</code>
-</pre>
-<br/>
+└── svo_footer          (1 msg)   List of all frame timestamps (ns)</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="timestamps">Timestamps</h2>
-<p>
-<br/>
-Two timestamp domains exist:<br/>
-<pre>
-<code class="language-plaintext">  MCAP log_time_ns  — wall clock, nanoseconds since Unix epoch
+<h2 id="timestamps">Timestamps</h2><p>Two timestamp domains exist:</p><pre><code>  MCAP log_time_ns  — wall clock, nanoseconds since Unix epoch
                       used for inter-topic sync and video PTS
                       source of truth for playback timing
 
   ts_a / ts_b       — internal camera clock ticks in message header
                       delta (ts_b - ts_a) ≈ 60 ticks per frame
                       meaning of tick unit not yet determined
-                      not used for video sync
-</code>
-</pre>
-<br/>
+                      not used for video sync</code></pre>
 <hr />
-<br/>
-</p>
-<h2 id="known-unknowns">Known Unknowns</h2>
-<p>
-<ul>
-<li>Binary format of <code>sensors</code> / <code>integrated_sensors</code> data blob<br/>
-</li>
-<li>Meaning of <code>ts_a</code> / <code>ts_b</code> tick units<br/>
-</li>
-<li><code>pixel_format</code> enum value <code>2</code> in header binary (assumed YUYV)<br/>
-</li>
-<li><code>unknown_0x0c</code> field in header binary (<code>0x0f</code> = 15, possibly resolution enum)<br/>
-</li>
-<li>Whether other pixel formats exist in other recording modes<br/>
-  (e.g. 2K, 4K, VGA — likely different strip counts / dimensions)<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+<h2 id="known-unknowns">Known Unknowns</h2><ul><li>Binary format of <code>sensors</code> / <code>integrated_sensors</code> data blob</li><li>Meaning of <code>ts_a</code> / <code>ts_b</code> tick units</li><li><code>pixel_format</code> enum value <code>2</code> in header binary (assumed YUYV)</li><li><code>unknown_0x0c</code> field in header binary (<code>0x0f</code> = 15, possibly resolution enum)</li><li>Whether other pixel formats exist in other recording modes
+(e.g. 2K, 4K, VGA — likely different strip counts / dimensions)</li></ul>
+
+</article>
 </body>
+</html>

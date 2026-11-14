@@ -2,7 +2,9 @@
 #
 # /// script
 # requires-python = ">=3.12"
-# dependencies = []
+# dependencies = [
+#   "pillow>=11.3",  # wheels bundle libavif: an always-available AVIF encoder
+# ]
 # ///
 """
 Unified asset pipeline.
@@ -50,13 +52,19 @@ VIDEO_EXTS = RAW_VIDEO_EXTS | {OPTIMIZED_VIDEO_EXT}
 MEDIA_EXTS = IMAGE_EXTS | VIDEO_EXTS
 
 # Files/dirs under the source folder that aren't shippable media at all.
-SKIP_DIR_NAMES = {".tooling", "styles"}
+# models: 3D models are served from Vercel blob storage (the repo is over its
+# GitHub LFS budget, and Pages would serve LFS pointers anyway), not /assets.
+SKIP_DIR_NAMES = {".tooling", "styles", "models"}
 SKIP_FILE_NAMES = {"Makefile"}
 SKIP_SUFFIXES = {".ts"}
 
+# Build output is chatty (one line per hashed file + rewrite totals). Only
+# print it when DEBUG=1; real warnings and failures go to stderr regardless.
+DEBUG = os.environ.get("DEBUG") == "1"
+
 # Build outputs that live in the same flat output folder but aren't
 # produced by this script (postcss/bun handle these) — never prune them.
-PROTECTED_NAMES = {"styles.css", "wireframe-model-viewer.js", "ascii-model-viewer.js"}
+PROTECTED_NAMES = {"styles.css", "elements.js", "charts.js", "code.js", "model-viewer.js"}
 
 HASH_HEXLEN = 10
 
@@ -95,18 +103,12 @@ def _run(cmd: list[str]) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True)
 
 
-def convert_to_avif(src: Path, dest: Path) -> bool:
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    ext = src.suffix.lower()
-
-    if ext == ".avif":
-        # Already AVIF — just place it, nothing to encode.
-        shutil.copy2(src, dest)
-        return True
-
+def _run_avifenc(src: Path, dest: Path) -> bool:
+    """Encode with avifenc; non-native formats are bridged through an
+    intermediate PNG first (see AVIFENC_NATIVE_EXTS)."""
     bridge_png: Path | None = None
     input_path = src
-    if ext not in AVIFENC_NATIVE_EXTS:
+    if src.suffix.lower() not in AVIFENC_NATIVE_EXTS:
         bridge_png = dest.with_name(dest.stem + ".bridge.png")
         result = _run(["convert", str(src), str(bridge_png)])
         if result.returncode != 0 or not bridge_png.exists():
@@ -128,6 +130,72 @@ def convert_to_avif(src: Path, dest: Path) -> bool:
     finally:
         if bridge_png is not None and bridge_png.exists():
             bridge_png.unlink()
+
+
+def _run_ffmpeg(src: Path, dest: Path) -> bool:
+    """Fallback encoder for when avifenc isn't installed (the Docker image
+    ships both). libaom-av1 with -still-picture writes a single-frame AVIF;
+    -crf 19 ≈ avifenc's -q 70 on its 0-100 scale."""
+    result = _run([
+        "ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+        "-i", str(src),
+        "-frames:v", "1",
+        "-c:v", "libaom-av1", "-still-picture", "1",
+        "-crf", "19", "-b:v", "0", "-cpu-used", "6",
+        str(dest),
+    ])
+    if result.returncode != 0 or not dest.exists():
+        print(f"Error converting {src} with ffmpeg: {result.stderr.decode(errors='replace').strip()}", file=sys.stderr)
+        if dest.exists():
+            dest.unlink()
+        return False
+    return True
+
+
+def _run_pillow(src: Path, dest: Path) -> bool:
+    """Last-resort encoder. Pillow's wheels bundle libavif, so this works on
+    any machine with nothing installed — the script's own dependency (see
+    header) guarantees it can import. Matches avifenc's `-q 70 -s 6`."""
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        print(f"Error converting {src}: pillow unavailable", file=sys.stderr)
+        return False
+    try:
+        im = ImageOps.exif_transpose(Image.open(src))
+        has_alpha = im.mode in ("RGBA", "LA", "PA") or (im.mode == "P" and "transparency" in im.info)
+        im = im.convert("RGBA" if has_alpha else "RGB")
+        im.save(dest, format="AVIF", quality=70, speed=6)
+    except Exception as e:
+        print(f"Error converting {src} with pillow: {e}", file=sys.stderr)
+        if dest.exists():
+            dest.unlink()
+        return False
+    return True
+
+
+def convert_to_avif(src: Path, dest: Path) -> bool:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+
+    if src.suffix.lower() == ".avif":
+        # Already AVIF — just place it, nothing to encode.
+        shutil.copy2(src, dest)
+        return True
+
+    # Encoder chain: avifenc -> ffmpeg -> Pillow. The first two give the
+    # best batch performance when installed; Pillow (bundled libavif, a
+    # script dependency) means conversion never hard-fails for want of a
+    # system package.
+    if shutil.which("avifenc") and _run_avifenc(src, dest):
+        return True
+    if shutil.which("ffmpeg") and _run_ffmpeg(src, dest):
+        return True
+    if _run_pillow(src, dest):
+        return True
+    print(f"Error converting {src}: avifenc, ffmpeg and pillow all failed", file=sys.stderr)
+    if dest.exists():
+        dest.unlink()
+    return False
 
 
 def human_size(num_bytes: int) -> str:
@@ -206,7 +274,8 @@ def process_media_file(path: Path, rel: str, output_root: Path, manifest: dict[s
             shutil.copy2(path, dest)
 
     manifest[rel] = out_name
-    print(f"{rel} -> {out_name}  (hash={digest})")
+    if DEBUG:
+        print(f"{rel} -> {out_name}  (hash={digest})")
     return True
 
 
@@ -225,7 +294,8 @@ def process_passthrough_file(path: Path, rel: str, output_root: Path, manifest: 
         shutil.copy2(path, dest)
 
     manifest[rel] = out_name
-    print(f"{rel} -> {out_name}  (hash={digest})")
+    if DEBUG:
+        print(f"{rel} -> {out_name}  (hash={digest})")
 
 
 def build_assets(source: str, posts: str, output: str) -> dict[str, str]:
@@ -294,10 +364,12 @@ def build_assets(source: str, posts: str, output: str) -> dict[str, str]:
     for existing in output_root.iterdir():
         if existing.is_dir():
             shutil.rmtree(existing)
-            print(f"pruned stale dir {existing.relative_to(output_root)}")
+            if DEBUG:
+                print(f"pruned stale dir {existing.relative_to(output_root)}")
         elif existing.name not in keep:
             existing.unlink()
-            print(f"pruned stale file {existing.relative_to(output_root)}")
+            if DEBUG:
+                print(f"pruned stale file {existing.relative_to(output_root)}")
 
     if failures:
         print(f"\n{len(failures)} file(s) failed to convert:", file=sys.stderr)
@@ -445,7 +517,8 @@ def rewrite_tree(root: Path, manifest: dict[str, str]) -> int:
             file_path.write_text(new_text)
             total += count
 
-    print(f"rewrote {total} asset reference(s) across {len(targets)} file(s) under {root}")
+    if DEBUG:
+        print(f"rewrote {total} asset reference(s) across {len(targets)} file(s) under {root}")
     return total
 
 

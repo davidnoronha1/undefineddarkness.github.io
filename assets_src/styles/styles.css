@@ -1,413 +1,205 @@
-@import url("typography.css");
-@import url("extras.css");
-@import url("minor.css");
+/* Single, minimal, dark-only stylesheet.
+   Every page inlines only the rules it uses (purgecss, see
+   assets_src/.tooling/optimize_page.sh), so rules here cost nothing on
+   pages that don't use them.
 
-/* -- GLOBAL -- */
-
-* {
-    box-sizing: border-box;
-    position: relative;
-    scroll-behavior: smooth;
-}
+   Token names are legacy (from the old light theme, where "white" was the
+   background): kept because experiments/ and inline styles in posts still
+   reference them. --white* = backgrounds, --black* = text. */
 
 :root {
-    /* Without this, browsers that don't see an explicit color-scheme
-       declaration assume the page is light-only and apply their own
-       "force dark" heuristic on top of it (Chrome/Android WebView do this) —
-       that heuristic includes an invert-ish filter over color glyphs like
-       emoji, which is what was washing them out. Declaring "dark" tells the
-       browser this page IS dark and it already matches native dark UI
-       (scrollbars, form controls), so it leaves rendering alone instead of
-       trying to force it. */
-    color-scheme: dark;
-    --margin: -0.8em;
-    /* Dark mode only — these used to be the light-mode defaults, overridden
-       by a prefers-color-scheme: dark media query; that query's values are
-       now just the permanent values, and the media query itself is gone. */
-    --black: #fafafa;
-    --white: #181818;
-    --white-lighter: #111;
-    --black-darker: #fdfdfd;
-    --white-darker: #333;
-    --black-lighter: #f0f0f0;
-    --nv-black: #181818;
-    --nv-white: #fafafa;
-    --nv-black-darker: #111;
-    --nv-gray: #555;
-    --gray: color-mix(in srgb, var(--black) 60%, var(--white) 40%);
+	color-scheme: dark;
+	--white: #111;
+	--white-lighter: #111;
+	--white-darker: #222;
+	--black: #ddd;
+	--black-darker: #eee;
+	--gray: #999;
+	--display-font: system-ui, sans-serif;
+	--serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, serif;
+	--accent: #ff7f50;
+	--mono-font: ui-monospace, Menlo, Consolas, monospace;
 }
 
-pre {
-    background-color: var(--nv-black-darker);
-    color: var(--nv-white);
-}
+/* -- Base -- */
 
-.hljs {
-    background-color: inherit !important;
-    background: inherit !important;
-}
+*, ::before, ::after { box-sizing: border-box; }
 
-/* -- DOCUMENT -- */
-
-body::-webkit-scrollbar {
-    width: 0.5em;
-}
-
-body::-webkit-scrollbar-track {
-    background-color: var(--white);
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: var(--black);
-}
-
-html,
-body {
-    height: 100%;
-}
+html { scroll-behavior: smooth; }
 
 body {
-    tab-size: 4;
-    scrollbar-color: var(--white-darker) var(--white-lighter) ;
-    scrollbar-width: 0.5em;
-    overflow-x: hidden;
-    margin: 0;
-    background-color: var(--white-lighter);
-    color: var(--black);
-
-    display: flex;
-    flex-direction: column;
+	max-width: 46rem;
+	margin: 0 auto;
+	padding: 1.5rem 1rem 3rem;
+	background: var(--white);
+	color: var(--black);
+	font: 1.0625rem/1.6 var(--display-font);
+	tab-size: 4;
+	overflow-wrap: break-word;
 }
 
-kbd {
-    display: inline-block;
-    background: var(--black);
-    color: var(--gray);
-    padding: 0 5px;
-    border-radius: 5px;
-}
+h1, h2, h3, h4, h5, h6 { line-height: 1.25; margin: 1.6em 0 .5em; font: 400 1em/1.25 var(--serif); }
+h1 { font-size: 1.75rem; margin-top: 0; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+h4, h5, h6 { font-size: 1rem; }
 
+a { color: inherit; text-underline-offset: .15em; transition: color .15s; }
+a:hover { color: var(--accent); }
 
-h3 {
-    margin-bottom: 0.1em;
-}
+img, video, svg { max-width: 100%; height: auto; }
+img, video { display: block; max-height: 80vh; }
 
-img {
-    display: block;
-}
+hr { border: 0; border-top: 1px solid var(--white-darker); margin: 2em 0; }
 
-pre,
-code {
-    line-height: initial;
-    /* pre's background is always dark (--nv-black-darker, never theme-swapped),
-       so its scrollbar should stay dark too instead of following the page theme. */
-    scrollbar-color: var(--nv-gray) var(--nv-black-darker);
-}
+blockquote { margin: 1em 0; padding-left: 1em; border-left: 3px solid var(--white-darker); color: var(--gray); }
 
-pre::-webkit-scrollbar {
-    height: 0.6em;
-}
+figure { margin: 1em 0; }
+figcaption { font-size: .875em; color: var(--gray); }
 
-pre::-webkit-scrollbar-track {
-    background-color: var(--nv-black-darker);
-}
+mark { background: var(--white-darker); color: inherit; padding: 0 .2em; }
 
-pre::-webkit-scrollbar-thumb {
-    background-color: var(--nv-gray);
-    border-radius: 5px;
-}
+kbd { font: .875em var(--mono-font); border: 1px solid var(--white-darker); border-radius: 3px; padding: 0 .3em; }
 
-img.inline {
-    max-width: 18em;
-    float: left;
-    margin-right: 1em;
-    margin-bottom: 1em;
-    width: unset;
-}
+/* -- Site chrome -- */
 
-pre {
-    overflow-y: hidden;
-    overflow-x: auto;
-    text-align: left;
-    margin: 0.5em 0;
-    padding: 0.6em 0.8em;
-    white-space: normal;
-    border-radius: 5px;
-}
+/* Header links: the top nav on every page, and the home page's nav/rss. */
+body > nav, .home nav { margin-bottom: 2rem; color: var(--gray); }
+body > nav a, .home nav a, .home .rss { text-decoration: none; margin-right: 1em; color: var(--gray); }
+body > nav a:first-child { color: var(--black); font-weight: 600; }
+body > nav a:hover, .home nav a:hover, .home .rss:hover { color: var(--accent); }
 
-pre:has(code:not(.language-plaintext)) {
-    /* pre's background/text stay fixed dark/white in both site themes (see
-       the nv- prefixed vars above), but this border had no explicit color
-       so it used currentColor — white. That's invisible against the light
-       theme's page background, but in dark mode the page background goes
-       dark too, so the same white border suddenly reads as a glowing
-       outline. Pin it to the same fixed gray already used for pre's
-       scrollbar so it stays a subtle, theme-independent line. */
-    border: 1px solid var(--nv-gray);
-}
+/* Optional `image:` from a post's front matter (small pixel-art icons). */
+header img { float: right; max-width: 128px; margin: 0 0 1em 1em; image-rendering: pixelated; }
 
-.whitespace-pre {
-    white-space: pre-line;
-}
+/* Home page: mark, greeting, nav, project highlights, post list. */
+.home { position: relative; margin-bottom: 2.5rem; }
+.home .rss { position: absolute; top: 0; right: 0; margin: 0; font-size: .9em; }
+.home .mark { width: 2rem; color: var(--accent); }
+.home .kao { display: inline-block; margin: 0 .3em 0 0; height: .8em; width: auto; vertical-align: -.04em; } /* ʕっ•ᴥ•ʔっ as outlines (Noto Sans + Noto Sans JP): no CJK/IPA font needed */
+.home h1 { margin: .1em 0 .2em; }
+.home p { margin: 0; }
+.home nav { margin: 1em 0 0; }
 
-pre>code {
-    white-space: pre;
-}
+main > h2 { margin-top: 0; }
+h3 { color: var(--gray); }
+.highlights { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em 1.2em; }
+.highlights a { text-decoration: none; display: block; }
+.highlights img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; margin-bottom: .5em; filter: brightness(.85); transition: filter .2s; }
+.highlights a:hover img { filter: none; }
+.highlights b { font: 400 1.15em var(--serif); }
+.highlights p { margin: .1em 0 0; color: var(--gray); font-size: .9em; }
+.more { margin: 1em 0 2.5em; }
+.more a { text-decoration: none; color: var(--gray); }
+.more a:hover { color: var(--accent); }
 
-figure {
-    display: inline-block;
-}
+.posts { list-style: none; padding: 0; margin: 0 0 2em; }
+.posts li { display: grid; grid-template-columns: 40px 1fr auto; gap: .2em 1em; margin: 0 0 1em; align-items: start; }
+.posts li > div { grid-column: 2; }
+.posts img { width: 40px; height: 40px; object-fit: contain; image-rendering: pixelated; }
+/* Posts without an icon get a 2x2 pixel glyph; build.py lights a different
+   combination of the four pixels per post (data-tl/tr/bl/br). */
+.posts li:not(:has(img))::before { content: ""; width: 13px; height: 13px; margin: .45em auto 0;
+	--px: #4f8f7f; --tl: transparent; --tr: transparent; --bl: transparent; --br: transparent;
+	background: linear-gradient(var(--tl), var(--tl)) 0 0 / 6px 6px no-repeat, linear-gradient(var(--tr), var(--tr)) 7px 0 / 6px 6px no-repeat,
+		linear-gradient(var(--bl), var(--bl)) 0 7px / 6px 6px no-repeat, linear-gradient(var(--br), var(--br)) 7px 7px / 6px 6px no-repeat; }
+.posts li[data-tl]::before { --tl: var(--px); }
+.posts li[data-tr]::before { --tr: var(--px); }
+.posts li[data-bl]::before { --bl: var(--px); }
+.posts li[data-br]::before { --br: var(--px); }
+.posts a { font: 1.15em var(--serif); text-decoration: none;
+	background: linear-gradient(var(--white-darker), var(--white-darker)) 0 0 / 0 100% no-repeat;
+	transition: background-size .25s, color .15s; }
+.posts a:hover { background-size: 100% 100%; }
+.posts p { margin: 0; color: var(--gray); font-size: .9em; }
+.posts time { color: var(--gray); font: .8em var(--mono-font); padding-top: .3em; }
 
-article,
-main {
-    width: 100%;
-    padding-right: 16vw;
-    padding-left: 12vw;
-    line-height: 1.5;
-}
+/* Line breaks in the Markdown source show as line breaks (no <br> needed). */
+article p, article li { white-space: pre-line; }
 
-/* `nav.toc` precedes `article` in the markup, so `:first-child` here never
-   matched anything — article is always the second child of body. */
-body > article {
-    padding-top: 2em;
-}
+/* -- Code -- */
 
-main ul,
-article ul,
-p {
-    margin-top: 0;
-}
+code, pre { font-family: var(--mono-font); font-size: .875em; }
+pre code { font-size: inherit; }
+:not(pre) > code { background: var(--white-darker); padding: .1em .3em; border-radius: 3px; }
+pre { background: #191919; padding: .8em 1em; overflow-x: auto; border-radius: 4px; line-height: 1.45; }
+/* Syntax colours (zenburn) for pygments' short class names (build.py). */
+pre [class^=k] { color: #e3ceab; }
+pre .kt, pre .nc, pre .nn { color: #dfdfbf; }
+pre .nf, pre .fm, pre .nb, pre .bp { color: #aabfe3; }
+pre [class^=s] { color: #cc9393; }
+pre [class^=m], pre .se { color: #dca3a3; }
+pre [class^=c] { color: #7f9f7f; font-style: italic; }
+pre .cp, pre .cpf { color: #ffcfaf; font-style: normal; }
 
-li > ul {
-    margin-top: 0;
-}
+/* -- Tables -- */
 
-li > ul:not(:empty) {
-    margin-bottom: 1em;
-}
+table { border-collapse: collapse; margin: 1em 0; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--white-darker); padding: .35em .7em; text-align: left; vertical-align: top; }
+th { background: var(--white-darker); }
+.initial-conditions img { margin: 0 auto; }
 
-iframe {
-    border: 1px dashed;
-    width: 100%;
-    height: 100%;
-}
+.tierlist td:first-child { color: #111; }
+.tierlist tr:nth-child(1) td:first-child { background: #ff7f7f; }
+.tierlist tr:nth-child(2) td:first-child { background: #ffbf7f; }
+.tierlist tr:nth-child(3) td:first-child { background: #ffdf7f; }
+.tierlist tr:nth-child(4) td:first-child { background: #ffff7f; }
+.tierlist tr:nth-child(5) td:first-child { background: #bfff7f; }
 
-iframe.nb {
-    border: 0;
-}
+/* -- Folds, footnotes -- */
 
-a {
-    color: var(--gray);
-    text-decoration: underline;
-    word-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-}
+summary { cursor: pointer; }
+summary > * { display: inline; }
+.footnotes { font-size: .9em; color: var(--gray); }
 
-a.special {
-    color: inherit;
-}
+/* -- Callouts: > [!NOTE] etc. (GitHub alert syntax) -- */
 
+.markdown-alert { --c: var(--gray); margin: 1em 0; padding: .6em 1em; border-left: 3px solid var(--c); background: #191919; }
+.markdown-alert > * { margin: .5em 0 0; }
+.markdown-alert > :first-child { margin-top: 0; }
+.markdown-alert > :last-child { margin-bottom: 0; }
+.markdown-alert > .markdown-alert-title { margin-bottom: -.2em; color: var(--c); font-weight: 600; font-size: .875em; text-transform: uppercase; letter-spacing: .04em; }
+.markdown-alert-note { --c: #6a9ef2; }
+.markdown-alert-tip { --c: #5fb87a; }
+.markdown-alert-important { --c: #b483e8; }
+.markdown-alert-warning { --c: #d6a72b; }
+.markdown-alert-caution { --c: #e0605c; }
 
+/* -- Custom elements (assets_src/other/elements.ts) -- */
 
-figcaption {
-    text-align: right;
-    font-size: 0.8em;
-    font-style: italic;
-    color: color-mix(in srgb, var(--black) 70%, var(--white) 30%);
-}
+x-fold, x-code { display: block; }
+x-table, x-chart, x-plot { display: block; margin: 1em 0; }
+/* Before/without JS: raw rows as preformatted text, folds open with their title. */
+x-table:not(:defined), x-chart:not(:defined), x-plot:not(:defined), x-code:not(:defined):not(:has(pre)) { white-space: pre; overflow-x: auto; font: .875em var(--mono-font); }
+x-fold[title]::before { content: attr(title); display: block; font-weight: 600; }
+x-table table { white-space: normal; }
+.initial-conditions table { width: 100%; display: table; }
 
-hr {
-    border: none;
-    border-top: 1px solid var(--gray);
-    margin: 0.5em 0 0 0;
-}
+/* -- Media -- */
 
-blockquote {
-    margin: 1em 0 0 5em;
-}
+.slides { display: flex; gap: 1em; overflow-x: auto; scroll-snap-type: x mandatory; }
+.slides > * { flex: 0 0 100%; scroll-snap-align: start; max-height: 70vh; object-fit: contain; }
+img.inline { float: left; max-width: 18em; margin: 0 1em 1em 0; }
+math[display=block] { display: block math; margin: 1em 0; overflow-x: auto; }
 
-li>blockquote {
-    margin: 1em 0 0 1em;
-}
+/* -- Layout helpers used by posts -- */
 
-blockquote::before {
-    content: "❝";
-    position: absolute;
-    left: -1.5em;
-    font-size: 2.5em;
-    top: -0.4em;
-}
+/* Project grids (portfolio, experiments/) */
+.grid { display: grid; gap: 1.5em; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+.grid h3 { margin: .5em 0 .2em; }
+.grid p { margin: 0; color: var(--gray); font-size: .9em; }
+.grid img, .grid model-viewer { display: block; width: 100%; height: 11rem; object-fit: cover; background: var(--white-darker); }
 
-figcaption {
-    margin-left: 1em;
-}
+.split { display: grid; gap: 1em; grid-template-columns: 1fr 1fr; }
+.split > * { min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 1em; }
+.row > * { flex: 1 1 12em; }
+.stack { display: flex; flex-direction: column; gap: 1em; }
+.card, .box { border: 1px solid var(--white-darker); padding: .5em 1em; }
+.txt-c { text-align: center; }
+.hidden { display: none !important; }
 
-figure {
-    margin: 0;
-}
-
-
-/* Animate <summary> icon */
-summary::marker {
-    content: "";
-}
-
-summary::before {
-    /* Plain ASCII '>' rather than ▶ — a real glyph outside ASCII risks
-       being picked up by whatever emoji-capable font is installed instead
-       of rendering as plain text. */
-    content: url("data:image/svg+xml,%3Csvg clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' width='32' heigh='32'%3E%3Cpath d='m10.211 7.155c-.141-.108-.3-.157-.456-.157-.389 0-.755.306-.755.749v8.501c0 .445.367.75.755.75.157 0 .316-.05.457-.159 1.554-1.203 4.199-3.252 5.498-4.258.184-.142.29-.36.29-.592 0-.23-.107-.449-.291-.591-1.299-1.002-3.945-3.044-5.498-4.243z'/%3E%3C/svg%3E");
-    position: absolute;
-    font-size: 0.8em;
-    left: -1.4em;
-    /* Center vertically against the summary's actual height rather than a
-       fixed offset tuned for single-line text — a heading (or anything
-       taller) inside <summary> would otherwise push the marker toward the
-       top of the box instead of centering it. */
-    top: 50%;
-    transform: translateY(-40%);
-    transition: transform 0.3s ease;
-}
-
-details[open] summary::before {
-    transform: translateY(-50%) rotate(90deg);
-}
-
-summary::before {
-    /* The arrow is a solid-black SVG baked into a data URI — content:
-       url(...) is replaced content, so it doesn't inherit currentColor
-       the way an inline <svg> would. Invert it here instead of encoding
-       a second copy of the same path just to swap the fill color. Dark
-       mode is the only mode now, so this is unconditional. */
-    filter: invert(1);
-}
-
-/*
-li:not(:first-child) {
-    margin: 1em 0;
-}
-*/
-
-mark {
-    background: var(--white-darker);
-    padding: 1em;
-    color: inherit;
-    /* border-radius: 5px; */
-    display: inline-block;
-}
-
-/* ARTICLE FOOTER */
-
-footer {
-    margin-left: 5vw;
-    padding: 2em 0 0 0;
-    display: flex;
-    align-items: center;
-}
-
-/* Class selector (not an attribute selector) so purgecss's critical-CSS
-   pass reliably keeps this rule when inlining per-page styles. */
-.return-index {
-    text-decoration: none;
-}
-
-.return-index::before {
-    content: "✈";
-    padding-right: 10px;
-}
-
-main footer,
-article footer {
-    margin-left: 0;
-}
-
-/* TABLE */
-
-table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    /* Was a heavy 10px double frame around the table, on top of the 1px
-       solid grid lines every cell already draws — matching it to the same
-       1px solid the cells use lets border-collapse merge them into one
-       clean line instead of a border-within-a-border. */
-    border: 1px solid var(--gray);
-}
-
-table * {
-    text-align: center;
-    margin: 0;
-}
-
-td {
-	padding: 0.3em 1em;
-}
-
-tr {
-	border-bottom: 1px solid var(--gray);
-}
-
-td:not(:last-of-type), th:not(:last-of-type) {
-	border-right: 1px solid var(--gray);
-}
-
-/* Footnotes */
-
-h2.footnotes {
-    display: none;
-}
-
-#footnotes {
-    border-top: 1px solid;
-    padding-top: 0.5em;
-}
-
-.footpara {
-    display: inline;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-article img,
-main img,
-article video,
-main video {
-    object-fit: contain;
-    object-position: left;
-    max-height: 60vh;
-    width: 100%;
-}
-
-/* Style heading image to the right */
-header img {
-    float: right;
-    border-radius: 5px;
-}
-
-li .in-margin {
-    top: 0;
-    left: -3em;
-}
-
-@media only screen and (max-width: 600px) {
-
-    /*-- Mobile Styles --*/
-    article {
-        padding-left: 8vw;
-        padding-right: 0;
-    }
-
-    header img {
-        float: revert;
-    }
-
-    blockquote {
-        margin-left: 1em;
-    }
-
-    blockquote::before {
-        left: -0.7em;
-    }
+@media (max-width: 600px) {
+	.split { grid-template-columns: 1fr; }
+	header img { max-width: 64px; }
 }

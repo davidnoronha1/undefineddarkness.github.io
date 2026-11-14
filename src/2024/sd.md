@@ -1,13 +1,15 @@
-#HEADER stable diffussion experiments image=/assets/images/icon-sd.png
-My experience with Stable Diffusion
-#END HEADER
+---
+title: stable diffussion experiments
+description: My experience with Stable Diffusion
+image: /assets/images/icon-sd.png
+---
 
 Recently I finally got my hands on a new laptop for college that has a an actual honest to goodness GPU in it!
 This allowed me to explore many things that I couldn't do before such as Vulkan, AVX2 SIMD and running AI models locally among others.
 
 Granted my GPU doesn't have the copius amounts of VRAM necessary to have a good experience with Stable Diffussion (gonna call it SD now) but still
 
-==This guide is just a combination of my own thoughts and a small guide to whet your appetite, If you're interested, you can find detailed guides at [stable diffusion art](https://stable-diffusion-art.com/tutorials/)==
+<mark>This guide is just a combination of my own thoughts and a small guide to whet your appetite, If you're interested, you can find detailed guides at [stable diffusion art](https://stable-diffusion-art.com/tutorials/)</mark>
 
 ## Installation
 Getting it running was a pretty simple task, You need to simply follow the instructions from [automatic1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui), Which for Windows anyway involves simply downloading an archive prepackaged with Python and whatever else you need, After that's installed, You'll need to get some Models to actually generate your images and some LORAs to tweak said images, You can think of them this way:
@@ -18,5 +20,5 @@ Getting it running was a pretty simple task, You need to simply follow the instr
 
 You can find these on [CivitAI](https://civitai.com/models)
 
-#WIP
-#END WIP
+> [!WARNING]
+> This post is a work in progress.

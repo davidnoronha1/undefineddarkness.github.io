@@ -1,140 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="color-scheme" content="dark">
-	<link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon-60x60-cd64c1cb61.avif">
-	<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon-72x72-7ff6cafce5.avif">
-	<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon-76x76-b9eeb0c813.avif">
-	<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon-114x114-cf822c2305.avif">
-	<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon-120x120-d106cfd634.avif">
-	<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon-144x144-b777144398.avif">
-	<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon-152x152-ec823b7baa.avif">
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180x180-eb9df58816.avif">
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-90bd142fb1.avif">
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-1154a98a98.avif">
-	<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96-34ee223fb8.avif">
-	<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192-b2c835c722.avif">
-	<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-	<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/assets/favicon-144x144-b777144398.avif">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml">
-	<meta name="author" content="nes" />
-	<title>My Language Tierlist</title>
-	<meta name="description" content="A tierlist of programming languages I have used" />
-	<link rel="canonical" href="https://nes.is-a.dev/2022/tierlist.html" />
-	<link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-	<meta property="og:title" content="My Language Tierlist" />
-	<meta property="og:description" content="A tierlist of programming languages I have used" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://nes.is-a.dev/2022/tierlist.html" />
-	<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="My Language Tierlist" />
-	<meta name="twitter:description" content="A tierlist of programming languages I have used" />
-	<meta name="twitter:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif" />
-	<style>:root{--display-font:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",Times,serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--mono-font:"Courier New",Courier,"Nimbus Mono PS",monospace,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--article-size:1em}@font-face{font-display:swap;font-family:FairfaxOctant;src:url(/assets/LegacySymbols.woff2) format("woff2");unicode-range:u+0000-007f,u+2580-259f,u+1fb??,u+1cc00-1cebf,u+28??}@font-face{font-family:Georgia;src:local("Georgia");unicode-range:u+0000-007f}@font-face{font-family:Iowan Old Style;src:local("Iowan Old Style");unicode-range:u+0000-007f}@font-face{font-family:Palatino Linotype;src:local("Palatino Linotype");unicode-range:u+0000-007f}@font-face{font-family:Palatino;src:local("Palatino");unicode-range:u+0000-007f}@font-face{font-family:Times New Roman;src:local("Times New Roman");unicode-range:u+0000-007f}@font-face{font-family:Times;src:local("Times");unicode-range:u+0000-007f}@font-face{font-family:Courier New;src:local("Courier New");unicode-range:u+0000-007f}@font-face{font-family:Courier;src:local("Courier");unicode-range:u+0000-007f}@font-face{font-family:Nimbus Mono PS;src:local("Nimbus Mono PS");unicode-range:u+0000-007f}article{font-size:var(--article-size)}body{font-size:1.4em}body{font-family:var(--display-font);font-weight:400}i{font-style:italic}code{font-family:var(--mono-font);font-size:calc(var(--article-size)*.9)}:not(pre)>code{color:var(--gray);font-weight:700}h1,h2{font-family:var(--display-font)}h1,h2{font-weight:400}h1{font-size:clamp(1.6em,1.1em + 3vw,calc(var(--article-size)*2.1));margin-bottom:0}h1,h2{margin-top:0}h2{font-size:calc(var(--article-size)*2);margin-bottom:.3em}h1,h2{hyphens:auto;overflow-wrap:break-word}.tierlist tr:not(:last-child){border-bottom:1px solid var(--gray)}.tierlist td:first-child{border-right:1px solid var(--black);color:#000;text-align:left}.tierlist,.tierlist *{border:none}.tierlist tr:first-child td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}.tierlist td{border-right:none!important}@media only screen and (max-width:600px){h1{font-size:2em}}*{box-sizing:border-box;position:relative;scroll-behavior:smooth}:root{color-scheme:dark;--margin:-0.8em;--black:#fafafa;--white:#181818;--white-lighter:#111;--black-darker:#fdfdfd;--white-darker:#333;--black-lighter:#f0f0f0;--nv-black:#181818;--nv-white:#fafafa;--nv-black-darker:#111;--nv-gray:#555;--gray:color-mix(in srgb,var(--black) 60%,var(--white) 40%)}body::-webkit-scrollbar{width:.5em}body::-webkit-scrollbar-track{background-color:var(--white)}body::-webkit-scrollbar-thumb{background-color:var(--black)}body,html{height:100%}body{background-color:var(--white-lighter);color:var(--black);display:flex;flex-direction:column;margin:0;overflow-x:hidden;scrollbar-color:var(--white-darker) var(--white-lighter);scrollbar-width:.5em;tab-size:4}code{line-height:normal;scrollbar-color:var(--nv-gray) var(--nv-black-darker)}article{line-height:1.5;padding-left:12vw;padding-right:16vw;width:100%}body>article{padding-top:2em}article ul,li>ul,p{margin-top:0}li>ul:not(:empty){margin-bottom:1em}a{color:var(--gray);text-decoration:underline;word-wrap:break-word;hyphens:auto;word-break:break-word}a.special{color:inherit}footer{align-items:center;display:flex;margin-left:5vw;padding:2em 0 0}.return-index{text-decoration:none}.return-index:before{content:"✈";padding-right:10px}article footer{margin-left:0}table{border:1px solid var(--gray);border-collapse:collapse;table-layout:fixed}table *{margin:0;text-align:center}td{padding:.3em 1em}tr{border-bottom:1px solid var(--gray)}td:not(:last-of-type){border-right:1px solid var(--gray)}@media only screen and (max-width:600px){article{padding-left:8vw;padding-right:0}}</style>
-	<script type="application/ld+json">
-	{
-		"@context": "https://schema.org",
-		"@type": "BlogPosting",
-		"headline": "My Language Tierlist",
-		"description": "A tierlist of programming languages I have used",
-		"url": "https://nes.is-a.dev/2022/tierlist.html",
-		"image": "https://nes.is-a.dev/assets/nes-export-36912777d2.avif",
-		"author": {
-			"@type": "Person",
-			"name": "nes",
-			"url": "https://nes.is-a.dev/about.html"
-		}
-	}
-	</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Language Tierlist</title>
+<meta name="description" content="A tierlist of programming languages I have used">
+<link rel="canonical" href="https://nes.is-a.dev/out/2022/tierlist.html">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="My Language Tierlist">
+<meta property="og:description" content="A tierlist of programming languages I have used">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://nes.is-a.dev/out/2022/tierlist.html">
+<meta property="og:image" content="https://nes.is-a.dev/assets/nes-export-36912777d2.avif">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:dark;--white:#111;--white-lighter:#111;--white-darker:#222;--black:#ddd;--black-darker:#eee;--gray:#999;--display-font:system-ui,sans-serif;--serif:Georgia,'Iowan Old Style','Palatino Linotype',Palatino,serif;--accent:#ff7f50;--mono-font:ui-monospace,Menlo,Consolas,monospace}*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth}body{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem;background:var(--white);color:var(--black);font:1.0625rem/1.6 var(--display-font);tab-size:4;overflow-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.25;margin:1.6em 0 .5em;font:400 1em/1.25 var(--serif)}h1{font-size:1.75rem;margin-top:0}h2{font-size:1.35rem}h3{font-size:1.1rem}h4,h5,h6{font-size:1rem}a{color:inherit;text-underline-offset:.15em;transition:color .15s}a:hover{color:var(--accent)}img,video,svg{max-width:100%;height:auto}img,video{display:block;max-height:80vh}hr{border:0;border-top:1px solid var(--white-darker);margin:2em 0}blockquote{margin:1em 0;padding-left:1em;border-left:3px solid var(--white-darker);color:var(--gray)}figure{margin:1em 0}figcaption{font-size:.875em;color:var(--gray)}mark{background:var(--white-darker);color:inherit;padding:0 .2em}kbd{font:.875em var(--mono-font);border:1px solid var(--white-darker);border-radius:3px;padding:0 .3em}body>nav,.home nav{margin-bottom:2rem;color:var(--gray)}body>nav a,.home nav a,.home .rss{text-decoration:none;margin-right:1em;color:var(--gray)}body>nav a:first-child{color:var(--black);font-weight:600}body>nav a:hover,.home nav a:hover,.home .rss:hover{color:var(--accent)}header img{float:right;max-width:128px;margin:0 0 1em 1em;image-rendering:pixelated}.home{position:relative;margin-bottom:2.5rem}.home .rss{position:absolute;top:0;right:0;margin:0;font-size:.9em}.home .mark{width:2rem;color:var(--accent)}.home .kao{display:inline-block;margin:0 .3em 0 0;height:.8em;width:auto;vertical-align:-.04em}.home h1{margin:.1em 0 .2em}.home p{margin:0}.home nav{margin:1em 0 0}main>h2{margin-top:0}h3{color:var(--gray)}.highlights{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:1.5em 1.2em}.highlights a{text-decoration:none;display:block}.highlights img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:4px;margin-bottom:.5em;filter:brightness(.85);transition:filter .2s}.highlights a:hover img{filter:none}.highlights b{font:400 1.15em var(--serif)}.highlights p{margin:.1em 0 0;color:var(--gray);font-size:.9em}.more{margin:1em 0 2.5em}.more a{text-decoration:none;color:var(--gray)}.more a:hover{color:var(--accent)}.posts{list-style:none;padding:0;margin:0 0 2em}.posts li{display:grid;grid-template-columns:40px 1fr auto;gap:.2em 1em;margin:0 0 1em;align-items:start}.posts li>div{grid-column:2}.posts img{width:40px;height:40px;object-fit:contain;image-rendering:pixelated}.posts li:not(:has(img))::before{content:"";width:13px;height:13px;margin:.45em auto 0;--px:#4f8f7f;--tl:transparent;--tr:transparent;--bl:transparent;--br:transparent;background:linear-gradient(var(--tl),var(--tl)) 0 0 / 6px 6px no-repeat,linear-gradient(var(--tr),var(--tr)) 7px 0 / 6px 6px no-repeat,linear-gradient(var(--bl),var(--bl)) 0 7px / 6px 6px no-repeat,linear-gradient(var(--br),var(--br)) 7px 7px / 6px 6px no-repeat}.posts li[data-tl]::before{--tl:var(--px)}.posts li[data-tr]::before{--tr:var(--px)}.posts li[data-bl]::before{--bl:var(--px)}.posts li[data-br]::before{--br:var(--px)}.posts a{font:1.15em var(--serif);text-decoration:none;background:linear-gradient(var(--white-darker),var(--white-darker)) 0 0 / 0 100% no-repeat;transition:background-size .25s,color .15s}.posts a:hover{background-size:100% 100%}.posts p{margin:0;color:var(--gray);font-size:.9em}.posts time{color:var(--gray);font:.8em var(--mono-font);padding-top:.3em}article p,article li{white-space:pre-line}code,pre{font-family:var(--mono-font);font-size:.875em}pre code{font-size:inherit}:not(pre)>code{background:var(--white-darker);padding:.1em .3em;border-radius:3px}pre{background:#191919;padding:.8em 1em;overflow-x:auto;border-radius:4px;line-height:1.45}pre [class^=k]{color:#e3ceab}pre .kt,pre .nc,pre .nn{color:#dfdfbf}pre .nf,pre .fm,pre .nb,pre .bp{color:#aabfe3}pre [class^=s]{color:#cc9393}pre [class^=m],pre .se{color:#dca3a3}pre [class^=c]{color:#7f9f7f;font-style:italic}pre .cp,pre .cpf{color:#ffcfaf;font-style:normal}table{border-collapse:collapse;margin:1em 0;display:block;overflow-x:auto}th,td{border:1px solid var(--white-darker);padding:.35em .7em;text-align:left;vertical-align:top}th{background:var(--white-darker)}.initial-conditions img{margin:0 auto}.tierlist td:first-child{color:#111}.tierlist tr:nth-child(1) td:first-child{background:#ff7f7f}.tierlist tr:nth-child(2) td:first-child{background:#ffbf7f}.tierlist tr:nth-child(3) td:first-child{background:#ffdf7f}.tierlist tr:nth-child(4) td:first-child{background:#ffff7f}.tierlist tr:nth-child(5) td:first-child{background:#bfff7f}summary{cursor:pointer}summary>*{display:inline}.footnotes{font-size:.9em;color:var(--gray)}.markdown-alert{--c:var(--gray);margin:1em 0;padding:.6em 1em;border-left:3px solid var(--c);background:#191919}.markdown-alert>*{margin:.5em 0 0}.markdown-alert>:first-child{margin-top:0}.markdown-alert>:last-child{margin-bottom:0}.markdown-alert>.markdown-alert-title{margin-bottom:-.2em;color:var(--c);font-weight:600;font-size:.875em;text-transform:uppercase;letter-spacing:.04em}.markdown-alert-note{--c:#6a9ef2}.markdown-alert-tip{--c:#5fb87a}.markdown-alert-important{--c:#b483e8}.markdown-alert-warning{--c:#d6a72b}.markdown-alert-caution{--c:#e0605c}x-fold,x-code{display:block}x-table,x-chart,x-plot{display:block;margin:1em 0}x-table:not(:defined),x-chart:not(:defined),x-plot:not(:defined),x-code:not(:defined):not(:has(pre)){white-space:pre;overflow-x:auto;font:.875em var(--mono-font)}x-fold[title]::before{content:attr(title);display:block;font-weight:600}x-table table{white-space:normal}.initial-conditions table{width:100%;display:table}.slides{display:flex;gap:1em;overflow-x:auto;scroll-snap-type:x mandatory}.slides>*{flex:0 0 100%;scroll-snap-align:start;max-height:70vh;object-fit:contain}img.inline{float:left;max-width:18em;margin:0 1em 1em 0}math[display=block]{display:block math;margin:1em 0;overflow-x:auto}.grid{display:grid;gap:1.5em;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr))}.grid h3{margin:.5em 0 .2em}.grid p{margin:0;color:var(--gray);font-size:.9em}.grid img,.grid model-viewer{display:block;width:100%;height:11rem;object-fit:cover;background:var(--white-darker)}.split{display:grid;gap:1em;grid-template-columns:1fr 1fr}.split>*{min-width:0}.row{display:flex;flex-wrap:wrap;gap:1em}.row>*{flex:1 1 12em}.stack{display:flex;flex-direction:column;gap:1em}.card,.box{border:1px solid var(--white-darker);padding:.5em 1em}.txt-c{text-align:center}.hidden{display:none !important}@media (max-width:600px){.split{grid-template-columns:1fr}header img{max-width:64px}}</style>
 </head>
-
 <body>
-	<article>
+<nav><a href="/">nes</a><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+<article>
+<header><h1>My Language Tierlist</h1></header>
+<x-table noheader class="tierlist">
+USEFUL	Rust	Typescript	C#	C++
+FUN	C	Lua	TCL	Haskell
+BEARABLE	Javascript	Go	Python
+PAINFUL	Bash
+TRASH	Perl
+</x-table>
+<h2 id="notes">Notes</h2><ul><li><p><code>Rust</code> - Eh, You knew it was gonna be on the list. Rust is immensley complicated but It's not hard to be productive in it, But when I use it, I feel like I'm arguing with someone on how I should write my code..
+It's good that the borrow checker has your back but you fight with it quite often, or at least until you develop an intuition for it. But it's not too bad once you get used to it.
+<strong>UPDATE</strong>: Its a good language, just stick to anything that isn't embedded or async (that isn't tokio) or multithreaded</p></li><li><p><code>C</code> is really fun to work in, Having full control of what is happening is a great way to feel all powerful. But it is really not a good choice for building anything very complicated.
+And when it is used, there are often hacks or like annoying limitations that libraries have to work around which is all around quite frustrating. Not to say it's hard to use or anything just can get frustrating with time.
+It's really quite a nice language and the new stuff in C23 should make it even better!, But Man it would be wonderful if it had lambdas... or a vector type... maybe I just want C++. It's easy to fumble in C when handling memory but once memory management clicks for you, It's not difficult</p></li><li><p><code>TCL</code> - This is a bit of qwirky one but it's quite interesting and there's a lot of stuff you can do in it, sort of like a cross between lua and lisp I'd wager. I find it more fun to work with then python and something surprising for an interpreted language, You have <em>gasp</em> true not fake threads.</p></li><li><p><code>Go</code> - The error handling is pretty painful but then so is C's.</p></li><li><p><code>C++</code> - C++ just fixes a lot of gripes I have with C, But it replaces C's foot pistol with a sniper rifle. Unless you're familiar with a debugger and the code you're running, It can be really hard to find errors in C++, It fixes a lot of the pain points in C and admittedly introduces it's own.
+Just having namespaces, lambdas, struct methods you can actually use and lots of other additions make it really a lot less painful to use than C. I haven't used it in a really large project so I dont' know how it behaves in an enviroment like that.
+<strong>UPDATE</strong>: It behaves fine, just be prepared to diagnose CMake errors more than language errors &amp; Modern C++ is really quite good (when it wil get implemented in compilers that is...)</p></li><li><p><code>Javascript</code> - This is the first language I learnt and I have a lot of love for it but not having types and constantly forced to fix your code because of some tiny thing you couldnt predict (cause again, no types la la la) can get really frustrating,
+And even the ecosystem around it is just how to say <em>laden</em>. Even for simple things, The alternative to just DIY is something really complicated so you DIY and then your solution becomes complicated too and the cycle continues...</p></li><li><p><code>C#</code> - I tried it a little, and it was pleasant 🤷, Not really much to say, It's quite useful and these days it's multiplatform too, It neatly side steps the painful java buildsystem and hello world can be written in one line, How amazing is that??</p></li><li><p><code>Typescript</code> - I haven't explored every corner of Typescript's type system but it's still a great improvement to Javascript and the much better Editor integration it allows for is great.</p></li><li><p><code>Lua</code> - Lua is a lot like C but the stdlib is much smaller and has just what you really use (I mean when have you used strfry) and you never touch memory yourself.
+It also combines hashmaps and vectors into one table, Which I honestly don't hate, I kind of wish other languages had this combo type, It can be really useful in some situations to have that extra array part.
+It's quite delightful to work in Lua, You can learn it in one day and be off to the races. It's great for embedding for scripting / configuration, Eg: Neovim
+1-Array indexing isn't hard to get used to, It's just a bit like you ask why.</p></li><li><p><code>Perl</code> - The syntax just confuses me a lot, Its like bash but even more messy somehow, But it is more powerful than bash that much is for sure, You can even use GTK from within Perl.. I really wouldnt suggest it though. Warnings and Errors arent amazing and types arent strict, More javascript like fun.</p></li></ul>
+<script type="module" src="/assets/elements.js"></script>
 
-<header>
-  <h1>My Language Tierlist</h1>
-  <!-- post_description="A tierlist of programming languages I have used" -->
-</header>
-<table class=" tierlist">
-<tbody><tr>
-<td>USEFUL</td>
-<td>Rust</td>
-<td>Typescript</td>
-<td>C#</td>
-<td>C++<br/></td>
-</tr>
-<tr>
-<td>FUN</td>
-<td>C</td>
-<td>Lua</td>
-<td>TCL</td>
-<td>Haskell<br/></td>
-</tr>
-<tr>
-<td>BEARABLE</td>
-<td>Javascript</td>
-<td>Go</td>
-<td>Python<br/></td>
-</tr>
-<tr>
-<td>PAINFUL</td>
-<td>Bash<br/></td>
-</tr>
-<tr>
-<td>TRASH</td>
-<td>Perl<br/></td>
-</tr>
-</tbody></table>
-<h2 id="notes">Notes</h2>
-<p>
-<ul>
-<li><code>Rust</code> - Eh, You knew it was gonna be on the list. Rust is immensley complicated but It's not hard to be productive in it, But when I use it, I feel like I'm arguing with someone on how I should write my code..<br/>
-It's good that the borrow checker has your back but you fight with it quite often, or at least until you develop an intuition for it. But it's not too bad once you get used to it.<br/>
-<b>UPDATE</b>: Its a good language, just stick to anything that isn't embedded or async (that isn't tokio) or multithreaded<br/>
-</li>
-</ul><br/><ul>
-<li><code>C</code> is really fun to work in, Having full control of what is happening is a great way to feel all powerful. But it is really not a good choice for building anything very complicated.<br/>
-And when it is used, there are often hacks or like annoying limitations that libraries have to work around which is all around quite frustrating. Not to say it's hard to use or anything just can get frustrating with time.<br/>
-It's really quite a nice language and the new stuff in C23 should make it even better!, But Man it would be wonderful if it had lambdas... or a vector type... maybe I just want C++. It's easy to fumble in C when handling memory but once memory management clicks for you, It's not difficult<br/>
-</li>
-</ul><br/><ul>
-<li><code>TCL</code> - This is a bit of qwirky one but it's quite interesting and there's a lot of stuff you can do in it, sort of like a cross between lua and lisp I'd wager. I find it more fun to work with then python and something surprising for an interpreted language, You have <i>gasp</i> true not fake threads.<br/>
-</li>
-</ul><br/><ul>
-<li><code>Go</code> - The error handling is pretty painful but then so is C's.<br/>
-</li>
-</ul><br/><ul>
-<li><code>C++</code> - C++ just fixes a lot of gripes I have with C, But it replaces C's foot pistol with a sniper rifle. Unless you're familiar with a debugger and the code you're running, It can be really hard to find errors in C++, It fixes a lot of the pain points in C and admittedly introduces it's own.<br/>
-Just having namespaces, lambdas, struct methods you can actually use and lots of other additions make it really a lot less painful to use than C. I haven't used it in a really large project so I dont' know how it behaves in an enviroment like that.<br/>
-<b>UPDATE</b>: It behaves fine, just be prepared to diagnose CMake errors more than language errors & Modern C++ is really quite good (when it wil get implemented in compilers that is...)<br/>
-</li>
-</ul><br/><ul>
-<li><code>Javascript</code> - This is the first language I learnt and I have a lot of love for it but not having types and constantly forced to fix your code because of some tiny thing you couldnt predict (cause again, no types la la la) can get really frustrating,<br/>
-And even the ecosystem around it is just how to say <i>laden</i>. Even for simple things, The alternative to just DIY is something really complicated so you DIY and then your solution becomes complicated too and the cycle continues...<br/>
-</li>
-</ul><br/><ul>
-<li><code>C#</code> - I tried it a little, and it was pleasant 🤷, Not really much to say, It's quite useful and these days it's multiplatform too, It neatly side steps the painful java buildsystem and hello world can be written in one line, How amazing is that??<br/>
-</li>
-</ul><br/><ul>
-<li><code>Typescript</code> - I haven't explored every corner of Typescript's type system but it's still a great improvement to Javascript and the much better Editor integration it allows for is great.<br/>
-</li>
-</ul><br/><ul>
-<li><code>Lua</code> - Lua is a lot like C but the stdlib is much smaller and has just what you really use (I mean when have you used strfry) and you never touch memory yourself.<br/>
-It also combines hashmaps and vectors into one table, Which I honestly don't hate, I kind of wish other languages had this combo type, It can be really useful in some situations to have that extra array part.<br/>
-It's quite delightful to work in Lua, You can learn it in one day and be off to the races. It's great for embedding for scripting / configuration, Eg: Neovim<br/>
-1-Array indexing isn't hard to get used to, It's just a bit like you ask why.<br/>
-</li>
-</ul><br/><ul>
-<li><code>Perl</code> - The syntax just confuses me a lot, Its like bash but even more messy somehow, But it is more powerful than bash that much is for sure, You can even use GTK from within Perl.. I really wouldnt suggest it though. Warnings and Errors arent amazing and types arent strict, More javascript like fun.<br/>
-		<footer style="margin-bottom: 2em;">
-			<a class="special return-index" href="/index.html">Return To Index</a>
-		</footer>
-	</article>
+</article>
 </body>
+</html>

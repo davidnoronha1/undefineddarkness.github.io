@@ -1,381 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="dark">
-  <link rel="apple-touch-icon" sizes="57x57" href="/favicon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/favicon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/favicon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/favicon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/favicon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/favicon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/favicon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/favicon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/favicon-180x180.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192x192.png">
-  <link rel="shortcut icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/assets/icons/favicon-144x144.png">
-  <meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
-  <title>Nes — Full Index of Posts</title>
-  <meta name="description" content="Full index of posts by David (nes) — an electronics engineer & roboticist writing about hardware, software, and other tinkering." />
-  <link rel="canonical" href="https://nes.is-a.dev/" />
-  <meta property="og:title" content="Nes — Full Index of Posts" />
-  <meta property="og:description" content="Full index of posts by David (nes) — an electronics engineer & roboticist writing about hardware, software, and other tinkering." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://nes.is-a.dev/" />
-  <meta property="og:image" content="https://nes.is-a.dev/assets/images/nes-export.avif" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Nes — Full Index of Posts" />
-  <meta name="twitter:description" content="Full index of posts by David (nes) — an electronics engineer & roboticist writing about hardware, software, and other tinkering." />
-  <meta name="twitter:image" content="https://nes.is-a.dev/assets/images/nes-export.avif" />
-  <link rel="alternate" type="application/rss+xml" title="Nes's Personal Site" href="/rss.xml" />
-  <link rel="stylesheet" href="/assets/styles.css" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Nes's Personal Site",
-    "url": "https://nes.is-a.dev/",
-    "description": "My little corner of the internet",
-    "author": {
-      "@type": "Person",
-      "name": "David Noronha",
-      "alternateName": "nes",
-      "url": "https://nes.is-a.dev/out/about.html"
-    }
-  }
-  </script>
-  <!-- <link rel="preload" href="/assets/simple-auv-v1.glb" as="fetch" crossorigin> -->
-  <style>
-    body {
-      padding: 0 16vw;
-    }
-
-    @media only screen and (max-width: 600px) {
-      body {
-        padding: 0 4vw;
-      }
-    }
-
-    main.ov {
-      display: grid;
-      padding: 0;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-
-    h1 {
-      margin-top: 0;
-    }
-
-    main ul {
-      margin-top: 1.5em !important;
-      margin-bottom: 0;
-      list-style-type: none;
-      max-height: 60vh;
-      overflow-y: scroll;
-      scrollbar-color: var(--white-darker) var(--white-lighter);
-      padding: 0;
-    }
-
-    ul li a {
-      text-decoration: none;
-      font-size: 1.4em;
-    }
-
-    ul li img {
-      max-width: 4em;
-      max-height: 4em;
-      aspect-ratio: 1/1;
-    }
-
-    ul li {
-      margin-bottom: 0.4em;
-      display: flex;
-      gap: 1em;
-    }
-
-
-    h1 {
-      margin-bottom: 0;
-    }
-
-    a.special::before {
-      content: "";
-      background-color: var(--white-darker);
-      position: absolute;
-      width: 0;
-      height: 100%;
-      z-index: -1;
-    }
-
-    a.special:hover::before {
-      width: 100%;
-      padding: 0 0.2em;
-    }
-
-    a.special {
-      position: relative;
-      font-family: var(--display-font);
-      display: inline-block;
-    }
-
-    .card {
-      border: 1px solid;
-      flex: 1;
-    }
-
-    .card h2 {
-      text-align: center;
-    }
-
-    .pixel-corners,
-    .pixel-corners--wrapper {
-      clip-path: polygon(0px calc(100% - 15px),
-          3px calc(100% - 15px),
-          3px calc(100% - 9px),
-          6px calc(100% - 9px),
-          6px calc(100% - 6px),
-          9px calc(100% - 6px),
-          9px calc(100% - 3px),
-          15px calc(100% - 3px),
-          15px 100%,
-          calc(100% - 15px) 100%,
-          calc(100% - 15px) calc(100% - 3px),
-          calc(100% - 9px) calc(100% - 3px),
-          calc(100% - 9px) calc(100% - 6px),
-          calc(100% - 6px) calc(100% - 6px),
-          calc(100% - 6px) calc(100% - 9px),
-          calc(100% - 3px) calc(100% - 9px),
-          calc(100% - 3px) calc(100% - 15px),
-          100% calc(100% - 15px),
-          100% 15px,
-          calc(100% - 3px) 15px,
-          calc(100% - 3px) 9px,
-          calc(100% - 6px) 9px,
-          calc(100% - 6px) 6px,
-          calc(100% - 9px) 6px,
-          calc(100% - 9px) 3px,
-          calc(100% - 15px) 3px,
-          calc(100% - 15px) 0px,
-          15px 0px,
-          15px 3px,
-          9px 3px,
-          9px 6px,
-          6px 6px,
-          6px 9px,
-          3px 9px,
-          3px 15px,
-          0px 15px);
-      position: relative;
-    }
-
-    .pixel-corners {
-      border: 3px solid transparent;
-    }
-
-    .pixel-corners--wrapper {
-      width: fit-content;
-      height: fit-content;
-    }
-
-    .pixel-corners--wrapper .pixel-corners {
-      display: block;
-      clip-path: polygon(3px 15px,
-          6px 15px,
-          6px 9px,
-          9px 9px,
-          9px 6px,
-          15px 6px,
-          15px 3px,
-          calc(100% - 15px) 3px,
-          calc(100% - 15px) 6px,
-          calc(100% - 9px) 6px,
-          calc(100% - 9px) 9px,
-          calc(100% - 6px) 9px,
-          calc(100% - 6px) 15px,
-          calc(100% - 3px) 15px,
-          calc(100% - 3px) calc(100% - 15px),
-          calc(100% - 6px) calc(100% - 15px),
-          calc(100% - 6px) calc(100% - 9px),
-          calc(100% - 9px) calc(100% - 9px),
-          calc(100% - 9px) calc(100% - 6px),
-          calc(100% - 15px) calc(100% - 6px),
-          calc(100% - 15px) calc(100% - 3px),
-          15px calc(100% - 3px),
-          15px calc(100% - 6px),
-          9px calc(100% - 6px),
-          9px calc(100% - 9px),
-          6px calc(100% - 9px),
-          6px calc(100% - 15px),
-          3px calc(100% - 15px));
-    }
-
-    .pixel-corners::after,
-    .pixel-corners--wrapper::after {
-      content: "";
-      position: absolute;
-      clip-path: polygon(0px calc(100% - 15px),
-          3px calc(100% - 15px),
-          3px calc(100% - 9px),
-          6px calc(100% - 9px),
-          6px calc(100% - 6px),
-          9px calc(100% - 6px),
-          9px calc(100% - 3px),
-          15px calc(100% - 3px),
-          15px 100%,
-          calc(100% - 15px) 100%,
-          calc(100% - 15px) calc(100% - 3px),
-          calc(100% - 9px) calc(100% - 3px),
-          calc(100% - 9px) calc(100% - 6px),
-          calc(100% - 6px) calc(100% - 6px),
-          calc(100% - 6px) calc(100% - 9px),
-          calc(100% - 3px) calc(100% - 9px),
-          calc(100% - 3px) calc(100% - 15px),
-          100% calc(100% - 15px),
-          100% 15px,
-          calc(100% - 3px) 15px,
-          calc(100% - 3px) 9px,
-          calc(100% - 6px) 9px,
-          calc(100% - 6px) 6px,
-          calc(100% - 9px) 6px,
-          calc(100% - 9px) 3px,
-          calc(100% - 15px) 3px,
-          calc(100% - 15px) 0px,
-          15px 0px,
-          15px 3px,
-          9px 3px,
-          9px 6px,
-          6px 6px,
-          6px 9px,
-          3px 9px,
-          3px 15px,
-          0px 15px,
-          0px 50%,
-          3px 50%,
-          3px 15px,
-          6px 15px,
-          6px 9px,
-          9px 9px,
-          9px 6px,
-          15px 6px,
-          15px 3px,
-          calc(100% - 15px) 3px,
-          calc(100% - 15px) 6px,
-          calc(100% - 9px) 6px,
-          calc(100% - 9px) 9px,
-          calc(100% - 6px) 9px,
-          calc(100% - 6px) 15px,
-          calc(100% - 3px) 15px,
-          calc(100% - 3px) calc(100% - 15px),
-          calc(100% - 6px) calc(100% - 15px),
-          calc(100% - 6px) calc(100% - 9px),
-          calc(100% - 9px) calc(100% - 9px),
-          calc(100% - 9px) calc(100% - 6px),
-          calc(100% - 15px) calc(100% - 6px),
-          calc(100% - 15px) calc(100% - 3px),
-          15px calc(100% - 3px),
-          15px calc(100% - 6px),
-          9px calc(100% - 6px),
-          9px calc(100% - 9px),
-          6px calc(100% - 9px),
-          6px calc(100% - 15px),
-          3px calc(100% - 15px),
-          3px 50%,
-          0px 50%);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--gray);
-      display: block;
-      pointer-events: none;
-    }
-
-    .pixel-corners::after {
-      margin: -3px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nes</title>
+<meta name="description" content="David (nes) — electronics engineer & roboticist writing about hardware, software, and other tinkering.">
+<link rel="canonical" href="https://nes.is-a.dev/">
+<link rel="icon" href="/favicon.png">
+<link rel="alternate" type="application/rss+xml" title="nes" href="/rss.xml">
+<meta property="og:title" content="nes">
+<meta property="og:description" content="David (nes) — electronics engineer & roboticist writing about hardware, software, and other tinkering.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nes.is-a.dev/">
+<meta property="og:image" content="https://nes.is-a.dev/assets/images/nes-export.avif">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/styles.css" />
 </head>
-
 <body>
-  <h1 style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Nes's Personal Site — Full Index of Posts</h1>
-  <!-- <binary-ribbon
-        text="In the beginning God created the heaven and the earth. And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters. And God said, Let there be light: and there was light."
-        width="100"
-        pixel-size="8"
-        one-color="#f0f0f0"
-        zero-color="#333"
-        shape="circle"
-        background="#111"
-        auto-scroll="true"
-        scroll-speed="40">
-    </binary-ribbon> -->
-  <header
-    style="display: flex; justify-content: space-between; font-size: 2em; width: 100%; margin: 0.5em 0; color: coral;">
-    <div style="flex: 1;"></div>
-    <div style="flex: 1; display: flex; justify-content: center;">
-      <img src="/assets/icons/asterix.png" style="max-width: 1.1em; max-height: 1.1em;" alt="Asterisk decoration">
-      <!-- <div style="max-width: 1.1em; max-height: 1.1em; flex: 1;"><svg fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1"
-          viewBox="0 -622 740 752.99999">
-          <g transform="translate(-51,-341)">
-            <path
-              d="M 333,472 H 508 V 247 L 703,360 791,208 596,96 791,-16 703,-168 508,-55 V -281 H 333 V -56 L 138,-168 51,-16 245,96 51,208 138,360 333,248 c 0,0 0,224 0,224 z" />
-          </g>
-        </svg>
-      </div> -->
-    </div>
-    <div
-      style="flex: 1; text-align: right; display: flex; align-items: center; justify-content: flex-end; font-size: 0.5em;">
-      <!-- <a href="/about.html">About</a> -->
-    </div>
-  </header>
-  <p class="txt-c whitespace-pre">ʕっ•ᴥ•ʔっ
-    Hi!, I'm David, an electronics engineer & roboticist, Welcome to my tiny slice of the internet
-  </p>
-
-  <ol
-    style="display: flex; flex-wrap: wrap; row-gap: 0.5em; list-style-type: none; gap: 1em; margin-top: 0; justify-content: center;">
-    <li><a href="/out/about.html">👋 About</a></li>
-    <li><a href="https://red-herring.notion.site/LinkDB-af4d322446f342f1a6fe7463ee5db8d3">🔗 Links</a></li>
-    <li><a href="/portfolio.html">🔬 Portfolio</a></li>
-    <li><a href="/experiments/index.html">🧪 Experiments</a></li>
-    <li><a href="https://robotics.neswk.workers.dev">🤖 Robotics</a></li>
-  </ol>
-
-
-  <hr>
-  <main class='page  ov' style="padding-bottom: 3em;">
-    <ul>
-      !POSTS-2021!
-      !POSTS-2022!
-      !POSTS-2024!
-      !POSTS-2025!
-      !POSTS-RANDOM!
-    </ul>
-    <!-- <li>
-        <a href="https://red-herring.notion.site/">Tidbits</a>
-      </li>
-      <li>
-        <a href="https://red-herring.notion.site/LinkDB-af4d322446f342f1a6fe7463ee5db8d3">LinkDB</a>
-      </li> -->
-    <!-- <ul>
-      <li>
-        <h2>Miscellaneous</h2>
-      </li>
-      <li><a href="/docs/raylib/index.html">Raylib Documentation (Outdated)</a></li>
-      <li><a href="/experiments/code-highlight-cp/index.html">Code Highlight Copy</a></li>
-    </ul> -->
-  </main>
-  <!-- <script defer src="/assets/wireframe-model-viewer.js" type="module"></script>
-  <script defer src="/assets/ascii-model-viewer.js" type="module"></script> -->
+<header class="home">
+<a class="rss" href="/rss.xml">rss</a>
+<svg class="mark" viewBox="0 0 740 753" aria-hidden="true"><path fill="currentColor" d="M 282,753 H 457 V 528 L 652,641 740,489 545,377 740,265 652,113 457,226 V 0 H 282 V 225 L 87,113 0,265 194,377 0,489 87,641 282,529 Z"/></svg>
+<h1><svg class="kao" viewBox="0 -880 4109 1000" aria-hidden="true"><path fill="currentColor" d="M235 -765Q288 -765 334 -750Q379 -735 414 -709L381 -643Q351 -666 312 -679Q274 -692 239 -692Q116 -692 116 -571Q116 -501 165 -446Q214 -391 302 -363V0H214V-317Q145 -350 104 -392Q62 -435 44 -482Q26 -529 26 -574Q26 -663 79 -714Q132 -765 235 -765ZM586 -399 620 -317C684 -342 903 -434 1027 -434C1129 -434 1196 -370 1196 -286C1196 -123 1006 -61 790 -54L822 23C1092 6 1277 -92 1277 -284C1277 -421 1175 -506 1033 -506C915 -506 751 -446 680 -424C648 -414 616 -405 586 -399ZM1503 -365Q1503 -433 1535 -461Q1567 -489 1614 -489Q1661 -489 1693 -461Q1725 -433 1725 -365Q1725 -299 1693 -270Q1661 -241 1614 -241Q1567 -241 1535 -270Q1503 -299 1503 -365ZM2114 -157Q2153 -105 2184 -84Q2216 -63 2233 -63Q2251 -63 2265 -66Q2279 -69 2291 -73V-3Q2280 3 2262 6Q2243 10 2225 10Q2204 10 2179 2Q2154 -7 2124 -32Q2094 -56 2056 -104Q2002 -34 1960 -12Q1919 10 1885 10Q1867 10 1848 6Q1830 3 1818 -3V-73Q1824 -71 1841 -67Q1858 -63 1872 -63Q1896 -63 1926 -84Q1956 -104 1996 -157Q1944 -212 1912 -267Q1879 -322 1879 -377Q1879 -425 1901 -462Q1923 -500 1962 -522Q2002 -544 2056 -544Q2110 -544 2150 -522Q2189 -500 2210 -462Q2232 -425 2232 -377Q2232 -339 2215 -300Q2198 -262 2172 -226Q2145 -190 2114 -157ZM2384 -365Q2384 -433 2416 -461Q2448 -489 2495 -489Q2542 -489 2574 -461Q2606 -433 2606 -365Q2606 -299 2574 -270Q2542 -241 2495 -241Q2448 -241 2416 -270Q2384 -299 2384 -365ZM2874 -765Q2977 -765 3030 -714Q3083 -663 3083 -574Q3083 -529 3065 -482Q3047 -435 3006 -392Q2965 -350 2895 -317V0H2807V-363Q2896 -391 2944 -446Q2993 -501 2993 -571Q2993 -692 2870 -692Q2836 -692 2797 -679Q2758 -666 2728 -643L2695 -709Q2730 -735 2776 -750Q2822 -765 2874 -765ZM3269 -399 3303 -317C3367 -342 3586 -434 3710 -434C3812 -434 3879 -370 3879 -286C3879 -123 3689 -61 3473 -54L3505 23C3775 6 3960 -92 3960 -284C3960 -421 3858 -506 3716 -506C3598 -506 3434 -446 3363 -424C3331 -414 3299 -405 3269 -399Z"/></svg>Hi, I'm David</h1>
+<p>An electronics engineer &amp; roboticist. Welcome to my tiny slice of the internet.</p>
+<nav><a href="/out/about.html">about</a><a href="/portfolio.html">portfolio</a><a href="/experiments/index.html">projects</a></nav>
+</header>
+<main>
+<h2>Projects</h2>
+<ul class="highlights">
+<li><a href="/out/2025/mira.html"><img src="/assets/images/thumbs/mira.png" alt="" width="480" height="270" loading="lazy"><b>Mira</b></a><p>Autonomous underwater vehicle for SAUVC &amp; TAC</p></li>
+<li><a href="/portfolio.html?robotics"><img src="/assets/images/thumbs/railway-mitra.png" alt="" width="480" height="270" loading="lazy"><b>Railway Mitra</b></a><p>Railway inspection robot at ERIC Robotics</p></li>
+<li><a href="https://noteinexport.neswk.workers.dev"><img src="/assets/images/thumbs/notein-export.png" alt="" width="480" height="270" loading="lazy"><b>Notein Export</b></a><p>Handwriting notes viewer, Zig/WASM, no backend</p></li>
+<li><a href="https://github.com/davidnoronha1/crawly"><img src="/assets/images/thumbs/crawly.png" alt="" width="480" height="270" loading="lazy"><b>Crawly</b></a><p>Browser extension mapping how sites link together</p></li>
+</ul>
+<p class="more"><a href="/portfolio.html">All projects →</a></p>
+<h2>Writing</h2>
+<h3>2025</h3>
+<ul class="posts">
+!POSTS-2025!
+</ul>
+<h3>2024</h3>
+<ul class="posts">
+!POSTS-2024!
+</ul>
+<h3>2022</h3>
+<ul class="posts">
+!POSTS-2022!
+</ul>
+<h3>2021</h3>
+<ul class="posts">
+!POSTS-2021!
+</ul>
+<h3>Other</h3>
+<ul class="posts">
+!POSTS-RANDOM!
+</ul>
+</main>
 </body>
-
 </html>

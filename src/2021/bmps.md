@@ -1,6 +1,8 @@
-#HEADER A day of fixing bitmap fonts on Linux/X11 image=/assets/images/icon-bitmap.png
-How to get bitmap fonts to work on linux
-#END HEADER
+---
+title: A day of fixing bitmap fonts on Linux/X11
+description: How to get bitmap fonts to work on linux
+image: /assets/images/icon-bitmap.png
+---
 
 Bitmap fonts are something I have always been very interested in,
 They do not offer much or any of the flexibility vector fonts have made common place but
@@ -97,3 +99,22 @@ A better example is
 </fontconfig>
 ```
 A way to convert BDF & PCF files to OTB (OpenType Bitmap), a format that has better support is [Documented here](https://gist.github.com/Earnestly/6bc5bad7666f7bf8816d054b7b76112e), You can also try using [Bits'nPicas](https://github.com/kreativekorp/bitsnpicas) to convert the font or even to make your own, it's just pixels on a grid after all 😉
+
+To enable **all** bitmaps, you can use this snippet (taken from [void linux wiki](https://docs.voidlinux.org/config/graphical-session/fonts.html)):
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <description>Accept bitmap fonts</description>
+<!-- Accept bitmap fonts -->
+ <selectfont>
+  <acceptfont>
+   <pattern>
+     <patelt name="outline"><bool>false</bool></patelt>
+   </pattern>
+  </acceptfont>
+ </selectfont>
+</fontconfig>
+```
+
+This is just the inverse of the no-bitmaps file that is enabled by default.
